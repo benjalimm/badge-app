@@ -1,15 +1,14 @@
 import Link from 'next/link'
-import Layout from '../components/Layout'
-
+import Layout from '../components/examples/Layout'
+import Navbar from '../components/landingPage/TopNavBar'
+import PageSection from '../components/landingPage/PageSection'
+import styles from '../styles/lp.module.css'
 const IndexPage = () => (
-  <Layout title="Home | Next.js + TypeScript Example">
-    <h1>Hello Next.js 👋</h1>
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
-  </Layout>
+  <div>
+    <Navbar fixed={true}/>
+    <PageSection/>
+
+  </div>
 )
 
 export default IndexPage

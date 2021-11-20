@@ -1,0 +1,7 @@
+.lpPageSection {
+  height: 85vh;
+  width:96vw;
+  border-radius: 20px;
+  background-image: linear-gradient(135deg, #204066, #FFFFFF);
+  margin: auto;
+}
