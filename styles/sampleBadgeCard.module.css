@@ -1,0 +1,27 @@
+.sampleBadgeCard {
+  background-color: black;
+  height: 510px;
+  width: 330px;
+  border-radius: 15px;
+  color: white;
+  margin-right: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.imageContainer {
+  background-color: red;
+  height: 50%;
+}
+
+.bottomContainer {
+  background-color: black;
+  height: 50%;
+}
+
+.title {
+  font-family: 'AsgardFitMedium';
+  font-size: 20px;
+  color: white;
+}
