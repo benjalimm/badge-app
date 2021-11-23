@@ -16,9 +16,9 @@ export default function SampleBadgeCard(
         <h1 className={style.title}>
           {title}
         </h1>
-        <span>
+        <p className={style.content}>
           {content}
-        </span>
+        </p>
       </div>
     </div>
 }

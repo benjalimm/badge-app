@@ -1,27 +1,41 @@
 .sampleBadgeCard {
-  background-color: black;
-  height: 510px;
+  background-color: purple;
+  height: 490px;
   width: 330px;
-  border-radius: 15px;
+  border-radius: 25px;
   color: white;
   margin-right: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  overflow: hidden;
+  position: relative;
 }
 
 .imageContainer {
-  background-color: red;
+  background-color: rgb(50, 24, 24);
   height: 50%;
+  width: 100%;
+  z-index:0;
+  position: absolute;
 }
 
 .bottomContainer {
-  background-color: black;
-  height: 50%;
+  background: linear-gradient(to top, black 90%,rgba(0, 0, 0, 0.3));
+  height: 55%;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  bottom: 0px;
 }
 
 .title {
   font-family: 'AsgardFitMedium';
-  font-size: 20px;
+  font-size: 25px;
   color: white;
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.content {
+  font-family: 'Inter';
+  font-size: 16px;
+  margin-left: 20px;
 }
