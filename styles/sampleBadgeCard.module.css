@@ -7,6 +7,8 @@
   margin-right: 50px;
   overflow: hidden;
   position: relative;
+  display: flex;
+  transform: rotate(-10deg);
 }
 
 .imageContainer {
@@ -18,7 +20,7 @@
 }
 
 .bottomContainer {
-  background: linear-gradient(to top, black 90%,rgba(0, 0, 0, 0.3));
+  background: linear-gradient(to top, black 85%,rgba(0, 0, 0, 0));
   height: 55%;
   width: 100%;
   z-index: 1;
@@ -30,7 +32,7 @@
   font-family: 'AsgardFitMedium';
   font-size: 25px;
   color: white;
-  margin-top: 20px;
+  margin-top: 40px;
   margin-left: 20px;
 }
 

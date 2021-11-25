@@ -10,7 +10,9 @@ export default function SampleBadgeCard(
   }: { title: string, content: string, imageLink: string }) {
     return <div className={style.sampleBadgeCard}>
       <div className={style.imageContainer}>
-        {imageLink}
+        <video autoPlay loop muted>
+          <source src="/videos/sampleNFTVideos/nft_damien.mp4" type="video/mp4"/>
+        </video>
       </div>
       <div className={style.bottomContainer}>
         <h1 className={style.title}>

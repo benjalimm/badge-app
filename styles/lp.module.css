@@ -4,6 +4,7 @@
   border-radius: 20px;
   background-image: linear-gradient(135deg, #204066, #FFFFFF);
   margin: auto;
+  overflow: hidden;
 }
 
 .navBar {
@@ -26,17 +27,21 @@
   align-items: center;
   justify-content: center;
   height: 100%;
+  overflow: hidden;
+  background: url('/images/landingPage/noise.png');
 }
 
 .topSectionTextContainer {
   display: flex;
   flex-direction: column;
+
 }
 
 .badgeHeaderText {
   font-family: 'AsgardFitMedium';
   font-size: 40px;
   color: white;
+  z-index: 2;
 }
 
 .badgeNormalText {
@@ -45,8 +50,14 @@
   color: white;
   font-family: 'Inter';
   font-weight: 200;
+  z-index: 3;
 }
 
-
-
-
+.noise {
+  position: absolute;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  left: 0px;
+  top: 0px;
+}
