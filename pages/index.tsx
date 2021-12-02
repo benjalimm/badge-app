@@ -1,13 +1,19 @@
 import Link from 'next/link'
 import Layout from '../components/examples/Layout'
 import Navbar from '../components/landingPage/NavBar'
-import TopPageSection from '../components/landingPage/PageSection'
-const IndexPage = () => (
+import SecondPageSection from '../components/landingPage/SecondPageSection'
+import ThirdPageSection from '../components/landingPage/ThirdPageSection'
+import TopPageSection from '../components/landingPage/TopPageSection'
+import styles from '../styles/lp.module.css'
+const LandingPage = () => (
   <div>
     <Navbar/>
-    <TopPageSection/>
-
+    <div className={styles.sections}>
+      <TopPageSection/>
+      <ThirdPageSection/>
+      <SecondPageSection/>
+    </div>
   </div>
 )
 
-export default IndexPage
+export default LandingPage
