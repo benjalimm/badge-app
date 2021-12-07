@@ -34,7 +34,7 @@
   background-color: white;
   display: flex;
   align-items: center;
-  justify-content: flex-start
+  justify-content: flex-start;
 }
 
 .badgeLogo {
@@ -116,6 +116,10 @@
 
   .badgeNormalText {
     font-size: 17px;
+  }
+
+  .navBar {
+    justify-content: center;
   }
 
   

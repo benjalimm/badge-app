@@ -4,7 +4,7 @@
   width: 330px;
   border-radius: 25px;
   color: white;
-  margin-right: 50px;
+  margin-right: 100px;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -50,7 +50,7 @@
     width: 236px;
     border-radius: 16.8px;
     transform: rotate(0deg);
-
+    margin: 0;
   }
 
   .title {

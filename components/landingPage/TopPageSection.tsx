@@ -19,7 +19,7 @@ export default function TopPageSection() {
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            The web3 infrastructure for merit.
+            Infrastructure for on-chain merit.
           </h3>
 
         </div>

@@ -10,8 +10,6 @@ const LandingPage = () => (
     <Navbar/>
     <div className={styles.sections}>
       <TopPageSection/>
-      <ThirdPageSection/>
-      <SecondPageSection/>
     </div>
   </div>
 )
