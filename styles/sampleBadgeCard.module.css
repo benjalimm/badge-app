@@ -8,7 +8,7 @@
   overflow: hidden;
   position: relative;
   display: flex;
-  transform: rotate(-10deg);
+  transform: rotate(-5deg);
   min-height: 350px;
   min-width: 236px;
 }
