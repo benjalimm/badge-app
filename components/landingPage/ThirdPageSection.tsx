@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../../styles/lp.module.css';
+import style from '../../styles/landingPage/lp.module.css';
 import cx from 'classnames';
 
 export default function ThirdPageSection() {
@@ -7,7 +7,7 @@ export default function ThirdPageSection() {
     <div className={cx(style.lpPageSection, style.pinkOrangeGradient)}>
 
       <div className={style.topPageSectionContainer}>
-        
+
         <div>
           <h1 className={cx(style.badgeHeaderText, style.yellowText)}>
           No more plastic trophies.

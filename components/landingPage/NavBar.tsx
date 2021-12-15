@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../../styles/lp.module.css";
+import styles from "../../styles/landingPage/lp.module.css";
 
 export default function NavBar() {
   return (
