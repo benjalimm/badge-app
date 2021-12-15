@@ -1,0 +1,34 @@
+.tabBarContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: clear;
+  margin-top: 10%;
+  margin-right: 10%;
+}
+
+
+.circle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.45);
+  margin-left: 5px;
+}
+
+.highlighted {
+  background-color: #ffff;
+}
+
+@media only screen and (max-width: 850px) {
+
+  .circle {
+    width: 7px;
+    height: 7px;
+  }
+
+  .tabBarContainer {
+    margin-left: 15%;
+  }
+}

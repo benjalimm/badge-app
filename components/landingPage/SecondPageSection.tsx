@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../../styles/lp.module.css';
+import style from '../../styles/landingPage/lp.module.css';
 import cx from 'classnames';
 
 export default function SecondPageSection() {

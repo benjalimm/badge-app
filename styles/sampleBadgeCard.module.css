@@ -1,5 +1,5 @@
 .sampleBadgeCard {
-  background-color: purple;
+  background-color: black;
   height: 490px;
   width: 330px;
   border-radius: 25px;
@@ -8,13 +8,15 @@
   overflow: hidden;
   position: relative;
   display: flex;
-  transform: rotate(-5deg);
+  transform: rotate(-10deg);
   min-height: 350px;
   min-width: 236px;
+  box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
+  animation: cardAnimation 3s ease-in-out infinite;
 }
 
 .imageContainer {
-  background-color: rgb(50, 24, 24);
+  background-color:black ;
   height: 50%;
   width: 100%;
   z-index:0;
@@ -41,7 +43,16 @@
 .content {
   font-family: 'Inter';
   font-size: 16px;
-  margin-left: 20px;
+  padding: 0px 20px;
+}
+
+.entityImage {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  z-index: 0;
+   background-color: red;
+  margin-left: 15px;
 }
 
 @media only screen and (max-width: 850px) {
@@ -59,8 +70,22 @@
     margin-left: 10px;
   }
   .content {
-    font-size: 11px;
-    margin-left: 10px;
+    font-size: 12px;
+    padding: 0px 10px;
   }
   
+}
+
+@keyframes cardAnimation {
+  0% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-1%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(1%) rotate(-5deg);
+  }
 }

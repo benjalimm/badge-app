@@ -1,12 +1,11 @@
 import React from 'react'
-import style from '../../styles/lp.module.css';
-import '../../styles/lp.module.css';
+import style from '../../styles/landingPage/lp.module.css';
+import '../../styles/landingPage/lp.module.css';
 import SampleBadgeCard from './SampleBadgeCard';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { BadgeData } from '../../interfaces/BadgeData';
-import { TransitionGroup, CSSTransition } from "react-transition-group";
-
+import { BottomTabs } from './BottomTabs';
 
 export default function TopPageSection() {
   const [cardData, setCardData] = useState<BadgeData[]>([]);
@@ -15,20 +14,20 @@ export default function TopPageSection() {
     const data: BadgeData[] = [
       {
         id: 0,
-        title: "Hackathon 2022",
-        content: "Harry won 'Most Innovative' for his hackathon project 'Picture This' for the 2022 Annual Pied Piper Hackathon.",
+        title: "Hackathon winner",
+        content: "Harry won 'Most Innovative' for his project 'Picture This' in the 2022 Annual Pied Piper Hackathon.",
         videoPath: "/videos/sampleNFTVideos/nft_damien.mp4"
       },
       {
         id: 1,
         title: "Excellence award",
-        content: "Lana put her head down on a 2 month long sprint in order to get our mobile app to market. She demonstrated focus and utmost professionalism in leading our team to finally ship this.",
+        content: "Lana has demonstrated exemplary performance in her role as a senior software engineer.",
         videoPath: "/videos/sampleNFTVideos/nft_damien_1.mp4"
       },
       {
         id: 2,
         title: "Investor appreciation",
-        content: "John has gone above and beyond as an investor, mentor and adviser. We met John in the first year of building Pied Piper, when he lead our pre-seed round. Through every low and high, John has been there to guide us through it.",
+        content: "Jonas has been recognized as a top-performing investor.",
         videoPath: "/videos/sampleNFTVideos/nft_damien_2.mp4"
       },
     ];
@@ -39,7 +38,7 @@ export default function TopPageSection() {
     const interval = setInterval(() => {
       const nextIndex = (indexOfCurrentCard) == (cardData.length - 1) ? 0 : indexOfCurrentCard + 1;
       setIndexOfCurrentCard(nextIndex);
-    }, 2000)
+    }, 8000)
     return () => clearInterval(interval);
   }, [indexOfCurrentCard])
 
@@ -48,21 +47,24 @@ export default function TopPageSection() {
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
 
       <div className={style.topPageSectionContainer}>
-        <TransitionGroup>
-          <CSSTransition key={cardData[indexOfCurrentCard].id} classNames="transition" timeout={300}>
-            <SampleBadgeCard 
+        <div className={style.cardContainer}>
+          <SampleBadgeCard 
             title={cardData[indexOfCurrentCard].title}
             content={cardData[indexOfCurrentCard].content}
             videoSource={cardData[indexOfCurrentCard].videoPath}
             />
-          </CSSTransition>
-        </TransitionGroup>
+          <BottomTabs 
+          numberOfTabs={cardData.length} 
+          indexOfHighlightedTab={indexOfCurrentCard}
+          />
+        </div>
+        
         <div className={style.textContainer}>
           <h1 className={style.badgeHeaderText}>
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            Infrastructure for on-chain merit.
+            On-chain merit for internet organizations.
           </h3>
         </div>        
       </div>
