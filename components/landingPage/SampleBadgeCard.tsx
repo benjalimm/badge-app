@@ -12,7 +12,7 @@ export default function SampleBadgeCard(
     ) {
     return <div className={style.sampleBadgeCard}>
       <div className={style.imageContainer}>
-        <video autoPlay loop muted src={videoSource}/>
+        <video playsInline autoPlay loop muted src={videoSource}/>
       </div>
       
       <div className={style.bottomContainer}>

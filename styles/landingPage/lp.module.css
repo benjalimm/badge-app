@@ -3,16 +3,17 @@
   width:96vw;
   border-radius: 20px;
   margin-top: 100px;
-  margin: 0 30px 40px;
+  margin: 0 20px 20px;
   overflow: hidden;
-  min-height: 700px;
+  min-height: 550px;
+  min-width: 270px;
 }
 
 .sections {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin: 0 auto;
 }
@@ -38,7 +39,7 @@
 }
 
 .badgeLogo {
-  margin-left: 3%;
+  margin-left: 50px;
   font-size: 40px;
   font-weight: bold;
   font-family: 'AsgardFitMedium';
@@ -112,7 +113,7 @@
 
   .topPageSectionContainer {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
     justify-content: center;
     height: 100%;
@@ -123,6 +124,7 @@
   .badgeHeaderText {
     font-size: 25px;
     text-align: center;
+    margin-top: -100px;
   } 
 
   .badgeNormalText {
@@ -133,6 +135,16 @@
 
   .navBar {
     justify-content: center;
+    height: 60px;
+  }
+
+  .badgeLogo {
+    font-size: 30px;
+    margin-left: 0px;
+  }
+
+  .cardContainer {
+    padding-top: 50px;
   }
 
   
