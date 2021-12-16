@@ -69,6 +69,7 @@
   font-size: 40px;
   color: white;
   z-index: 2;
+  text-align: left;
 }
 
 .badgeNormalText {
@@ -76,8 +77,10 @@
   font-size: 23px;
   color: white;
   font-family: 'Inter';
-  font-weight: 300;
+  font-weight: 400;
   z-index: 3;
+  padding: 0px;
+  text-align: left;
 }
 
 .yellowText {
@@ -118,11 +121,14 @@
   }
 
   .badgeHeaderText {
-    font-size: 30px;
+    font-size: 25px;
+    text-align: center;
   } 
 
   .badgeNormalText {
     font-size: 17px;
+    padding: 0px 5px;
+    text-align: center;
   }
 
   .navBar {

@@ -36,7 +36,7 @@
   font-family: 'AsgardFitMedium';
   font-size: 25px;
   color: white;
-  margin-top: 40px;
+  margin-top: 5px;
   margin-left: 20px;
 }
 
@@ -47,12 +47,13 @@
 }
 
 .entityImage {
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   border-radius: 50%;
   z-index: 0;
-   background-color: red;
+  background-color: red;
   margin-left: 15px;
+  margin-top: 5px;
 }
 
 @media only screen and (max-width: 850px) {
@@ -66,12 +67,19 @@
 
   .title {
     font-size: 13.5px;
-    margin-top: 20px;
-    margin-left: 10px;
+    margin-top: 7px;
+    margin-left: 13px;
   }
   .content {
     font-size: 12px;
-    padding: 0px 10px;
+    padding: 0px 13px;
+  }
+
+  .entityImage {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
   }
   
 }
