@@ -34,7 +34,7 @@
   background-color: white;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-between;
 }
 
 .badgeLogo {
@@ -100,8 +100,34 @@
   top: 0px;
 }
 
+.loginButton {
+  height: 50px;
+  width: 200px;
+  background-color: black;
+  visibility: visible;
+  border-radius: 18px;
+  margin-right: 40px;
+  color: white;
+  font: 'Inter';
+  font-weight: bold;
+  font-size: 17px;
+  transition-duration: 0.2s;
+}
+
+.loginButton:hover {
+  height: 55px;
+  width: 220px;
+  border-radius: 20px;
+  transition-duration: 0.2s;
+  background-color: royalblue;
+}
+
 
 @media only screen and (max-width: 850px) {
+
+  .loginButton {
+    display: none;
+  }
 
   .lpPageSection {
     height: 93vh;
@@ -138,6 +164,7 @@
 
   .navBar {
     justify-content: center;
+    align-items: center;
     height: 48px;
   }
 
