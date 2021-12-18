@@ -1,8 +1,7 @@
 .lpPageSection {
-  height: 85vh;
+  height: 88vh;
   width:96vw;
   border-radius: 20px;
-  margin-top: 100px;
   margin: 0 20px 20px;
   overflow: hidden;
   min-height: 550px;
@@ -31,7 +30,7 @@
 }
 
 .navBar {
-  height: 100px;
+  height: 88px;
   background-color: white;
   display: flex;
   align-items: center;
@@ -104,6 +103,10 @@
 
 @media only screen and (max-width: 850px) {
 
+  .lpPageSection {
+    height: 93vh;
+  }
+
   .textContainer {
     display: flex;
     flex-direction: column;
@@ -135,7 +138,7 @@
 
   .navBar {
     justify-content: center;
-    height: 60px;
+    height: 48px;
   }
 
   .badgeLogo {
