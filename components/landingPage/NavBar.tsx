@@ -9,6 +9,11 @@ export default function NavBar() {
   = useWeb3React();
 
   async function connect() {
+
+    if (active) {
+      console.log(account)
+    }
+
     try {
       await activate(injected);
     } catch (e) {
