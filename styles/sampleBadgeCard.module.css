@@ -1,16 +1,22 @@
 .sampleBadgeCard {
-  background-color: purple;
+  background-color: black;
   height: 490px;
   width: 330px;
   border-radius: 25px;
   color: white;
-  margin-right: 50px;
+  margin-right: 100px;
   overflow: hidden;
   position: relative;
+  display: flex;
+  transform: rotate(-10deg);
+  min-height: 350px;
+  min-width: 236px;
+  box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
+  animation: cardAnimation 3s ease-in-out infinite;
 }
 
 .imageContainer {
-  background-color: rgb(50, 24, 24);
+  background-color:black ;
   height: 50%;
   width: 100%;
   z-index:0;
@@ -18,7 +24,7 @@
 }
 
 .bottomContainer {
-  background: linear-gradient(to top, black 90%,rgba(0, 0, 0, 0.3));
+  background: linear-gradient(to top, black 85%,rgba(0, 0, 0, 0));
   height: 55%;
   width: 100%;
   z-index: 1;
@@ -30,12 +36,64 @@
   font-family: 'AsgardFitMedium';
   font-size: 25px;
   color: white;
-  margin-top: 20px;
+  margin-top: 5px;
   margin-left: 20px;
 }
 
 .content {
   font-family: 'Inter';
   font-size: 16px;
-  margin-left: 20px;
+  padding: 0px 20px;
+}
+
+.entityImage {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  z-index: 0;
+  background-color: red;
+  margin-left: 15px;
+  margin-top: 5px;
+}
+
+@media only screen and (max-width: 850px) {
+  .sampleBadgeCard {
+    height: 350px;
+    width: 236px;
+    border-radius: 16.8px;
+    transform: rotate(0deg);
+    margin: 0;
+  }
+
+  .title {
+    font-size: 13.5px;
+    margin-top: 7px;
+    margin-left: 13px;
+  }
+  .content {
+    font-size: 12px;
+    padding: 0px 13px;
+  }
+
+  .entityImage {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  
+}
+
+@keyframes cardAnimation {
+  0% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-1%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(1%) rotate(-5deg);
+  }
 }
