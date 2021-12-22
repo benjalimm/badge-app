@@ -9,8 +9,8 @@ export function BottomTabs(
     <div className={style.tabBarContainer}>
       { 
         [...Array(numberOfTabs)].map((_, index) => {
-          return <CircleTab isHighlighted={index == indexOfHighlightedTab}/>
-         })
+          return <CircleTab isHighlighted={index == indexOfHighlightedTab} key={index}/>
+        })
       }
     </div>
   );
