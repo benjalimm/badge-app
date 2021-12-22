@@ -1,0 +1,55 @@
+.badgeLogo {
+  margin-left: 50px;
+  font-size: 40px;
+  font-weight: bold;
+  font-family: 'AsgardFitMedium';
+}
+
+.loginButton {
+  height: 50px;
+  width: 200px;
+  background-color: black;
+  visibility: visible;
+  border-radius: 18px;
+  margin-right: 40px;
+  color: white;
+  font: 'Inter';
+  font-weight: bold;
+  font-size: 17px;
+  transition-duration: 0.2s;
+}
+
+.loginButton:hover {
+  height: 55px;
+  width: 220px;
+  border-radius: 20px;
+  transition-duration: 0.2s;
+  background-color: royalblue;
+}
+
+.navBar {
+  height: 88px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media only screen and (max-width: 850px) {
+
+  .loginButton {
+    display: none;
+  }
+  
+  .navBar {
+    justify-content: center;
+    align-items: center;
+    height: 48px;
+  }
+
+  .badgeLogo {
+    font-size: 30px;
+    margin-left: 0px;
+  }
+  
+}
