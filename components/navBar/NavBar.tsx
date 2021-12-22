@@ -3,18 +3,17 @@ import React from 'react';
 import styles from "../../styles/navBar.module.css";
 import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
-export default function NavBar() {
+import cx from 'classnames';
+export default function NavBar({ sticky } :{ sticky: boolean }) {
 
-  const { active, account, library, connector, activate, deactivate } 
-  = useWeb3React();
-
+  const { active } = useWeb3React();
+  const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
   return (
-    <div className={styles.navBar}>
+    <div className={navBarStyles}>
       <div className={styles.badgeLogo}>
         BADGE.
       </div>
       { active ? <AccountInfo/> : <SignInButton/> }
-      
     </div>
   )
 }

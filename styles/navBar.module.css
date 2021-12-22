@@ -6,6 +6,11 @@
   justify-content: space-between;
 }
 
+.sticky {
+  /* position: fixed; */
+  top: 0;
+}
+
 .badgeLogo {
   margin-left: 50px;
   font-size: 40px;
