@@ -56,10 +56,10 @@ export default function TopPageSection() {
             content={cardData[indexOfCurrentCard].content}
             videoSource={cardData[indexOfCurrentCard].videoPath}
             profilePhotoSource={cardData[indexOfCurrentCard].profilePhotoSource}
-            />
+          />
           <BottomTabs 
-          numberOfTabs={cardData.length} 
-          indexOfHighlightedTab={indexOfCurrentCard}
+            numberOfTabs={cardData.length} 
+            indexOfHighlightedTab={indexOfCurrentCard}
           />
         </div>
         
