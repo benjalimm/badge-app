@@ -3,7 +3,7 @@ import Navbar from '../components/landingPage/NavBar'
 import TopPageSection from '../components/landingPage/TopPageSection'
 import { injected } from '../services/injectedConnectors'
 import styles from '../styles/landingPage/lp.module.css'
-
+import React from 'react'
 const LandingPage = () => {
 
   const { active, account, library, connector, activate, deactivate } 
