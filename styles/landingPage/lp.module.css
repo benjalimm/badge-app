@@ -29,21 +29,6 @@
   background-image: linear-gradient(135deg, #CE55B3, #FFA564);
 }
 
-.navBar {
-  height: 88px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.badgeLogo {
-  margin-left: 50px;
-  font-size: 40px;
-  font-weight: bold;
-  font-family: 'AsgardFitMedium';
-}
-
 .topPageSectionContainer {
   display: flex;
   align-items: center;
@@ -100,34 +85,7 @@
   top: 0px;
 }
 
-.loginButton {
-  height: 50px;
-  width: 200px;
-  background-color: black;
-  visibility: visible;
-  border-radius: 18px;
-  margin-right: 40px;
-  color: white;
-  font: 'Inter';
-  font-weight: bold;
-  font-size: 17px;
-  transition-duration: 0.2s;
-}
-
-.loginButton:hover {
-  height: 55px;
-  width: 220px;
-  border-radius: 20px;
-  transition-duration: 0.2s;
-  background-color: royalblue;
-}
-
-
 @media only screen and (max-width: 850px) {
-
-  .loginButton {
-    display: none;
-  }
 
   .lpPageSection {
     height: 93vh;
@@ -160,17 +118,6 @@
     font-size: 17px;
     padding: 0px 5px;
     text-align: center;
-  }
-
-  .navBar {
-    justify-content: center;
-    align-items: center;
-    height: 48px;
-  }
-
-  .badgeLogo {
-    font-size: 30px;
-    margin-left: 0px;
   }
 
   .cardContainer {

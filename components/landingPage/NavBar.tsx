@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import React from 'react';
-import styles from "../../styles/landingPage/lp.module.css";
+import styles from "../../styles/navBar.module.css";
 import { injected } from '../../services/injectedConnectors'
 
 export default function NavBar() {
