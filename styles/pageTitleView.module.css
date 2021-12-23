@@ -12,4 +12,20 @@
   font-family: 'AsgardFitMedium';
   font-size: 25px;
   text-align: center;
+  padding: 0px 50px;
+}
+
+
+@media only screen and (max-width: 850px) {
+
+  .container {
+    height: 80px;
+  }
+
+  .title {
+    font-family: 'AsgardFitMedium';
+    font-size: 18px;
+    text-align: center;
+    padding: 0px 50px;
+  }
 }
