@@ -1,0 +1,109 @@
+.background {
+  background-color: #F4F4F4;
+  height: 100%;
+  width: 100%;
+}
+
+.pageContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.entryContainer {
+  height: 450px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 50px;;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.entryContainerTopGradientSection {
+  height: 40%;
+  width: 95%;
+  margin-top: 2.5%;
+  background-image: linear-gradient(135deg, #204066, #FFFFFF);
+  border-radius: 5px;;
+  overflow:hidden;
+}
+
+.noise {
+  overflow: hidden;
+  background: url('/images/landingPage/noise.png');
+  height: 100%;
+  width: 100%;
+}
+
+.formContainerView {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: clear;
+  width: 85%;
+  height: 40%;
+  margin-top: 35px;
+}
+
+.formHeaderText {
+  font-family: 'Inter';
+  font-weight: bold;
+  color: #323232;
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.formHeaderSubtitleText {
+  font-family: 'Inter';
+  color: #323232;
+  font-size: 13px;
+  padding-left: 5px;
+}
+
+.formTextFieldContainer {
+  height: 55px;
+  width: 100%;
+  background-color: #EFEFEF;
+  border-radius: 12px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.formTextField {
+  width: 90%;
+  background-color: transparent;
+  outline-width: 0;
+  margin-left: 15px;
+}
+
+.deployButton {
+  width: 155px;
+  height: 50px;
+  background-color: black;
+  font: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px -5px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 850px) {
+  .entryContainer {
+    height: 376px;
+    width: 280px;
+    background-color: white;
+    border-radius: 14px;
+    margin-top: 50px;;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+
+}
