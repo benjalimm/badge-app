@@ -52,7 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (web3Modal.cachedProvider) {
       connect().then(() => {
-        setActive(true)
+        disconnect()
       }).catch(err => {
         console.error(err)
       })
