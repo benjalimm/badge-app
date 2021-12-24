@@ -1,7 +1,5 @@
-import { useWeb3React } from '@web3-react/core';
 import React, { useEffect, useState } from 'react';
 import styles from "../../styles/navBar.module.css";
-import { injected } from '../../services/injectedConnectors'
 import { ethers } from 'ethers';
 export default function AccountInfo({ account } : { account: string }) {
 
