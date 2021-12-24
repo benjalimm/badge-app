@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "../../styles/navBar.module.css";
 import { injected } from '../../services/injectedConnectors'
 import { ethers } from 'ethers';
-export default function AccountInfo() {
+export default function AccountInfo({ account } : { account: string }) {
 
   const [walletHandle,setWalletHandle] = useState(null);
 
@@ -12,10 +12,6 @@ export default function AccountInfo() {
   const shortenAddress = (address: string) => {
     return address.substring(0, 5) + ".." + address.substring(address.length - 3, address.length);
   }
-
-  const { active, account, library, connector, activate, deactivate } 
-  = useWeb3React();
-  console.log(active)
 
   useEffect(() => {
     setWalletHandle(shortenAddress(account));

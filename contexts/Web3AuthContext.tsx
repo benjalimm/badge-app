@@ -1,12 +1,10 @@
-import React, { useEffect, useCallback, useReducer} from 'react';
-import styles from "../../styles/navBar.module.css";
-import SignInButton from './SignInButton';
-import AccountInfo from './AccountInfo';
-import cx from 'classnames';
+import React, { useEffect, useCallback, useReducer, createContext} from 'react';
 import Web3Modal from 'web3modal'
 import { providers } from 'ethers'
-import providerOptions from '../../configs/Web3ModalProviderOptions';
-import { StateType, ActionType } from '../../schemas/Web3ModalTypes'
+import providerOptions from '../configs/Web3ModalProviderOptions';
+import { StateType, ActionType } from '../schemas/Web3ModalTypes';
+
+export const Web3AuthContext = createContext({});
 
 let web3Modal: Web3Modal;
 if (typeof window !== 'undefined') {
@@ -51,8 +49,7 @@ function reducer(state: StateType, action: ActionType): StateType {
   }
 }
 
-export default function NavBar({ sticky } :{ sticky: boolean }) {
-
+export function Web3ModalAuth({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(reducer, initialState)
   const { provider, web3Provider, address, chainId } = state
   const active = !!provider;
@@ -141,13 +138,7 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
     }
   }, [provider, disconnect])
   
-  const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
-  return (
-    <div className={navBarStyles}>
-      <div className={styles.badgeLogo}>
-        BADGE.
-      </div>
-      { active ? <AccountInfo account={address}/> : <SignInButton connect={connect}/> }
-    </div>
-  )
+  return <Web3AuthContext.Provider 
+    value={{ provider, address, web3Modal, web3Provider, chainId, connect, disconnect}}
+  />
 }
