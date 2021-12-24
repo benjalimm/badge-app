@@ -1,12 +1,13 @@
 import Navbar from '../components/navBar/NavBar'
 import TopPageSection from '../components/landingPage/TopPageSection'
 import styles from '../styles/landingPage/lp.module.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import { useRouter } from 'next/router';
-import { useWeb3React } from '@web3-react/core';
+import { Web3AuthContext } from '../contexts/Web3AuthContext';
+
 const LandingPage = () => {
   const router = useRouter();
-  const { active } = useWeb3React();
+  const { active } = useContext(Web3AuthContext);
 
   useEffect(() => {
 
