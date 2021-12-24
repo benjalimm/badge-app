@@ -1,3 +1,5 @@
+import Web3Modal from 'web3modal'
+
 export type StateType = {
   provider?: any
   web3Provider?: any
@@ -24,3 +26,14 @@ export type ActionType =
   | {
     type: 'RESET_WEB3_PROVIDER'
   }
+
+export interface Web3ModalContextType {
+  provider?: any;
+  address?: string;
+  web3Modal?: Web3Modal;
+  web3Provider?: any;
+  chainId?: number;
+  active?: boolean;
+  connect?: () => Promise<void>;
+  disconnect?: () => Promise<void>;
+}

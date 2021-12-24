@@ -1,14 +1,15 @@
 import Navbar from '../components/navBar/NavBar'
-import React, { useEffect } from 'react'
+import React, { useEffect, useContext } from 'react'
 import styles from '../styles/deployEntity.module.css'
 import PageTitleView from '../components/PageTitleView'
 import cx from 'classnames';
-import { useWeb3React } from '@web3-react/core';
 import { useRouter } from 'next/router';
+import { Web3AuthContext } from '../contexts/Web3AuthContext';
 
 export default function DeployEntityPage() {
-  const { active } = useWeb3React();
+  
   const router = useRouter();
+  const { active } = useContext(Web3AuthContext);
   useEffect(() => {
     if (!active) {
       router.push('/')
