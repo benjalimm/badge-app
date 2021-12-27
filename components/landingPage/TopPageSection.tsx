@@ -4,7 +4,7 @@ import '../../styles/landingPage/lp.module.css';
 import SampleBadgeCard from './SampleBadgeCard';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
-import { BadgeData } from '../../interfaces/BadgeData';
+import { BadgeData } from '../../schemas/BadgeData';
 import { BottomTabs } from './BottomTabs';
 
 export default function TopPageSection() {
