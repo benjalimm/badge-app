@@ -3,11 +3,9 @@ import { AppProps } from 'next/app'
 import '../styles/index.css'
 import { Web3AuthContext, reducer, web3Modal, initialState } from '../contexts/Web3AuthContext';
 import { providers } from 'ethers'
-import { useRouter } from 'next/router';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const router = useRouter();
   const { provider, web3Provider, address, chainId } = state
   const active = !!provider;
   const connect = useCallback(async function () {
