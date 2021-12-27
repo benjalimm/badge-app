@@ -1,6 +1,6 @@
 import Navbar from '../components/navBar/NavBar'
 import React, { useEffect, useContext } from 'react'
-import styles from '../styles/deployEntity.module.css'
+import styles from '../styles/genesis.module.css'
 import PageTitleView from '../components/PageTitleView'
 import cx from 'classnames';
 import { useRouter } from 'next/router';
