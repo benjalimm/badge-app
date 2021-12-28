@@ -9,7 +9,8 @@
 }
 
 .title {
-  font-family: 'AsgardFitMedium';
+  font-family: 'Inter';
+  font-weight: bold;
   font-size: 25px;
   text-align: center;
   padding: 0px 50px;

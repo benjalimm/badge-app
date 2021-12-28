@@ -26,7 +26,6 @@ export default function AccountInfo({ account } : { account: string }) {
       }
 
     }
-    
   }
   
   const setENSInCookies = (address: string, ens: string) => {
@@ -41,7 +40,6 @@ export default function AccountInfo({ account } : { account: string }) {
     } 
 
     ensStore[address] = ens;
-
     cookieCutter.set('walletENS', JSON.stringify(ensStore));
   }
 
