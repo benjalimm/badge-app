@@ -48,8 +48,7 @@ export default function TopPageSection() {
   if (cardData.length == 0) { return null }
   return (
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
-
-      <div className={style.topPageSectionContainer}>
+      <div className={cx(style.topPageSectionContainer)}>
         <div className={style.cardContainer}>
           <SampleBadgeCard 
             title={cardData[indexOfCurrentCard].title}
