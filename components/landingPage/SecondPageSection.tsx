@@ -9,7 +9,7 @@ export default function SecondPageSection() {
       <p className={style.walletEqualsResumeParagraphText}>
         People care about signal.
         <br/><br/>
-        The quality of stakeholders an organization attracts is directly correlated with it's ability to provide strong signal. The best people want to own their own signal.
+        The quality of stakeholders an entity attracts is correlated with it's ability to provide strong signal. But the best people don't brag, the bragging is done for them. This is what Badge is for.
       </p>
       <SignUpToBetaContainer/>
       <div style={{ height: '300px'}}/>
