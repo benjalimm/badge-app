@@ -1,5 +1,6 @@
 import Navbar from '../components/navBar/NavBar'
 import TopPageSection from '../components/landingPage/TopPageSection'
+import SecondPageSection from '../components/landingPage/SecondPageSection'
 import styles from '../styles/landingPage/lp.module.css'
 import React, { useEffect, useContext } from 'react'
 import { useRouter } from 'next/router';
@@ -22,6 +23,7 @@ const LandingPage = () => {
       <Navbar sticky={false}/>
       <div className={styles.sections}>
         <TopPageSection/>
+        <SecondPageSection/>
       </div>
     </div>
   )

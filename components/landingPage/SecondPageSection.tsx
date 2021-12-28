@@ -4,25 +4,23 @@ import cx from 'classnames';
 
 export default function SecondPageSection() {
   return (
-    <div className={cx(style.lpPageSection, style.yellowRedGradient)}>
-
-      <div className={style.topPageSectionContainer}>
-        
-        <div>
-          <h1 className={cx(style.badgeHeaderText, style.blackText)}>
-          Don't make your team toot their own horn.
-          </h1>
-          <h3 className={cx(style.badgeNormalText, style.blackText)}>
-            People feel awkward bragging about their achievements, it's bad signal.
-          </h3>
-          <h3 className={cx(style.badgeNormalText, style.blackText)}>
-            Let the blockchain do the bragging for them.
-          </h3>
-
-        </div>
-        
-      </div>
-
+    <div className={style.secondPageSectionContainer}>
+      <h1 className={style.walletEqualsResumeText}>WALLET = NEW RESUME</h1>
+      <p className={style.walletEqualsResumeParagraphText}>
+        People care about signal.
+        <br/><br/>
+        The quality of stakeholders an organization attracts is directly correlated with it's ability to provide strong signal. The best people want to own their own signal.
+      </p>
+      <SignUpToBetaContainer/>
+      <div style={{ height: '300px'}}/>
     </div>
   )
+}
+
+const SignUpToBetaContainer = () => {
+  return <div className={style.signUpToBetaContainer}>
+    <h1 className={style.signUpToBetaHeader}>Get started with Badge</h1>
+    <p className={style.signUpToBetaSubtitleText}>Join the waiting list to start awarding people with Badges.</p>
+    <button className={style.signUpToBetaButton}>Sign up</button>
+  </div>
 }
