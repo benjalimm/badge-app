@@ -38,6 +38,16 @@
   background: url('/images/landingPage/noise.png');
 }
 
+.secondPageSectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  overflow: hidden;
+  background-color: white;
+}
+
 .cardContainer {
   display: flex;
   flex-direction: column;
@@ -85,6 +95,78 @@
   top: 0px;
 }
 
+.walletEqualsResumeText {
+  font-family: 'AsgardFitMedium';
+  font-size: 50px;
+  background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%);
+	background-size: 300% 300%;
+	animation: animatingGradient 6s 1s ease-in-out infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-top: 50px;
+  text-align: center;
+  padding: 0px 20px;
+}
+
+.walletEqualsResumeParagraphText {
+  font-family: 'Inter';
+  font-size: 18px;
+  text-align: center;
+  margin-top: 50px;
+  padding: 0px 30px;
+  max-width: 500px;
+}
+
+.signUpToBetaContainer {
+  background-color: #F8F8F8;
+  width: 600px;
+  height: 210px;
+  border-radius: 15px;
+  margin-top: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.signUpToBetaHeader {
+  font-family: 'Inter';
+  font-weight: 500;
+  font-size: 35px;
+  margin-top: 20px;
+}
+
+.signUpToBetaSubtitleText {
+  font-family: 'Inter';
+  font-weight: 400;
+  font-size: 18px;
+  color: gray;
+  text-align: center;
+  margin: 0px 30px;
+  margin-bottom: 13px;
+
+}
+
+.signUpToBetaButton {
+  width: 155px;
+  height: 50px;
+  background-color: black;
+  font: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px -5px rgba(0,0,0,0.2);
+  margin-bottom: 20px;
+  transition-duration: 0.2s;
+}
+
+.signUpToBetaButton:hover {
+  width: 175px;
+  transition-duration: 0.2s;
+}
+
+
 @media only screen and (max-width: 850px) {
 
   .lpPageSection {
@@ -123,6 +205,59 @@
   .cardContainer {
     padding-top: 50px;
   }
-
   
+  .walletEqualsResumeText {
+    font-size: 30px;
+  }
+
+  .walletEqualsResumeParagraphText {
+    font-size: 15px;
+    margin-top: 20px;
+    max-width: 370px;
+  }
+
+  .signUpToBetaContainer {
+    width: 360px;
+    height: 156px;
+    border-radius: 9px;
+    margin-top: 50px;
+  }
+
+  .signUpToBetaHeader {
+    font-size: 20px;
+    margin-top: 10px;
+  }
+
+  .signUpToBetaSubtitleText {
+    font-size: 12px;
+    margin: 0px 20px;
+    margin-bottom: 5px;
+  }
+
+  .signUpToBetaButton {
+    width: 93px;
+    height: 30px;
+    font-size: 13px;
+    border-radius: 7.2px;
+    margin-bottom: 10px;
+  }
+
+  .signUpToBetaButton:hover {
+    width: 105px;
+    transition-duration: 0.2s;
+  }
+
+
+}
+
+@keyframes animatingGradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }
