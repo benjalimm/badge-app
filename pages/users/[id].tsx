@@ -1,6 +1,6 @@
 import { GetStaticProps, GetStaticPaths } from 'next'
 
-import { User } from '../../interfaces'
+import { User } from '../../schemas'
 import { sampleUserData } from '../../utils/sample-data'
 import Layout from '../../components/examples/Layout'
 import ListDetail from '../../components/examples/ListDetail'

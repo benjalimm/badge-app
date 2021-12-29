@@ -12,7 +12,8 @@
   min-height: 350px;
   min-width: 236px;
   box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
-  animation: cardAnimation 3s ease-in-out infinite;
+  animation: cardAnimation 4s ease-in-out infinite, fadeIn 0.5s ease-in-out;
+
 }
 
 .imageContainer {
@@ -97,3 +98,9 @@
     transform: translateY(1%) rotate(-5deg);
   }
 }
+
+@keyframes fadeIn {
+   0% { opacity: 0.8;}
+   100% {opacity: 1;}
+} 
+
