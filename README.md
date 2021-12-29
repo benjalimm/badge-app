@@ -44,7 +44,7 @@ Step 4 - Copy and paste contract address logged from step 2 into configs/blockch
 Make sure isLocal is set to true
 
 ```json
-module.exports = {
+"{
   isLocal: true,
   local : { 
     url: 'http://localhost:8545',
@@ -58,7 +58,7 @@ module.exports = {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
   }
-}
+}"
 ```
 
 Step 5 - Run frontend locally
