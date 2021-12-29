@@ -1,13 +1,11 @@
 import WalletLink from 'walletlink'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 
-const INFURA_ID = '223a56e231eb4afaa987cb5a65cb7abf'
-
 const providerOptions = {
   walletconnect: {
     package: WalletConnectProvider, // required
     options: {
-      infuraId: INFURA_ID, // required
+      infuraId: process.env.INFURA_ID, // required
     },
   },
   'custom-walletlink': {
@@ -18,7 +16,7 @@ const providerOptions = {
     },
     options: {
       appName: 'Coinbase', // Your app name
-      networkUrl: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+      networkUrl: `https://mainnet.infura.io/v3/${process.env.INFURA_ID}`,
       chainId: 1,
     },
     package: WalletLink,
