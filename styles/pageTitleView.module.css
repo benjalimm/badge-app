@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  width: 100%;
+  border-top: 0.5px solid lightgray;
+  background-color: white;
+}
+
+.title {
+  font-family: 'AsgardFitMedium';
+  font-size: 25px;
+  text-align: center;
+  padding: 0px 50px;
+}
+
+
+@media only screen and (max-width: 850px) {
+
+  .container {
+    height: 80px;
+  }
+
+  .title {
+    font-family: 'AsgardFitMedium';
+    font-size: 18px;
+    text-align: center;
+    padding: 0px 50px;
+  }
+}

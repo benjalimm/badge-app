@@ -6,6 +6,11 @@
   justify-content: space-between;
 }
 
+.sticky {
+  /* position: fixed; */
+  top: 0;
+}
+
 .badgeLogo {
   margin-left: 50px;
   font-size: 40px;
@@ -30,8 +35,7 @@
 
 .loginButton:hover {
   height: 60px;
-  width: 220px;
-  border-radius: 20px;
+  width: 215px;
   transition-duration: 0.2s;
   background-color: royalblue;
 }
@@ -67,23 +71,50 @@
 
 @media only screen and (max-width: 850px) {
 
-  .loginButton {
-    display: none;
+  .accountInfoContainer {
+    height: 40px;
+    width: 133px;
+    margin-right: 25px;
+
   }
 
-  .accountInfoContainer{
-    display: none;
+  .profileImageCircle {
+    height: 20px;
+    width: 20px;
   }
+
+  .address {
+    font-family: 'Inter';
+    font-size: 10px;
+    color: black;
+    margin-left: 5px;
+  }
+
   
   .navBar {
-    justify-content: center;
-    align-items: center;
-    height: 48px;
+    height: 60px;
   }
 
   .badgeLogo {
-    font-size: 30px;
-    margin-left: 0px;
+    font-size: 25px;
+    margin-left: 25px;
+  }
+
+  .loginButton {
+    height: 40px;
+    width: 133px;
+    background-color: black;
+    border-radius: 30px;
+    margin-right: 25px;
+    font-size: 11px;
+  }
+
+  .loginButton:hover {
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    transition-duration: 0.2s;
+    background-color: royalblue;
   }
   
 }
