@@ -9,7 +9,7 @@ Step 1 -  Compile contracts into ABI and export to frontend
 npx hardhat compile
 
 # Import to frontend - Assuming "../badge-app/artificacts" is in frontend code
-cp -rf artifacts/contracts/ ../badge-app/artifacts/
+cp -rf artifacts/contracts/ ../badge-app/artifacts/contracts/
 ```
 
 Step 2 - ****Run local node
@@ -44,7 +44,7 @@ Step 4 - Copy and paste contract address logged from step 2 into configs/blockch
 Make sure isLocal is set to true
 
 ```json
-"{
+"module.exports = {
   isLocal: true,
   local : { 
     url: 'http://localhost:8545',
