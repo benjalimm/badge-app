@@ -9,7 +9,7 @@ import cx from 'classnames';
 const DeployEntitySuccessView = () => {
 
   return <div className={style.entryContainer} style={{ height: '580px' }}>
-
+    <h1>Entity successfully deployed on-chain</h1>
   </div>
 }
 
