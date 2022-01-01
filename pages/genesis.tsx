@@ -21,7 +21,7 @@ type PageState = "ENTRY" | "LOADING" |"SUCCESS"
  */
 export default function DeployEntityPage() {
   const router = useRouter();
-  const { active } = useContext(Web3AuthContext);
+  const { active, web3Modal } = useContext(Web3AuthContext);
   const [pageState, setPageState] = useState<PageState>("ENTRY")
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
@@ -36,11 +36,12 @@ export default function DeployEntityPage() {
 
     try {
       setPageState("LOADING")
-      const web3Modal = new Web3Modal({
-        network: chainNetworkUrl, // optional
-        cacheProvider: true,
-      })
-      const connection = await web3Modal.connect
+      console.log(`chainNetworkUrl: ${chainNetworkUrl}`);
+      // const web3Modal = new Web3Modal({
+      //   network: chainNetworkUrl, // optional
+      //   cacheProvider: true,
+      // })
+      const connection = await web3Modal.connect()
       const provider = new ethers.providers.Web3Provider(connection)
       const signer = provider.getSigner();
 
