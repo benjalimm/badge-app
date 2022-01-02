@@ -2,6 +2,7 @@ import React, { createContext } from 'react';
 import Web3Modal from 'web3modal'
 import { providers } from 'ethers'
 import providerOptions from '../configs/Web3ModalProviderOptions';
+import { chainNetworkUrl } from '../configs/blockchainConfig';
 import { StateType, ActionType, Web3ModalContextType } from '../schemas/Web3ModalTypes';
 
 export const Web3AuthContext = createContext<Web3ModalContextType>({});
@@ -9,8 +10,8 @@ export const Web3AuthContext = createContext<Web3ModalContextType>({});
 export let web3Modal: Web3Modal;
 if (typeof window !== 'undefined') {
   web3Modal = new Web3Modal({
-    network: 'mainnet', // optional
-    cacheProvider: true,
+    network: chainNetworkUrl, // optional
+    cacheProvider: false,
     providerOptions, // required
   })
 }

@@ -3,6 +3,7 @@ import { AppProps } from 'next/app'
 import '../styles/index.css'
 import { Web3AuthContext, reducer, web3Modal, initialState } from '../contexts/Web3AuthContext';
 import { providers } from 'ethers'
+import Web3 from 'web3';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     const address = await signer.getAddress()
 
     const network = await web3Provider.getNetwork()
+    console.log(`login network`, network)
 
     dispatch({
       type: 'SET_WEB3_PROVIDER',
@@ -73,6 +75,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       // https://docs.ethers.io/v5/concepts/best-practices/#best-practices--network-changes
       const handleChainChanged = (_hexChainId: string) => {
+        console.log('chainChanged to:', _hexChainId)
         window.location.reload()
       }
 
@@ -82,8 +85,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         disconnect()
       }
 
+      const handleNetworkChanged = (networkId: string) => {
+        console.log('networkChanged to:', networkId)
+      }
+
       provider.on('accountsChanged', handleAccountsChanged)
       provider.on('chainChanged', handleChainChanged)
+      provider.on('networkChanged', handleNetworkChanged)
       provider.on('disconnect', handleDisconnect)
 
       // Subscription Cleanup

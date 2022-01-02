@@ -1,47 +1,59 @@
-# TypeScript Next.js example
+## Running local development on Hardhat
 
-This is a really simple project that shows the usage of Next.js with TypeScript.
+*Note: the first three steps are meant to be run on the hardhat project, not on the frontend*
 
-## Preview
-
-Preview the example live on [StackBlitz](http://stackblitz.com/):
-
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-typescript)
-
-## Deploy your own
-
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-typescript&project-name=with-typescript&repository-name=with-typescript)
-
-## How to use it?
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
+Step 1 -  Compile contracts into ABI and export to frontend 
 
 ```bash
-npx create-next-app --example with-typescript with-typescript-app
-# or
-yarn create next-app --example with-typescript with-typescript-app
+# NOTE: In root directory of hardhat project NOT frontend project
+npx hardhat compile
+
+# Import to frontend - Assuming "../badge-app/artificacts" is in frontend code
+cp -rf artifacts/contracts/ ../badge-app/artifacts/contracts/
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+Step 2 - ****Run local node
 
-## Notes
+```bash
+npx hardhat node 
 
-This example shows how to integrate the TypeScript type system into Next.js. Since TypeScript is supported out of the box with Next.js, all we have to do is to install TypeScript.
 
+
+Step 3 - Deploy to local node
+
+```bash
+npx hardhat run scripts/deploy.ts --network localhost
 ```
-npm install --save-dev typescript
+This should log:
+Badge deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
+
+### On badge-app frontend
+
+Step 4 - Copy and paste contract address logged from step 3 into configs/blockchain.config.js. 
+
+Make sure isLocal is set to true
+
+```json
+"module.exports = {
+  isLocal: true,
+  local : { 
+    url: 'http://localhost:8545',
+    badgeContractAddress: <INPUT ADDRESS HERE>
+  },
+  mumbai: {
+    url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+  },
+  mainnet: {
+    url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+  }
+}"
 ```
 
-To enable TypeScript's features, we install the type declarations for React and Node.
+Step 5 - Run frontend locally
 
+```json
+npx run dev
 ```
-npm install --save-dev @types/react @types/react-dom @types/node
-```
-
-When we run `next dev` the next time, Next.js will start looking for any `.ts` or `.tsx` files in our project and builds it. It even automatically creates a `tsconfig.json` file for our project with the recommended settings.
-
-Next.js has built-in TypeScript declarations, so we'll get autocompletion for Next.js' modules straight away.
-
-A `type-check` script is also added to `package.json`, which runs TypeScript's `tsc` CLI in `noEmit` mode to run type-checking separately. You can then include this, for example, in your `test` scripts.
