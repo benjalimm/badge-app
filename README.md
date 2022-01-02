@@ -17,29 +17,20 @@ Step 2 - ****Run local node
 ```bash
 npx hardhat node 
 
-####This should produce the following logs:
 
-# Contract deployment: BadgeV1
-  # Contract address:    0xe7f1725e7734ce288f8367e1bb143e90bb3f0512
-  # Transaction:         0x5f047a001f869b6cf8c7e75c4efc9a8e5af21ae2ff4559ad46ad1cda865c7af0
-  # From:                0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266
-  # Value:               0 ETH
-  # Gas used:            10429260 of 10429260
-  # Block #2:            0x833d927fed8bc553621623813ac94dd364a77e3fde776d5805301e425441d2eb
-
-  # console.log:
-    # Succesfully deployed
-```
 
 Step 3 - Deploy to local node
 
 ```bash
 npx hardhat run scripts/deploy.ts --network localhost
 ```
+This should log:
+Badge deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
+
 
 ### On badge-app frontend
 
-Step 4 - Copy and paste contract address logged from step 2 into configs/blockchain.config.js. 
+Step 4 - Copy and paste contract address logged from step 3 into configs/blockchain.config.js. 
 
 Make sure isLocal is set to true
 
