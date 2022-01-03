@@ -85,13 +85,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         disconnect()
       }
 
-      const handleNetworkChanged = (networkId: string) => {
-        console.log('networkChanged to:', networkId)
-      }
-
       provider.on('accountsChanged', handleAccountsChanged)
       provider.on('chainChanged', handleChainChanged)
-      provider.on('networkChanged', handleNetworkChanged)
       provider.on('disconnect', handleDisconnect)
 
       // Subscription Cleanup
