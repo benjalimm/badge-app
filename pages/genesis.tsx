@@ -33,7 +33,7 @@ export default function DeployEntityPage() {
    * 
    */
   async function deployEntity(entityName: string) {
-
+    console.log("Attemping to deploy entity: " + entityName);
     try {
       setPageState("LOADING")
       console.log(`chainNetworkUrl: ${chainNetworkUrl}`);
@@ -41,8 +41,9 @@ export default function DeployEntityPage() {
       //   network: chainNetworkUrl, // optional
       //   cacheProvider: true,
       // })
-      const connection = await web3Modal.connect()
-      const provider = new ethers.providers.Web3Provider(connection)
+      // const connection = await web3Modal.connect()
+      // const provider = new ethers.providers.Web3Provider(connection);
+      const provider = new ethers.providers.JsonRpcProvider();
       const signer = provider.getSigner();
 
       // Get genesis token contract address
@@ -53,18 +54,18 @@ export default function DeployEntityPage() {
       const genesisTokenContract = new ethers.Contract(genesisTokenAddress, GenesisToken.abi, signer);
 
       // Listen to EntityDeployed event
-      genesisTokenContract.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+      genesisTokenContract.on("EntityDeployed", (entityAddress: string, eName: string, genesisTokenHolder: string) => {
         console.log("Entity deployed ", entityAddress, entityName);
-        setEntityInfo({
-          address: entityAddress,
-          name: entityName,
-          genesisTokenHolder: genesisTokenHolder
-        })
 
-        if (pageState !== "SUCCESS") {
-          setPageState("SUCCESS");
+        if (entityName === eName) {
+          setEntityInfo({
+            address: entityAddress,
+            name: entityName,
+            genesisTokenHolder: genesisTokenHolder
+          })
+          setPageState("SUCCESS")
         }
-      
+        genesisTokenContract.off("EntityDeployed", ()=>{});
       })
 
       // Execute transaction to mint
