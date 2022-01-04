@@ -7,27 +7,53 @@ import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
-import { EntityInfo } from '../schemas/genesis';
+import { EntityInfo, AnimationType } from '../schemas/genesis';
 import { ethers } from 'ethers';
 import BadgeV1 from '../artifacts/contracts/BadgeV1.sol/BadgeV1.json';
 import GenesisToken from '../artifacts/contracts/GenesisToken.sol/GenesisToken.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
-import Web3Modal from 'web3modal';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
-type PageState = "ENTRY" | "LOADING" |"SUCCESS"
+import AnimatingView from '../components/genesis/AnimatingView';
 
+type PageState = "Entry" | "Loading" |"Success" | "None"
+interface CurrentAndPriorPageStates {
+  priorPageState: PageState;
+  currentPageState: PageState;
+}
 /**
  * Genesis page
  */
 export default function DeployEntityPage() {
   const router = useRouter();
   const { active, web3Modal } = useContext(Web3AuthContext);
-  const [pageState, setPageState] = useState<PageState>("ENTRY")
+  const [currentPageState, setCurrentPageState] = useState<PageState>("Entry")
+  const [priorPageState, setPriorPageState] = useState<PageState>("Entry")
+  const [isAnimating, setIsAnimating] = useState<boolean>(false)
+
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
     genesisTokenHolder: ""
   });
+
+  function getAnimationType(): AnimationType {
+    if (priorPageState === "Entry" && currentPageState === "Loading") {
+      return "EntryToLoading"
+    } else if (priorPageState === "Loading" && currentPageState === "Success") {
+      return "LoadingToSuccess"
+    } else {
+      return "None"
+    }
+  }
+
+  function setPageStates(state: PageState, animate: boolean = true) {
+
+    console.log(`Setting page states: ${priorPageState} -> ${currentPageState}`)
+    setIsAnimating(animate)
+    setCurrentPageState(state)
+    setPriorPageState(currentPageState)
+    
+  }
 
   /**
    * 
@@ -35,14 +61,7 @@ export default function DeployEntityPage() {
   async function deployEntity(entityName: string) {
     console.log("Attemping to deploy entity: " + entityName);
     try {
-      setPageState("LOADING")
-      console.log(`chainNetworkUrl: ${chainNetworkUrl}`);
-      // const web3Modal = new Web3Modal({
-      //   network: chainNetworkUrl, // optional
-      //   cacheProvider: true,
-      // })
-      // const connection = await web3Modal.connect()
-      // const provider = new ethers.providers.Web3Provider(connection);
+      setPageStates("Loading")
       const provider = new ethers.providers.JsonRpcProvider();
       const signer = provider.getSigner();
 
@@ -58,12 +77,13 @@ export default function DeployEntityPage() {
         console.log("Entity deployed ", entityAddress, entityName);
 
         if (entityName === eName) {
+          setPageStates("Success")
           setEntityInfo({
             address: entityAddress,
             name: entityName,
             genesisTokenHolder: genesisTokenHolder
           })
-          setPageState("SUCCESS")
+          
         }
         genesisTokenContract.off("EntityDeployed", ()=>{});
       })
@@ -74,8 +94,7 @@ export default function DeployEntityPage() {
 
     } catch (error) {
       console.error(error)
-    }
-    
+    } 
   }
 
   /**
@@ -88,29 +107,39 @@ export default function DeployEntityPage() {
   } , [active])
 
   function renderViewBasedOnPageState(): ReactElement {
-    switch (pageState) {
-      case "ENTRY":
+    switch (currentPageState) {
+      case "Entry":
         return <DeployEntityEntryView deployEntity={deployEntity}/>
-      case "LOADING":
+      case "Loading":
         return <DeployEntityLoadingView />
-      case "SUCCESS":
+      case "Success":
         return <DeployEntitySuccessView 
           name={entityInfo.name} 
           address={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
           tokenHolderEnsName={entityInfo.tokenHolderEnsName}
-        />
+        />        
+
       default:
         return <div>Unknown Page State</div>
     }
   }
 
+  function onAnimationComplete() {
+    setIsAnimating(false)
+  }
+  console.log(`PriorPageState: ${priorPageState}, CurrentPageState: ${currentPageState}`);
+  console.log("animationType = " + getAnimationType())
   return (
     <div className={styles.background}>
       <Navbar sticky={true}/>
       <PageTitleView title={"Deploy a new entity by minting a Genesis token"}/>
       <div className={styles.pageContainer}>
-        { renderViewBasedOnPageState() }
+        { isAnimating ? 
+          <AnimatingView 
+            animationType={getAnimationType()} 
+            onAnimationComplete={onAnimationComplete}/> : renderViewBasedOnPageState() 
+        }
       </div>
     </div>
   )
