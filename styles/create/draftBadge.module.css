@@ -1,0 +1,62 @@
+.container {
+  background-color: white;
+  width: 735px;
+  height: 760px;
+  border-radius: 14px;
+  margin-top: 60px;;
+}
+
+.topHalfContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.badgeCardContainer {
+  margin-left: 50px;
+  margin-top: 50px;
+}
+
+.formContainer {
+  margin-top: 50px;
+  /* background-color: red; */
+  
+}
+
+/* Form text box*/
+
+.formTextBoxContainer {
+  width: 350px;
+  /* background-color: red; */
+  margin-right: 25px;
+  margin-bottom: 10px;
+}
+
+
+.formTextBoxTitle {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  margin-left: 5px;
+}
+
+@media only screen and (max-width: 850px) {
+  .badgeCardContainer {
+    margin-left: 0px;
+  }
+  .topHalfContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formTextBoxContainer {
+    margin-bottom: 10px;
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}

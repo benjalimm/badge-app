@@ -1,0 +1,13 @@
+.background {
+  background-color: #F4F4F4;
+  height: 100%;
+  width: 100%;
+}
+
+.pageContainer {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+}
