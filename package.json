@@ -16,6 +16,7 @@
     "react-dom": "^17.0.2",
     "react-horizontal-scrolling-menu": "^2.7.0",
     "react-transition-group": "^4.4.2",
+    "react-window": "^1.8.6",
     "walletlink": "^2.4.0",
     "web3": "^1.6.1",
     "web3modal": "^1.9.4"

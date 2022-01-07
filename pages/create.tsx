@@ -7,7 +7,7 @@ import DraftBadgeView from '../components/create/DraftBadgeView';
 export default function CreateBadgeView() {
   return <div className={style.background}>
     <NavBar sticky={true}/>
-    <PageTitleView title='Draft Badge'/>
+    <PageTitleView title='Award a Badge'/>
     <div className={style.pageContainer}>
       <DraftBadgeView/>
     </div>
