@@ -24,7 +24,7 @@
 }
 
 .bottomContainer {
-  background: linear-gradient(to top, black 85%,rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, black 75%,rgba(0, 0, 0, 0));
   height: 55%;
   width: 100%;
   z-index: 1;

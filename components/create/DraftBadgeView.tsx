@@ -1,20 +1,19 @@
 import React, { useState } from 'react';
 import style from '../../styles/create/draftBadge.module.css'
-import SampleBadgeCard from '../landingPage/SampleBadgeCard';
 import BadgeCard from '../badgeCard/BadgeCard';
 import sampleCardData from '../../utils/sampleCardData';
-import TextBox from '../GenericComponents/TextBox';
-import TextArea from '../GenericComponents/TextArea';
+import FormTextBoxContainer from './FormTextBoxContainer';
+import { badgeMediaList } from '../../utils/badgeMediaList';
+import { BasicButton } from '../GenericComponents/Buttons';
 const cardData = sampleCardData[1];
 
 export default function DraftBadgeView() {
+
+  /** Badge information */
   const [badgeTitle, setBadgeTitle] = useState('');
   const [badgeDescription, setBadgeDescription] = useState('');
-  const [recipientAddress, setRecipientAddress] = useState('');
-
-  function onRecipientTextChange(event: React.FormEvent<HTMLInputElement>) {
-    setRecipientAddress(event.currentTarget.value);
-  }
+  const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
+  const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
     setBadgeTitle(event.currentTarget.value);
@@ -24,24 +23,45 @@ export default function DraftBadgeView() {
     setBadgeDescription(event.currentTarget.value);
   }
 
+  function getTitle() {
+    if (badgeTitle.length > 0) {
+      return badgeTitle;
+    }
+    return "Badge title"
+  }
+
+  function getDescription() {
+    if (badgeDescription.length > 0) {
+      return badgeDescription;
+    }
+    return "This is a badge description. Write a short explanation of why this Badge is being awarded."
+  }
+  /**  This method is executed once the user is complete **/
+  function prepareBadge() {
+
+  }
+
   return <div className={style.container}>
     <div className={style.topHalfContainer}>
       <div className={style.badgeCardContainer}>
         <BadgeCard 
-          title={badgeTitle}
-          content={badgeDescription}
-          videoSource={cardData.videoPath}
+          title={getTitle()}
+          content={getDescription()}
+          videoSource={currentlySelectedMedia.url}
           profilePhotoSource={cardData.profilePhotoSource}
         />
       </div>
 
       <div className={style.formContainer}>
-        <FormTextBoxContainer 
-          type="TextBox"
-          title='Recipient' 
-          placeholder='Enter wallet address / ENS'
-          onChange={onRecipientTextChange}
-        />
+        <div>
+          <h1 className={style.mediaSelectionHeader}>Media</h1>
+          <div className={style.mediaSelectionBox}>
+            <span className={style.mediaSelectionText}>
+              {`${currentlySelectedMedia.mediaType} - ${currentlySelectedMedia.id} - ${currentlySelectedMedia.name}`}</span>
+            <button className={style.mediaSelectButton}>Select media</button>
+          </div>
+          
+        </div>
         <FormTextBoxContainer 
           type="TextBox"
           title='Badge name' 
@@ -54,40 +74,9 @@ export default function DraftBadgeView() {
           placeholder='Enter info (Why did they get this Badge?)'
           customTextBoxHeight='180px'
           onChange={onDescriptionTextChange}
-  
         />
       </div>
     </div>
-
-  </div>
-}
-
-function FormTextBoxContainer({ type, title, placeholder, customTextBoxHeight, onChange }: { 
-  type: "TextBox" | "TextArea"
-  title: string, 
-  placeholder: string,
-  customTextBoxHeight?: string 
-  onChange:(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => void
-}) {
-
-  return <div className={style.formTextBoxContainer}>
-    <h1 className={style.formTextBoxTitle}>{title}</h1>
-    {
-      (type ===  "TextBox") ? 
-        <TextBox 
-          onChange={onChange} 
-          placeholder={placeholder} 
-          customHeight={customTextBoxHeight}
-          fontSize='13px'
-        /> :
-        <TextArea
-          onChange={onChange} 
-          placeholder={placeholder} 
-          customHeight={customTextBoxHeight}
-          fontSize='13px'
-        />
-
-    }
-    
+    <BasicButton text="Prepare" onClick={prepareBadge} style={ {marginBottom: '30px'}}/>
   </div>
 }

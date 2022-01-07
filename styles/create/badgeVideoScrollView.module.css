@@ -1,0 +1,10 @@
+.scrollView {
+  width: 90%;
+  background-color: red;
+}
+
+.card {
+  height: 100px;
+  width: 100px;
+  border-radius: 10%;
+}
