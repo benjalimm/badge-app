@@ -8,7 +8,7 @@ export default function MediaCatalogueView({ onCancel, badgeMediaList }: {
   onCancel: () => void, 
   badgeMediaList: BadgeMedia[]
 }) {
-  return <div className={cx(style.container, style.gradientBorder)}>
+  return <div className={cx(style.container)}>
     <h1 className={style.header}>Pick media</h1>
     <div className={style.mediaTileView}>
       { badgeMediaList.map((badgeMedia, index) => { 
