@@ -8,10 +8,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  ;
   box-shadow: 0 10px 20px -8px rgba(0,0,0,0.4);
-  border-width: 2px;
-  border-color: darkgray;
-  
+  /* border-width: 2px;
+  border-color: darkgray; */
+}
+
+.gradientBorder {
+  border: double 4px transparent;
+  background-image: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%), linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
 }
 
 .header {
@@ -34,4 +41,22 @@
   font-weight: bold;
   border-radius: 8px;
   margin-bottom: 15px;
+}
+
+.mediaTileView {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  /* background-color: red; */
+}
+
+
+.mediaTile {
+  width: 100px;
+  height: 100px;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between; */
+  border-radius: 10px;
 }

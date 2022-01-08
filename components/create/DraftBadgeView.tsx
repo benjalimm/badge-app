@@ -75,7 +75,10 @@ export default function DraftBadgeView() {
               onDescriptionTextChange={onDescriptionTextChange}
               onPresentMediaCatalogue={presentMediaCatalogue}
             /> :
-            <MediaCatalogueView onCancel={onCancelOfMediaCatalogue}/>
+            <MediaCatalogueView 
+              onCancel={onCancelOfMediaCatalogue}
+              badgeMediaList={badgeMediaList}
+            />
         }
       </div>
       
