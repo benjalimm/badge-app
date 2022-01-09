@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import style from '../../styles/sampleBadgeCard.module.css';
+import React from 'react';
+import style from '../../styles/landingPage/sampleBadgeCard.module.css';
 import cx from 'classnames';
 export default function SampleBadgeCard(
   {  title, content, videoSource, profilePhotoSource, visible }
@@ -8,11 +8,11 @@ export default function SampleBadgeCard(
     content: string, 
     videoSource: string, 
     profilePhotoSource: string,
-    visible: boolean
+    visible: boolean,
   }
 ) {
   const visibility = visible ? 'flex' : 'none';
-  return <div className={style.sampleBadgeCard} style={{ display : visibility}}>
+  return <div className={cx(style.sampleBadgeCard, style.landingPageAnimation)} style={{ display : visibility}}>
     <div className={style.imageContainer}>
       <video preload="meta" autoPlay loop muted src={videoSource}/> 
     </div>
