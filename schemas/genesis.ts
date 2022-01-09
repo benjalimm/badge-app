@@ -5,3 +5,5 @@ export interface EntityInfo {
   genesisTokenHolder: string,
   tokenHolderEnsName?: string
 }
+
+export type AnimationType = "EntryToLoading" | "LoadingToSuccess" | "None"
