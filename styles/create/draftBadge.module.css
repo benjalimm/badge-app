@@ -23,14 +23,15 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 420px;
+  height: 423px;
   margin-top: 50px;
   /* background-color: red; */
 }
 
 
 .badgeCardContainer {
-  margin-left: 50px;
+  margin-left: 35px;
   margin-top: 50px;
 }
 
@@ -95,10 +96,17 @@
 }
 
 @media only screen and (max-width: 850px) {
+
+  .container {
+    width: 410px;
+    height: 1000px;
+
+  }
+
   .badgeCardContainer {
     margin-left: 0px;
   }
-  .topHalfContainer {
+  .contentContainer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -113,3 +121,4 @@
     align-items: flex-start;
   }
 }
+

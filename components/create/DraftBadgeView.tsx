@@ -18,7 +18,7 @@ export default function DraftBadgeView() {
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   /** Page configs */
-  const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(true);
+  const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
 
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
     setBadgeTitle(event.currentTarget.value);
@@ -26,6 +26,10 @@ export default function DraftBadgeView() {
 
   function onDescriptionTextChange(event: React.FormEvent<HTMLTextAreaElement>) {
     setBadgeDescription(event.currentTarget.value);
+  }
+
+  function onBadgeMediaSelect(index: number) {
+    setIndexOfSelectedBadgeMedia(index);
   }
 
   function onCancelOfMediaCatalogue() {
@@ -78,6 +82,8 @@ export default function DraftBadgeView() {
             <MediaCatalogueView 
               onCancel={onCancelOfMediaCatalogue}
               badgeMediaList={badgeMediaList}
+              indexOfCurrentlySelectedMedia={indexOfSelectedBadgeMedia}
+              onBadgeMediaSelect={onBadgeMediaSelect}
             />
         }
       </div>
