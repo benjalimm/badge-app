@@ -3,14 +3,19 @@
   background-color: #F4F4F4;
   height: 100%;
   width: 100%;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
 .pageContainer {
+  height: 100%;
+  width: 100%;
+  
+  padding-bottom: 200px;
   display: flex;
-  align-items: flex-start;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
+  align-items: center;
+  flex-direction: column;
 }
 
 /* DeployEntityEntryView styles */
@@ -19,7 +24,7 @@
   width: 420px;
   background-color: white;
   border-radius: 14px;
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -211,7 +216,7 @@
 .loadingContainerAnimation {
   width: 420px;
   height: 260px;
-  margin-top: 50px;
+  margin-top: 30px;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
   background-color: white;
@@ -221,7 +226,7 @@
 .successContainerAnimation {
   width: 420px;
   height: 580px;
-  margin-top: 50px;
+  margin-top: 30px;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
   background-color: white;
