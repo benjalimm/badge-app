@@ -45,6 +45,7 @@
     "@typescript-eslint/promise-function-async": "off",
     "@typescript-eslint/prefer-readonly-parameter-types": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "react/no-unescaped-entities": "off",
     "no-multiple-empty-lines": ["error", { "max": 1 }]
   }
 }

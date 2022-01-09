@@ -1,0 +1,124 @@
+.container {
+  background-color: white;
+  width: 735px;
+  height: 600px;
+  border-radius: 14px;
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: space-around;
+  width: 100%;
+}
+
+.contentRightContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 420px;
+  height: 423px;
+  margin-top: 50px;
+  /* background-color: red; */
+}
+
+
+.badgeCardContainer {
+  margin-left: 35px;
+  margin-top: 50px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+/* Form text box*/
+
+.formTextBoxContainer {
+  width: 350px;
+  margin-bottom: 10px;
+}
+
+
+.formTextBoxTitle {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.mediaSelectionBox {
+  width: 350px;
+  height: 50px;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  /* margin-right: 25px; */
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mediaSelectionHeader {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-weight: bold;
+  color: black;
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.mediaSelectionText {
+  font-family: 'Inter';
+  font-size: 13px;
+  color: black;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.mediaSelectButton {
+  font-size: 13px;
+  margin-right: 15px;
+  color: goldenrod
+}
+
+@media only screen and (max-width: 850px) {
+
+  .container {
+    width: 410px;
+    height: 1000px;
+
+  }
+
+  .badgeCardContainer {
+    margin-left: 0px;
+  }
+  .contentContainer {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .formTextBoxContainer {
+    margin-bottom: 10px;
+    margin-right: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+}
+
