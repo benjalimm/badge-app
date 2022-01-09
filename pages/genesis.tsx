@@ -12,8 +12,8 @@ import { ethers } from 'ethers';
 import BadgeV1 from '../artifacts/contracts/BadgeV1.sol/BadgeV1.json';
 import GenesisToken from '../artifacts/contracts/GenesisToken.sol/GenesisToken.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
-import { chainNetworkUrl } from '../configs/blockchainConfig';
 import AnimatingView from '../components/genesis/AnimatingView';
+import MultiStepView from '../components/GenericComponents/MultiStepView';
 
 type PageState = "Entry" | "Loading" |"Success" | "None"
 interface CurrentAndPriorPageStates {
@@ -101,9 +101,9 @@ export default function DeployEntityPage() {
    * If the user is not logged in, redirect to landing page
    */
   useEffect(() => {
-    if (!active) {
-      router.push('/')
-    }
+    // if (!active) {
+    //   router.push('/')
+    // }
   } , [active])
 
   function renderViewBasedOnPageState(): ReactElement {
@@ -135,6 +135,12 @@ export default function DeployEntityPage() {
       <Navbar sticky={true}/>
       <PageTitleView title={"Deploy a new entity by minting a Genesis token"}/>
       <div className={styles.pageContainer}>
+        <MultiStepView 
+          steps={["Deploy entity", "Setup entity", "Award first Badge"]} 
+          indexOfCurrentStep={0}
+          style={{ marginTop: '30px'}}
+        />
+
         { isAnimating ? 
           <AnimatingView 
             animationType={getAnimationType()} 
