@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {  AnimationType } from '../../schemas/genesis';
+import { AnimationType } from '../../schemas/genesis';
 import cx from 'classnames';
 import style from '../../styles/genesis.module.css';
 
@@ -42,7 +42,7 @@ export default function AnimatingView(
         }
       default:
         return {
-          startingClasses: cx(style.entryContainer, style.loadingContainer),
+          startingClasses: style.loadingContainerAnimation,
           endingClasses: style.successContainerAnimation
         }
     }
