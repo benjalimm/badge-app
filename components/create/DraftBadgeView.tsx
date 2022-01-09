@@ -106,7 +106,7 @@ function FormContainer({
   onPresentMediaCatalogue: () => void
 }) {
   return <div className={style.formContainer}>
-    <div>
+    <div className={style.mediaContainer}>
       <h1 className={style.mediaSelectionHeader}>Media</h1>
       <div className={style.mediaSelectionBox}>
         <span className={style.mediaSelectionText}>
