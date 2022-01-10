@@ -24,7 +24,7 @@ Step 3 - Deploy to local node
 ```bash
 npx hardhat run scripts/deploy.ts --network localhost
 ```
-This should log:
+This should log something like this:
 Badge deployed to: 0x5FbDB2315678afecb367f032d93F642f64180aa3
 
 

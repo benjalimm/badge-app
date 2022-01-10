@@ -2,7 +2,7 @@
   background-color: black;
   height: 420px;
   width: 283px;
-  border-radius: 21px;
+  border-radius: 27px;
   color: white;
   overflow: hidden;
   position: relative;
@@ -110,7 +110,7 @@
   .badgeCard {
     height: 350px;
     width: 236px;
-    border-radius: 16.8px;
+    border-radius: 21px;
     transform: rotate(0deg);
     margin: 0;
   }
