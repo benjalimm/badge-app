@@ -2,7 +2,7 @@
   background-color: black;
   height: 490px;
   width: 330px;
-  border-radius: 25px;
+  border-radius: 30px;
   color: white;
   margin-right: 100px;
   overflow: hidden;
@@ -14,12 +14,20 @@
   
 }
 
-.gradientBorder {
-  border: double 4px transparent;
-  background-image: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%), linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+/* .gradientBorder {
+  border: solid 4px transparent;
+  background-image: linear-gradient(90.78deg, #FFFFFF 30.37%, #FF3104 52.91%, rgba(0, 133, 255, 0.9) 95%), linear-gradient(150.78deg, #FFFFFF 30.37%, #FF3104 52.91%, rgba(0, 133, 255, 0.9) 95%);
   background-origin: border-box;
   background-clip: content-box, border-box;
-}
+} */
+
+/* .gradientBorder {
+  border: solid 4px transparent;
+  background-image: linear-gradient(90.78deg, #007C97 0%, #000000 48.96%, #FF0440 100%), linear-gradient(90.78deg, #007C97 0%, #000000 48.96%, #FF0440 100%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+} */
+
 
 .landingPageAnimation {
   animation: cardAnimation 4s ease-in-out infinite, fadeIn 0.5s ease-in-out;
@@ -72,7 +80,7 @@
   .sampleBadgeCard {
     height: 350px;
     width: 236px;
-    border-radius: 16.8px;
+    border-radius: 20px;
     transform: rotate(0deg);
     margin: 0;
   }
