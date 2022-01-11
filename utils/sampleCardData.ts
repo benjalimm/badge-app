@@ -5,7 +5,7 @@ const data: BadgeData[] = [
     id: 0,
     title: "Hackathon winner",
     content: "Harry won 'Most Innovative' for his project 'Picture This' for our Annual Hackathon in 2022.",
-    videoPath: "/videos/sampleNFTVideos/nft_damien.mp4",
+    videoPath: "/videos/sampleNFTVideos/badgeTick.mp4",
     profilePhotoSource: "/images/landingPage/coinbase_logo.jpeg"
   },
   {

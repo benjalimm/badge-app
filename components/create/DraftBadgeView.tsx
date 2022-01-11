@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import style from '../../styles/create/draftBadge.module.css'
 import BadgeCard from '../badgeCard/BadgeCard';
 import sampleCardData from '../../utils/sampleCardData';
@@ -7,15 +7,31 @@ import { badgeMediaList } from '../../utils/badgeMediaList';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import { BasicButton } from '../GenericComponents/Buttons';
 import MediaCatalogueView from './MediaCatalogueView';
+import { BadgeData } from '../../schemas/BadgeData';
 const cardData = sampleCardData[1];
 
-export default function DraftBadgeView() {
+export default function DraftBadgeView(
+  { onSubmitDraftBadgeData, draftBadgeData } : 
+  { 
+    onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
+    draftBadgeData: BadgeData | null
+  }) {
 
   /** Badge information */
   const [badgeTitle, setBadgeTitle] = useState('');
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
+  
+  console.log("Badge title: ",badgeTitle);
+  console.log("Badge desc: ",badgeDescription);
+  useEffect(() => {
+    if (draftBadgeData) {
+      setBadgeTitle(draftBadgeData.title);
+      setBadgeDescription(draftBadgeData.content);
+    }
+
+  } , [])
 
   /** Page configs */
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
@@ -57,7 +73,15 @@ export default function DraftBadgeView() {
 
   /**  This method is executed once the user is complete **/
   function prepareBadge() {
+    // NOTE: Run checks on the data here before submitting
 
+    onSubmitDraftBadgeData({
+      id: 0,
+      title: badgeTitle,
+      content: badgeDescription,
+      videoPath: currentlySelectedMedia.url,
+      profilePhotoSource: cardData.profilePhotoSource
+    });
   }
 
   return <div className={style.container}>
@@ -78,6 +102,8 @@ export default function DraftBadgeView() {
               onTitleChange={onTitleChange}
               onDescriptionTextChange={onDescriptionTextChange}
               onPresentMediaCatalogue={presentMediaCatalogue}
+              badgeTitle={badgeTitle}
+              badgeDescription={badgeDescription}
             /> :
             <MediaCatalogueView 
               onCancel={onCancelOfMediaCatalogue}
@@ -98,12 +124,16 @@ function FormContainer({
   currentlySelectedMedia, 
   onTitleChange, 
   onDescriptionTextChange,
-  onPresentMediaCatalogue 
+  onPresentMediaCatalogue,
+  badgeTitle,
+  badgeDescription 
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onDescriptionTextChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
-  onPresentMediaCatalogue: () => void
+  onPresentMediaCatalogue: () => void,
+  badgeTitle: string,
+  badgeDescription: string
 }) {
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
@@ -124,6 +154,7 @@ function FormContainer({
       title='Badge name' 
       placeholder='Enter Badge name (e.g. Hackathon winner)'
       onChange={onTitleChange}
+      value={badgeTitle}
     />
     <FormTextBoxContainer 
       type="TextArea"  
@@ -131,6 +162,7 @@ function FormContainer({
       placeholder='Enter info (Why did they get this Badge?)'
       customTextBoxHeight='180px'
       onChange={onDescriptionTextChange}
+      value={badgeDescription}
     />
   </div>
 }
