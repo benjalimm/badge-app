@@ -40,6 +40,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
+  animation: appearAnimation 0.25s ease-in-out;
 }
 
 /* Form text box*/
@@ -130,3 +131,11 @@
   }
 }
 
+@keyframes appearAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
