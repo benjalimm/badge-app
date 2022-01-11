@@ -1,0 +1,95 @@
+.mintBadgeViewContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 470px;
+  height: auto;
+  padding-bottom: 40px;
+  background-color: #fff;
+  margin-top: 30px;
+  border-radius: 15px;
+}
+
+.backToDraftButton {
+  color: red;
+  margin-top: 10px;
+  font-size: 12px;
+  /* font-weight: bold; */
+}
+
+.transactionDetails {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-top: 20px;
+}
+
+.transactionDetailsHeader {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-weight: bold;
+  margin-left: 5px;
+  margin-bottom: 8px;
+}
+
+.detailsContainer {
+  width: 350px;
+  height: 150px;
+  background-color: #F6F6F6;
+  border-radius: 12px;
+  border-width: 0.5px;
+}
+
+.estimatedTransaction {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 25px;
+  position: relative;
+}
+
+.transactionName {
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: bold;
+  position: absolute;
+  left: 5%;
+}
+
+.transactionUsdText {
+  font-family: 'Inter';
+  font-size: 11px;
+  position: absolute;
+  left: 47%;
+}
+
+.transactionCryptoText {
+  font-family: 'Inter';
+  font-size: 11px;
+  position: absolute;
+  right: 5%;
+}
+
+@media only screen and (max-width: 850px) {
+  .mintBadgeViewContainer {
+    width: 360px;
+  }
+
+  .detailsContainer {
+    width: 300px;
+  }
+
+  .transactionName {
+    font-size: 9px;
+  }
+
+.transactionUsdText {
+    font-size: 9px;
+  }
+
+.transactionCryptoText {
+    font-size: 9px;
+  }
+}
