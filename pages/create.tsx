@@ -11,7 +11,11 @@ type PageState = "DraftBadge" | "MintBadge";
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
+  
+  /** All drafts, recipient info stored here */
   const [draftBadgeData, setDraftBadgeData] = useState<BadgeData | null>(null);
+  const [recipientWalletAddressInfo, setRecipientWalletAddressInfo] = useState<string | null>(null);
+  const [recipientEmailInfo, setRecipientEmailInfo] = useState<string | null>(null);
 
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
@@ -40,7 +44,12 @@ export default function CreateBadgeView() {
         /> :
         <MintBadgeView 
           draftBadgeData={draftBadgeData}
+          recipientAddress={recipientWalletAddressInfo}
+          recipientEmail={recipientEmailInfo}
           onBackToDraft={() => setPageState("DraftBadge")}
+          onWalletAddressValueChange={(address) => setRecipientWalletAddressInfo(address)}
+          onEmailValueChange={(email) => setRecipientEmailInfo(email)}
+
         />
       }
     </div>
