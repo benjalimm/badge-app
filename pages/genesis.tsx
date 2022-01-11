@@ -128,8 +128,7 @@ export default function DeployEntityPage() {
   function onAnimationComplete() {
     setIsAnimating(false)
   }
-  console.log(`PriorPageState: ${priorPageState}, CurrentPageState: ${currentPageState}`);
-  console.log("animationType = " + getAnimationType())
+  
   return (
     <div className={styles.background}>
       <Navbar sticky={true}/>

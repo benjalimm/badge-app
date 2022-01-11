@@ -1,11 +1,12 @@
 import React from 'react';
 import style from '../../styles/GenericComponents/textBox.module.css';
 
-export default function TextArea({ placeholder, onChange, customHeight, fontSize }: {
+export default function TextArea({ placeholder, onChange, customHeight, fontSize, value }: {
   onChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
   placeholder: string;
   customHeight?: string;
   fontSize?: string;
+  value?: string;
 }) {
 
   const customStyle = {
@@ -13,6 +14,6 @@ export default function TextArea({ placeholder, onChange, customHeight, fontSize
     fontSize: fontSize,
   }
   return <div className={style.formTextFieldContainer} style={customStyle}>
-    <textarea className={style.formTextArea} placeholder={placeholder} onChange={onChange}/>
+    <textarea className={style.formTextArea} placeholder={placeholder} onChange={onChange} value={value}/>
   </div>
 }
