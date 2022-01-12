@@ -1,21 +1,24 @@
 .container {
   background-color: white;
   width: 735px;
-  height: 600px;
+  height: auto;
+  padding-bottom: 30px;
   border-radius: 15px;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  animation: expandToFull 0.25s ease-in-out;
 }
 
 .contentContainer {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: space-around;
   width: 100%;
+  margin-top: 0px;
+  padding: 0;
+  margin-top: 40px;
 }
 
 .contentRightContainer {
@@ -25,13 +28,13 @@
   align-items: center;
   width: 420px;
   height: 423px;
-  margin-top: 50px;
 }
 
 
 .badgeCardContainer {
   margin-left: 35px;
-  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
 }
 
 .formContainer {
@@ -40,7 +43,7 @@
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  animation: appearAnimation 0.25s ease-in-out;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
 /* Form text box*/
@@ -99,6 +102,23 @@
   color: goldenrod
 }
 
+.backButton {
+  font-size: 15px;
+  color: #D84242;
+  margin-top: 10px;
+  animation: fadeInFromTop 0.25s ease-in-out;
+}
+
+.backButtonFadeIn {
+  animation: fadeInFromTop 0.25s ease-in-out;
+  opacity: 1;
+}
+
+.backButtonFadeOut {
+  animation: fadeOutToTop 0.25s ease-in-out;
+  opacity: 0;
+}
+
 @media only screen and (max-width: 850px) {
 
   .container {
@@ -108,12 +128,18 @@
 
   .badgeCardContainer {
     margin-left: 0px;
+    margin-bottom: 40px;
   }
+
   .contentContainer {
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     width: 90%;
+  }
+
+  .contentRightContainer {
+    animation: fadeIn 0.25s ease-in-out;
   }
 
   .formTextBoxContainer {
@@ -131,10 +157,45 @@
   }
 }
 
-@keyframes appearAnimation {
+
+@keyframes fadeIn {
   0% {
     opacity: 0;
+    transform: translateY(10px);
   }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes fadeOutToTop {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes expandToFull {
+  0% {
+    opacity: 0;
+    /* height: 0px; */
+  }
+
   100% {
     opacity: 1;
   }
