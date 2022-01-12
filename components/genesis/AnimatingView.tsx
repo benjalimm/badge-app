@@ -3,14 +3,9 @@ import { AnimationType } from '../../schemas/genesis';
 import cx from 'classnames';
 import style from '../../styles/genesis.module.css';
 
-interface AnimationPair {
-  startingClasses: string;
-  endingClasses: string;
-}
-
 type AnimationState = "Start" | "End"
 const delayMilliseconds = 0;
-const animationMilliseconds = 300;
+const animationMilliseconds = 500;
 
 export default function AnimatingView(
   { animationType, onAnimationComplete } : 
@@ -28,29 +23,16 @@ export default function AnimatingView(
       
   }, [animationType])
 
-  function getAnimationPair(type: AnimationType): AnimationPair {
-    switch (type) {
-      case "EntryToLoading":
-        return {
-          startingClasses: style.entryContainer,
-          endingClasses: style.loadingContainerAnimation
-        }
-      case "LoadingToSuccess":
-        return {
-          startingClasses: style.loadingContainerAnimation,
-          endingClasses: style.successContainerAnimation
-        }
-      default:
-        return {
-          startingClasses: style.loadingContainerAnimation,
-          endingClasses: style.successContainerAnimation
-        }
-    }
-  }
-
   function getViewClasses(): string {
-    const pair = getAnimationPair(animationType);
-    return (animationState === "Start") ? pair.startingClasses : pair.endingClasses;
+    switch (animationType) {
+      case "EntryToLoading":
+        return style.entryToLoadingContainer
+      case "LoadingToSuccess":
+        return style.loadingToSuccessContainer
+      default:
+        return style.loadingToSuccessContainer
+    }
+
   }
 
   return <div className={getViewClasses()}/>
