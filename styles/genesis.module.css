@@ -28,6 +28,7 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  animation: fadeIn 0.1s ease-in-out;
 }
 
 .entryContainerTopGradientSection {
@@ -213,17 +214,20 @@
 }
 
 /* Animations */
-.loadingContainerAnimation {
-  width: 420px;
+
+.entryToLoadingContainer {
   height: 260px;
-  margin-top: 30px;
-  transition-duration: 0.3s;
-  transition-timing-function: ease-in-out;
+  width: 420px;
   background-color: white;
   border-radius: 14px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  animation: entryToLoadingAnimation 0.5s ease-in-out;
 }
 
-.successContainerAnimation {
+.loadingToSuccessContainer {
   width: 420px;
   height: 580px;
   margin-top: 30px;
@@ -231,6 +235,7 @@
   transition-timing-function: ease-in-out;
   background-color: white;
   border-radius: 14px;
+  animation: loadingToSuccessAnimation 0.5s ease-in-out;
 }
 
 
@@ -270,3 +275,45 @@
   }
 
 }
+
+@keyframes entryToLoadingAnimation {
+  0% {
+    opacity: 0;
+    height: 450px;
+  }
+
+  20% {
+    opacity: 1
+  }
+
+  100% {
+    height: 260px;
+  }
+}
+
+
+@keyframes loadingToSuccessAnimation {
+  0% {
+    opacity: 0;
+    height: 260px;
+  }
+
+  20% {
+    opacity: 1
+  }
+
+  100% {
+    height: 580px;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1
+  }
+}
+
