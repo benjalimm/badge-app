@@ -1,70 +1,37 @@
 import React, { useState } from 'react';
 import style from '../../styles/create/mintBadge.module.css'
-import { BadgeData } from '../../schemas/BadgeData';
-import BadgeCard from '../badgeCard/BadgeCard';
 import FormTextBoxContainer from './FormTextBoxContainer';
-import { BasicButton } from '../GenericComponents/Buttons';
-export default function MintBadgeView(
-  { draftBadgeData, 
-    recipientAddress,
-    recipientEmail,
-    onBackToDraft,
-    onWalletAddressValueChange,
-    onEmailValueChange 
-  }:{ 
-    draftBadgeData: BadgeData,
-    recipientAddress: string | null,
-    recipientEmail: string | null,
-    onBackToDraft: () => void,
-    onWalletAddressValueChange: (walletAddress: string) => void,
-    onEmailValueChange: (emailAddress: string) => void,
-  }) {
 
-  const [walletAddress, setWalletAddress] = useState<string | null>(recipientAddress);
-  const [email, setEmail] = useState<string | null>(recipientEmail);
-
-  function onWalletAddressChange(event: React.FormEvent<HTMLInputElement>) {
-    setWalletAddress(event.currentTarget.value);
-    onWalletAddressValueChange(event.currentTarget.value);
-  }
-
-  function onEmailAddressChange(event: React.FormEvent<HTMLInputElement>) {
-    setEmail(event.currentTarget.value);
-    onEmailValueChange(event.currentTarget.value);
-  }
-
-  return <div className={style.mintBadgeViewContainer}>
-    <BadgeCard 
-      title={draftBadgeData.title} 
-      content={draftBadgeData.content} 
-      videoSource={draftBadgeData.videoPath}
-      profilePhotoSource={draftBadgeData.profilePhotoSource}
-      customStyle={{ marginTop: '35px'}}
-    />
-    <button className={style.backToDraftButton} onClick={onBackToDraft}>Back to draft</button>
+export function MintBadgeInputsAndDetails({ 
+  walletAddress,
+  email,
+  onWalletAddressChange,
+  onEmailChange
+}:{ 
+  walletAddress: string | null,
+  email: string | null,
+  onWalletAddressChange: (event: React.FormEvent<HTMLInputElement>) => void,
+  onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,
+}) {
+  return <div className={style.inputsAndDetails}>
     <FormTextBoxContainer 
       type="TextBox" 
       title="Recipient wallet address / ENS"
       placeholder="e.g. ben.eth or 0xF12s..f9"
       onChange={onWalletAddressChange}
-      customStyle={{ marginTop: '30px' }}
       value={walletAddress}
     />
     <FormTextBoxContainer 
       type="TextBox" 
       title="Email address (optional)"
       placeholder="e.g. john@gmail.com"
-      onChange={onEmailAddressChange}
-      customStyle={{ marginTop: '20px' }}
+      onChange={onEmailChange}
       value={email}
     />
     <TransactionDetails/>
-    <BasicButton 
-      text="Mint Badge" 
-      style={{ marginTop: '30px'}}
-      onClick={() => {}}
-    />
+
   </div>
+  
 }
 
 function TransactionDetails() {
