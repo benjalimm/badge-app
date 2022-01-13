@@ -15,6 +15,8 @@
   justify-content: center;
   align-items: center;
   margin: 0 auto;
+  height: auto;
+  padding-bottom: 150px;
 }
 
 .blueWhiteGradient {
@@ -46,17 +48,21 @@
   height: 100%;
   overflow: hidden;
   background-color: white;
+  padding-bottom: 30px;
 }
 
 .cardContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  animation: fadeIn 0.25s ease-in-out;
 }
 
 .textContainer {
   display: flex;
   flex-direction: column;
+  animation: fadeIn 0.25s ease-in-out;
+
 }
 
 .badgeHeaderText {
@@ -98,7 +104,7 @@
 .walletEqualsResumeText {
   font-family: 'AsgardFitMedium';
   font-size: 50px;
-  background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%);
+  background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
 	background-size: 300% 300%;
 	animation: animatingGradient 9s 1s ease-in-out infinite;
   -webkit-background-clip: text;
@@ -120,12 +126,12 @@
 .signUpToBetaContainer {
   background-color: #F8F8F8;
   width: 600px;
-  height: 210px;
+  height: 230px;
   border-radius: 15px;
   margin-top: 80px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
@@ -143,8 +149,7 @@
   color: gray;
   text-align: center;
   margin: 0px 30px;
-  margin-bottom: 13px;
-
+  margin-bottom: 20px;
 }
 
 .signUpToBetaButton {
@@ -178,6 +183,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    animation: fadeIn 0.251s ease-in-out;
   }
 
   .topPageSectionContainer {
@@ -204,6 +210,7 @@
 
   .cardContainer {
     padding-top: 50px;
+    animation: fadeIn 0.251s ease-in-out;
   }
   
   .walletEqualsResumeText {
@@ -218,32 +225,32 @@
 
   .signUpToBetaContainer {
     width: 360px;
-    height: 156px;
+    height: 220px;
     border-radius: 9px;
     margin-top: 50px;
   }
 
   .signUpToBetaHeader {
-    font-size: 20px;
+    font-size: 23px;
     margin-top: 10px;
   }
 
   .signUpToBetaSubtitleText {
-    font-size: 12px;
-    margin: 0px 20px;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin: 0px 10px;
+    margin-bottom: 8px;
   }
 
   .signUpToBetaButton {
-    width: 93px;
-    height: 30px;
-    font-size: 13px;
-    border-radius: 7.2px;
+    width: 120px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 10px;
     margin-bottom: 10px;
   }
 
   .signUpToBetaButton:hover {
-    width: 105px;
+    width: 135px;
     transition-duration: 0.2s;
   }
 
@@ -260,4 +267,16 @@
 	100% {
 		background-position: 0% 50%;
 	}
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }

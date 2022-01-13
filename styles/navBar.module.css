@@ -93,11 +93,13 @@
   
   .navBar {
     height: 60px;
+    justify-content: center;
+
   }
 
   .badgeLogo {
     font-size: 25px;
-    margin-left: 25px;
+    margin-left: 0px;
   }
 
   .loginButton {

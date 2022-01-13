@@ -1,0 +1,155 @@
+.badgeCard {
+  background-color: black;
+  height: 420px;
+  width: 283px;
+  border-radius: 27px;
+  color: white;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  min-height: 350px;
+  min-width: 236px;
+}
+
+.cardShadow {
+  box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
+}
+
+.imageContainer {
+  background-color:black ;
+  height: 50%;
+  width: 100%;
+  z-index:0;
+  position: absolute;
+}
+
+.bottomContainer {
+  background: linear-gradient(to top, black 75%,rgba(0, 0, 0, 0));
+  height: 55%;
+  width: 100%;
+  z-index: 1;
+  position: absolute;
+  bottom: 0px;
+}
+
+.title {
+  font-family: 'AsgardFitMedium';
+  font-size: 18px;
+  color: white;
+  margin-top: 7px;
+  margin-left: 13px;
+}
+
+.content {
+  font-family: 'Inter';
+  font-size: 14px;
+  padding: 0px 13px;
+}
+
+.entityImage {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  z-index: 0;
+  background-color: black;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+
+
+@media only screen and (max-width: 850px) {
+  .sampleBadgeCard {
+    height: 350px;
+    width: 236px;
+    border-radius: 16.8px;
+    transform: rotate(0deg);
+    margin: 0;
+  }
+
+  .title {
+    font-size: 13.5px;
+    margin-top: 7px;
+    margin-left: 13px;
+  }
+  .content {
+    font-size: 12px;
+    padding: 0px 13px;
+  }
+
+  .entityImage {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  
+}
+
+@keyframes cardAnimation {
+  0% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-1%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+}
+
+@keyframes fadeIn {
+   0% { opacity: 0.8;}
+   100% {opacity: 1;}
+} 
+
+
+@media only screen and (max-width: 850px) {
+  .badgeCard {
+    height: 350px;
+    width: 236px;
+    border-radius: 21px;
+    transform: rotate(0deg);
+    margin: 0;
+  }
+
+  .title {
+    font-size: 13.5px;
+    margin-top: 7px;
+    margin-left: 13px;
+  }
+  .content {
+    font-size: 12px;
+    padding: 0px 13px;
+  }
+
+  .entityImage {
+    height: 25px;
+    width: 25px;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  
+}
+
+@keyframes cardAnimation {
+  0% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+
+  50% {
+    transform: translateY(-1%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(1%) rotate(-5deg);
+  }
+}
+
+@keyframes fadeIn {
+   0% { opacity: 0.8;}
+   100% {opacity: 1;}
+} 
+
