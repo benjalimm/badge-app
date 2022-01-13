@@ -2,20 +2,14 @@ import React, { useEffect, useState } from 'react';
 import PageTitleView from '../components/PageTitleView';
 import NavBar from '../components/navBar/NavBar';
 import style from '../styles/create/create.module.css'
-import DraftBadgeView from '../components/create/DraftBadgeView';
+import DraftAndMintBadgeView from '../components/create/DraftAndMintBadgeView';
 import MultiStepView from '../components/GenericComponents/MultiStepView';
-import MintBadgeView from "../components/create/MintBadgeView";
 import { BadgeData } from '../schemas/BadgeData';
 
-type PageState = "DraftBadge" | "MintBadge";
+export type PageState = "DraftBadge" | "MintBadge";
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
-  
-  /** All drafts, recipient info stored here */
-  const [draftBadgeData, setDraftBadgeData] = useState<BadgeData | null>(null);
-  const [recipientWalletAddressInfo, setRecipientWalletAddressInfo] = useState<string | null>(null);
-  const [recipientEmailInfo, setRecipientEmailInfo] = useState<string | null>(null);
 
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
@@ -23,8 +17,11 @@ export default function CreateBadgeView() {
 
   function onSubmitDraftBadgeData(badgeData: BadgeData) {
     console.log(badgeData);
-    setDraftBadgeData(badgeData);
     setPageState("MintBadge");
+  }
+
+  function onBackToDraft() {
+    setPageState("DraftBadge");
   }
 
   return <div className={style.background}>
@@ -33,25 +30,16 @@ export default function CreateBadgeView() {
     
     <div className={style.pageContainer}>
       <MultiStepView 
-        steps={["Draft Badge", "Mint Badge"]} 
+        steps={["Create Badge", "Send Badge"]} 
         indexOfCurrentStep={getIndexOfCurrentStep()}
         style={{ marginTop: '30px' }}
       />
-      { pageState === "DraftBadge" ?  
-        <DraftBadgeView 
-          onSubmitDraftBadgeData={onSubmitDraftBadgeData}
-          draftBadgeData={draftBadgeData}
-        /> :
-        <MintBadgeView 
-          draftBadgeData={draftBadgeData}
-          recipientAddress={recipientWalletAddressInfo}
-          recipientEmail={recipientEmailInfo}
-          onBackToDraft={() => setPageState("DraftBadge")}
-          onWalletAddressValueChange={(address) => setRecipientWalletAddressInfo(address)}
-          onEmailValueChange={(email) => setRecipientEmailInfo(email)}
-
-        />
-      }
+      <DraftAndMintBadgeView 
+        onSubmitDraftBadgeData={onSubmitDraftBadgeData}
+        onMintAndSendBadge={(badge) => { console.log(badge)}}
+        pageState={pageState}
+        onBackToDraft={onBackToDraft}
+      />
     </div>
   </div>
 }
