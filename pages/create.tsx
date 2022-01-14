@@ -5,8 +5,7 @@ import style from '../styles/create/create.module.css'
 import DraftAndMintBadgeView from '../components/create/DraftAndMintBadgeView';
 import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';
-
-export type PageState = "DraftBadge" | "MintBadge";
+import { PageState } from '../schemas/create';
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
