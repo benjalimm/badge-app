@@ -7,7 +7,7 @@ import { BasicButton } from '../GenericComponents/Buttons';
 import MediaCatalogueView from './MediaCatalogueView';
 import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
-import { PageState } from '../../pages/create';
+import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
 import cx from 'classnames';
 

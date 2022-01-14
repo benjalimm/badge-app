@@ -23,7 +23,6 @@ const SignUpToBetaContainer = () => {
     <button className={style.signUpToBetaButton} onClick={(e) => {
       e.preventDefault();
       window.location.href='https://f78vmkldj2v.typeform.com/to/AWxcAreY';
-      
     }}>Sign up</button>
   </div>
 }
