@@ -3,7 +3,7 @@ import { BadgeData } from "../schemas/BadgeData";
 const data: BadgeData[] = [
   {
     id: 0,
-    title: "Hackathon winner",
+    title: "Hackathon Winner",
     content: "Nathan won first place for his project 'Bullet' for the 2022 Annual Hackathon.",
     videoPath: "/videos/sampleNFTVideos/badgeKeyboard.mp4",
     profilePhotoSource: "/images/landingPage/coinbase_logo.jpeg"
