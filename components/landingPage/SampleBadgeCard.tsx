@@ -14,7 +14,8 @@ export default function SampleBadgeCard(
   const visibility = visible ? 'flex' : 'none';
   return <div className={cx(style.sampleBadgeCard, style.landingPageAnimation)} style={{ display : visibility}}>
     <div className={style.imageContainer}>
-      <video preload="meta" autoPlay loop muted src={videoSource}/> 
+      {/* <video preload="meta" autoPlay loop muted src={videoSource}/>  */}
+      <div dangerouslySetInnerHTML={{ __html: `<video autoPlay loop muted playsinline src="${videoSource}"/>` }}/>
     </div>
     <div className={style.bottomContainer}>
       <img className={style.entityImage} src={profilePhotoSource}/>

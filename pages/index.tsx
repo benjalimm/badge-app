@@ -26,12 +26,12 @@ const LandingPage = () => {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="description" content="On-chain merit for internet organizations." />
         <meta name="title" content="BADGE." />
-        <meta name="twitter:image" content="https://www.dropbox.com/s/b19l4kd8sq07ozb/PreviewImage.jpg?raw=1"/>
+        <meta name="twitter:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:site" content="@badgexyz"/>
         <meta name="og:title" content="BADGE."/>
-        <meta name="og:description" content="Badge is infrastructure for internet organizations to issue on-chain merit."/>
-        <meta name="og:image" content="https://www.dropbox.com/s/b19l4kd8sq07ozb/PreviewImage.jpg?raw=1"/>
+        <meta name="og:description" content="On-chain merit for internet organizations."/>
+        <meta name="og:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favIcon32.png"/>
         <link rel="icon" type="image/png" sizes="16x16" href="/images/favIcon16.png"/>
 
