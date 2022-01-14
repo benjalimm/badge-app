@@ -20,7 +20,7 @@ const LandingPage = () => {
   }, [active])
 
   return (
-    <div>
+    <div className={styles.lp}>
       <Head>
         <title>BADGE.</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
