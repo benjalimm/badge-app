@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import style from '../../styles/landingPage/lp.module.css';
 import cx from 'classnames';
+import { useInView } from 'react-intersection-observer';
 
 export default function SecondPageSection() {
+  const { ref, inView } = useInView({
+    threshold: 0.2,
+  })
+
+  const pageSectionClasses = inView ? cx(style.secondPageSectionAnimation, style.secondPageSectionContainer) : style.secondPageSectionContainer;
   return (
-    <div className={style.secondPageSectionContainer}>
+    <div 
+      className={pageSectionClasses} 
+      ref={ref}
+    >
       <h1 className={style.walletEqualsResumeText}>WALLET = NEW RESUME</h1>
       <p className={style.walletEqualsResumeParagraphText}>
         People care about signal.

@@ -19,7 +19,7 @@ const data: BadgeData[] = [
     id: 2,
     title: "Investor & mentor",
     content: "Jon not only led our seed round, but also spent countless hours helping us to design our customer onboarding.",
-    videoPath: "/videos/sampleNFTVideos/badgeTrophy_1.mp4",
+    videoPath: "/videos/sampleNFTVideos/badgeTrophy.mp4",
     profilePhotoSource: "/images/landingPage/opensea_logo.png"
   },
 ];
