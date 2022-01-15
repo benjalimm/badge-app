@@ -29,7 +29,7 @@ const LandingPage = () => {
         <meta name="twitter:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:site" content="@badgexyz"/>
-        <meta name="og:title" content="BADGE."/>
+        <meta name="og:title" content="Badge."/>
         <meta name="og:description" content="On-chain merit for internet organizations."/>
         <meta name="og:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
         <meta name="og:type" content="website"/>
