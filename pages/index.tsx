@@ -34,8 +34,8 @@ const LandingPage = () => {
         <meta name="og:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
         <meta name="og:type" content="website"/>
         <meta name="og:url" content="https://badge.xyz"/>
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/badgeWhiteFavIcon_16.png"/>
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/badgeWhiteFavIcon_32.png"/>
+        <link rel="icon" type="image/png" sizes="32x32" href="/images/badgeWhiteFavIcon_32.png"/>
+        <link rel="icon" type="image/png" sizes="16x16" href="/images/badgeWhiteFavIcon_16.png"/>
 
       </Head>
       <Navbar sticky={false}/>
