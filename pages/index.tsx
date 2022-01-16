@@ -7,6 +7,10 @@ import { useRouter } from 'next/router';
 import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import Head from 'next/head';
 
+const title = "Badge."
+const description = "On-chain merit for internet organizations."
+const largePreviewImage = "https://www.dropbox.com/s/1e7ns2g6qn4gkw2/walletEqualsResume.jpg?raw=1"
+
 const LandingPage = () => {
   const router = useRouter();
   const { active } = useContext(Web3AuthContext);
@@ -22,16 +26,16 @@ const LandingPage = () => {
   return (
     <div className={styles.lp}>
       <Head>
-        <title>Badge.</title>
+        <title>{title}</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="description" content="On-chain merit for internet organizations." />
-        <meta name="title" content="Badge." />
-        <meta name="twitter:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
+        <meta name="description" content={description} />
+        <meta name="title" content={title} />
+        <meta name="twitter:image" content={largePreviewImage}/>
         <meta name="twitter:card" content="summary_large_image"/>
         <meta name="twitter:site" content="@badgexyz"/>
-        <meta name="og:title" content="Badge."/>
-        <meta name="og:description" content="On-chain merit for internet organizations."/>
-        <meta name="og:image" content="https://www.dropbox.com/s/d3y4bghdf7nexxe/TwitterImage.jpg?raw=1"/>
+        <meta name="og:title" content={title}/>
+        <meta name="og:description" content={description}/>
+        <meta name="og:image" content={largePreviewImage}/>
         <meta name="og:type" content="website"/>
         <meta name="og:url" content="https://badge.xyz"/>
         <link rel="icon" type="image/png" sizes="32x32" href="/images/badgeWhiteFavIcon_32.png"/>
