@@ -9,8 +9,9 @@ import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessVi
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
 import { ethers } from 'ethers';
-import BadgeV1 from '../artifacts/contracts/BadgeV1.sol/BadgeV1.json';
-import GenesisToken from '../artifacts/contracts/GenesisToken.sol/GenesisToken.json';
+import Entity from '../artifacts/contracts/Entity.sol/Entity.json';
+import BadgeToken from '../artifacts/contracts/BadgeToken.sol/BadgeToken.json';
+import PermissionToken from '../artifacts/contracts/PermissionToken.sol/PermissionToken.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
 import Web3Modal from 'web3modal';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
@@ -46,30 +47,48 @@ export default function DeployEntityPage() {
       const signer = provider.getSigner();
 
       // Get genesis token contract address
-      const badgeContract = new ethers.Contract(badgeContractAddress, BadgeV1.abi, provider);
-      const genesisTokenAddress = await badgeContract.genesisToken();
+      // const badgeContract = new ethers.Contract(badgeContractAddress, BadgeV1.abi, provider);
+      // const genesisTokenAddress = await badgeContract.genesisToken();
 
-      // Initialize genesis token contract with signer 
-      const genesisTokenContract = new ethers.Contract(genesisTokenAddress, GenesisToken.abi, signer);
+      // // Initialize genesis token contract with signer 
+      // const genesisTokenContract = new ethers.Contract(genesisTokenAddress, GenesisToken.abi, signer);
+
+      //1. Deploy entity contract
+      const entityContractFactory = new ethers.ContractFactory(Entity.abi, Entity.bytecode)
+
+      const entity = await entityContractFactory.deploy(entityName)
 
       // Listen to EntityDeployed event
-      genesisTokenContract.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+      entity.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity deployed ", entityAddress, entityName);
-        setEntityInfo({
-          address: entityAddress,
-          name: entityName,
-          genesisTokenHolder: genesisTokenHolder
-        })
+        // setEntityInfo({
+        //   address: entityAddress,
+        //   name: entityName,
+        //   genesisTokenHolder: genesisTokenHolder
+        // })
 
-        if (pageState !== "SUCCESS") {
-          setPageState("SUCCESS");
-        }
-      
+        // if (pageState !== "SUCCESS") {
+        //   setPageState("SUCCESS");
+        // }
       })
 
-      // Execute transaction to mint
-      const transaction = await genesisTokenContract.mintGenToken("tokenURI", entityName, badgeContractAddress);
-      await transaction.wait();
+      //2. Deploy permission token contract
+      const permissionTokenContractFactory = new ethers.ContractFactory(PermissionToken.abi, PermissionToken.bytecode)
+      const permissionToken = await permissionTokenContractFactory.deploy(entity.address, entityName)
+      entity.once("Transfer", (from: string, to: string, contractAddress: string) => {
+        console.log("Transfer event", from, to, contractAddress);
+      })
+
+      // 3. Set permission token contract address in entity
+      await entity.setPermTokenAddress(permissionToken.address)
+
+      //4. Deploy badge token contract
+      const badgeTokenContractFactory = new ethers.ContractFactory(BadgeToken.abi, BadgeToken.bytecode)
+      const badgeToken = await badgeTokenContractFactory.deploy(entity.address, entityName)
+
+      // // Execute transaction to mint
+      // const transaction = await genesisTokenContract.mintGenToken("tokenURI", entityName, badgeContractAddress);
+      // await transaction.wait();
 
     } catch (error) {
       console.error(error)
