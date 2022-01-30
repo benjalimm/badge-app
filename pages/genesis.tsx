@@ -9,24 +9,13 @@ import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessVi
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
 import { ethers } from 'ethers';
-import BadgeToken from '../artifacts/contracts/BadgeToken.sol/BadgeToken.json';
 import BadgeRegistry from '../artifacts/contracts/BadgeRegistry.sol/BadgeRegistry.json';
-import PermissionToken from '../artifacts/contracts/PermissionToken.sol/PermissionToken.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
-import { create as ipfsHttpClient } from 'ipfs-http-client'
-import { ERC721Metadata } from "../schemas/ERC721Metadata";
-
+import { setCurrentEntity } from '../utils/entityLocalState';
+import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 type PageState = "ENTRY" | "LOADING" |"SUCCESS"
-const client = ipfsHttpClient({ 
-  host: 'ipfs.infura.io', 
-  port: 5001, 
-  protocol: 'https' 
-})
 
-/**
- * Genesis page
- */
 export default function DeployEntityPage() {
   const router = useRouter();
   const { active, web3Modal } = useContext(Web3AuthContext);
@@ -36,23 +25,8 @@ export default function DeployEntityPage() {
     name: "",
     genesisTokenHolder: ""
   });
+  const [ipfsUrl, setIpfsUrl] = useState<string | null>(null);
 
-  //
-  async function uploadToIpfs(metadata: ERC721Metadata): Promise<string> {
-    try {
-      const data = JSON.stringify(metadata)
-      const added = await client.add(
-        data, { 
-          progress: (prog) => console.log(`Received: ${prog}`)
-        }
-      )
-
-      return `https://ipfs.infura.io/ipfs/${added.path}`   
-
-    } catch (e) {
-      console.log(e)
-    }
-  }
   async function deployEntity(entityName: string) {
 
     try {
@@ -67,39 +41,50 @@ export default function DeployEntityPage() {
       // 2. Instantiate Badge Registry
       const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
 
-      // 3. Generate IPFS
-      const ipfsUrl = await uploadToIpfs({ 
-        title:  entityName  + " - Badge Genesis token",
-        type: "object",
-        properties: {
-          "name": { 
-            type: "string",
-            description: `${entityName} - Genesis token`
-          },
-          "description": {
-            type: "string",
-            description: `Genesis token for ${entityName} for Badge.xyz`
+      // 3. Check if ipfs url exist, if not -> generate IPFS
+
+      if (!ipfsUrl){
+        const url = await uploadERC721ToIpfs({ 
+          title:  entityName  + " - Badge Genesis token",
+          type: "object",
+          properties: {
+            "name": { 
+              type: "string",
+              description: `${entityName} - Genesis token`
+            },
+            "description": {
+              type: "string",
+              description: `Genesis token for ${entityName} for Badge.xyz`
+            }
           }
-        }
-      }) 
-
-      // 4. Save 
+        }) 
+        setIpfsUrl(url)
+      }
+      
       console.log(`IPFS URL: ${ipfsUrl}`)
+
+      // 1. Deploy the entity
       await badgeRegistry.deployEntity(entityName, ipfsUrl)
-
-      // const entityContractFactory = new ethers.ContractFactory(Entity.abi, Entity.bytecode)
-
-      // const entity = await entityContractFactory.deploy(entityName)
 
       // Listen to EntityDeployed event
       badgeRegistry.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity deployed ", entityAddress, entityName);
+
+        // 1. Set entity info for view
         setEntityInfo({
           address: entityAddress,
           name: entityName,
           genesisTokenHolder: genesisTokenHolder
         })
 
+        // 2. Set entity info for local storage
+        setCurrentEntity({
+          address: entityAddress,
+          name: entityName,
+          timestampOfLastVerified: Date.now()
+        })
+
+        // 3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }

@@ -151,7 +151,13 @@ export default function DraftAndMintBadgeView({
         (
           <BasicButton 
             text="Mint + Send" 
-            onClick={() => {}}
+            onClick={() => 
+              onMintAndSendBadge({ 
+                title: badgeTitle, 
+                content: badgeDescription, 
+                videoPath: currentlySelectedMedia.url, 
+                profilePhotoSource: cardData.profilePhotoSource 
+              })}
             style={{paddingTop:'30px'}}
           />)
     }
