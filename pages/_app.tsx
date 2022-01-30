@@ -4,6 +4,7 @@ import '../styles/index.css'
 import { Web3AuthContext, reducer, web3Modal, initialState } from '../contexts/Web3AuthContext';
 import { providers } from 'ethers'
 import Web3 from 'web3';
+import { ethers } from 'ethers';
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -11,13 +12,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   const active = !!provider;
   const connect = useCallback(async function () {
     console.log("Connecting")
-    // This is the initial `provider` that is returned when
-    // using web3Modal to connect. Can be MetaMask or WalletConnect.
-    const provider = await web3Modal.connect()
-    
-    // We plug the initial `provider` into ethers.js and get back
-    // a Web3Provider. This will add on methods from ethers.js and
-    // event listeners such as `.on()` will be different.
+
+    // const web3Provider = new ethers.providers.InfuraProvider(null, {
+    //   network: "maticmum", 
+    //   projectId: "9c0e4231c73e40da8c90be9e43411cd6",
+    //   projectSecret: "223a56e231eb4afaa987cb5a65cb7abf"
+    // });
+
+    const provider = await web3Modal.connect();
     const web3Provider = new providers.Web3Provider(provider)
 
     const signer = web3Provider.getSigner()
@@ -25,7 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     const network = await web3Provider.getNetwork()
     console.log(`login network`, network)
-
     dispatch({
       type: 'SET_WEB3_PROVIDER',
       provider,
@@ -33,6 +34,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       address,
       chainId: network.chainId,
     })
+    console.log(`Wallet state: ${JSON.stringify(state)}`)
   }, [])
 
   const disconnect = useCallback(
