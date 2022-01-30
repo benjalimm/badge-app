@@ -18,7 +18,7 @@ const LandingPage = () => {
   useEffect(() => {
 
     if (active) {
-      router.push('/create')
+      router.push('/genesis')
     }
   
   }, [active])
