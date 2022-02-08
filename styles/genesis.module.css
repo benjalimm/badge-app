@@ -238,6 +238,27 @@
   animation: loadingToSuccessAnimation 0.5s ease-in-out;
 }
 
+.progressBarFiller {
+  background: linear-gradient(90deg, rgb(26, 75, 255) 0%, rgb(98, 216, 249) 70%);
+  /* background-color: red; */
+  width: 50%;
+}
+
+.loadingBarContainer {
+  background-color: lightgray;
+}
+
+.loadingBar {
+  width: 90%;
+  border-radius: 10px;
+}
+
+.loadingAnimation {
+  height: 70px;
+  width: 70px;
+  background-color: red;
+  margin-top: -10px;
+}
 
 
 

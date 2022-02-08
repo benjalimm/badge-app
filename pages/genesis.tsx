@@ -14,7 +14,17 @@ import { badgeContractAddress } from '../configs/blockchainConfig';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
-type PageState = "ENTRY" | "LOADING" |"SUCCESS"
+
+type PageState = 
+"ENTRY" | 
+"LOADING" |
+"SUCCESS"
+
+type DeployState = 
+"STARTED_IPFS_UPLOAD" | 
+"IPFS_UPLOADED" | 
+"STARTED_ENTITY_DEPLOYMENT" | 
+"ENTITY_DEPLOYED";
 
 export default function DeployEntityPage() {
   const router = useRouter();
@@ -25,13 +35,38 @@ export default function DeployEntityPage() {
     name: "",
     genesisTokenHolder: ""
   });
-  const [ipfsUrl, setIpfsUrl] = useState<string | null>(null);
+  
+  const [loadingPercentage, setLoadingPercentage] 
+  = useState<number>(5) 
+  const [deployState, setDeployState] = 
+  useState<DeployState>("STARTED_IPFS_UPLOAD")
 
+  useEffect(() => {
+    if (pageState === "LOADING") {
+      // Start timer
+      const startPercentage = 5
+      const endPercentage = 95
+      const duration = 20
+      let currentPercentage = startPercentage
+      const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
+      setInterval(() => {
+        if (currentPercentage < endPercentage) {
+          currentPercentage += incrementedPercentagePerMs
+          setLoadingPercentage(currentPercentage)
+        }
+      }, 10);
+
+    }
+
+  }, [pageState, deployState])
+
+  /**
+   * 
+   * @param entityName The name of the entity to deploy
+   */
   async function deployEntity(entityName: string) {
 
     try {
-      setPageState("LOADING")
-      console.log(`chainNetworkUrl: ${chainNetworkUrl}`);
 
       // 1. Establish connection
       const connection = await web3Modal.connect()
@@ -41,34 +76,35 @@ export default function DeployEntityPage() {
       // 2. Instantiate Badge Registry
       const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
 
-      // 3. Check if ipfs url exist, if not -> generate IPFS
+      setDeployState("STARTED_IPFS_UPLOAD")
 
-      if (!ipfsUrl){
-        const url = await uploadERC721ToIpfs({ 
-          title:  entityName  + " - Badge Genesis token",
-          type: "object",
-          properties: {
-            "name": { 
-              type: "string",
-              description: `${entityName} - Genesis token`
-            },
-            "description": {
-              type: "string",
-              description: `Genesis token for ${entityName} for Badge.xyz`
-            }
+      // 3. Check if ipfs url exist, if not -> generate IPFS
+      const ipfsUrl = await uploadERC721ToIpfs({ 
+        title:  entityName  + " - Badge Genesis token",
+        type: "object",
+        properties: {
+          "name": { 
+            type: "string",
+            description: `${entityName} - Genesis token`
+          },
+          "description": {
+            type: "string",
+            description: `Genesis token for ${entityName} for Badge.xyz`
           }
-        }) 
-        setIpfsUrl(url)
-      }
-      
+        }
+      }) 
+      setDeployState("IPFS_UPLOADED")
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 1. Deploy the entity
       await badgeRegistry.deployEntity(entityName, ipfsUrl)
+      setDeployState("STARTED_ENTITY_DEPLOYMENT")
+      setPageState("LOADING")
 
       // Listen to EntityDeployed event
       badgeRegistry.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity deployed ", entityAddress, entityName);
+        setDeployState("ENTITY_DEPLOYED")
 
         // 1. Set entity info for view
         setEntityInfo({
@@ -88,10 +124,6 @@ export default function DeployEntityPage() {
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }
-      })
-
-      badgeRegistry.once("Transfer", (from: string, to: string, contractAddress: string) => {
-        console.log("Transfer event", from, to, contractAddress);
       })
     } catch (error) {
       console.error(error)
@@ -113,7 +145,7 @@ export default function DeployEntityPage() {
       case "ENTRY":
         return <DeployEntityEntryView deployEntity={deployEntity}/>
       case "LOADING":
-        return <DeployEntityLoadingView />
+        return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "SUCCESS":
         return <DeployEntitySuccessView 
           name={entityInfo.name} 
