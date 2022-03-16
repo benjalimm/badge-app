@@ -10,6 +10,10 @@ import cardData from '../../utils/sampleCardData';
 export default function TopPageSection() {
   const [indexOfCurrentCard, setIndexOfCurrentCard] = useState<number>(0);
 
+  function onTabClick(index: number) {
+    setIndexOfCurrentCard(index);
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       const nextIndex = (indexOfCurrentCard) == (cardData.length - 1) ? 0 : indexOfCurrentCard + 1;
@@ -39,6 +43,7 @@ export default function TopPageSection() {
           <BottomTabs 
             numberOfTabs={cardData.length} 
             indexOfHighlightedTab={indexOfCurrentCard}
+            onClick={onTabClick}
           />
         </div>
         
