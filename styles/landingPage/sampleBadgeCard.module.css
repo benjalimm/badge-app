@@ -4,7 +4,7 @@
   width: 330px;
   border-radius: 30px;
   color: white;
-  margin-right: 100px;
+  margin-right: 20px;
   overflow: hidden;
   position: relative;
   display: flex;
@@ -104,15 +104,15 @@
 
 @keyframes cardAnimation {
   0% {
-    transform: translateY(1%) rotate(-5deg);
+    transform: translateY(1%) rotate(3deg);
   }
 
   50% {
-    transform: translateY(-1%) rotate(-5deg);
+    transform: translateY(-1%) rotate(3deg);
   }
 
   100% {
-    transform: translateY(1%) rotate(-5deg);
+    transform: translateY(1%) rotate(3deg);
   }
 }
 

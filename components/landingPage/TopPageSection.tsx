@@ -26,6 +26,14 @@ export default function TopPageSection() {
   return (
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
       <div className={cx(style.topPageSectionContainer)}>
+        <div className={style.textContainer}>
+          <h1 className={style.badgeHeaderText}>
+          Achievements as NFTs.
+          </h1>
+          <h3 className={style.badgeNormalText}>
+            Infrastructure for on-chain reputation.
+          </h3>
+        </div>   
         <div className={style.cardContainer}>
           { cardData.map((card, index) => {
             return <SampleBadgeCard 
@@ -46,15 +54,7 @@ export default function TopPageSection() {
             onClick={onTabClick}
           />
         </div>
-        
-        <div className={style.textContainer}>
-          <h1 className={style.badgeHeaderText}>
-          Achievements as NFTs.
-          </h1>
-          <h3 className={style.badgeNormalText}>
-            A tool for organizations to award on-chain reputation.
-          </h3>
-        </div>        
+             
       </div>
     </div>
   )
