@@ -74,27 +74,29 @@
   flex-direction: column;
   animation: fadeIn 0.25s ease-in-out;
   padding: 0px;
-  text-shadow: 2px 3px 5px rgba(0,0,0,0.4);
-
+  /* text-shadow: 0px 3px 5px rgba(0,0,0,0.4); */
 }
 
 .badgeHeaderText {
   font-family: 'AsgardFitMedium';
-  font-size: 40px;
+  font-size: 45px;
   color: white;
   z-index: 2;
   text-align: left;
+  width: 90%;
 }
 
 .badgeNormalText {
   font-family: 'Inter';
-  font-size: 23px;
+  font-size: 28px;
   color: white;
   font-family: 'Inter';
-  font-weight: 400;
+  font-weight: 450;
   z-index: 3;
   padding: 0px;
   text-align: left;
+  width: 80%;
+  /* background-color: red; */
 }
 
 .yellowText {

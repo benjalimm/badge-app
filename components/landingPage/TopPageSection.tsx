@@ -47,7 +47,7 @@ export default function TopPageSection() {
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            On-chain merit for internet organizations.
+            A tool for organizations to award on-chain reputation.
           </h3>
         </div>        
       </div>
