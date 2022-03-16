@@ -6,7 +6,7 @@ module.exports = {
   },
   mumbai: {
     url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x4fb8160BC7C3e810997816d6CfAB0B3D84FA72Bb"
+    badgeContractAddress: "0xC9De94E3B2F4BFE487641eB87839B1cDF8EF9FD1"
   },
   mainnet: {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',

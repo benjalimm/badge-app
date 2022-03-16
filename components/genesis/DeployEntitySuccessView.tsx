@@ -2,8 +2,15 @@ import React from 'react';
 import style from '../../styles/genesis.module.css'
 import { EntityInfo } from '../../schemas/genesis';
 import cx from 'classnames';
+import { useRouter } from 'next/router';
+
 const DeployEntitySuccessView = 
 ({ name, address, genesisTokenHolder, tokenHolderEnsName }: EntityInfo) => {
+  const router = useRouter();
+
+  function proceed() {
+    router.push('/create')
+  }
 
   return <div className={cx(style.entryContainer, style.successContainer)}>
     <img className={style.blackBadge} src="/images/blackBadge.svg"/>
@@ -24,7 +31,11 @@ const DeployEntitySuccessView =
         value={genesisTokenHolder}
       />
     </div>
-    <button className={style.proceedButton}>Proceed</button>
+    <button 
+      className={style.proceedButton} 
+      onClick={proceed}>
+      Proceed
+    </button>
   </div>
 }
 

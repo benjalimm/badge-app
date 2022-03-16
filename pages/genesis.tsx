@@ -9,24 +9,23 @@ import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessVi
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
 import { ethers } from 'ethers';
-import BadgeToken from '../artifacts/contracts/BadgeToken.sol/BadgeToken.json';
 import BadgeRegistry from '../artifacts/contracts/BadgeRegistry.sol/BadgeRegistry.json';
-import PermissionToken from '../artifacts/contracts/PermissionToken.sol/PermissionToken.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
-import { create as ipfsHttpClient } from 'ipfs-http-client'
-import { ERC721Metadata } from "../schemas/ERC721Metadata";
+import { setCurrentEntity } from '../utils/entityLocalState';
+import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 
-type PageState = "ENTRY" | "LOADING" |"SUCCESS"
-const client = ipfsHttpClient({ 
-  host: 'ipfs.infura.io', 
-  port: 5001, 
-  protocol: 'https' 
-})
+type PageState = 
+"ENTRY" | 
+"LOADING" |
+"SUCCESS"
 
-/**
- * Genesis page
- */
+type DeployState = 
+"STARTED_IPFS_UPLOAD" | 
+"IPFS_UPLOADED" | 
+"STARTED_ENTITY_DEPLOYMENT" | 
+"ENTITY_DEPLOYED";
+
 export default function DeployEntityPage() {
   const router = useRouter();
   const { active, web3Modal } = useContext(Web3AuthContext);
@@ -36,28 +35,38 @@ export default function DeployEntityPage() {
     name: "",
     genesisTokenHolder: ""
   });
+  
+  const [loadingPercentage, setLoadingPercentage] 
+  = useState<number>(5) 
+  const [deployState, setDeployState] = 
+  useState<DeployState>("STARTED_IPFS_UPLOAD")
 
-  //
-  async function uploadToIpfs(metadata: ERC721Metadata): Promise<string> {
-    try {
-      const data = JSON.stringify(metadata)
-      const added = await client.add(
-        data, { 
-          progress: (prog) => console.log(`Received: ${prog}`)
+  useEffect(() => {
+    if (pageState === "LOADING") {
+      // Start timer
+      const startPercentage = 5
+      const endPercentage = 95
+      const duration = 20
+      let currentPercentage = startPercentage
+      const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
+      setInterval(() => {
+        if (currentPercentage < endPercentage) {
+          currentPercentage += incrementedPercentagePerMs
+          setLoadingPercentage(currentPercentage)
         }
-      )
+      }, 10);
 
-      return `https://ipfs.infura.io/ipfs/${added.path}`   
-
-    } catch (e) {
-      console.log(e)
     }
-  }
+
+  }, [pageState, deployState])
+
+  /**
+   * 
+   * @param entityName The name of the entity to deploy
+   */
   async function deployEntity(entityName: string) {
 
     try {
-      setPageState("LOADING")
-      console.log(`chainNetworkUrl: ${chainNetworkUrl}`);
 
       // 1. Establish connection
       const connection = await web3Modal.connect()
@@ -67,8 +76,10 @@ export default function DeployEntityPage() {
       // 2. Instantiate Badge Registry
       const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
 
-      // 3. Generate IPFS
-      const ipfsUrl = await uploadToIpfs({ 
+      setDeployState("STARTED_IPFS_UPLOAD")
+
+      // 3. Check if ipfs url exist, if not -> generate IPFS
+      const ipfsUrl = await uploadERC721ToIpfs({ 
         title:  entityName  + " - Badge Genesis token",
         type: "object",
         properties: {
@@ -82,31 +93,37 @@ export default function DeployEntityPage() {
           }
         }
       }) 
-
-      // 4. Save 
+      setDeployState("IPFS_UPLOADED")
       console.log(`IPFS URL: ${ipfsUrl}`)
+
+      // 1. Deploy the entity
       await badgeRegistry.deployEntity(entityName, ipfsUrl)
-
-      // const entityContractFactory = new ethers.ContractFactory(Entity.abi, Entity.bytecode)
-
-      // const entity = await entityContractFactory.deploy(entityName)
+      setDeployState("STARTED_ENTITY_DEPLOYMENT")
+      setPageState("LOADING")
 
       // Listen to EntityDeployed event
       badgeRegistry.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity deployed ", entityAddress, entityName);
+        setDeployState("ENTITY_DEPLOYED")
+
+        // 1. Set entity info for view
         setEntityInfo({
           address: entityAddress,
           name: entityName,
           genesisTokenHolder: genesisTokenHolder
         })
 
+        // 2. Set entity info for local storage
+        setCurrentEntity({
+          address: entityAddress,
+          name: entityName,
+          timestampOfLastVerified: Date.now()
+        })
+
+        // 3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }
-      })
-
-      badgeRegistry.once("Transfer", (from: string, to: string, contractAddress: string) => {
-        console.log("Transfer event", from, to, contractAddress);
       })
     } catch (error) {
       console.error(error)
@@ -128,7 +145,7 @@ export default function DeployEntityPage() {
       case "ENTRY":
         return <DeployEntityEntryView deployEntity={deployEntity}/>
       case "LOADING":
-        return <DeployEntityLoadingView />
+        return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "SUCCESS":
         return <DeployEntitySuccessView 
           name={entityInfo.name} 

@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.barContainer {
+  flex: 1;
+  height: 20px;
+  background: #dfdfe7;
+  border-radius: 12px;
+}
+
+.filler {
+  height: 100%;
+  border-radius: inherit;
+  background-color: white;
+}
