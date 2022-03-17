@@ -194,7 +194,9 @@
     align-items: center;
     margin-top: 50px;
     animation: fadeIn 0.251s ease-in-out;
-    padding: 10% 20px;
+    /* padding: 10% 20px; */
+    /* margin-left: 0; */
+
   }
 
   .topPageSectionContainer {
