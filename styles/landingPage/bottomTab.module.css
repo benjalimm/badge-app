@@ -5,7 +5,7 @@
   align-items: center;
   background-color: clear;
   margin-top: 10%;
-  margin-right: 10%;
+  margin-right: 12%;
 }
 
 
@@ -26,9 +26,5 @@
   .circle {
     width: 7px;
     height: 7px;
-  }
-
-  .tabBarContainer {
-    margin-left: 15%;
   }
 }
