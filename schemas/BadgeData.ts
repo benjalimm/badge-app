@@ -1,5 +1,5 @@
 export interface BadgeData {
-  id: number;
+  id?: number;
   title: string;
   content: string;
   videoPath: string;

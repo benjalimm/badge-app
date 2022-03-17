@@ -3,17 +3,17 @@ import { BadgeData } from "../schemas/BadgeData";
 const data: BadgeData[] = [
   {
     id: 0,
-    title: "Hackathon Winner",
-    content: "Nathan won first place for his project 'Bullet' for the 2022 Annual Hackathon.",
-    videoPath: "/videos/sampleNFTVideos/badgeKeyboard.mp4",
-    profilePhotoSource: "/images/landingPage/coinbase_logo.jpeg"
+    title: "Core contributor",
+    content: "Lana was instrumental in architecting and building out the DAO's core contract.",
+    videoPath: "/videos/sampleNFTVideos/badgeTick.mp4",
+    profilePhotoSource: "/images/landingPage/uniswap_logo.jpeg"
   },
   {
     id: 1,
-    title: "DAO core contributor",
-    content: "Lana was instrumental in architecting and building out the DAO's core contract. Additionally, she was heavily involved in the governance process.",
-    videoPath: "/videos/sampleNFTVideos/badgeTick.mp4",
-    profilePhotoSource: "/images/landingPage/uniswap_logo.jpeg"
+    title: "Lead engineer",
+    content: "Nathan was responsible for engineering our MVP and getting our product to market in six months.",
+    videoPath: "/videos/sampleNFTVideos/badgeKeyboard.mp4",
+    profilePhotoSource: "/images/landingPage/coinbase_logo.jpeg"
   },
   {
     id: 2,

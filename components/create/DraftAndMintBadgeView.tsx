@@ -20,7 +20,8 @@ export default function DraftAndMintBadgeView({
   pageState 
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
-  onMintAndSendBadge: (badgeData: BadgeData) => void,
+  onMintAndSendBadge: 
+  (badgeData: BadgeData, recipientAddress: string, email: string) => void,
   onBackToDraft: () => void,
   pageState: PageState
 }) {
@@ -34,7 +35,7 @@ export default function DraftAndMintBadgeView({
 
   /** MINT BADGE INFORMATION */
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
+  const [email, setEmail] = useState<string | undefined>(undefined);
 
   /** DRAFT BADGE METHODS */
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -151,7 +152,13 @@ export default function DraftAndMintBadgeView({
         (
           <BasicButton 
             text="Mint + Send" 
-            onClick={() => {}}
+            onClick={() => 
+              onMintAndSendBadge({ 
+                title: badgeTitle, 
+                content: badgeDescription, 
+                videoPath: currentlySelectedMedia.url, 
+                profilePhotoSource: cardData.profilePhotoSource 
+              }, walletAddress, email)}
             style={{paddingTop:'30px'}}
           />)
     }
