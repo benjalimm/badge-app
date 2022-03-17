@@ -27,4 +27,9 @@
     width: 7px;
     height: 7px;
   }
+
+  .tabBarContainer {
+      margin-right: 5%;
+
+  }
 }
