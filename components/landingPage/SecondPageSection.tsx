@@ -31,7 +31,7 @@ const SignUpToBetaContainer = () => {
     <p className={style.signUpToBetaSubtitleText}>Run a company, DAO or an internet organization? <br/>Join the waiting list to be one of the first users.</p>
     <button className={style.signUpToBetaButton} onClick={(e) => {
       e.preventDefault();
-      window.location.href='https://f78vmkldj2v.typeform.com/to/AWxcAreY';
+      window.location.href='https://forms.gle/4T1P2G95GH6VUXiv8';
     }}>Sign up</button>
   </div>
 }

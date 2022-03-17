@@ -10,6 +10,10 @@ import cardData from '../../utils/sampleCardData';
 export default function TopPageSection() {
   const [indexOfCurrentCard, setIndexOfCurrentCard] = useState<number>(0);
 
+  function onTabClick(index: number) {
+    setIndexOfCurrentCard(index);
+  }
+
   useEffect(() => {
     const interval = setInterval(() => {
       const nextIndex = (indexOfCurrentCard) == (cardData.length - 1) ? 0 : indexOfCurrentCard + 1;
@@ -22,6 +26,14 @@ export default function TopPageSection() {
   return (
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
       <div className={cx(style.topPageSectionContainer)}>
+        <div className={style.textContainer}>
+          <h1 className={style.badgeHeaderText}>
+          Achievements as NFTs.
+          </h1>
+          <h3 className={style.badgeNormalText}>
+            Infrastructure for on-chain reputation.
+          </h3>
+        </div>   
         <div className={style.cardContainer}>
           { cardData.map((card, index) => {
             return <SampleBadgeCard 
@@ -39,17 +51,10 @@ export default function TopPageSection() {
           <BottomTabs 
             numberOfTabs={cardData.length} 
             indexOfHighlightedTab={indexOfCurrentCard}
+            onClick={onTabClick}
           />
         </div>
-        
-        <div className={style.textContainer}>
-          <h1 className={style.badgeHeaderText}>
-          Achievements as NFTs.
-          </h1>
-          <h3 className={style.badgeNormalText}>
-            On-chain merit for internet organizations.
-          </h3>
-        </div>        
+             
       </div>
     </div>
   )
