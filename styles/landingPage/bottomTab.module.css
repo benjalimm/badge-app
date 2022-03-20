@@ -5,7 +5,7 @@
   align-items: center;
   background-color: clear;
   margin-top: 10%;
-  margin-right: 12%;
+  margin-right: 20px;
 }
 
 
@@ -21,15 +21,11 @@
   background-color: #ffff;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 1000px) {
 
   .circle {
     width: 7px;
     height: 7px;
   }
 
-  .tabBarContainer {
-      margin-right: 5%;
-
-  }
 }

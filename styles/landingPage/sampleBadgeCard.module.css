@@ -1,33 +1,17 @@
 .sampleBadgeCard {
   background-color: black;
-  height: 490px;
-  width: 330px;
+  height: 441px;
+  width: 297px;
   border-radius: 30px;
   color: white;
-  margin-right: 20px;
+  /* margin-right: 20px; */
   overflow: hidden;
   position: relative;
   display: flex;
   min-height: 350px;
   min-width: 236px;
   box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
-  
 }
-
-/* .gradientBorder {
-  border: solid 4px transparent;
-  background-image: linear-gradient(90.78deg, #FFFFFF 30.37%, #FF3104 52.91%, rgba(0, 133, 255, 0.9) 95%), linear-gradient(150.78deg, #FFFFFF 30.37%, #FF3104 52.91%, rgba(0, 133, 255, 0.9) 95%);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-} */
-
-/* .gradientBorder {
-  border: solid 4px transparent;
-  background-image: linear-gradient(90.78deg, #007C97 0%, #000000 48.96%, #FF0440 100%), linear-gradient(90.78deg, #007C97 0%, #000000 48.96%, #FF0440 100%);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-} */
-
 
 .landingPageAnimation {
   animation: cardAnimation 4s ease-in-out infinite, fadeIn 0.5s ease-in-out;
@@ -54,7 +38,7 @@
 
 .title {
   font-family: 'AsgardFitMedium';
-  font-size: 25px;
+  font-size: 22.5px;
   color: white;
   margin-top: 3%;
   margin-left: 20px;
@@ -62,7 +46,7 @@
 
 .content {
   font-family: 'Inter';
-  font-size: 16px;
+  font-size: 14.4px;
   padding: 0px 20px;
 }
 
@@ -76,17 +60,17 @@
   margin-top: 8%;
 }
 
-@media only screen and (max-width: 850px) {
+@media only screen and (max-width: 1000px) {
   .sampleBadgeCard {
     height: 350px;
     width: 236px;
-    border-radius: 22px;
+    border-radius: 24.2px;
     transform: rotate(0deg);
     margin: 0;
   }
 
   .title {
-    font-size: 15px;
+    font-size: 17px;
     margin-left: 13px;
   }
   .content {
@@ -95,8 +79,8 @@
   }
 
   .entityImage {
-    height: 25px;
-    width: 25px;
+    height: 27px;
+    width: 27px;
     margin-left: 10px;
   }
   
