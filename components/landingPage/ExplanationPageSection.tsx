@@ -2,11 +2,12 @@ import React from 'react'
 import lpStyle from '../../styles/landingPage/lp.module.css'
 import style from '../../styles/landingPage/explanationPageSection.module.css'
 import Image from 'next/image'
+import cx from 'classnames';
 export default function ExplanationPageSection() {
   return <div className={style.section}>
     <Explanation 
-      title="Provide on-chain merit for your organization."
-      content="Deploy an entity on-chain and start awarding Badges. Additionally, give others permission to award Badges on behalf of the entity."
+      title="Implement on-chain merit at your organization."
+      content="Deploy an entity on-chain and start awarding Badges with a simple tool. Additionally, give others permission to award Badges on behalf of the entity."
       inverted={false}
       image=""
     />
@@ -27,8 +28,9 @@ function Explanation(
     inverted: boolean, 
     image: string 
   }) {
-  return <div className={style.explanation} 
-    style={{ flexDirection: inverted ? "rowReverse" : "row" }}>
+
+  const explanationClasses = !inverted ? style.explanation : cx(style.explanation, style.explanationInverted);
+  return <div className={explanationClasses}>
     <img className={style.explanationImage}/>
     <div className={style.explanationTextContainer}>
       <h1 className={style.explanationTitle}>{title}</h1>

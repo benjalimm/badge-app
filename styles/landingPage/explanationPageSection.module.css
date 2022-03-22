@@ -4,13 +4,16 @@
 
 .explanation {
   display: flex;
-  flex-direction: row-reverse;
   align-items: center;
-  height: 500px;
+  height: 450px;
+}
+
+.explanationInverted {
+  flex-direction: row-reverse;
 }
 
 .explanationImage {
-  width: 500px;
+  width: 450px;
   height: 300px;
   background-color: lightgray;
   border-radius: 30px;
@@ -22,7 +25,6 @@
   align-items: center;
   justify-content: center;
   width: 600px;
-  /* background-color: red; */
   padding: 0 30px;
 }
 
@@ -35,4 +37,44 @@
 .explanationContent{
   font-size: 20px;
   line-height: normal;
+  margin-top: 15px;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+  .explanation {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+  }
+
+  .explanationInverted {
+    flex-direction: column;
+  }
+
+  .explanationImage {
+    margin-top: 50px;
+    width: 300px;
+    height: 200px;
+    border-radius: 20px;
+  }
+
+  .explanationTitle {
+    font-size: 32px;
+    margin-top: 50px;
+    text-align: center;
+ } 
+
+  .explanationContent {
+    font-size: 18px;
+    line-height: normal;
+    text-align: center;
+  }
+
+  .explanationTextContainer {
+    width: 400px
+  }
+
+
 }
