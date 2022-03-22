@@ -1,0 +1,38 @@
+.section {
+  
+}
+
+.explanation {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  height: 500px;
+}
+
+.explanationImage {
+  width: 500px;
+  height: 300px;
+  background-color: lightgray;
+  border-radius: 30px;
+}
+
+.explanationTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 600px;
+  /* background-color: red; */
+  padding: 0 30px;
+}
+
+.explanationTitle {
+  font-size: 45px;
+  font-weight: bold;
+  line-height: normal;
+}
+
+.explanationContent{
+  font-size: 20px;
+  line-height: normal;
+}

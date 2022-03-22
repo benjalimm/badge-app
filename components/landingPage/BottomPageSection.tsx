@@ -3,7 +3,7 @@ import style from '../../styles/landingPage/lp.module.css';
 import cx from 'classnames';
 import { useInView } from 'react-intersection-observer';
 
-export default function SecondPageSection() {
+export default function BottomPageSection() {
   const { ref, inView } = useInView({
     threshold: 0.1,
   })
