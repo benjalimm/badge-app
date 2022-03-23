@@ -39,7 +39,19 @@
   justify-content: center;
   height: 100%;
   overflow: hidden;
+  position: relative;
+}
+
+.whiteNoise {
+  display: flex;
   background: url('/images/landingPage/noise.png');
+  align-items: center;
+  justify-content: center;
+  height:500%;
+  width: 500%;
+  animation: grain 5s steps(10) infinite;
+  opacity: 0.5;
+  position: absolute;
 }
 
 .secondPageSectionContainer {
@@ -49,7 +61,6 @@
   justify-content: flex-start;
   height: 100%;
   overflow: hidden;
-  background-color: white;
   padding-bottom: 30px;
   opacity: 0;
 }
@@ -210,7 +221,6 @@
     justify-content: center;
     height: 100%;
     overflow: hidden;
-    background: url('/images/landingPage/noise.png');
   }
 
   .badgeHeaderText {
@@ -310,4 +320,17 @@
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+@keyframes grain {
+  0%, 100% { transform:translate(0, 0) }
+  10% { transform:translate(-5%, -10%) }
+  20% { transform:translate(-15%, 5%) }
+  30% { transform:translate(7%, -25%) }
+  40% { transform:translate(-5%, 25%) }
+  50% { transform:translate(-15%, 10%) }
+  60% { transform:translate(15%, 0%) }
+  70% { transform:translate(0%, 15%) }
+  80% { transform:translate(3%, 35%) }
+  90% { transform:translate(-10%, 10%) }
 }

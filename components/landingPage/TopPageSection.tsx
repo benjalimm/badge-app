@@ -26,6 +26,8 @@ export default function TopPageSection() {
   return (
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
       <div className={cx(style.topPageSectionContainer)}>
+        <div className={style.whiteNoise}/>
+      
         <div className={style.textContainer}>
           <h1 className={style.badgeHeaderText}>
           Achievements as NFTs.
@@ -47,7 +49,6 @@ export default function TopPageSection() {
       
           })
           }
- 
           <BottomTabs 
             numberOfTabs={cardData.length} 
             indexOfHighlightedTab={indexOfCurrentCard}
