@@ -15,6 +15,7 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
       <div className={styles.badgeLogo}>
         BADGE.
       </div>
+      {/* { active ? <AccountInfo account={address}/> : <SignInButton connect={connect}/> } */}
     </div>
   )
 }
