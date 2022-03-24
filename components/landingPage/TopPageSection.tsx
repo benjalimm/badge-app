@@ -26,12 +26,14 @@ export default function TopPageSection() {
   return (
     <div className={cx(style.lpPageSection, style.blueWhiteGradient)}>
       <div className={cx(style.topPageSectionContainer)}>
+        <div className={style.whiteNoise}/>
+      
         <div className={style.textContainer}>
           <h1 className={style.badgeHeaderText}>
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            Infrastructure for on-chain reputation.
+            Protocol for on-chain reputation.
           </h3>
         </div>   
         <div className={style.cardContainer}>
@@ -47,7 +49,6 @@ export default function TopPageSection() {
       
           })
           }
- 
           <BottomTabs 
             numberOfTabs={cardData.length} 
             indexOfHighlightedTab={indexOfCurrentCard}
