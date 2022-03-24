@@ -2,7 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import Head from 'next/head';
 
 const title = "Badge."
-const description = "On-chain merit for internet organizations."
+const description = "Protocol for on-chain reputation."
 const largePreviewImage = "https://www.dropbox.com/s/1e7ns2g6qn4gkw2/walletEqualsResume.jpg?raw=1"
 
 export default function BadgeHead() {

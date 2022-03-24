@@ -8,16 +8,16 @@ export default function ExplanationPageSection() {
   return <div className={style.section}>
     <Explanation 
       title="Transform into a web3 organization."
-      content="Deploy an entity on-chain and start awarding Badges with a simple tool. Additionally, give others permission to award Badges on behalf of the entity."
+      content="Deploy an entity to represent your organization on-chain with one click. Give others permission to award Badges on behalf of the entity."
       inverted={false}
-      image="images/landingPage/BadgeExplanationImage_1.png"
+      image="images/landingPage/BadgeExplanationImage_1_3x.png"
     />
 
     <Explanation 
-      title="Incentivize and reward talent with a simple tool."
-      content="Attract, retain and incentivize the best talent by empowering them with reputation that is verifiable and owned by them."
+      title="Incentivize and reward talent with Badges."
+      content="Attract, retain and incentivize the best talent by empowering them with merit that is verifiable and owned by them."
       inverted={true}
-      image="images/landingPage/BadgeExplanationImage_2.png"
+      image="images/landingPage/BadgeExplanationImage_2_3x.png"
     />
   </div>
 }

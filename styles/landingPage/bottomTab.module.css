@@ -24,6 +24,10 @@
 
 @media only screen and (max-width: 1000px) {
 
+  .tabBarContainer {
+    margin-right: 15px;
+  }
+
   .circle {
     width: 7px;
     height: 7px;
