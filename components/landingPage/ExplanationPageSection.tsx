@@ -7,14 +7,14 @@ import cx from 'classnames';
 export default function ExplanationPageSection() {
   return <div className={style.section}>
     <Explanation 
-      title="Transform into a web3 organization with one click."
+      title="Transform into a web3 organization."
       content="Deploy an entity on-chain and start awarding Badges with a simple tool. Additionally, give others permission to award Badges on behalf of the entity."
       inverted={false}
       image="images/landingPage/BadgeExplanationImage_1.png"
     />
 
     <Explanation 
-      title="Reward talent with a simple tool."
+      title="Incentivize and reward talent with a simple tool."
       content="Attract, retain and incentivize the best talent by empowering them with reputation that is verifiable and owned by them."
       inverted={true}
       image="images/landingPage/BadgeExplanationImage_2.png"

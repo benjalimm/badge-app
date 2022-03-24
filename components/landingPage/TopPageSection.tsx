@@ -33,7 +33,7 @@ export default function TopPageSection() {
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            Infrastructure for on-chain reputation.
+            Protocol for on-chain merit.
           </h3>
         </div>   
         <div className={style.cardContainer}>
