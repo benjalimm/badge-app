@@ -107,9 +107,10 @@ export default function CreateBadgeView() {
       await entity.mintBadge(recipientAddress, url)
       setPageState("LoadingMintBadge");
 
-      badgeToken.once("Transfer", (from: string, to: string, id: string) => {
-        console.log("Transfer event triggered", from, to, id);
+      badgeToken.once("Transfer", (from: string, to: string, id: any) => {
+        console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
+        console.log(id)
       })
 
     } catch (error) {
