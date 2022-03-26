@@ -1,1 +1,1 @@
-export type PageState = "DraftBadge" | "MintBadge";
+export type PageState = "DraftBadge" | "MintBadge" | "LoadingMintBadge"

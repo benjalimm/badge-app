@@ -240,7 +240,6 @@
 
 .progressBarFiller {
   background: linear-gradient(90deg, rgb(26, 75, 255) 0%, rgb(98, 216, 249) 70%);
-  /* background-color: red; */
   width: 50%;
 }
 

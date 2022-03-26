@@ -13,12 +13,15 @@ import { ethers } from 'ethers';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import { EntityInfo } from "../schemas/EntityLocalStorage";
 import { Web3AuthContext } from '../contexts/Web3AuthContext';
+import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [currentEntityInfo, setCurrentEntityInfo] 
   = useState<EntityInfo | null>(null)
+  const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
+
   const { web3Modal } = useContext(Web3AuthContext);
 
   useEffect(() => {
@@ -27,6 +30,25 @@ export default function CreateBadgeView() {
       setCurrentEntityInfo(currentEntity);
     }
   }, [])
+
+  useEffect(() => {
+    if (pageState === "LoadingMintBadge") {
+      // Start timer
+      const startPercentage = 5
+      const endPercentage = 95
+      const duration = 20
+      let currentPercentage = startPercentage
+      const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
+      setInterval(() => {
+        if (currentPercentage < endPercentage) {
+          currentPercentage += incrementedPercentagePerMs
+          setLoadingPercentage(currentPercentage)
+        }
+      }, 10);
+
+    }
+
+  }, [pageState])
 
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
@@ -81,8 +103,9 @@ export default function CreateBadgeView() {
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
-      // 4. Mint Badge
+      // 4. Mint Badge + set page state to loading
       await entity.mintBadge(recipientAddress, url)
+      setPageState("LoadingMintBadge");
 
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to, id);
@@ -92,7 +115,22 @@ export default function CreateBadgeView() {
     } catch (error) {
       console.log(error);
     }
-    
+  }
+
+  function renderMainViewBasedOnPageState() {
+    switch (pageState) {
+      case "LoadingMintBadge":
+        return <MintBadgeLoadingView loadingPercentage={loadingPercentage}/>
+
+      default:
+        return <DraftAndMintBadgeView 
+          onSubmitDraftBadgeData={onSubmitDraftBadgeData}
+          onMintAndSendBadge={onMintAndSendBadge}
+          pageState={pageState}
+          onBackToDraft={onBackToDraft}
+        />
+
+    }
   }
 
   return <div className={style.background}>
@@ -105,12 +143,7 @@ export default function CreateBadgeView() {
         indexOfCurrentStep={getIndexOfCurrentStep()}
         style={{ marginTop: '30px' }}
       />
-      <DraftAndMintBadgeView 
-        onSubmitDraftBadgeData={onSubmitDraftBadgeData}
-        onMintAndSendBadge={onMintAndSendBadge}
-        pageState={pageState}
-        onBackToDraft={onBackToDraft}
-      />
+      {renderMainViewBasedOnPageState()}
     </div>
   </div>
 }
