@@ -1,8 +1,8 @@
-import React from 'react';
-import style from '../../styles/genesis.module.css'
+import React, { useState } from 'react';
+import style from '../../styles/create/loadingView.module.css'
 import ProgressBar from '../GenericComponents/ProgressBar';
 
-const DeployEntityLoadingView = (
+const MintBadgeLoadingView = (
   { loadingPercentage }:
   { loadingPercentage: number }) => {
   return <div className={style.entryContainer} 
@@ -15,8 +15,8 @@ const DeployEntityLoadingView = (
     </div>
     
     <h1 className={style.loadingHeader}>Hang in there, it'll just take a second</h1>
-    <span className={style.loadingSubtitle}>Minting Genesis token</span>
+    <span className={style.loadingSubtitle}>Minting Badge</span>
   </div>
 }
 
-export default DeployEntityLoadingView
+export default MintBadgeLoadingView
