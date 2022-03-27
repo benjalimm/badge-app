@@ -3,9 +3,10 @@ import Field from '../GenericComponents/Field';
 import style from '../../styles/create/receipt.module.css';
 
 export default function MintBadgeReceiptView({
-  recipient, email, level, chain, transactionUrl
+  badgeId ,recipient, email, level, chain, transactionUrl
 }:
 {
+  badgeId: number,
   recipient: string,
   email?: string,
   level: number,
@@ -18,6 +19,11 @@ export default function MintBadgeReceiptView({
     <div className={style.detailsContainer}>
       <div className={style.detailsTextContainer}>
         <h1 className={style.detailsHeader}>Badge details</h1>
+        <Field 
+          className={style.detail}
+          title="Badge ID" 
+          value={`${badgeId}`}
+        />
         <Field 
           className={style.detail}
           title="Recipient" 

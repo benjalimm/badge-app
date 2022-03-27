@@ -14,7 +14,7 @@ const DeployEntitySuccessView =
   }
 
   return <div className={cx(style.entryContainer, style.successContainer)}>
-    <img className={style.blackBadge} src="/images/blackBadge.svg"/>
+    <img className={style.blackBadge} src="images/generic/success.svg"/>
     <h1 className={style.successHeader}>Entity successfully deployed on-chain</h1>
     <h1 className={style.successSubheader}>Genesis token minted to your wallet</h1>
     <div className={style.successEntityDetailsContainer}>

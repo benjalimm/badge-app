@@ -18,7 +18,7 @@ import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 
 export default function CreateBadgeView() {
 
-  const [pageState, setPageState] = useState<PageState>("BadgeSuccessfullyMinted");
+  const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [currentEntityInfo, setCurrentEntityInfo] 
   = useState<EntityInfo | null>(null)
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
@@ -119,10 +119,14 @@ export default function CreateBadgeView() {
       await entity.mintBadge(recipientAddress, url)
       setPageState("LoadingMintBadge");
 
-      badgeToken.once("Transfer", (from: string, to: string, id: any) => {
+      badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
-        console.log(id)
+        setPageState("BadgeSuccessfullyMinted")
+
+        const updatedBadgeData = { ...badgeData, id: parseInt(id) }
+        setBadgeData(updatedBadgeData);
+        console.log(parseInt(id))
       })
 
     } catch (error) {
@@ -137,6 +141,7 @@ export default function CreateBadgeView() {
 
       case "BadgeSuccessfullyMinted":
         return <MintBadgeReceiptView
+          badgeId={badgeData.id}
           recipient={recipientAddress}
           email={email}
           level={3}
