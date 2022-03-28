@@ -145,7 +145,7 @@ export default function CreateBadgeView() {
           recipient={recipientAddress}
           email={email}
           level={3}
-          chain={'Polygon Mumbai'}
+          chain={chain}
           transactionUrl={transactionUrl}
 
         />

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Field from '../GenericComponents/Field';
 import style from '../../styles/create/receipt.module.css';
+import { BasicButton } from '../GenericComponents/Buttons';
 
 export default function MintBadgeReceiptView({
   badgeId ,recipient, email, level, chain, transactionUrl
@@ -51,5 +52,14 @@ export default function MintBadgeReceiptView({
         />
       </div>
     </div>
+    {/* <BasicButton 
+      className={style.button}
+      text="Continue"
+      onClick={() => {}}
+    /> */}
+
+    <button className={style.button}>
+      Continue
+    </button>
   </div>
 }
