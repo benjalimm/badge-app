@@ -50,12 +50,13 @@ function TabHeader({ text, inverted }:
 }) {
   const bgColor = !inverted ? "#FFFFFF" : "#000000"
   const textColor = !inverted ? "#000000" : "#FFFFFF"
+  const borderColor = "#000000"
   return <div 
     className={style.tabHeader}
     style={{ 
       color: textColor, 
       backgroundColor: bgColor,
-      borderColor: textColor}}>
+      borderColor: borderColor}}>
     {text}
   </div>
 }
