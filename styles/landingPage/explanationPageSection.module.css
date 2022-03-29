@@ -24,7 +24,7 @@
 .explanationTextContainer {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   width: 600px;
   padding-left: 80px;
@@ -48,6 +48,15 @@
   margin-top: 15px;
 }
 
+.tabHeader {
+  border-width: 3px;
+  font-size: 17px;
+  padding: 2px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 
 @media only screen and (max-width: 1000px) {
 
@@ -69,7 +78,6 @@
 
   .explanationTitle {
     font-size: 32px;
-    margin-top: 50px;
     text-align: center;
  } 
 
@@ -82,6 +90,8 @@
   .explanationTextContainer {
     width: 350px;
     padding: 0;
+    align-items: center;
+    margin-top: 50px;
   }
 
   .explanationTextContainerInverted {
