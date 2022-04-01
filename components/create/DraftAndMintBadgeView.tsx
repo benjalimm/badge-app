@@ -92,7 +92,8 @@ export default function DraftAndMintBadgeView({
       title: badgeTitle,
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
-      profilePhotoSource: cardData.profilePhotoSource
+      profilePhotoSource: cardData.profilePhotoSource,
+      level: 1
     });
   }
 
@@ -158,7 +159,8 @@ export default function DraftAndMintBadgeView({
                 title: badgeTitle, 
                 content: badgeDescription, 
                 videoPath: currentlySelectedMedia.url, 
-                profilePhotoSource: cardData.profilePhotoSource 
+                profilePhotoSource: cardData.profilePhotoSource,
+                level: 1 
               }, walletAddress, email)}
             style={{paddingTop:'30px'}}
           />)

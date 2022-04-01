@@ -4,4 +4,5 @@ export interface BadgeData {
   content: string;
   videoPath: string;
   profilePhotoSource: string;
+  level: number;
 }
