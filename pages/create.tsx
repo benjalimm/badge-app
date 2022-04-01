@@ -14,6 +14,9 @@ import { getCurrentEntity } from '../utils/entityLocalState';
 import { EntityInfo } from "../schemas/EntityLocalStorage";
 import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
+import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
+import TransactionInfo from '../schemas/TransactionInfo';
+import { Chain } from '../schemas/ChainTypes';
 
 export default function CreateBadgeView() {
 
@@ -21,6 +24,13 @@ export default function CreateBadgeView() {
   const [currentEntityInfo, setCurrentEntityInfo] 
   = useState<EntityInfo | null>(null)
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
+
+  /** Data */
+  const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
+  const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
+  const [email, setEmailAddress] = useState<string | null>(null);
+  const [chain, setChain] = useState<Chain>("Polygon Mumbai");
+  const [transactionHash, setTransactionHash] = useState<string>("");
 
   const { web3Modal } = useContext(Web3AuthContext);
 
@@ -56,6 +66,7 @@ export default function CreateBadgeView() {
 
   function onSubmitDraftBadgeData(badgeData: BadgeData) {
     console.log(badgeData);
+    setBadgeData(badgeData);
     setPageState("MintBadge");
   }
 
@@ -64,6 +75,9 @@ export default function CreateBadgeView() {
   }
 
   async function onMintAndSendBadge(badgeData: BadgeData, recipientAddress: string, email?: string) {
+    setRecipientAddress(recipientAddress);
+    if(email) setEmailAddress(email);
+
     try {
       // Check if entity info is present
       if (!currentEntityInfo) {
@@ -104,14 +118,21 @@ export default function CreateBadgeView() {
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
       // 4. Mint Badge + set page state to loading
-      await entity.mintBadge(recipientAddress, url)
+      const transaction = await entity.mintBadge(recipientAddress, url)
       setPageState("LoadingMintBadge");
 
-      badgeToken.once("Transfer", (from: string, to: string, id: any) => {
+      badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
-        console.log(id)
+        setPageState("BadgeSuccessfullyMinted")
+
+        const updatedBadgeData = { ...badgeData, id: parseInt(id) }
+        setBadgeData(updatedBadgeData);
+        console.log(parseInt(id))
       })
+
+      const { transactionHash } = (await transaction.wait()) as TransactionInfo
+      setTransactionHash(transactionHash)
 
     } catch (error) {
       console.log(error);
@@ -123,6 +144,16 @@ export default function CreateBadgeView() {
       case "LoadingMintBadge":
         return <MintBadgeLoadingView loadingPercentage={loadingPercentage}/>
 
+      case "BadgeSuccessfullyMinted":
+        return <MintBadgeReceiptView
+          badgeId={badgeData.id}
+          recipient={recipientAddress}
+          email={email}
+          level={3}
+          chain={chain}
+          transactionHash={transactionHash}
+
+        />
       default:
         return <DraftAndMintBadgeView 
           onSubmitDraftBadgeData={onSubmitDraftBadgeData}

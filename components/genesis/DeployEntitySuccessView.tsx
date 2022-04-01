@@ -1,6 +1,7 @@
 import React from 'react';
 import style from '../../styles/genesis.module.css'
 import { EntityInfo } from '../../schemas/genesis';
+import Field from '../GenericComponents/Field';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
 
@@ -13,22 +14,25 @@ const DeployEntitySuccessView =
   }
 
   return <div className={cx(style.entryContainer, style.successContainer)}>
-    <img className={style.blackBadge} src="/images/blackBadge.svg"/>
+    <img className={style.blackBadge} src="images/generic/success.svg"/>
     <h1 className={style.successHeader}>Entity successfully deployed on-chain</h1>
     <h1 className={style.successSubheader}>Genesis token minted to your wallet</h1>
     <div className={style.successEntityDetailsContainer}>
       <h1 className={style.successEntityDetailsHeader}>Details</h1>
-      <EntitySuccessField 
+      <Field 
         title="Entity address" 
         value={address}
+        className={style.successDetailsFieldContainer}
       />
-      <EntitySuccessField 
+      <Field 
         title="Entity name" 
         value={name}
+        className={style.successDetailsFieldContainer}
       />
-      <EntitySuccessField 
+      <Field 
         title="Genesis token holder" 
         value={genesisTokenHolder}
+        className={style.successDetailsFieldContainer}
       />
     </div>
     <button 
@@ -36,13 +40,6 @@ const DeployEntitySuccessView =
       onClick={proceed}>
       Proceed
     </button>
-  </div>
-}
-
-const EntitySuccessField = ({ title, value } : { title: string, value: string}) => {
-  return <div className={style.successDetailsFieldContainer}>
-    <h1 className={style.successDetailsFieldHeader}>{title}</h1>
-    <span className={style.successDetailsFieldValue}>{value}</span>
   </div>
 }
 
