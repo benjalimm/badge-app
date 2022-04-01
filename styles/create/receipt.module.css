@@ -1,9 +1,9 @@
 .container {
   width: 420px;
-  height: 750px;
+  height: 680px;
   background-color: white;
   border-radius: 30px;
-  margin-top: 50px;
+  margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -11,18 +11,20 @@
 }
 
 .successImage {
-  margin-top: 30px;
+  margin-top: 20px;
+  height: 70px;
+  width: 70px;
 }
 
 .successHeader {
   font-family: 'Inter';
   font-weight: bold;
-  font-size: 25px;
-  margin-top: 20px;
+  font-size: 20px;
+  margin-top: 10px;
 }
 
 .detailsContainer{
-  height: 60%;
+  height: 62%;
   width: 90%;
   background-color: #F5F5F5;
   border-radius: 15px;
@@ -32,7 +34,7 @@
 .detailsHeader {
   font-family: 'Inter';
   font-weight: bold;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .detailsTextContainer {
@@ -40,10 +42,17 @@
 }
 
 .detail {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 
 .button {
-  margin-top: 15px;
-  
+  margin-top: 30px;
+}
+
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 320px;
+    height: 650px;
+  }
 }

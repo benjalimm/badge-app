@@ -17,6 +17,10 @@
   margin-top: 2px;
 }
 
+.link:hover {
+  text-decoration: underline;
+}
+
 @media only screen and (max-width: 850px) {
   .fieldHeader {
     font-size: 10px;

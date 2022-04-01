@@ -1,5 +1,6 @@
 import React from 'react';
 import style from '../../styles/GenericComponents/field.module.css';
+import cx from 'classnames';
 
 export default function Field(
   { title, value, className, isLink } : 
@@ -11,8 +12,7 @@ export default function Field(
     { 
       link ? 
         <a 
-          className={style.fieldValue} 
-          style={{ textDecoration: 'underline'}} 
+          className={cx(style.fieldValue, style.link)} 
           href={value}>{value}</a> : 
         <span 
           className={style.fieldValue}>

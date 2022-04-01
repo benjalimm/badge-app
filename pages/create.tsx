@@ -129,11 +129,10 @@ export default function CreateBadgeView() {
         const updatedBadgeData = { ...badgeData, id: parseInt(id) }
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
-        
       })
 
-      const info = (await transaction.wait()) as TransactionInfo
-      setTransactionHash(info.transactionHash)
+      const { transactionHash } = (await transaction.wait()) as TransactionInfo
+      setTransactionHash(transactionHash)
 
     } catch (error) {
       console.log(error);
