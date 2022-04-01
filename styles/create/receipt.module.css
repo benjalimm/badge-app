@@ -1,6 +1,6 @@
 .container {
   width: 420px;
-  height: 700px;
+  height: 750px;
   background-color: white;
   border-radius: 30px;
   margin-top: 50px;
@@ -44,12 +44,6 @@
 }
 
 .button {
-  margin-top: 20px;
-  color: white;
-  background: linear-gradient(180deg, #454545 0%, #000000 100%);
-  width: 80%;
-  height: 40px;
-  font: 'Inter';
-  font-weight: bold;
-  border-radius: 10px;
+  margin-top: 15px;
+  
 }

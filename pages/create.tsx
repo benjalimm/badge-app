@@ -15,6 +15,8 @@ import { EntityInfo } from "../schemas/EntityLocalStorage";
 import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
+import TransactionInfo from '../schemas/TransactionInfo';
+import { Chain } from '../schemas/ChainTypes';
 
 export default function CreateBadgeView() {
 
@@ -27,8 +29,8 @@ export default function CreateBadgeView() {
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
-  const [chain, setChain] = useState<string>("Polygon Mumbai");
-  const [transactionUrl, setTransactionUrl] = useState<string>("");
+  const [chain, setChain] = useState<Chain>("Polygon Mumbai");
+  const [transactionHash, setTransactionHash] = useState<string>("");
 
   const { web3Modal } = useContext(Web3AuthContext);
 
@@ -116,7 +118,7 @@ export default function CreateBadgeView() {
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
       // 4. Mint Badge + set page state to loading
-      await entity.mintBadge(recipientAddress, url)
+      const transaction = await entity.mintBadge(recipientAddress, url)
       setPageState("LoadingMintBadge");
 
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
@@ -127,7 +129,11 @@ export default function CreateBadgeView() {
         const updatedBadgeData = { ...badgeData, id: parseInt(id) }
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
+        
       })
+
+      const info = (await transaction.wait()) as TransactionInfo
+      setTransactionHash(info.transactionHash)
 
     } catch (error) {
       console.log(error);
@@ -146,7 +152,7 @@ export default function CreateBadgeView() {
           email={email}
           level={3}
           chain={chain}
-          transactionUrl={transactionUrl}
+          transactionHash={transactionHash}
 
         />
       default:

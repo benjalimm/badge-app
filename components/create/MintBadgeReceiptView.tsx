@@ -2,17 +2,19 @@ import React, { useState } from 'react';
 import Field from '../GenericComponents/Field';
 import style from '../../styles/create/receipt.module.css';
 import { BasicButton } from '../GenericComponents/Buttons';
+import { Chain } from '../../schemas/ChainTypes';
+import { getScanUrl  } from '../../utils/chainUtils';
 
 export default function MintBadgeReceiptView({
-  badgeId ,recipient, email, level, chain, transactionUrl
+  badgeId ,recipient, email, level, chain, transactionHash
 }:
 {
   badgeId: number,
   recipient: string,
   email?: string,
   level: number,
-  chain: string,
-  transactionUrl: string
+  chain: Chain,
+  transactionHash: string
 }) {
   return <div className={style.container}>
     <img src="images/generic/success.svg" className={style.successImage}/>
@@ -48,18 +50,15 @@ export default function MintBadgeReceiptView({
         <Field 
           className={style.detail}
           title="Transaction" 
-          value={transactionUrl}
+          value={getScanUrl(chain, transactionHash, "Transaction")}
+          isLink={true}
         />
       </div>
     </div>
-    {/* <BasicButton 
+    <BasicButton 
       className={style.button}
       text="Continue"
       onClick={() => {}}
-    /> */}
-
-    <button className={style.button}>
-      Continue
-    </button>
+    />
   </div>
 }
