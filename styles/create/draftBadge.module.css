@@ -119,6 +119,81 @@
   opacity: 0;
 }
 
+.listBoxContainer {
+  /* border-width: 1px; */
+  width: 100%;
+  height: 50px;
+  border-radius: 10px;
+  font-size: 17px;
+  background-color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.listBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border-width: 1px;
+}
+
+.listBoxButton {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: clear;
+  position: absolute;
+  font-weight: bold;
+}
+
+.selector {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  color: darkgray
+}
+
+.checkIcon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+  color: green;
+}
+
+.listBoxTitle {
+  margin-left: 20px;
+}
+
+.listBoxOptionsContainer {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 50px;
+  position: absolute;
+  border-width: 1px;
+  clip: inherit;
+}
+
+.listBoxOption {
+  width: 100%;
+  /* background-color: blue;  */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 30px;
+}
+
+.listBoxOption:hover {
+  background-color: rgb(253, 255, 154)
+}
+
 @media only screen and (max-width: 850px) {
 
   .container {
@@ -155,6 +230,7 @@
   .mediaContainer {
     width: 100%;
   }
+
 }
 
 

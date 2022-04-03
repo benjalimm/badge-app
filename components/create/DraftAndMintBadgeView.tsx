@@ -9,7 +9,6 @@ import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import MintBadgeLoadingView from './MintBadgeLoadingView';
 import cx from 'classnames';
 
 const cardData = sampleCardData[1];
