@@ -12,14 +12,18 @@ export default function DraftBadgeForm({
   onDescriptionTextChange,
   onPresentMediaCatalogue,
   badgeTitle,
-  badgeDescription 
+  badgeDescription,
+  badgeLevel,
+  setBadgeLevel
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onDescriptionTextChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
   onPresentMediaCatalogue: () => void,
   badgeTitle: string,
-  badgeDescription: string
+  badgeDescription: string,
+  badgeLevel: number,
+  setBadgeLevel: (level: number) => void
 }) {
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
@@ -42,7 +46,7 @@ export default function DraftBadgeForm({
       onChange={onTitleChange}
       value={badgeTitle}
     />
-    <BadgeLevelListBox/>
+    <BadgeLevelListBox badgeLevel={badgeLevel} setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
       type="TextArea"  
       title='Short description' 
@@ -54,9 +58,10 @@ export default function DraftBadgeForm({
   </div>
 }
 
-function BadgeLevelListBox() {
+function BadgeLevelListBox(
+  { badgeLevel, setBadgeLevel} : 
+  { badgeLevel: number, setBadgeLevel: (level: number) => void }) {
 
-  const [selectedLevel, setSelectedLevel] = useState(1)
   let supportedLevels = [1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
 
   function calculateBadgePrice(level: number): number {
@@ -73,15 +78,15 @@ function BadgeLevelListBox() {
     <div className={style.listBoxContainer}>
       <h1 className={style.formTextBoxTitle}>Badge level</h1>
       <div className={cx(style.listBoxWrapper, "shadow-sm")}>
-        <Listbox value={selectedLevel} onChange={setSelectedLevel}>
+        <Listbox value={badgeLevel} onChange={setBadgeLevel}>
           <div className={style.listBox}>
             <Listbox.Button className={style.listBoxButton}>
               <span className={style.listBoxTitle}>
-                {getLevelTitle(selectedLevel)}
+                {getLevelTitle(badgeLevel)}
               </span>
               <SelectorIcon
                 className={style.selector}
-                aria-hidden="true"
+                
               />
             </Listbox.Button>
             <Listbox.Options className={cx(style.listBoxOptionsContainer, "shadow-sm")}>
@@ -91,11 +96,11 @@ function BadgeLevelListBox() {
                   className={style.listBoxOption}
                   value={level}
                 >
-                  <span className={style.listBoxTitle} style={{ fontWeight: level == selectedLevel ? 'bold' : 'normal'}}>
+                  <span className={style.listBoxTitle} style={{ fontWeight: level == badgeLevel ? 'bold' : 'normal'}}>
                     {getLevelTitle(level)}
                   </span>
                   {
-                    level === selectedLevel ? 
+                    level === badgeLevel ? 
                       <CheckIcon className={style.checkIcon}/> : null
                   }
                   

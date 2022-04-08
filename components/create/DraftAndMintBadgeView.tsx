@@ -31,6 +31,7 @@ export default function DraftAndMintBadgeView({
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
+  const [badgeLevel, setBadgeLevel] = useState<number>(1);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   /** MINT BADGE INFORMATION */
@@ -132,6 +133,8 @@ export default function DraftAndMintBadgeView({
                 onPresentMediaCatalogue={presentMediaCatalogue}
                 badgeTitle={badgeTitle}
                 badgeDescription={badgeDescription}
+                badgeLevel={badgeLevel}
+                setBadgeLevel={setBadgeLevel}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}

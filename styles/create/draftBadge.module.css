@@ -181,6 +181,8 @@
   position: absolute;
   border-width: 1px;
   clip: inherit;
+  animation: listBoxExpand 0.25s;
+
 }
 
 .listBoxOption {
@@ -274,10 +276,22 @@
 @keyframes expandToFull {
   0% {
     opacity: 0;
-    /* height: 0px; */
   }
 
   100% {
     opacity: 1;
   }
+}
+
+@keyframes listBoxExpand {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
 }
