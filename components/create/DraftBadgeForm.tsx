@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import style from '../../styles/create/draftBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
+import { Listbox } from '@headlessui/react'
+import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import cx from 'classnames';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -9,14 +12,18 @@ export default function DraftBadgeForm({
   onDescriptionTextChange,
   onPresentMediaCatalogue,
   badgeTitle,
-  badgeDescription 
+  badgeDescription,
+  badgeLevel,
+  setBadgeLevel
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onDescriptionTextChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
   onPresentMediaCatalogue: () => void,
   badgeTitle: string,
-  badgeDescription: string
+  badgeDescription: string,
+  badgeLevel: number,
+  setBadgeLevel: (level: number) => void
 }) {
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
@@ -39,13 +46,76 @@ export default function DraftBadgeForm({
       onChange={onTitleChange}
       value={badgeTitle}
     />
+    <BadgeLevelListBox badgeLevel={badgeLevel} setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
       type="TextArea"  
       title='Short description' 
       placeholder='Enter info (Why did they get this Badge?)'
-      customTextBoxHeight='180px'
+      customTextBoxHeight='120px'
       onChange={onDescriptionTextChange}
       value={badgeDescription}
     />
   </div>
+}
+
+function BadgeLevelListBox(
+  { badgeLevel, setBadgeLevel} : 
+  { badgeLevel: number, setBadgeLevel: (level: number) => void }) {
+
+  let supportedLevels = [1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
+
+  function calculateBadgePrice(level: number): number {
+    const basePrice = 0.0015
+    const multiplier = Math.pow(2.5, level - 1)
+    return (basePrice) * multiplier
+  }
+
+  function getLevelTitle(level: number): string {
+    return `Level ${level} (${calculateBadgePrice(level).toFixed(4)} WETH)`
+  }
+
+  return (
+    <div className={style.listBoxContainer}>
+      <h1 className={style.formTextBoxTitle}>Badge level</h1>
+      <div className={cx(style.listBoxWrapper, "shadow-sm")}>
+        <Listbox value={badgeLevel} onChange={setBadgeLevel}>
+          <div className={style.listBox}>
+            <Listbox.Button className={style.listBoxButton}>
+              <span className={style.listBoxTitle}>
+                {getLevelTitle(badgeLevel)}
+              </span>
+              <SelectorIcon
+                className={style.selector}
+                
+              />
+            </Listbox.Button>
+            <Listbox.Options className={cx(style.listBoxOptionsContainer, "shadow-sm")}>
+              {(supportedLevels).map((level) => (
+                <Listbox.Option
+                  key={level}
+                  className={style.listBoxOption}
+                  value={level}
+                >
+                  <span className={style.listBoxTitle} style={{ fontWeight: level == badgeLevel ? 'bold' : 'normal'}}>
+                    {getLevelTitle(level)}
+                  </span>
+                  {
+                    level === badgeLevel ? 
+                      <CheckIcon className={style.checkIcon}/> : null
+                  }
+                  
+                </Listbox.Option>
+              
+              ))}
+            </Listbox.Options>
+
+          </div>
+        
+        </Listbox>
+      
+      </div>
+
+    </div>
+       
+  )
 }

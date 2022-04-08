@@ -95,7 +95,7 @@
   font-family: 'AsgardFitMedium';
   font-size: 70px;
   color: white;
-  z-index: 2;
+  z-index: 1;
   text-align: left;
   width: 60%;
   padding-bottom: 20px;
@@ -107,7 +107,7 @@
   color: white;
   font-family: 'Inter';
   font-weight: 450;
-  z-index: 3;
+  z-index: 1;
   padding: 0px;
   text-align: left;
 }

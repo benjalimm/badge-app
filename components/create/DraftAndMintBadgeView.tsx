@@ -9,7 +9,6 @@ import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import MintBadgeLoadingView from './MintBadgeLoadingView';
 import cx from 'classnames';
 
 const cardData = sampleCardData[1];
@@ -32,6 +31,7 @@ export default function DraftAndMintBadgeView({
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
+  const [badgeLevel, setBadgeLevel] = useState<number>(1);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   /** MINT BADGE INFORMATION */
@@ -133,6 +133,8 @@ export default function DraftAndMintBadgeView({
                 onPresentMediaCatalogue={presentMediaCatalogue}
                 badgeTitle={badgeTitle}
                 badgeDescription={badgeDescription}
+                badgeLevel={badgeLevel}
+                setBadgeLevel={setBadgeLevel}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
