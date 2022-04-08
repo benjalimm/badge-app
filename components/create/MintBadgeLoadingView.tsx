@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import style from '../../styles/create/loadingView.module.css'
 import ProgressBar from '../GenericComponents/ProgressBar';
 
 const MintBadgeLoadingView = (
   { loadingPercentage }:
   { loadingPercentage: number }) => {
-  return <div className={style.entryContainer} 
-    style={{ height: '260px', justifyContent: 'center' }}>
+
+  const subtitle = "Interfacing with the decentralized web"
+  return <div className={style.entryContainer}>
     <div style={{ width: '90%', marginTop: '0px'}}>
       <ProgressBar
         valuePercentage={loadingPercentage}
@@ -14,8 +15,8 @@ const MintBadgeLoadingView = (
       />
     </div>
     
-    <h1 className={style.loadingHeader}>Hang in there, it'll just take a second</h1>
-    <span className={style.loadingSubtitle}>Minting Badge</span>
+    <h1 className={style.loadingHeader}>Minting Badge</h1>
+    <span className={style.loadingSubtitle}>{ subtitle }</span>
   </div>
 }
 
