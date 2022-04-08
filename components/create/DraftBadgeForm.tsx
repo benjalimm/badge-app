@@ -4,7 +4,6 @@ import FormTextBoxContainer from './FormTextBoxContainer';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-
 import cx from 'classnames';
 
 export default function DraftBadgeForm({ 
@@ -61,53 +60,57 @@ function BadgeLevelListBox() {
   let supportedLevels = [1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
 
   function calculateBadgePrice(level: number): number {
-    const basePrice = 5
+    const basePrice = 0.0015
     const multiplier = Math.pow(2.5, level - 1)
     return (basePrice) * multiplier
   }
 
   function getLevelTitle(level: number): string {
-    return `Level ${level} ($${calculateBadgePrice(level).toFixed(2)} DAI)`
+    return `Level ${level} (${calculateBadgePrice(level).toFixed(4)} WETH)`
   }
 
   return (
-    <div className={cx(style.listBoxContainer, "shadow-sm")}>
-      <Listbox value={selectedLevel} onChange={setSelectedLevel}>
-        <div className={style.listBox}>
-          <Listbox.Button className={style.listBoxButton}>
-            <span className={style.listBoxTitle}>
-              {getLevelTitle(selectedLevel)}
-            </span>
-            <SelectorIcon
-              className={style.selector}
-              aria-hidden="true"
-            />
-          </Listbox.Button>
-          <Listbox.Options className={cx(style.listBoxOptionsContainer, "shadow-sm")}>
-            {(supportedLevels).map((level) => (
-              <Listbox.Option
-                key={level}
-                className={style.listBoxOption}
-                value={level}
-              >
-                <span className={style.listBoxTitle}>
-                  {getLevelTitle(level)}
-                </span>
-                {
-                  level === selectedLevel ? 
-                    <CheckIcon className={style.checkIcon}/> : null
-                }
+    <div className={style.listBoxContainer}>
+      <h1 className={style.formTextBoxTitle}>Badge level</h1>
+      <div className={cx(style.listBoxWrapper, "shadow-sm")}>
+        <Listbox value={selectedLevel} onChange={setSelectedLevel}>
+          <div className={style.listBox}>
+            <Listbox.Button className={style.listBoxButton}>
+              <span className={style.listBoxTitle}>
+                {getLevelTitle(selectedLevel)}
+              </span>
+              <SelectorIcon
+                className={style.selector}
+                aria-hidden="true"
+              />
+            </Listbox.Button>
+            <Listbox.Options className={cx(style.listBoxOptionsContainer, "shadow-sm")}>
+              {(supportedLevels).map((level) => (
+                <Listbox.Option
+                  key={level}
+                  className={style.listBoxOption}
+                  value={level}
+                >
+                  <span className={style.listBoxTitle} style={{ fontWeight: level == selectedLevel ? 'bold' : 'normal'}}>
+                    {getLevelTitle(level)}
+                  </span>
+                  {
+                    level === selectedLevel ? 
+                      <CheckIcon className={style.checkIcon}/> : null
+                  }
                   
-              </Listbox.Option>
+                </Listbox.Option>
               
-            ))}
-          </Listbox.Options>
+              ))}
+            </Listbox.Options>
 
-        </div>
+          </div>
         
-      </Listbox>
+        </Listbox>
       
+      </div>
+
     </div>
-    
+       
   )
 }
