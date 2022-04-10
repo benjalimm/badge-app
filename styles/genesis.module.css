@@ -264,8 +264,8 @@
 
 @media only screen and (max-width: 850px) {
   .entryContainer {
-    height: 376px;
-    width: 280px;
+    height: 200px;
+    width: 336px;
     background-color: white;
     border-radius: 14px;
     margin-top: 50px;;
