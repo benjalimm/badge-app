@@ -6,7 +6,7 @@ const DeployEntityLoadingView = (
   { loadingPercentage }:
   { loadingPercentage: number }) => {
   return <div className={style.entryContainer} 
-    style={{ height: '260px', justifyContent: 'center' }}>
+    style={{ height: '200px', justifyContent: 'center' }}>
     <div style={{ width: '90%', marginTop: '0px'}}>
       <ProgressBar
         valuePercentage={loadingPercentage}
@@ -14,8 +14,8 @@ const DeployEntityLoadingView = (
       />
     </div>
     
-    <h1 className={style.loadingHeader}>Hang in there, it'll just take a second</h1>
-    <span className={style.loadingSubtitle}>Minting Genesis token</span>
+    <h1 className={style.loadingHeader}>Deploying entity on-chain</h1>
+    <span className={style.loadingSubtitle}>Minting Genesis token...</span>
   </div>
 }
 
