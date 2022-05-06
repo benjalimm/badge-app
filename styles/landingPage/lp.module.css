@@ -44,7 +44,7 @@
 
 .whiteNoise {
   display: flex;
-  background: url('/images/landingPage/noise.png');
+  background: url('/images/landingPage/noise-min.png');
   align-items: center;
   justify-content: center;
   height:500%;

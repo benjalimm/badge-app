@@ -8,7 +8,7 @@
   src: url("/fonts/Asgard/Asgard-FitMedium.ttf");
 }
 
-@font-face {
+/* @font-face {
   font-family: "Inter";
   src: url("/fonts/Inter/static/Inter-Regular.ttf");
   font-style: normal;
@@ -30,7 +30,7 @@
   font-style: bold;
   font-weight: 600;
   font-display: swap;
-}
+} */
 
 :root {
   --bg: #F4F4F4;
