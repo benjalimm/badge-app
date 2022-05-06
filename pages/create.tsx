@@ -17,7 +17,7 @@ import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 import TransactionInfo from '../schemas/TransactionInfo';
 import { Chain } from '../schemas/ChainTypes';
-
+import { currentChain } from '../configs/blockchainConfig';
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
@@ -29,7 +29,6 @@ export default function CreateBadgeView() {
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
-  const [chain, setChain] = useState<Chain>("Polygon Mumbai");
   const [transactionHash, setTransactionHash] = useState<string>("");
 
   const { web3Modal } = useContext(Web3AuthContext);
@@ -150,7 +149,7 @@ export default function CreateBadgeView() {
           recipient={recipientAddress}
           email={email}
           level={3}
-          chain={chain}
+          chain={currentChain}
           transactionHash={transactionHash}
 
         />

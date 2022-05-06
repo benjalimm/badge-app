@@ -29,7 +29,7 @@ type DeployState =
 export default function DeployEntityPage() {
   const router = useRouter();
   const { active, web3Modal } = useContext(Web3AuthContext);
-  const [pageState, setPageState] = useState<PageState>("LOADING")
+  const [pageState, setPageState] = useState<PageState>("SUCCESS")
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
