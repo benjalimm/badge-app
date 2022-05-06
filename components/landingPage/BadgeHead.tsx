@@ -21,7 +21,5 @@ export default function BadgeHead() {
     <meta name="og:url" content="https://badge.xyz"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/badgeWhiteFavIcon_32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/badgeWhiteFavIcon_16.png"/>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"></link>
-
   </Head>
 }
