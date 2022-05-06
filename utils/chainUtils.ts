@@ -14,6 +14,20 @@ const listOfChainInfo: ChainInfo[] = [
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
+  },
+  {
+    chain: "Optimistic Kovan",
+    baseUrl: "https://kovan-optimistic.etherscan.io",
+    transactionPath: "tx",
+    tokenPath: "token",
+    addressPath: "address"
+  },
+  {
+    chain: "Optimistic Mainnet",
+    baseUrl: "https://optimistic.etherscan.io",
+    transactionPath: "tx",
+    tokenPath: "token",
+    addressPath: "address"
   }
 
 ]

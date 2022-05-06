@@ -11,5 +11,13 @@ module.exports = {
   mainnet: {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
+  },
+  optimisticKovan: {
+    url: 'https://optimism-kovan.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: ""
+  },
+  optimismMainnet: {
+    url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: ""
   }
 }
