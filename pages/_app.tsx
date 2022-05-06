@@ -13,12 +13,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   const connect = useCallback(async function () {
     console.log("Connecting")
 
-    // const web3Provider = new ethers.providers.InfuraProvider(null, {
-    //   network: "maticmum", 
-    //   projectId: "9c0e4231c73e40da8c90be9e43411cd6",
-    //   projectSecret: "223a56e231eb4afaa987cb5a65cb7abf"
-    // });
-
     const provider = await web3Modal.connect();
     const web3Provider = new providers.Web3Provider(provider)
 
