@@ -9,7 +9,7 @@ import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessVi
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
 import { ethers } from 'ethers';
-import BadgeRegistry from '../artifacts/contracts/BadgeRegistry.sol/BadgeRegistry.json';
+import BadgeRegistry from '../artifacts/BadgeRegistry.sol/BadgeRegistry.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
 import { chainNetworkUrl } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
@@ -24,7 +24,7 @@ type DeployState =
 "STARTED_IPFS_UPLOAD" | 
 "IPFS_UPLOADED" | 
 "STARTED_ENTITY_DEPLOYMENT" | 
-"ENTITY_DEPLOYED";
+"ENTITY_REGISTERED";
 
 export default function DeployEntityPage() {
   const router = useRouter();
@@ -97,14 +97,14 @@ export default function DeployEntityPage() {
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 1. Deploy the entity
-      await badgeRegistry.deployEntity(entityName, ipfsUrl)
+      await badgeRegistry.registerEntity(entityName, ipfsUrl)
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("LOADING")
 
       // Listen to EntityDeployed event
-      badgeRegistry.once("EntityDeployed", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
-        console.log("Entity deployed ", entityAddress, entityName);
-        setDeployState("ENTITY_DEPLOYED")
+      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+        console.log("Entity registered ", entityAddress, entityName);
+        setDeployState("ENTITY_REGISTERED")
 
         // 1. Set entity info for view
         setEntityInfo({
