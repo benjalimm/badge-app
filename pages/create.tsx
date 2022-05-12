@@ -7,8 +7,8 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';
 import { PageState } from '../schemas/create';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
-import Entity from "../artifacts/contracts/Entity.sol/Entity.json";
-import BadgeToken from '../artifacts/contracts/BadgeToken.sol/BadgeToken.json';
+import Entity from "../artifacts/Entity.sol/Entity.json";
+import BadgeToken from '../artifacts/BadgeToken.sol/BadgeToken.json';
 import { ethers } from 'ethers';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import { EntityInfo } from "../schemas/EntityLocalStorage";
@@ -112,7 +112,7 @@ export default function CreateBadgeView() {
       // 3. Instantiate Entity contract
       console.log(currentEntityInfo.address);
       const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
-      const badgeTokenAddress = await entity.badgeTokenContract()
+      const badgeTokenAddress = await entity.badgeToken()
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
