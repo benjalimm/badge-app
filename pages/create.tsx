@@ -18,6 +18,7 @@ import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 import TransactionInfo from '../schemas/TransactionInfo';
 import { Chain } from '../schemas/ChainTypes';
 import { currentChain } from '../configs/blockchainConfig';
+
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
@@ -116,8 +117,14 @@ export default function CreateBadgeView() {
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
+      console.log(`Badge level: ${badgeData.level}`);
       // 4. Mint Badge + set page state to loading
-      const transaction = await entity.mintBadge(recipientAddress, url)
+      const transaction = await entity.mintBadge(
+        recipientAddress, 
+        badgeData.level, 
+        url,
+        { value: ethers.utils.parseEther('0.05')}
+      );
       setPageState("LoadingMintBadge");
 
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
