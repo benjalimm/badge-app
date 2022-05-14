@@ -74,6 +74,23 @@ export default function CreateBadgeView() {
     setPageState("DraftBadge");
   }
 
+  async function estimateGasFees() {
+
+    // 1. Establish connection
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner();
+    const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+
+    console.log("Estimating gas...")
+    // 2. Estimate gas 
+    //** You should be able to enter in no ether with a level 0 Badge */
+    const estimation = await entity.estimateGas.mintBadge(recipientAddress, 0, "fakeURL", { value: 0})
+    const etherEstimate = ethers.utils.formatEther(estimation)
+    console.log(`Estimated gas: ${etherEstimate} ETH`)
+    alert(`Estimated gas: ${etherEstimate} ETH`)
+  }
+
   async function onMintAndSendBadge(badgeData: BadgeData, recipientAddress: string, email?: string) {
     setRecipientAddress(recipientAddress);
     if(email) setEmailAddress(email);
@@ -116,11 +133,6 @@ export default function CreateBadgeView() {
       const badgeTokenAddress = await entity.badgeToken()
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
-      
-      console.log("Estimating gas...")
-      const estimation = await entity.estimateGas.mintBadge(recipientAddress, badgeData.level, url, { value: ethers.utils.parseEther('0.001')})
-      console.log(`Estimated gas: ${estimation}`)
-      alert(`Estimated gas: ${estimation}`)
       
       // console.log(`Badge level: ${badgeData.level}`);
       // // 4. Mint Badge + set page state to loading
