@@ -102,6 +102,7 @@ export default function DeployEntityPage() {
       setPageState("LOADING")
 
       // Listen to EntityDeployed event
+
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
