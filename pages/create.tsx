@@ -117,28 +117,33 @@ export default function CreateBadgeView() {
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
       
-      console.log(`Badge level: ${badgeData.level}`);
-      // 4. Mint Badge + set page state to loading
-      const transaction = await entity.mintBadge(
-        recipientAddress, 
-        badgeData.level, 
-        url,
-        { value: ethers.utils.parseEther('0.05')}
-      );
-      setPageState("LoadingMintBadge");
+      console.log("Estimating gas...")
+      const estimation = await entity.estimateGas.mintBadge(recipientAddress, badgeData.level, url, { value: ethers.utils.parseEther('0.001')})
+      console.log(`Estimated gas: ${estimation}`)
+      alert(`Estimated gas: ${estimation}`)
+      
+      // console.log(`Badge level: ${badgeData.level}`);
+      // // 4. Mint Badge + set page state to loading
+      // const transaction = await entity.mintBadge(
+      //   recipientAddress, 
+      //   badgeData.level, 
+      //   url,
+      //   { value: ethers.utils.parseEther('0.05')}
+      // );
+      // setPageState("LoadingMintBadge");
 
-      badgeToken.once("Transfer", (from: string, to: string, id: string) => {
-        console.log("Transfer event triggered", from, to);
-        console.log("Successfully minted Badge")
-        setPageState("BadgeSuccessfullyMinted")
+      // badgeToken.once("Transfer", (from: string, to: string, id: string) => {
+      //   console.log("Transfer event triggered", from, to);
+      //   console.log("Successfully minted Badge")
+      //   setPageState("BadgeSuccessfullyMinted")
 
-        const updatedBadgeData = { ...badgeData, id: parseInt(id) }
-        setBadgeData(updatedBadgeData);
-        console.log(parseInt(id))
-      })
+      //   const updatedBadgeData = { ...badgeData, id: parseInt(id) }
+      //   setBadgeData(updatedBadgeData);
+      //   console.log(parseInt(id))
+      // })
 
-      const { transactionHash } = (await transaction.wait()) as TransactionInfo
-      setTransactionHash(transactionHash)
+      // const { transactionHash } = (await transaction.wait()) as TransactionInfo
+      // setTransactionHash(transactionHash)
 
     } catch (error) {
       console.log(error);

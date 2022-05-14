@@ -71,7 +71,7 @@ function BadgeLevelListBox(
   }
 
   function getLevelTitle(level: number): string {
-    return `Level ${level} (${calculateBadgePrice(level).toFixed(4)} WETH)`
+    return `Level ${level} (${calculateBadgePrice(level).toFixed(4)} ETH)`
   }
 
   return (
