@@ -9,7 +9,7 @@ Step 1 -  Compile contracts into ABI and export to frontend
 npx hardhat compile
 
 # Import to frontend - Assuming "../badge-app/artificacts" is in frontend code
-cp -rf artifacts/contracts/ ../badge-app/artifacts/contracts/
+cp -rf artifacts/contracts/ ../badge-app/artifacts/
 ```
 
 Step 2 - ****Run local node
