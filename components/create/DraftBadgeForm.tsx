@@ -62,16 +62,37 @@ function BadgeLevelListBox(
   { badgeLevel, setBadgeLevel} : 
   { badgeLevel: number, setBadgeLevel: (level: number) => void }) {
 
-  let supportedLevels = [1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
+  let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
 
-  function calculateBadgePrice(level: number): number {
-    const basePrice = 0.0015
+  function calculateBadgePrice(level: number, currency: "USD" | "ETH"): number {
+    const basePrice = currency == "ETH" ? 0.002428 : 5;
     const multiplier = Math.pow(2.5, level - 1)
     return (basePrice) * multiplier
   }
 
+  function calculateBXP(level:number): number {
+    const baseXP = 10;
+
+    if (level > 0) {
+
+      let totalXP = 0
+      for (let i = level; i > 0; i--) {
+        const xp = (baseXP) + (0.25 * totalXP)
+        totalXP += xp;
+      }
+      return totalXP 
+    }
+    
+    return 0
+  }
+
+  function getDetails(level: number): string {
+    return (level > 0) ? 
+      `${calculateBadgePrice(level, "ETH").toFixed(5)} ETH ($${calculateBadgePrice(level, "USD").toFixed(2)}) - ${calculateBXP(level).toFixed(0)} BXP` : "FREE (not inc gas) - 0 BXP";
+  }
+
   function getLevelTitle(level: number): string {
-    return `Level ${level} (${calculateBadgePrice(level).toFixed(4)} ETH)`
+    return `Level ${level} - ${getDetails(level)}`
   }
 
   return (
