@@ -4,6 +4,9 @@ import '../styles/index.css'
 import { Web3AuthContext, reducer, web3Modal, initialState } from '../contexts/Web3AuthContext';
 import { providers } from 'ethers'
 import Web3 from 'web3';
+import { SessionProvider } from "next-auth/react"
+import { WagmiConfig } from "wagmi"
+
 import { ethers } from 'ethers';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -101,9 +104,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, [provider, disconnect])
 
-  return <Web3AuthContext.Provider value={{ provider, address, web3Modal, web3Provider, chainId, connect, disconnect, active}}>
-    <Component {...pageProps} />
-  </Web3AuthContext.Provider>  
+  return (
+    <WagmiConfig>
+      <SessionProvider session={pageProps.session} refetchInterval={0}>
+        <Web3AuthContext.Provider value={{ provider, address, web3Modal, web3Provider, chainId, connect, disconnect, active}}>
+          <Component {...pageProps} />
+        </Web3AuthContext.Provider>  
+      </SessionProvider>
+    </WagmiConfig>
+  )
+  
 }
 
 export default MyApp
