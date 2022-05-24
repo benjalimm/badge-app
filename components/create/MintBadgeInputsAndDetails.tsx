@@ -117,24 +117,27 @@ function EstimatedTransaction(
     isCryptoPricePending 
   } : { 
     name: string, 
-    usdValue: number, 
-    cryptoValue: number, 
+    usdValue?: number, 
+    cryptoValue?: number, 
     cryptoSymbol: string,
     customStyle?: React.CSSProperties,
     isUSDPricePending: boolean,
     isCryptoPricePending: boolean
   }) {
+
+  const usdValueString = usdValue ? `$${usdValue.toFixed(2)}` : '--';
+  const cryptoValueString = cryptoValue ? `${cryptoValue.toFixed(5)}` : '--';
   return <div className={style.estimatedTransaction} style={customStyle}>
     <h1 className={style.transactionName}>{name}</h1>
     <span className={style.transactionUsdText}>{ 
       isUSDPricePending ? 
         "..." : 
-        `$${usdValue}`}
+        `$${usdValueString}`}
     </span>
     <span className={style.transactionCryptoText}> { 
       isCryptoPricePending ? 
         "..." :  
-        `${cryptoValue} ${cryptoSymbol}`}
+        `${cryptoValueString} ${cryptoSymbol}`}
     </span>
   </div>
 }

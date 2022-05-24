@@ -34,7 +34,7 @@ export default function CreateBadgeView() {
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
 
-  const { web3Modal } = useContext(Web3AuthContext);
+  const { web3Modal, provider } = useContext(Web3AuthContext);
 
   useEffect(() => {
     const currentEntity = getCurrentEntity();
@@ -69,7 +69,7 @@ export default function CreateBadgeView() {
     }).catch(err => {
       console.log(err);
     })
-  }, [])
+  }, [pageState])
 
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
