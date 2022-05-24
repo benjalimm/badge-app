@@ -17,13 +17,17 @@ export default function DraftAndMintBadgeView({
   onSubmitDraftBadgeData, 
   onBackToDraft,
   onMintAndSendBadge,
-  pageState 
+  pageState,
+  gasFeesInEth,
+  badgePriceInEth
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
   (badgeData: BadgeData, recipientAddress: string, email: string) => void,
   onBackToDraft: () => void,
-  pageState: PageState
+  pageState: PageState,
+  gasFeesInEth: number
+  badgePriceInEth: number
 }) {
 
   /** DRAFT BADGE INFORMATION */
@@ -124,6 +128,8 @@ export default function DraftAndMintBadgeView({
               email={email}  
               onWalletAddressChange={onWalletAddressChange}
               onEmailChange={onEmailChange}
+              badgePriceInEth={badgePriceInEth}
+              gasFeesInEth={gasFeesInEth}
             /> :
             ((!isMediaCatalogueVisible) ? 
               <DraftBadgeForm 

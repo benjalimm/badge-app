@@ -31,8 +31,10 @@ export default function CreateBadgeView() {
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>("");
+  const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
+  useState<number | null>(null)
 
-  const { web3Modal } = useContext(Web3AuthContext);
+  const { web3Modal, provider } = useContext(Web3AuthContext);
 
   useEffect(() => {
     const currentEntity = getCurrentEntity();
@@ -60,6 +62,15 @@ export default function CreateBadgeView() {
 
   }, [pageState])
 
+  useEffect(() => {
+    estimateGasFees().then(fees => {
+      console.log
+      setEstimatedGasFeesInEth(fees)
+    }).catch(err => {
+      console.log(err);
+    })
+  }, [pageState])
+
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
   }
@@ -72,6 +83,23 @@ export default function CreateBadgeView() {
 
   function onBackToDraft() {
     setPageState("DraftBadge");
+  }
+
+  async function estimateGasFees(): Promise<number> {
+
+    // 1. Establish connection
+    const connection = await web3Modal.connect()
+    const provider = new ethers.providers.Web3Provider(connection)
+    const signer = provider.getSigner();
+    const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+
+    console.log("Estimating gas...")
+    // 2. Estimate gas 
+    //** You should be able to enter in no ether with a level 0 Badge */
+    const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
+    const etherEstimate = ethers.utils.formatEther(estimation)
+    console.log(`Estimated gas: ${etherEstimate} ETH`)
+    return parseInt(etherEstimate);
   }
 
   async function onMintAndSendBadge(badgeData: BadgeData, recipientAddress: string, email?: string) {
@@ -166,6 +194,8 @@ export default function CreateBadgeView() {
           onMintAndSendBadge={onMintAndSendBadge}
           pageState={pageState}
           onBackToDraft={onBackToDraft}
+          gasFeesInEth={estimatedGasFeesInEth}
+          badgePriceInEth={0.05}
         />
 
     }
