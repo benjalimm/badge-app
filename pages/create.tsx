@@ -127,6 +127,13 @@ export default function CreateBadgeView() {
       );
       setPageState("LoadingMintBadge");
 
+      console.log("Sending badge email")
+      fetch('/api/badgeEmail').then(res => {
+        console.log(`Successfully sent email ${res}`)
+      }).catch(err => {
+        console.log(`Failed to send email due to error: ${err}`)
+      })
+
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
