@@ -17,7 +17,7 @@ function Siwe() {
       const message = new SiweMessage({
         domain: window.location.host,
         address: accountData?.address,
-        statement: 'Sign in with Ethereum to the app.',
+        statement: 'Sign in with Ethereum into Badge.',
         uri: window.location.origin,
         version: '1',
         chainId: pendingChainId,
