@@ -65,7 +65,7 @@ export default function CreateBadgeView() {
 
   useEffect(() => {
     estimateGasFees().then(fees => {
-      console.log
+      console.log(fees)
       setEstimatedGasFeesInEth(fees)
     }).catch(err => {
       console.log(err);
@@ -88,10 +88,7 @@ export default function CreateBadgeView() {
 
   async function estimateGasFees(): Promise<number> {
 
-    // 1. Establish connection
-    const connection = await web3Modal.connect()
-    const provider = new ethers.providers.Web3Provider(connection)
-    const signer = provider.getSigner();
+    // 1. Establish connection to contract
     const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
 
     console.log("Estimating gas...")
