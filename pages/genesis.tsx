@@ -3,7 +3,6 @@ import React, { useEffect, useContext, useState, ReactElement } from 'react'
 import styles from '../styles/genesis.module.css'
 import PageTitleView from '../components/PageTitleView'
 import { useRouter } from 'next/router';
-import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
@@ -11,9 +10,10 @@ import { EntityInfo } from '../schemas/genesis';
 import { ethers } from 'ethers';
 import BadgeRegistry from '../artifacts/BadgeRegistry.sol/BadgeRegistry.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
-import { chainNetworkUrl } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
+import { useSession } from 'next-auth/react';
+import { useSigner } from 'wagmi';
 
 type PageState = 
 "ENTRY" | 
@@ -28,13 +28,15 @@ type DeployState =
 
 export default function DeployEntityPage() {
   const router = useRouter();
-  const { active, web3Modal } = useContext(Web3AuthContext);
+  const { status } = useSession();
   const [pageState, setPageState] = useState<PageState>("ENTRY")
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
     genesisTokenHolder: ""
   });
+  const active = status === "authenticated";
+  const { data:signer } = useSigner()
   
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 
@@ -67,11 +69,6 @@ export default function DeployEntityPage() {
   async function deployEntity(entityName: string) {
 
     try {
-
-      // 1. Establish connection
-      const connection = await web3Modal.connect()
-      const provider = new ethers.providers.Web3Provider(connection)
-      const signer = provider.getSigner();
 
       // 2. Instantiate Badge Registry
       const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)

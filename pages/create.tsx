@@ -18,6 +18,7 @@ import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 import TransactionInfo from '../schemas/TransactionInfo';
 import { Chain } from '../schemas/ChainTypes';
 import { currentChain } from '../configs/blockchainConfig';
+import { useSigner } from 'wagmi';
 
 export default function CreateBadgeView() {
 
@@ -32,7 +33,7 @@ export default function CreateBadgeView() {
   const [email, setEmailAddress] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>("");
 
-  const { web3Modal } = useContext(Web3AuthContext);
+  const { data:signer } = useSigner()
 
   useEffect(() => {
     const currentEntity = getCurrentEntity();
@@ -83,11 +84,6 @@ export default function CreateBadgeView() {
       if (!currentEntityInfo) {
         throw new Error("No current entity info");
       }
-
-      // 1. Establish connection
-      const connection = await web3Modal.connect()
-      const provider = new ethers.providers.Web3Provider(connection)
-      const signer = provider.getSigner();
 
       // 2. Upload ERC721 metadata to IPFS
       const url = await uploadERC721ToIpfs({
