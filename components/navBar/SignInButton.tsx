@@ -3,7 +3,7 @@ import styles from "../../styles/navBar.module.css";
 
 const SignInButton = ({ connect }: { connect: () => (void)}) => {
   return <button className={styles.loginButton} onClick={connect}>
-        Sign in to Web3
+        Sign in with Ethereum
   </button>
 }
 

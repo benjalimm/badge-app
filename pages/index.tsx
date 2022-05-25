@@ -18,8 +18,8 @@ const LandingPage = () => {
   useEffect(() => {
 
     if (active) {
-      // signOut()
-      router.push('/genesis')
+      signOut()
+      // router.push('/genesis')
     }
     console.log(status)
   
