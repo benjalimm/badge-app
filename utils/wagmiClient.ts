@@ -19,7 +19,7 @@ const { chains, provider, webSocketProvider } = configureChains(defaultChains, [
 
 // Set up client
 const client = createClient({
-  autoConnect: false,
+  autoConnect: true,
   connectors: [
     new MetaMaskConnector({ chains }),
     new CoinbaseWalletConnector({

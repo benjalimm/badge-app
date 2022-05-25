@@ -57,6 +57,7 @@ function TransactionDetails(
   useEffect(() => {
     getUSDPriceForEth(gasFeesInEth)
       .then(price => {
+        console.log(`Price: ${price}`)
         setGasUsdPrice(price);
       }).catch(err => {
         console.log(err);
@@ -127,6 +128,7 @@ function EstimatedTransaction(
 
   const usdValueString = usdValue ? `$${usdValue.toFixed(2)}` : '--';
   const cryptoValueString = cryptoValue ? `${cryptoValue.toFixed(5)}` : '--';
+  
   return <div className={style.estimatedTransaction} style={customStyle}>
     <h1 className={style.transactionName}>{name}</h1>
     <span className={style.transactionUsdText}>{ 
