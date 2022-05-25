@@ -28,9 +28,9 @@
   color: white;
   font: 'Inter';
   font-weight: bold;
-  font-size: 17px;
+  font-size: 14px;
   transition-duration: 0.2s;
-  box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.4);
 }
 
 .loginButton:hover {
@@ -46,7 +46,7 @@
   background-color: white;
   border-radius: 30px;
   margin-right: 40px;
-  box-shadow: 0 5px 10px -5px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: flex-start
@@ -90,7 +90,7 @@
     margin-left: 5px;
   }
 
-  
+
   .navBar {
     height: 60px;
     justify-content: center;
@@ -107,7 +107,7 @@
     background-color: black;
     border-radius: 30px;
     margin-right: 25px;
-    font-size: 11px;
+    font-size: 8px;
   }
 
   .loginButton:hover {
@@ -117,5 +117,5 @@
     transition-duration: 0.2s;
     background-color: royalblue;
   }
-  
+
 }
