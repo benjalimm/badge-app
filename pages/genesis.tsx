@@ -70,9 +70,10 @@ export default function DeployEntityPage() {
 
     try {
 
-      // 2. Instantiate Badge Registry
+      // 1. Instantiate Badge registry
       const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
-
+      
+      //2. Set deploy state to IPFS upload 
       setDeployState("STARTED_IPFS_UPLOAD")
 
       // 3. Check if ipfs url exist, if not -> generate IPFS
@@ -90,35 +91,38 @@ export default function DeployEntityPage() {
           }
         }
       }) 
+
+      // 4. Set deploy state to uploaded
       setDeployState("IPFS_UPLOADED")
       console.log(`IPFS URL: ${ipfsUrl}`)
 
-      // 1. Deploy the entity
+      // 5. Call register entity on Badge registry contract
       await badgeRegistry.registerEntity(entityName, ipfsUrl)
+
+      // 6. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("LOADING")
 
-      // Listen to EntityDeployed event
-
+      // 7. Wait for entity to be registered, set data of entity once event is emitted
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 
-        // 1. Set entity info for view
+        // 7.1. Set entity info for view
         setEntityInfo({
           address: entityAddress,
           name: entityName,
           genesisTokenHolder: genesisTokenHolder
         })
 
-        // 2. Set entity info for local storage
+        // 7.2. Set entity info for local storage -> IMPORTANT
         setCurrentEntity({
           address: entityAddress,
           name: entityName,
           timestampOfLastVerified: Date.now()
         })
 
-        // 3. Set page state to success, this will change the state to the receipt view
+        // 7.3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }
@@ -129,9 +133,7 @@ export default function DeployEntityPage() {
     
   }
 
-  /**
-   * If the user is not logged in, redirect to landing page
-   */
+  /** If the user is not logged in, redirect to landing page */
   useEffect(() => {
     if (!active) {
       router.push('/')
