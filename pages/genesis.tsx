@@ -43,6 +43,7 @@ export default function DeployEntityPage() {
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
 
+  /** Progress view timer */
   useEffect(() => {
     if (pageState === "LOADING") {
       // Start timer
@@ -51,10 +52,14 @@ export default function DeployEntityPage() {
       const duration = 20
       let currentPercentage = startPercentage
       const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
-      setInterval(() => {
+      const interval = setInterval(() => {
         if (currentPercentage < endPercentage) {
           currentPercentage += incrementedPercentagePerMs
           setLoadingPercentage(currentPercentage)
+        }
+
+        if (currentPercentage >= endPercentage) {
+          clearInterval(interval)
         }
       }, 10);
 
@@ -62,11 +67,7 @@ export default function DeployEntityPage() {
 
   }, [pageState, deployState])
 
-  /**
-   * 
-   * @param entityName The name of the entity to deploy
-   */
-  async function deployEntity(entityName: string) {
+  async function registerEntity(entityName: string) {
 
     try {
 
@@ -143,7 +144,7 @@ export default function DeployEntityPage() {
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
       case "ENTRY":
-        return <DeployEntityEntryView deployEntity={deployEntity}/>
+        return <DeployEntityEntryView deployEntity={registerEntity}/>
       case "LOADING":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "SUCCESS":

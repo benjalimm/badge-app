@@ -209,7 +209,7 @@ export default function CreateBadgeView() {
           badgeId={badgeData.id}
           recipient={recipientAddress}
           email={email}
-          level={3}
+          level={badgeData.level}
           chain={currentChain}
           transactionHash={transactionHash}
 
