@@ -20,9 +20,10 @@ export const etherscanAddress =  process.env.IS_PROD ?
 export async function getUsersListOfTransactions(
   userId: string
 ): Promise<TransactionDetails[]> {
+  console.log(`Getting list of users transactions for userId ${userId}`)
   const response = await fetch(`https://${etherscanAddress}/api?module=account&action=txlist&address=${userId}`);
   const transactionResponse = await response.json() as TransactionResponse;
-
+  console.log(transactionResponse)
   if (transactionResponse.status === "1") {
     return transactionResponse.result;
   }
