@@ -14,6 +14,7 @@ import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner } from 'wagmi';
+import { BadgeRegistry__factory} from "../typechain";
 
 type PageState = 
 "ENTRY" | 
@@ -63,15 +64,15 @@ export default function DeployEntityPage() {
   }, [pageState, deployState])
 
   /**
-   * 
+   * This method registers an entity on chain
    * @param entityName The name of the entity to deploy
    */
   async function deployEntity(entityName: string) {
 
     try {
 
-      // 2. Instantiate Badge Registry
-      const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
+      // 1. Instantiate Badge Registry
+      const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
 
       setDeployState("STARTED_IPFS_UPLOAD")
 
@@ -94,12 +95,11 @@ export default function DeployEntityPage() {
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 1. Deploy the entity
-      await badgeRegistry.registerEntity(entityName, ipfsUrl)
+      await badgeRegistry.registerEntity(entityName, ipfsUrl);
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("LOADING")
 
       // Listen to EntityDeployed event
-
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
