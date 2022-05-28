@@ -44,6 +44,7 @@ export default function DeployEntityPage() {
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
 
+  /** Progress view timer */
   useEffect(() => {
     if (pageState === "LOADING") {
       // Start timer
@@ -52,10 +53,14 @@ export default function DeployEntityPage() {
       const duration = 20
       let currentPercentage = startPercentage
       const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
-      setInterval(() => {
+      const interval = setInterval(() => {
         if (currentPercentage < endPercentage) {
           currentPercentage += incrementedPercentagePerMs
           setLoadingPercentage(currentPercentage)
+        }
+
+        if (currentPercentage >= endPercentage) {
+          clearInterval(interval)
         }
       }, 10);
 
@@ -91,34 +96,38 @@ export default function DeployEntityPage() {
           }
         }
       }) 
+
+      // 4. Set deploy state to uploaded
       setDeployState("IPFS_UPLOADED")
       console.log(`IPFS URL: ${ipfsUrl}`)
 
-      // 1. Deploy the entity
-      await badgeRegistry.registerEntity(entityName, ipfsUrl);
+      // 5. Call register entity on Badge registry contract
+      await badgeRegistry.registerEntity(entityName, ipfsUrl)
+
+      // 6. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("LOADING")
 
-      // Listen to EntityDeployed event
+      // 7. Wait for entity to be registered, set data of entity once event is emitted
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 
-        // 1. Set entity info for view
+        // 7.1. Set entity info for view
         setEntityInfo({
           address: entityAddress,
           name: entityName,
           genesisTokenHolder: genesisTokenHolder
         })
 
-        // 2. Set entity info for local storage
+        // 7.2. Set entity info for local storage -> IMPORTANT
         setCurrentEntity({
           address: entityAddress,
           name: entityName,
           timestampOfLastVerified: Date.now()
         })
 
-        // 3. Set page state to success, this will change the state to the receipt view
+        // 7.3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }
@@ -129,9 +138,7 @@ export default function DeployEntityPage() {
     
   }
 
-  /**
-   * If the user is not logged in, redirect to landing page
-   */
+  /** If the user is not logged in, redirect to landing page */
   useEffect(() => {
     if (!active) {
       router.push('/')
@@ -141,7 +148,7 @@ export default function DeployEntityPage() {
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
       case "ENTRY":
-        return <DeployEntityEntryView deployEntity={deployEntity}/>
+        return <DeployEntityEntryView deployEntity={registerEntity}/>
       case "LOADING":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "SUCCESS":

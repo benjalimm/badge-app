@@ -11,21 +11,19 @@ import Entity from "../artifacts/Entity.sol/Entity.json";
 import BadgeToken from '../artifacts/BadgeToken.sol/BadgeToken.json';
 import { ethers } from 'ethers';
 import { getCurrentEntity } from '../utils/entityLocalState';
-import { EntityInfo } from "../schemas/EntityLocalStorage";
-import { Web3AuthContext } from '../contexts/Web3AuthContext';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 import TransactionInfo from '../schemas/TransactionInfo';
-import { Chain } from '../schemas/ChainTypes';
 import { currentChain } from '../configs/blockchainConfig';
+import { useSigner, useAccount } from 'wagmi';
+import { checkIfTransactionisSuccessful } from '../utils/etherscan';
+import { useSession } from 'next-auth/react';
 import { useSigner } from 'wagmi';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
 
 export default function CreateBadgeView() {
 
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
-  const [currentEntityInfo, setCurrentEntityInfo] 
-  = useState<EntityInfo | null>(null)
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
 
   /** Data */
@@ -35,28 +33,48 @@ export default function CreateBadgeView() {
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
+  const currentEntityInfo = getCurrentEntity();
 
+  /* Wagmi hooks */
   const { data:signer } = useSigner()
+  const { data: accountResults } = useAccount()
+  const { data: session } = useSession()
 
-  useEffect(() => {
-    const currentEntity = getCurrentEntity();
-    if (currentEntity) {
-      setCurrentEntityInfo(currentEntity);
-    }
-  }, [])
+  /** Polling  */
+  const [shouldPoll, setShouldPoll] = useState<boolean>(false)
 
+  /** Start loading indicator */
   useEffect(() => {
     if (pageState === "LoadingMintBadge") {
-      // Start timer
+      
+      // 1. Start at 5%
       const startPercentage = 5
+
+      // 2. Complete at 95%
       const endPercentage = 95
+
+      // 3. Timer should be 20s
       const duration = 20
       let currentPercentage = startPercentage
+
+      // 4. Calculated increment for every loop
       const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
-      setInterval(() => {
+      
+      // 5. Start timer
+      const interval = setInterval(() => {
+
+        // 5.1 Increment percentage
         if (currentPercentage < endPercentage) {
           currentPercentage += incrementedPercentagePerMs
           setLoadingPercentage(currentPercentage)
+        }
+
+        // 6. If timer is up + no successful Badge -> Poll manually with api
+        if  (currentPercentage >= endPercentage &&  pageState === "LoadingMintBadge") {
+          setShouldPoll(true)
+
+          // 6.1 Clear interval
+          clearInterval(interval);
         }
       }, 10);
 
@@ -64,6 +82,22 @@ export default function CreateBadgeView() {
 
   }, [pageState])
 
+  /** Poll transaction via api manually here*/
+  useEffect(() => {
+    if (shouldPoll) {
+      console.log("Polling for transaction")
+      checkIfTransactionisSuccessful(transactionHash, session.user!.name!).then(successful => {
+        if (successful) {
+          setPageState("BadgeSuccessfullyMinted")
+        }
+      }).catch(err =>{
+        console.log(`Polling error: ${err}`)
+      })
+    }
+
+  }, [shouldPoll])
+
+  /** Estimate gas fees here */
   useEffect(() => {
     estimateGasFees().then(fees => {
       console.log(fees)
@@ -149,6 +183,9 @@ export default function CreateBadgeView() {
       );
       setPageState("LoadingMintBadge");
 
+      const { transactionHash } = (await transaction.wait()) as TransactionInfo
+      setTransactionHash(transactionHash)
+
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
@@ -176,7 +213,7 @@ export default function CreateBadgeView() {
           badgeId={badgeData.id}
           recipient={recipientAddress}
           email={email}
-          level={3}
+          level={badgeData.level}
           chain={currentChain}
           transactionHash={transactionHash}
 
