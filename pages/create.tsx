@@ -18,6 +18,8 @@ import { currentChain } from '../configs/blockchainConfig';
 import { useSigner, useAccount } from 'wagmi';
 import { checkIfTransactionisSuccessful } from '../utils/etherscan';
 import { useSession } from 'next-auth/react';
+import { useSigner } from 'wagmi';
+import { Entity__factory, BadgeToken__factory } from '../typechain';
 
 export default function CreateBadgeView() {
 
@@ -122,11 +124,11 @@ export default function CreateBadgeView() {
   async function estimateGasFees(): Promise<number> {
 
     // 1. Establish connection to contract
-    const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+    const entity = Entity__factory.connect(currentEntityInfo.address, signer);
 
     console.log("Estimating gas...")
     // 2. Estimate gas 
-    //** You should be able to enter in no ether with a level 0 Badge */
+    /// Note: You should be able to enter in no ether with a level 0 Badge 
     const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
     const etherEstimate = ethers.utils.formatEther(estimation)
     console.log(`Estimated gas: ${etherEstimate} ETH`)
@@ -166,11 +168,11 @@ export default function CreateBadgeView() {
       
       // 3. Instantiate Entity contract
       console.log(currentEntityInfo.address);
-      const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+      const entity = Entity__factory.connect(currentEntityInfo.address, signer);
       const badgeTokenAddress = await entity.badgeToken()
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
-      const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
-      
+      const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
+    
       console.log(`Badge level: ${badgeData.level}`);
       // 4. Mint Badge + set page state to loading
       const transaction = await entity.mintBadge(
@@ -193,6 +195,8 @@ export default function CreateBadgeView() {
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
       })
+      
+      setTransactionHash(transaction.hash)
 
     } catch (error) {
       console.log(error);

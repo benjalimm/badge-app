@@ -14,6 +14,7 @@ import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner } from 'wagmi';
+import { BadgeRegistry__factory} from "../typechain";
 
 type PageState = 
 "ENTRY" | 
@@ -67,14 +68,17 @@ export default function DeployEntityPage() {
 
   }, [pageState, deployState])
 
-  async function registerEntity(entityName: string) {
+  /**
+   * This method registers an entity on chain
+   * @param entityName The name of the entity to deploy
+   */
+  async function deployEntity(entityName: string) {
 
     try {
 
-      // 1. Instantiate Badge registry
-      const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
-      
-      //2. Set deploy state to IPFS upload 
+      // 1. Instantiate Badge Registry
+      const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+
       setDeployState("STARTED_IPFS_UPLOAD")
 
       // 3. Check if ipfs url exist, if not -> generate IPFS
