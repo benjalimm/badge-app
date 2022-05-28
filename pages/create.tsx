@@ -7,8 +7,6 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';
 import { PageState } from '../schemas/create';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
-import Entity from "../artifacts/Entity.sol/Entity.json";
-import BadgeToken from '../artifacts/BadgeToken.sol/BadgeToken.json';
 import { ethers } from 'ethers';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
@@ -18,7 +16,6 @@ import { currentChain } from '../configs/blockchainConfig';
 import { useSigner, useAccount } from 'wagmi';
 import { checkIfTransactionisSuccessful } from '../utils/etherscan';
 import { useSession } from 'next-auth/react';
-import { useSigner } from 'wagmi';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
 
 export default function CreateBadgeView() {
@@ -182,9 +179,8 @@ export default function CreateBadgeView() {
         { value: ethers.utils.parseEther('0.05')}
       );
       setPageState("LoadingMintBadge");
-
-      const { transactionHash } = (await transaction.wait()) as TransactionInfo
-      setTransactionHash(transactionHash)
+      
+      setTransactionHash(transaction.hash)
 
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);

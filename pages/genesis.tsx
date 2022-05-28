@@ -7,8 +7,6 @@ import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
-import { ethers } from 'ethers';
-import BadgeRegistry from '../artifacts/BadgeRegistry.sol/BadgeRegistry.json';
 import { badgeContractAddress } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
@@ -72,7 +70,7 @@ export default function DeployEntityPage() {
    * This method registers an entity on chain
    * @param entityName The name of the entity to deploy
    */
-  async function deployEntity(entityName: string) {
+  async function registerEntity(entityName: string) {
 
     try {
 
