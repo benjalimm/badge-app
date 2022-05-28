@@ -19,6 +19,7 @@ import TransactionInfo from '../schemas/TransactionInfo';
 import { Chain } from '../schemas/ChainTypes';
 import { currentChain } from '../configs/blockchainConfig';
 import { useSigner } from 'wagmi';
+import { Entity__factory, BadgeToken__factory } from '../typechain';
 
 export default function CreateBadgeView() {
 
@@ -133,11 +134,11 @@ export default function CreateBadgeView() {
       
       // 3. Instantiate Entity contract
       console.log(currentEntityInfo.address);
-      const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+      const entity = Entity__factory.connect(currentEntityInfo.address, signer);
       const badgeTokenAddress = await entity.badgeToken()
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
-      const badgeToken = new ethers.Contract(badgeTokenAddress, BadgeToken.abi, signer)
-      
+      const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
+    
       console.log(`Badge level: ${badgeData.level}`);
       // 4. Mint Badge + set page state to loading
       const transaction = await entity.mintBadge(
@@ -157,9 +158,8 @@ export default function CreateBadgeView() {
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
       })
-
-      const { transactionHash } = (await transaction.wait()) as TransactionInfo
-      setTransactionHash(transactionHash)
+      
+      setTransactionHash(transaction.hash)
 
     } catch (error) {
       console.log(error);
