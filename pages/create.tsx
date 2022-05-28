@@ -90,11 +90,11 @@ export default function CreateBadgeView() {
   async function estimateGasFees(): Promise<number> {
 
     // 1. Establish connection to contract
-    const entity = new ethers.Contract(currentEntityInfo.address, Entity.abi, signer);
+    const entity = Entity__factory.connect(currentEntityInfo.address, signer);
 
     console.log("Estimating gas...")
     // 2. Estimate gas 
-    //** You should be able to enter in no ether with a level 0 Badge */
+    /// Note: You should be able to enter in no ether with a level 0 Badge 
     const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
     const etherEstimate = ethers.utils.formatEther(estimation)
     console.log(`Estimated gas: ${etherEstimate} ETH`)

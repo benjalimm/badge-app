@@ -64,16 +64,14 @@ export default function DeployEntityPage() {
   }, [pageState, deployState])
 
   /**
-   * 
+   * This method registers an entity on chain
    * @param entityName The name of the entity to deploy
    */
   async function deployEntity(entityName: string) {
 
     try {
 
-      // 2. Instantiate Badge Registry
-      // const badgeRegistry = new ethers.Contract(badgeContractAddress, BadgeRegistry.abi, signer)
-
+      // 1. Instantiate Badge Registry
       const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
 
       setDeployState("STARTED_IPFS_UPLOAD")
@@ -97,7 +95,6 @@ export default function DeployEntityPage() {
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 1. Deploy the entity
-      // await badgeRegistry.registerEntity(entityName, ipfsUrl)
       await badgeRegistry.registerEntity(entityName, ipfsUrl);
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("LOADING")
