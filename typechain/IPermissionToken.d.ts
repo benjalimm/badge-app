@@ -22,7 +22,8 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface IPermissionTokenInterface extends ethers.utils.Interface {
   functions: {
     "getEntityAddress()": FunctionFragment;
-    "mintAsEntity(address,string)": FunctionFragment;
+    "getPermStatusForUser(address)": FunctionFragment;
+    "mintAsEntity(address,uint8,string)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -30,12 +31,20 @@ interface IPermissionTokenInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getPermStatusForUser",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "mintAsEntity",
-    values: [string, string]
+    values: [string, BigNumberish, string]
   ): string;
 
   decodeFunctionResult(
     functionFragment: "getEntityAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getPermStatusForUser",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -92,8 +101,14 @@ export class IPermissionToken extends BaseContract {
   functions: {
     getEntityAddress(overrides?: CallOverrides): Promise<[string]>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
+
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -101,8 +116,14 @@ export class IPermissionToken extends BaseContract {
 
   getEntityAddress(overrides?: CallOverrides): Promise<string>;
 
+  getPermStatusForUser(
+    user: string,
+    overrides?: CallOverrides
+  ): Promise<number>;
+
   mintAsEntity(
     _owner: string,
+    level: BigNumberish,
     tokenURI: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -110,8 +131,14 @@ export class IPermissionToken extends BaseContract {
   callStatic: {
     getEntityAddress(overrides?: CallOverrides): Promise<string>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<number>;
+
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -122,8 +149,14 @@ export class IPermissionToken extends BaseContract {
   estimateGas: {
     getEntityAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -132,8 +165,14 @@ export class IPermissionToken extends BaseContract {
   populateTransaction: {
     getEntityAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

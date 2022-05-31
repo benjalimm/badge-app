@@ -24,7 +24,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "enum IEntity.PermLevel",
+        internalType: "enum PermLevel",
         name: "assignerLevel",
         type: "uint8",
       },
@@ -36,7 +36,7 @@ const _abi = [
       },
       {
         indexed: false,
-        internalType: "enum IEntity.PermLevel",
+        internalType: "enum PermLevel",
         name: "assigneeLevel",
         type: "uint8",
       },
@@ -52,7 +52,7 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "enum IEntity.PermLevel",
+        internalType: "enum PermLevel",
         name: "level",
         type: "uint8",
       },

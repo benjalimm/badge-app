@@ -28,10 +28,12 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "entityAddress()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getEntityAddress()": FunctionFragment;
+    "getPermStatusForUser(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintAsEntity(address,string)": FunctionFragment;
+    "mintAsEntity(address,uint8,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "permissionTokenHolders(address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -62,17 +64,25 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getPermStatusForUser",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mintAsEntity",
-    values: [string, string]
+    values: [string, BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "permissionTokenHolders",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -115,6 +125,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getPermStatusForUser",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
@@ -124,6 +138,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "permissionTokenHolders",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -237,6 +255,11 @@ export class PermissionToken extends BaseContract {
 
     getEntityAddress(overrides?: CallOverrides): Promise<[string]>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -245,6 +268,7 @@ export class PermissionToken extends BaseContract {
 
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -255,6 +279,11 @@ export class PermissionToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    permissionTokenHolders(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -316,6 +345,11 @@ export class PermissionToken extends BaseContract {
 
   getEntityAddress(overrides?: CallOverrides): Promise<string>;
 
+  getPermStatusForUser(
+    user: string,
+    overrides?: CallOverrides
+  ): Promise<number>;
+
   isApprovedForAll(
     owner: string,
     operator: string,
@@ -324,6 +358,7 @@ export class PermissionToken extends BaseContract {
 
   mintAsEntity(
     _owner: string,
+    level: BigNumberish,
     tokenURI: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -331,6 +366,11 @@ export class PermissionToken extends BaseContract {
   name(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+  permissionTokenHolders(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<number>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -389,6 +429,11 @@ export class PermissionToken extends BaseContract {
 
     getEntityAddress(overrides?: CallOverrides): Promise<string>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<number>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -397,6 +442,7 @@ export class PermissionToken extends BaseContract {
 
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -404,6 +450,11 @@ export class PermissionToken extends BaseContract {
     name(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    permissionTokenHolders(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<number>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -519,6 +570,11 @@ export class PermissionToken extends BaseContract {
 
     getEntityAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -527,6 +583,7 @@ export class PermissionToken extends BaseContract {
 
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -535,6 +592,11 @@ export class PermissionToken extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    permissionTokenHolders(
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -602,6 +664,11 @@ export class PermissionToken extends BaseContract {
 
     getEntityAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getPermStatusForUser(
+      user: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     isApprovedForAll(
       owner: string,
       operator: string,
@@ -610,6 +677,7 @@ export class PermissionToken extends BaseContract {
 
     mintAsEntity(
       _owner: string,
+      level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
@@ -618,6 +686,11 @@ export class PermissionToken extends BaseContract {
 
     ownerOf(
       tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    permissionTokenHolders(
+      arg0: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
