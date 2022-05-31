@@ -26,6 +26,8 @@ interface EntityInterface extends ethers.utils.Interface {
     "badgeRegistry()": FunctionFragment;
     "badgeToken()": FunctionFragment;
     "demeritPoints()": FunctionFragment;
+    "entityName()": FunctionFragment;
+    "genesisTokenHolder()": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
     "getDemeritPoints()": FunctionFragment;
@@ -33,7 +35,6 @@ interface EntityInterface extends ethers.utils.Interface {
     "incrementDemeritPoints()": FunctionFragment;
     "mintBadge(address,uint256,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
-    "permissionTokenHolders(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -50,6 +51,14 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "demeritPoints",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "entityName",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "genesisTokenHolder",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -80,10 +89,6 @@ interface EntityInterface extends ethers.utils.Interface {
     functionFragment: "permissionToken",
     values?: undefined
   ): string;
-  encodeFunctionData(
-    functionFragment: "permissionTokenHolders",
-    values: [string]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "assignPermissionToken",
@@ -96,6 +101,11 @@ interface EntityInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "badgeToken", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "demeritPoints",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "entityName", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "genesisTokenHolder",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -121,10 +131,6 @@ interface EntityInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "permissionToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "permissionTokenHolders",
     data: BytesLike
   ): Result;
 
@@ -204,6 +210,10 @@ export class Entity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { _value: BigNumber }>;
 
+    entityName(overrides?: CallOverrides): Promise<[string]>;
+
+    genesisTokenHolder(overrides?: CallOverrides): Promise<[string]>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
@@ -224,11 +234,6 @@ export class Entity extends BaseContract {
     ): Promise<ContractTransaction>;
 
     permissionToken(overrides?: CallOverrides): Promise<[string]>;
-
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
   };
 
   assignPermissionToken(
@@ -243,6 +248,10 @@ export class Entity extends BaseContract {
   badgeToken(overrides?: CallOverrides): Promise<string>;
 
   demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+  entityName(overrides?: CallOverrides): Promise<string>;
+
+  genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
 
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
@@ -265,11 +274,6 @@ export class Entity extends BaseContract {
 
   permissionToken(overrides?: CallOverrides): Promise<string>;
 
-  permissionTokenHolders(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
   callStatic: {
     assignPermissionToken(
       assignee: string,
@@ -283,6 +287,10 @@ export class Entity extends BaseContract {
     badgeToken(overrides?: CallOverrides): Promise<string>;
 
     demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+    entityName(overrides?: CallOverrides): Promise<string>;
+
+    genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
 
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
@@ -302,11 +310,6 @@ export class Entity extends BaseContract {
     ): Promise<void>;
 
     permissionToken(overrides?: CallOverrides): Promise<string>;
-
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<number>;
   };
 
   filters: {
@@ -359,6 +362,10 @@ export class Entity extends BaseContract {
 
     demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
+    entityName(overrides?: CallOverrides): Promise<BigNumber>;
+
+    genesisTokenHolder(overrides?: CallOverrides): Promise<BigNumber>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
@@ -379,11 +386,6 @@ export class Entity extends BaseContract {
     ): Promise<BigNumber>;
 
     permissionToken(overrides?: CallOverrides): Promise<BigNumber>;
-
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -399,6 +401,12 @@ export class Entity extends BaseContract {
     badgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     demeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    entityName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    genesisTokenHolder(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -422,10 +430,5 @@ export class Entity extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     permissionToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
   };
 }

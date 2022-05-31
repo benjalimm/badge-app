@@ -27,8 +27,32 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
+    name: "getPermStatusForUser",
+    outputs: [
+      {
+        internalType: "enum PermLevel",
+        name: "",
+        type: "uint8",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "_owner",
         type: "address",
+      },
+      {
+        internalType: "enum PermLevel",
+        name: "level",
+        type: "uint8",
       },
       {
         internalType: "string",
