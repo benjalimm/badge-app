@@ -12,7 +12,7 @@ import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner } from 'wagmi';
-import { BadgeRegistry__factory} from "../typechain";
+import { BadgeRegistry__factory } from "../typechain";
 
 type PageState = 
 "ENTRY" | 
