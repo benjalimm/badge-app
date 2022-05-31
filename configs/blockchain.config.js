@@ -14,7 +14,7 @@ module.exports = {
   },
   optimisticKovan: {
     url: 'https://optimism-kovan.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x5c80068fC9c16734Fa6697C7037D5E5De6325f65"
+    badgeContractAddress: "0x45d8BF9fd040d097175f64C6EDF96e16b9F1Cb1b"
   },
   optimismMainnet: {
     url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
