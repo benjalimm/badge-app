@@ -43,10 +43,12 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
   events: {
     "BadgeBurned(address,bool)": EventFragment;
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
+    "RecoveryComplete(uint256[],address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RecoveryComplete"): EventFragment;
 }
 
 export type BadgeBurnedEvent = TypedEvent<
@@ -59,6 +61,14 @@ export type BadgeMintedEvent = TypedEvent<
     tokenId: BigNumber;
     level: BigNumber;
     tokenURI: string;
+  }
+>;
+
+export type RecoveryCompleteEvent = TypedEvent<
+  [BigNumber[], string, string] & {
+    recoveredIds: BigNumber[];
+    initialAddress: string;
+    recoveryAddress: string;
   }
 >;
 
@@ -180,6 +190,32 @@ export class IBadgeToken extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber, BigNumber, string],
       { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
+    >;
+
+    "RecoveryComplete(uint256[],address,address)"(
+      recoveredIds?: null,
+      initialAddress?: null,
+      recoveryAddress?: null
+    ): TypedEventFilter<
+      [BigNumber[], string, string],
+      {
+        recoveredIds: BigNumber[];
+        initialAddress: string;
+        recoveryAddress: string;
+      }
+    >;
+
+    RecoveryComplete(
+      recoveredIds?: null,
+      initialAddress?: null,
+      recoveryAddress?: null
+    ): TypedEventFilter<
+      [BigNumber[], string, string],
+      {
+        recoveredIds: BigNumber[];
+        initialAddress: string;
+        recoveryAddress: string;
+      }
     >;
   };
 

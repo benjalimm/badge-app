@@ -101,6 +101,19 @@ const _abi = [
     type: "event",
   },
   {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "recoveryOracle",
+        type: "address",
+      },
+    ],
+    name: "RecoveryOracleSet",
+    type: "event",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -186,6 +199,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "getRecoveryOracle",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getSafe",
     outputs: [
       {
@@ -230,71 +256,6 @@ const _abi = [
       },
     ],
     name: "registerEntity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_badgePriceCalculator",
-        type: "address",
-      },
-    ],
-    name: "setBadgePriceCalculator",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_badgeTokenFactory",
-        type: "address",
-      },
-    ],
-    name: "setBadgeTokenFactory",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_badgeXPToken",
-        type: "address",
-      },
-    ],
-    name: "setBadgeXPToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_entityFactory",
-        type: "address",
-      },
-    ],
-    name: "setEntityFactory",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "_permissionTokenFactory",
-        type: "address",
-      },
-    ],
-    name: "setPermissionTokenFactory",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

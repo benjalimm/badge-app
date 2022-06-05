@@ -42,6 +42,11 @@ const _abi = [
         name: "_entityName",
         type: "string",
       },
+      {
+        internalType: "address",
+        name: "recoveryOracle",
+        type: "address",
+      },
     ],
     name: "createBadgeToken",
     outputs: [

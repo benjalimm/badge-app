@@ -31,6 +31,8 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "mintBadge(address,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "recover(uint256)": FunctionFragment;
+    "recoveryOracle()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -65,6 +67,14 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "recover",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "recoveryOracle",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -106,6 +116,11 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "recover", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "recoveryOracle",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -130,6 +145,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BadgeBurned(address,bool)": EventFragment;
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
+    "RecoveryComplete(uint256[],address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
@@ -137,6 +153,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RecoveryComplete"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -166,6 +183,14 @@ export type BadgeMintedEvent = TypedEvent<
     tokenId: BigNumber;
     level: BigNumber;
     tokenURI: string;
+  }
+>;
+
+export type RecoveryCompleteEvent = TypedEvent<
+  [BigNumber[], string, string] & {
+    recoveredIds: BigNumber[];
+    initialAddress: string;
+    recoveryAddress: string;
   }
 >;
 
@@ -257,6 +282,13 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    recover(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
+
     "safeTransferFrom(address,address,uint256)"(
       from: string,
       to: string,
@@ -335,6 +367,13 @@ export class BadgeToken extends BaseContract {
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+  recover(
+    id: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  recoveryOracle(overrides?: CallOverrides): Promise<string>;
+
   "safeTransferFrom(address,address,uint256)"(
     from: string,
     to: string,
@@ -409,6 +448,10 @@ export class BadgeToken extends BaseContract {
     name(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
+
+    recover(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -521,6 +564,32 @@ export class BadgeToken extends BaseContract {
       { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
     >;
 
+    "RecoveryComplete(uint256[],address,address)"(
+      recoveredIds?: null,
+      initialAddress?: null,
+      recoveryAddress?: null
+    ): TypedEventFilter<
+      [BigNumber[], string, string],
+      {
+        recoveredIds: BigNumber[];
+        initialAddress: string;
+        recoveryAddress: string;
+      }
+    >;
+
+    RecoveryComplete(
+      recoveredIds?: null,
+      initialAddress?: null,
+      recoveryAddress?: null
+    ): TypedEventFilter<
+      [BigNumber[], string, string],
+      {
+        recoveredIds: BigNumber[];
+        initialAddress: string;
+        recoveryAddress: string;
+      }
+    >;
+
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
@@ -580,6 +649,13 @@ export class BadgeToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    recover(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -665,6 +741,13 @@ export class BadgeToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    recover(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
