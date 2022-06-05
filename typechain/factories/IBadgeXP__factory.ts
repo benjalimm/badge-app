@@ -10,6 +10,28 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Failure",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "amount",
         type: "uint256",

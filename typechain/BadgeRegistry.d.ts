@@ -35,6 +35,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "getEntityFactory()": FunctionFragment;
     "getLevelMultiplierX1000()": FunctionFragment;
     "getPermissionTokenFactory()": FunctionFragment;
+    "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
     "levelMultiplierX1000()": FunctionFragment;
@@ -42,12 +43,14 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "permTokenEntityReverseRecord(address)": FunctionFragment;
     "permissionContract()": FunctionFragment;
     "permissionTokenFactory()": FunctionFragment;
+    "recoveryOracle()": FunctionFragment;
     "registerEntity(string,string)": FunctionFragment;
     "setBadgePriceCalculator(address)": FunctionFragment;
     "setBadgeTokenFactory(address)": FunctionFragment;
     "setBadgeXPToken(address)": FunctionFragment;
     "setEntityFactory(address)": FunctionFragment;
     "setPermissionTokenFactory(address)": FunctionFragment;
+    "setRecoveryOracle(address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -103,6 +106,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "getPermissionTokenFactory",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "getRecoveryOracle",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "getSafe", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "isRegistered",
@@ -123,6 +130,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "permissionTokenFactory",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "recoveryOracle",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -147,6 +158,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "setPermissionTokenFactory",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setRecoveryOracle",
     values: [string]
   ): string;
 
@@ -203,6 +218,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "getPermissionTokenFactory",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getRecoveryOracle",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "getSafe", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "isRegistered",
@@ -223,6 +242,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "permissionTokenFactory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "recoveryOracle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -249,6 +272,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "setPermissionTokenFactory",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setRecoveryOracle",
+    data: BytesLike
+  ): Result;
 
   events: {
     "BadgePriceCalculatorSet(address)": EventFragment;
@@ -257,6 +284,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "EntityFactorySet(address)": EventFragment;
     "EntityRegistered(address,string,address)": EventFragment;
     "PermissionTokenFactorySet(address)": EventFragment;
+    "RecoveryOracleSet(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "BadgePriceCalculatorSet"): EventFragment;
@@ -265,6 +293,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "EntityFactorySet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EntityRegistered"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PermissionTokenFactorySet"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RecoveryOracleSet"): EventFragment;
 }
 
 export type BadgePriceCalculatorSetEvent = TypedEvent<
@@ -293,6 +322,10 @@ export type EntityRegisteredEvent = TypedEvent<
 
 export type PermissionTokenFactorySetEvent = TypedEvent<
   [string] & { permissionTokenFactory: string }
+>;
+
+export type RecoveryOracleSetEvent = TypedEvent<
+  [string] & { recoveryOracle: string }
 >;
 
 export class BadgeRegistry extends BaseContract {
@@ -377,6 +410,8 @@ export class BadgeRegistry extends BaseContract {
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
 
+    getRecoveryOracle(overrides?: CallOverrides): Promise<[string]>;
+
     getSafe(overrides?: CallOverrides): Promise<[string]>;
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<[boolean]>;
@@ -393,6 +428,8 @@ export class BadgeRegistry extends BaseContract {
     permissionContract(overrides?: CallOverrides): Promise<[string]>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
 
     registerEntity(
       entityName: string,
@@ -422,6 +459,11 @@ export class BadgeRegistry extends BaseContract {
 
     setPermissionTokenFactory(
       _permissionTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setRecoveryOracle(
+      _recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -464,6 +506,8 @@ export class BadgeRegistry extends BaseContract {
 
   getPermissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
+  getRecoveryOracle(overrides?: CallOverrides): Promise<string>;
+
   getSafe(overrides?: CallOverrides): Promise<string>;
 
   isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
@@ -480,6 +524,8 @@ export class BadgeRegistry extends BaseContract {
   permissionContract(overrides?: CallOverrides): Promise<string>;
 
   permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
+
+  recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
   registerEntity(
     entityName: string,
@@ -509,6 +555,11 @@ export class BadgeRegistry extends BaseContract {
 
   setPermissionTokenFactory(
     _permissionTokenFactory: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setRecoveryOracle(
+    _recoveryOracle: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -551,6 +602,8 @@ export class BadgeRegistry extends BaseContract {
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
+    getRecoveryOracle(overrides?: CallOverrides): Promise<string>;
+
     getSafe(overrides?: CallOverrides): Promise<string>;
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
@@ -567,6 +620,8 @@ export class BadgeRegistry extends BaseContract {
     permissionContract(overrides?: CallOverrides): Promise<string>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
     registerEntity(
       entityName: string,
@@ -596,6 +651,11 @@ export class BadgeRegistry extends BaseContract {
 
     setPermissionTokenFactory(
       _permissionTokenFactory: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setRecoveryOracle(
+      _recoveryOracle: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -658,6 +718,14 @@ export class BadgeRegistry extends BaseContract {
     PermissionTokenFactorySet(
       permissionTokenFactory?: null
     ): TypedEventFilter<[string], { permissionTokenFactory: string }>;
+
+    "RecoveryOracleSet(address)"(
+      recoveryOracle?: null
+    ): TypedEventFilter<[string], { recoveryOracle: string }>;
+
+    RecoveryOracleSet(
+      recoveryOracle?: null
+    ): TypedEventFilter<[string], { recoveryOracle: string }>;
   };
 
   estimateGas: {
@@ -699,6 +767,8 @@ export class BadgeRegistry extends BaseContract {
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getRecoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
+
     getSafe(overrides?: CallOverrides): Promise<BigNumber>;
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
@@ -715,6 +785,8 @@ export class BadgeRegistry extends BaseContract {
     permissionContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     registerEntity(
       entityName: string,
@@ -744,6 +816,11 @@ export class BadgeRegistry extends BaseContract {
 
     setPermissionTokenFactory(
       _permissionTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setRecoveryOracle(
+      _recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -798,6 +875,8 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getRecoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getSafe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     isRegistered(
@@ -823,6 +902,8 @@ export class BadgeRegistry extends BaseContract {
     permissionTokenFactory(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     registerEntity(
       entityName: string,
@@ -852,6 +933,11 @@ export class BadgeRegistry extends BaseContract {
 
     setPermissionTokenFactory(
       _permissionTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setRecoveryOracle(
+      _recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

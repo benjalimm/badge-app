@@ -8,6 +8,39 @@ import type { IBadgeToken, IBadgeTokenInterface } from "../IBadgeToken";
 
 const _abi = [
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Blocked",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Failure",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -55,6 +88,31 @@ const _abi = [
       },
     ],
     name: "BadgeMinted",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "recoveredIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "initialAddress",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "recoveryAddress",
+        type: "address",
+      },
+    ],
+    name: "RecoveryComplete",
     type: "event",
   },
   {

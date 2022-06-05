@@ -19,37 +19,42 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface IBadgeTokenFactoryInterface extends ethers.utils.Interface {
+interface IBadgeRecoveryOracleInterface extends ethers.utils.Interface {
   functions: {
-    "createBadgeToken(string,address)": FunctionFragment;
+    "getRecoveryAddress(address)": FunctionFragment;
+    "setRecoveryAddress(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "createBadgeToken",
-    values: [string, string]
+    functionFragment: "getRecoveryAddress",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setRecoveryAddress",
+    values: [string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "createBadgeToken",
+    functionFragment: "getRecoveryAddress",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setRecoveryAddress",
     data: BytesLike
   ): Result;
 
   events: {
-    "BadgeTokenDeployed(string,address,address)": EventFragment;
+    "RecoveryAddressSet(address,address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "BadgeTokenDeployed"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RecoveryAddressSet"): EventFragment;
 }
 
-export type BadgeTokenDeployedEvent = TypedEvent<
-  [string, string, string] & {
-    entityName: string;
-    entityAddress: string;
-    contractAddress: string;
-  }
+export type RecoveryAddressSetEvent = TypedEvent<
+  [string, string] & { initialAddress: string; recoveryAddress: string }
 >;
 
-export class IBadgeTokenFactory extends BaseContract {
+export class IBadgeRecoveryOracle extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -90,62 +95,80 @@ export class IBadgeTokenFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IBadgeTokenFactoryInterface;
+  interface: IBadgeRecoveryOracleInterface;
 
   functions: {
-    createBadgeToken(
-      _entityName: string,
-      recoveryOracle: string,
+    getRecoveryAddress(
+      _address: string,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
+    setRecoveryAddress(
+      _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
-  createBadgeToken(
-    _entityName: string,
-    recoveryOracle: string,
+  getRecoveryAddress(
+    _address: string,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  setRecoveryAddress(
+    _recoveryAddress: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    createBadgeToken(
-      _entityName: string,
-      recoveryOracle: string,
+    getRecoveryAddress(
+      _address: string,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    setRecoveryAddress(
+      _recoveryAddress: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
-    "BadgeTokenDeployed(string,address,address)"(
-      entityName?: null,
-      entityAddress?: null,
-      contractAddress?: null
+    "RecoveryAddressSet(address,address)"(
+      initialAddress?: null,
+      recoveryAddress?: null
     ): TypedEventFilter<
-      [string, string, string],
-      { entityName: string; entityAddress: string; contractAddress: string }
+      [string, string],
+      { initialAddress: string; recoveryAddress: string }
     >;
 
-    BadgeTokenDeployed(
-      entityName?: null,
-      entityAddress?: null,
-      contractAddress?: null
+    RecoveryAddressSet(
+      initialAddress?: null,
+      recoveryAddress?: null
     ): TypedEventFilter<
-      [string, string, string],
-      { entityName: string; entityAddress: string; contractAddress: string }
+      [string, string],
+      { initialAddress: string; recoveryAddress: string }
     >;
   };
 
   estimateGas: {
-    createBadgeToken(
-      _entityName: string,
-      recoveryOracle: string,
+    getRecoveryAddress(
+      _address: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    setRecoveryAddress(
+      _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    createBadgeToken(
-      _entityName: string,
-      recoveryOracle: string,
+    getRecoveryAddress(
+      _address: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    setRecoveryAddress(
+      _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

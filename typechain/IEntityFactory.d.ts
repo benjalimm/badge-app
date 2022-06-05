@@ -21,12 +21,12 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IEntityFactoryInterface extends ethers.utils.Interface {
   functions: {
-    "createEntity(string,address,string)": FunctionFragment;
+    "createEntity(string,address,address,string)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "createEntity",
-    values: [string, string, string]
+    values: [string, string, string, string]
   ): string;
 
   decodeFunctionResult(
@@ -91,6 +91,7 @@ export class IEntityFactory extends BaseContract {
   functions: {
     createEntity(
       _entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -99,6 +100,7 @@ export class IEntityFactory extends BaseContract {
 
   createEntity(
     _entityName: string,
+    recoveryOracle: string,
     genesisUser: string,
     genesisTokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -107,6 +109,7 @@ export class IEntityFactory extends BaseContract {
   callStatic: {
     createEntity(
       _entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: CallOverrides
@@ -134,6 +137,7 @@ export class IEntityFactory extends BaseContract {
   estimateGas: {
     createEntity(
       _entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -143,6 +147,7 @@ export class IEntityFactory extends BaseContract {
   populateTransaction: {
     createEntity(
       _entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }

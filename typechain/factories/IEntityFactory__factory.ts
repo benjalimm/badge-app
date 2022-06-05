@@ -38,6 +38,11 @@ const _abi = [
       },
       {
         internalType: "address",
+        name: "recoveryOracle",
+        type: "address",
+      },
+      {
+        internalType: "address",
         name: "genesisUser",
         type: "address",
       },
