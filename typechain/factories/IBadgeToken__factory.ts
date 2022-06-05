@@ -8,8 +8,25 @@ import type { IBadgeToken, IBadgeTokenInterface } from "../IBadgeToken";
 
 const _abi = [
   {
-    inputs: [],
-    name: "TransferBlocked",
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Blocked",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Failure",
     type: "error",
   },
   {

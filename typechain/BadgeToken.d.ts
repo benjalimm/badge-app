@@ -31,7 +31,8 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "mintBadge(address,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "recover(address,uint256[])": FunctionFragment;
+    "recover(uint256)": FunctionFragment;
+    "recoveryOracle()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
@@ -69,7 +70,11 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "recover",
-    values: [string, BigNumberish[]]
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "recoveryOracle",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -112,6 +117,10 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "recover", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "recoveryOracle",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
@@ -274,10 +283,11 @@ export class BadgeToken extends BaseContract {
     ): Promise<[string]>;
 
     recover(
-      from: string,
-      ids: BigNumberish[],
+      id: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -358,10 +368,11 @@ export class BadgeToken extends BaseContract {
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   recover(
-    from: string,
-    ids: BigNumberish[],
+    id: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -438,11 +449,9 @@ export class BadgeToken extends BaseContract {
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    recover(
-      from: string,
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<void>;
+    recover(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -642,10 +651,11 @@ export class BadgeToken extends BaseContract {
     ): Promise<BigNumber>;
 
     recover(
-      from: string,
-      ids: BigNumberish[],
+      id: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -733,10 +743,11 @@ export class BadgeToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     recover(
-      from: string,
-      ids: BigNumberish[],
+      id: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,

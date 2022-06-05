@@ -22,7 +22,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface EntityFactoryInterface extends ethers.utils.Interface {
   functions: {
     "badgeRegistry()": FunctionFragment;
-    "createEntity(string,address,string)": FunctionFragment;
+    "createEntity(string,address,address,string)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -31,7 +31,7 @@ interface EntityFactoryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createEntity",
-    values: [string, string, string]
+    values: [string, string, string, string]
   ): string;
 
   decodeFunctionResult(
@@ -102,6 +102,7 @@ export class EntityFactory extends BaseContract {
 
     createEntity(
       entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -112,6 +113,7 @@ export class EntityFactory extends BaseContract {
 
   createEntity(
     entityName: string,
+    recoveryOracle: string,
     genesisUser: string,
     genesisTokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -122,6 +124,7 @@ export class EntityFactory extends BaseContract {
 
     createEntity(
       entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: CallOverrides
@@ -151,6 +154,7 @@ export class EntityFactory extends BaseContract {
 
     createEntity(
       entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -162,6 +166,7 @@ export class EntityFactory extends BaseContract {
 
     createEntity(
       entityName: string,
+      recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }

@@ -6,7 +6,7 @@ module.exports = {
   },
   mumbai: {
     url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0xC9De94E3B2F4BFE487641eB87839B1cDF8EF9FD1"
+    badgeContractAddress: "0xC446BAE3161743a30B5425D2B0EF819902Ed990e"
   },
   mainnet: {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
@@ -14,7 +14,7 @@ module.exports = {
   },
   optimisticKovan: {
     url: 'https://optimism-kovan.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x45d8BF9fd040d097175f64C6EDF96e16b9F1Cb1b"
+    badgeContractAddress: "0x26b56EccF5fbcFe239d4A1281e56EE4fCBCE2183"
   },
   optimismMainnet: {
     url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',

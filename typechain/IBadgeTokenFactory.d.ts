@@ -21,12 +21,12 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IBadgeTokenFactoryInterface extends ethers.utils.Interface {
   functions: {
-    "createBadgeToken(string)": FunctionFragment;
+    "createBadgeToken(string,address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "createBadgeToken",
-    values: [string]
+    values: [string, string]
   ): string;
 
   decodeFunctionResult(
@@ -95,18 +95,21 @@ export class IBadgeTokenFactory extends BaseContract {
   functions: {
     createBadgeToken(
       _entityName: string,
+      recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
   createBadgeToken(
     _entityName: string,
+    recoveryOracle: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
     createBadgeToken(
       _entityName: string,
+      recoveryOracle: string,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -134,6 +137,7 @@ export class IBadgeTokenFactory extends BaseContract {
   estimateGas: {
     createBadgeToken(
       _entityName: string,
+      recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -141,6 +145,7 @@ export class IBadgeTokenFactory extends BaseContract {
   populateTransaction: {
     createBadgeToken(
       _entityName: string,
+      recoveryOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

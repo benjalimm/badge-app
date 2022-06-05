@@ -1,27 +1,28 @@
 import { BigNumberish, Signer } from "ethers";
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory, BadgeToken__factory, Entity__factory, BadgeXP__factory } from "../typechain";
+import { ethers } from "ethers";
+import { BaseProvider } from "@ethersproject/providers";
 
 export async function setRecoveryAddress(recoveryAddress: string, signer: Signer) {
-  const badgeRecoveryOracle = await BadgeRecoveryOracle__factory.connect("0x4b7aFFC00Ff470feF60bf2C10B9778Def20B03D4", signer);
+  const badgeRecoveryOracle = await BadgeRecoveryOracle__factory.connect("0xB3c2dC7D2A48958Bb1b5B785ba8EB454c14D188A", signer);
   await badgeRecoveryOracle.setRecoveryAddress(recoveryAddress);
   badgeRecoveryOracle.once("RecoveryAddressSet", (initalAddress: string, recoveryAddress: string) => {
     console.log(`Recovery address successfully set to ${recoveryAddress}`);
   })
 }
-
+//0x5CdD699cA4190b8E5983944BCE32CB357BF56190
 export async function recoverBadges(signer: Signer) {
-  const entity = Entity__factory.connect("0xC0DeaC3D7e6995ab486fd0EB63f388dD72E58189", signer)
+  
+  const entity = Entity__factory.connect("0x5CdD699cA4190b8E5983944BCE32CB357BF56190", signer)
   const badgeTokenAddress = await entity.badgeToken();
+  console.log(`Badge token: ${badgeTokenAddress}`);
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
-  const info = await badgeToken.recover("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", [1])
+  const info = await badgeToken.recover(1);
   console.log(`Recovery transaction info: ${info}`)
-  badgeToken.once("RecoveryComplete", (ids: BigNumberish[], initialAddress: string, recoveredAddress: string) => {
-    console.log(`Recovery successfully complete for ${ids}`);
-  })
 }
 
 export async function recoverXPTokens(signer: Signer) {
-  const badgeXPContract = BadgeXP__factory.connect("0x8377D1C05759bdd668d9BAf29825719772ad5107", signer);
+  const badgeXPContract = BadgeXP__factory.connect("0x3b30381502a2D20ddD96168199E1864A7308dB3a", signer);
   await badgeXPContract.recover("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5")
   badgeXPContract.once("Transfer", (from: string, to: string, value: number) => {
     console.log(`Recovered ${value} XP tokens from ${from} to ${to}`);

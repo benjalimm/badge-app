@@ -15,6 +15,17 @@ const _abi = [
         type: "string",
       },
     ],
+    name: "Failure",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
     name: "Unauthorized",
     type: "error",
   },
