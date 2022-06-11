@@ -13,6 +13,7 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
+import { setNewEntity, setTokenForEntity } from '../utils/recoveryOracleUtils';
 
 type PageState = 
 "ENTRY" | 
@@ -100,7 +101,7 @@ export default function DeployEntityPage() {
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 5. Call register entity on Badge registry contract
-      await badgeRegistry.registerEntity(entityName, ipfsUrl)
+      await badgeRegistry.registerEntity(entityName, ipfsUrl, true);
 
       // 6. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")

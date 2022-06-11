@@ -41,6 +41,11 @@ const _abi = [
         name: "recipient",
         type: "address",
       },
+      {
+        internalType: "address",
+        name: "registry",
+        type: "address",
+      },
     ],
     name: "burn",
     outputs: [],
@@ -57,6 +62,11 @@ const _abi = [
       {
         internalType: "address",
         name: "recipient",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "registry",
         type: "address",
       },
     ],

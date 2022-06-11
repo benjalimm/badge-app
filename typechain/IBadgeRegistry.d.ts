@@ -30,7 +30,9 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
     "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
-    "registerEntity(string,string)": FunctionFragment;
+    "isRegistryCertified(address)": FunctionFragment;
+    "registerEntity(string,string,bool)": FunctionFragment;
+    "setTokenReverseRecords(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -67,7 +69,15 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "isRegistryCertified",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "registerEntity",
+    values: [string, string, boolean]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenReverseRecords",
     values: [string, string]
   ): string;
 
@@ -105,44 +115,24 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "isRegistryCertified",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "registerEntity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenReverseRecords",
     data: BytesLike
   ): Result;
 
   events: {
-    "BadgePriceCalculatorSet(address)": EventFragment;
-    "BadgeTokenFactorySet(address)": EventFragment;
-    "BadgeXPTokenSet(address)": EventFragment;
-    "EntityFactorySet(address)": EventFragment;
     "EntityRegistered(address,string,address)": EventFragment;
-    "PermissionTokenFactorySet(address)": EventFragment;
-    "RecoveryOracleSet(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "BadgePriceCalculatorSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeTokenFactorySet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeXPTokenSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "EntityFactorySet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EntityRegistered"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PermissionTokenFactorySet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RecoveryOracleSet"): EventFragment;
 }
-
-export type BadgePriceCalculatorSetEvent = TypedEvent<
-  [string] & { badgePriceCalculator: string }
->;
-
-export type BadgeTokenFactorySetEvent = TypedEvent<
-  [string] & { badgeTokenFactory: string }
->;
-
-export type BadgeXPTokenSetEvent = TypedEvent<
-  [string] & { badgeXPToken: string }
->;
-
-export type EntityFactorySetEvent = TypedEvent<
-  [string] & { entityFactory: string }
->;
 
 export type EntityRegisteredEvent = TypedEvent<
   [string, string, string] & {
@@ -150,14 +140,6 @@ export type EntityRegisteredEvent = TypedEvent<
     entityName: string;
     genesisTokenHolder: string;
   }
->;
-
-export type PermissionTokenFactorySetEvent = TypedEvent<
-  [string] & { permissionTokenFactory: string }
->;
-
-export type RecoveryOracleSetEvent = TypedEvent<
-  [string] & { recoveryOracle: string }
 >;
 
 export class IBadgeRegistry extends BaseContract {
@@ -225,9 +207,21 @@ export class IBadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<[boolean]>;
 
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -253,9 +247,21 @@ export class IBadgeRegistry extends BaseContract {
 
   isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
 
+  isRegistryCertified(
+    _registry: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
   registerEntity(
     entityName: string,
     genesisTokenURI: string,
+    deployTokens: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenReverseRecords(
+    perm: string,
+    badge: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -281,46 +287,26 @@ export class IBadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
 
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
 
   filters: {
-    "BadgePriceCalculatorSet(address)"(
-      badgePriceCalculator?: null
-    ): TypedEventFilter<[string], { badgePriceCalculator: string }>;
-
-    BadgePriceCalculatorSet(
-      badgePriceCalculator?: null
-    ): TypedEventFilter<[string], { badgePriceCalculator: string }>;
-
-    "BadgeTokenFactorySet(address)"(
-      badgeTokenFactory?: null
-    ): TypedEventFilter<[string], { badgeTokenFactory: string }>;
-
-    BadgeTokenFactorySet(
-      badgeTokenFactory?: null
-    ): TypedEventFilter<[string], { badgeTokenFactory: string }>;
-
-    "BadgeXPTokenSet(address)"(
-      badgeXPToken?: null
-    ): TypedEventFilter<[string], { badgeXPToken: string }>;
-
-    BadgeXPTokenSet(
-      badgeXPToken?: null
-    ): TypedEventFilter<[string], { badgeXPToken: string }>;
-
-    "EntityFactorySet(address)"(
-      entityFactory?: null
-    ): TypedEventFilter<[string], { entityFactory: string }>;
-
-    EntityFactorySet(
-      entityFactory?: null
-    ): TypedEventFilter<[string], { entityFactory: string }>;
-
     "EntityRegistered(address,string,address)"(
       entityAddress?: null,
       entityName?: null,
@@ -338,22 +324,6 @@ export class IBadgeRegistry extends BaseContract {
       [string, string, string],
       { entityAddress: string; entityName: string; genesisTokenHolder: string }
     >;
-
-    "PermissionTokenFactorySet(address)"(
-      permissionTokenFactory?: null
-    ): TypedEventFilter<[string], { permissionTokenFactory: string }>;
-
-    PermissionTokenFactorySet(
-      permissionTokenFactory?: null
-    ): TypedEventFilter<[string], { permissionTokenFactory: string }>;
-
-    "RecoveryOracleSet(address)"(
-      recoveryOracle?: null
-    ): TypedEventFilter<[string], { recoveryOracle: string }>;
-
-    RecoveryOracleSet(
-      recoveryOracle?: null
-    ): TypedEventFilter<[string], { recoveryOracle: string }>;
   };
 
   estimateGas: {
@@ -378,9 +348,21 @@ export class IBadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
 
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -416,9 +398,21 @@ export class IBadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

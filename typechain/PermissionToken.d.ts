@@ -23,11 +23,10 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface PermissionTokenInterface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
-    "badgeRegistry()": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "entityAddress()": FunctionFragment;
+    "entity()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getEntityAddress()": FunctionFragment;
+    "getEntity()": FunctionFragment;
     "getPermStatusForUser(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mintAsEntity(address,uint8,string)": FunctionFragment;
@@ -36,6 +35,7 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "permissionTokenHolders(address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
+    "setNewEntity(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -46,23 +46,13 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "badgeRegistry",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "entityAddress",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "entity", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(
-    functionFragment: "getEntityAddress",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPermStatusForUser",
     values: [string]
@@ -93,6 +83,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     values: [string, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "setNewEntity",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
@@ -107,23 +101,13 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "badgeRegistry",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "entityAddress",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "entity", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "getEntityAddress",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPermStatusForUser",
     data: BytesLike
@@ -148,6 +132,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setNewEntity",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -242,18 +230,16 @@ export class PermissionToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    badgeRegistry(overrides?: CallOverrides): Promise<[string]>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    entityAddress(overrides?: CallOverrides): Promise<[string]>;
+    entity(overrides?: CallOverrides): Promise<[string]>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getEntityAddress(overrides?: CallOverrides): Promise<[string]>;
+    getEntity(overrides?: CallOverrides): Promise<[string]>;
 
     getPermStatusForUser(
       user: string,
@@ -306,6 +292,11 @@ export class PermissionToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -332,18 +323,16 @@ export class PermissionToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  badgeRegistry(overrides?: CallOverrides): Promise<string>;
-
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  entityAddress(overrides?: CallOverrides): Promise<string>;
+  entity(overrides?: CallOverrides): Promise<string>;
 
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getEntityAddress(overrides?: CallOverrides): Promise<string>;
+  getEntity(overrides?: CallOverrides): Promise<string>;
 
   getPermStatusForUser(
     user: string,
@@ -393,6 +382,11 @@ export class PermissionToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setNewEntity(
+    _entity: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
@@ -416,18 +410,16 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    badgeRegistry(overrides?: CallOverrides): Promise<string>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    entityAddress(overrides?: CallOverrides): Promise<string>;
+    entity(overrides?: CallOverrides): Promise<string>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getEntityAddress(overrides?: CallOverrides): Promise<string>;
+    getEntity(overrides?: CallOverrides): Promise<string>;
 
     getPermStatusForUser(
       user: string,
@@ -476,6 +468,8 @@ export class PermissionToken extends BaseContract {
       approved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -557,18 +551,16 @@ export class PermissionToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    badgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
-
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    entityAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    entity(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getEntityAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermStatusForUser(
       user: string,
@@ -621,6 +613,11 @@ export class PermissionToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
@@ -648,21 +645,19 @@ export class PermissionToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    badgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     balanceOf(
       owner: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    entityAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    entity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getEntityAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermStatusForUser(
       user: string,
@@ -712,6 +707,11 @@ export class PermissionToken extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setNewEntity(
+      _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

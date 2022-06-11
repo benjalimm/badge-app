@@ -8,6 +8,41 @@ import type { IEntity, IEntityInterface } from "../IEntity";
 
 const _abi = [
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Failure",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newEntity",
+        type: "address",
+      },
+    ],
+    name: "EntityMigrated",
+    type: "event",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -42,6 +77,25 @@ const _abi = [
       },
     ],
     name: "PermissionTokenAssigned",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newBadgeToken",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "newPermToken",
+        type: "address",
+      },
+    ],
+    name: "TokensMigrated",
     type: "event",
   },
   {
@@ -104,13 +158,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "incrementDemeritPoints",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
