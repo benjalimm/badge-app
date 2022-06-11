@@ -11,56 +11,15 @@ import type {
 
 const _abi = [
   {
-    anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "address",
-        name: "badgePriceCalculator",
-        type: "address",
+        internalType: "string",
+        name: "message",
+        type: "string",
       },
     ],
-    name: "BadgePriceCalculatorSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "badgeTokenFactory",
-        type: "address",
-      },
-    ],
-    name: "BadgeTokenFactorySet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "badgeXPToken",
-        type: "address",
-      },
-    ],
-    name: "BadgeXPTokenSet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "entityFactory",
-        type: "address",
-      },
-    ],
-    name: "EntityFactorySet",
-    type: "event",
+    name: "Unauthorized",
+    type: "error",
   },
   {
     anonymous: false,
@@ -85,32 +44,6 @@ const _abi = [
       },
     ],
     name: "EntityRegistered",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "permissionTokenFactory",
-        type: "address",
-      },
-    ],
-    name: "PermissionTokenFactorySet",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "recoveryOracle",
-        type: "address",
-      },
-    ],
-    name: "RecoveryOracleSet",
     type: "event",
   },
   {
@@ -245,6 +178,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "_registry",
+        type: "address",
+      },
+    ],
+    name: "isRegistryCertified",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "string",
         name: "entityName",
         type: "string",
@@ -254,8 +206,31 @@ const _abi = [
         name: "genesisTokenURI",
         type: "string",
       },
+      {
+        internalType: "bool",
+        name: "deployTokens",
+        type: "bool",
+      },
     ],
     name: "registerEntity",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "perm",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "badge",
+        type: "address",
+      },
+    ],
+    name: "setTokenReverseRecords",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

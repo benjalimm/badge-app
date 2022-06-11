@@ -28,3 +28,16 @@ export async function recoverXPTokens(signer: Signer) {
     console.log(`Recovered ${value} XP tokens from ${from} to ${to}`);
   })
 }
+
+export async function setNewEntity(signer: Signer) {
+  const entity = Entity__factory.connect("0xf941418cca469cCA7CcC106f1be4f4E903E45A95", signer)
+  await entity.migrateToEntity("0x112758d35F44285014497fe9ed05655A5499D57C", "0x673F5aA8D0296eFbd65526724d360c2BE79Acf8E")
+}
+
+export async function setTokenForEntity(signer: Signer) {
+  const newEntity = Entity__factory.connect("0x112758d35F44285014497fe9ed05655A5499D57C", signer)
+
+  const oldEntity = Entity__factory.connect("0xf941418cca469cCA7CcC106f1be4f4E903E45A95", signer)
+
+  await newEntity.migrateToTokens(await oldEntity.badgeToken(), await oldEntity.permissionToken())
+}

@@ -89,6 +89,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.EntityFactory__factory>;
     getContractFactory(
+      name: "NonTransferableERC721",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.NonTransferableERC721__factory>;
+    getContractFactory(
       name: "PermissionToken",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PermissionToken__factory>;
@@ -232,6 +236,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.EntityFactory>;
+    getContractAt(
+      name: "NonTransferableERC721",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.NonTransferableERC721>;
     getContractAt(
       name: "PermissionToken",
       address: string,

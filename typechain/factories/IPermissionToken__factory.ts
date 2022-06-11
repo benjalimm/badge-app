@@ -11,8 +11,30 @@ import type {
 
 const _abi = [
   {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Failure",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "message",
+        type: "string",
+      },
+    ],
+    name: "Unauthorized",
+    type: "error",
+  },
+  {
     inputs: [],
-    name: "getEntityAddress",
+    name: "getEntity",
     outputs: [
       {
         internalType: "address",
@@ -69,6 +91,19 @@ const _abi = [
       },
     ],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_entity",
+        type: "address",
+      },
+    ],
+    name: "setNewEntity",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

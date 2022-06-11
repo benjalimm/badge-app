@@ -11,6 +11,7 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
+  Overrides,
   PayableOverrides,
   CallOverrides,
 } from "ethers";
@@ -21,15 +22,13 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IPermissionTokenInterface extends ethers.utils.Interface {
   functions: {
-    "getEntityAddress()": FunctionFragment;
+    "getEntity()": FunctionFragment;
     "getPermStatusForUser(address)": FunctionFragment;
     "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "setNewEntity(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "getEntityAddress",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getPermStatusForUser",
     values: [string]
@@ -38,17 +37,22 @@ interface IPermissionTokenInterface extends ethers.utils.Interface {
     functionFragment: "mintAsEntity",
     values: [string, BigNumberish, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setNewEntity",
+    values: [string]
+  ): string;
 
-  decodeFunctionResult(
-    functionFragment: "getEntityAddress",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getPermStatusForUser",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "mintAsEntity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setNewEntity",
     data: BytesLike
   ): Result;
 
@@ -99,7 +103,7 @@ export class IPermissionToken extends BaseContract {
   interface: IPermissionTokenInterface;
 
   functions: {
-    getEntityAddress(overrides?: CallOverrides): Promise<[string]>;
+    getEntity(overrides?: CallOverrides): Promise<[string]>;
 
     getPermStatusForUser(
       user: string,
@@ -112,9 +116,14 @@ export class IPermissionToken extends BaseContract {
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  getEntityAddress(overrides?: CallOverrides): Promise<string>;
+  getEntity(overrides?: CallOverrides): Promise<string>;
 
   getPermStatusForUser(
     user: string,
@@ -128,8 +137,13 @@ export class IPermissionToken extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setNewEntity(
+    _entity: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
-    getEntityAddress(overrides?: CallOverrides): Promise<string>;
+    getEntity(overrides?: CallOverrides): Promise<string>;
 
     getPermStatusForUser(
       user: string,
@@ -142,12 +156,14 @@ export class IPermissionToken extends BaseContract {
       tokenURI: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    getEntityAddress(overrides?: CallOverrides): Promise<BigNumber>;
+    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermStatusForUser(
       user: string,
@@ -160,10 +176,15 @@ export class IPermissionToken extends BaseContract {
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getEntityAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermStatusForUser(
       user: string,
@@ -175,6 +196,11 @@ export class IPermissionToken extends BaseContract {
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

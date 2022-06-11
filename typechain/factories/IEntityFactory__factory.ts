@@ -51,6 +51,11 @@ const _abi = [
         name: "genesisTokenURI",
         type: "string",
       },
+      {
+        internalType: "bool",
+        name: "deployTokens",
+        type: "bool",
+      },
     ],
     name: "createEntity",
     outputs: [

@@ -26,6 +26,8 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "badgeTokenEntityReverseRecord(address)": FunctionFragment;
     "badgeTokenFactory()": FunctionFragment;
     "badgeXPToken()": FunctionFragment;
+    "certifiedRegistries(address)": FunctionFragment;
+    "deployer()": FunctionFragment;
     "entities(address)": FunctionFragment;
     "entityFactory()": FunctionFragment;
     "filterAddressesForEntityReverseRecord(uint8,address[])": FunctionFragment;
@@ -38,19 +40,20 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
+    "isRegistryCertified(address)": FunctionFragment;
     "levelMultiplierX1000()": FunctionFragment;
-    "owner()": FunctionFragment;
     "permTokenEntityReverseRecord(address)": FunctionFragment;
-    "permissionContract()": FunctionFragment;
     "permissionTokenFactory()": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
-    "registerEntity(string,string)": FunctionFragment;
+    "registerEntity(string,string,bool)": FunctionFragment;
     "setBadgePriceCalculator(address)": FunctionFragment;
     "setBadgeTokenFactory(address)": FunctionFragment;
     "setBadgeXPToken(address)": FunctionFragment;
+    "setCertifiedRegistry(address,bool)": FunctionFragment;
     "setEntityFactory(address)": FunctionFragment;
     "setPermissionTokenFactory(address)": FunctionFragment;
     "setRecoveryOracle(address)": FunctionFragment;
+    "setTokenReverseRecords(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -73,6 +76,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "badgeXPToken",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "certifiedRegistries",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "deployer", values?: undefined): string;
   encodeFunctionData(functionFragment: "entities", values: [string]): string;
   encodeFunctionData(
     functionFragment: "entityFactory",
@@ -116,17 +124,16 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "levelMultiplierX1000",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "permTokenEntityReverseRecord",
+    functionFragment: "isRegistryCertified",
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "permissionContract",
+    functionFragment: "levelMultiplierX1000",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "permTokenEntityReverseRecord",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "permissionTokenFactory",
@@ -138,7 +145,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "registerEntity",
-    values: [string, string]
+    values: [string, string, boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "setBadgePriceCalculator",
@@ -153,6 +160,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setCertifiedRegistry",
+    values: [string, boolean]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setEntityFactory",
     values: [string]
   ): string;
@@ -163,6 +174,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setRecoveryOracle",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenReverseRecords",
+    values: [string, string]
   ): string;
 
   decodeFunctionResult(
@@ -185,6 +200,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "badgeXPToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "certifiedRegistries",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "deployer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "entities", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "entityFactory",
@@ -228,16 +248,15 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "isRegistryCertified",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "levelMultiplierX1000",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "permTokenEntityReverseRecord",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "permissionContract",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -265,6 +284,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setCertifiedRegistry",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setEntityFactory",
     data: BytesLike
   ): Result;
@@ -276,41 +299,17 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "setRecoveryOracle",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenReverseRecords",
+    data: BytesLike
+  ): Result;
 
   events: {
-    "BadgePriceCalculatorSet(address)": EventFragment;
-    "BadgeTokenFactorySet(address)": EventFragment;
-    "BadgeXPTokenSet(address)": EventFragment;
-    "EntityFactorySet(address)": EventFragment;
     "EntityRegistered(address,string,address)": EventFragment;
-    "PermissionTokenFactorySet(address)": EventFragment;
-    "RecoveryOracleSet(address)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "BadgePriceCalculatorSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeTokenFactorySet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeXPTokenSet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "EntityFactorySet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "EntityRegistered"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PermissionTokenFactorySet"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RecoveryOracleSet"): EventFragment;
 }
-
-export type BadgePriceCalculatorSetEvent = TypedEvent<
-  [string] & { badgePriceCalculator: string }
->;
-
-export type BadgeTokenFactorySetEvent = TypedEvent<
-  [string] & { badgeTokenFactory: string }
->;
-
-export type BadgeXPTokenSetEvent = TypedEvent<
-  [string] & { badgeXPToken: string }
->;
-
-export type EntityFactorySetEvent = TypedEvent<
-  [string] & { entityFactory: string }
->;
 
 export type EntityRegisteredEvent = TypedEvent<
   [string, string, string] & {
@@ -318,14 +317,6 @@ export type EntityRegisteredEvent = TypedEvent<
     entityName: string;
     genesisTokenHolder: string;
   }
->;
-
-export type PermissionTokenFactorySetEvent = TypedEvent<
-  [string] & { permissionTokenFactory: string }
->;
-
-export type RecoveryOracleSetEvent = TypedEvent<
-  [string] & { recoveryOracle: string }
 >;
 
 export class BadgeRegistry extends BaseContract {
@@ -385,6 +376,13 @@ export class BadgeRegistry extends BaseContract {
 
     badgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
+    certifiedRegistries(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
+    deployer(overrides?: CallOverrides): Promise<[string]>;
+
     entities(arg0: string, overrides?: CallOverrides): Promise<[boolean]>;
 
     entityFactory(overrides?: CallOverrides): Promise<[string]>;
@@ -416,16 +414,17 @@ export class BadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<[BigNumber]>;
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
 
-    owner(overrides?: CallOverrides): Promise<[string]>;
+    levelMultiplierX1000(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    permissionContract(overrides?: CallOverrides): Promise<[string]>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
 
@@ -434,6 +433,7 @@ export class BadgeRegistry extends BaseContract {
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -452,6 +452,12 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setCertifiedRegistry(
+      _certifiedRegistry: string,
+      _certified: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setEntityFactory(
       _entityFactory: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -464,6 +470,12 @@ export class BadgeRegistry extends BaseContract {
 
     setRecoveryOracle(
       _recoveryOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -480,6 +492,13 @@ export class BadgeRegistry extends BaseContract {
   badgeTokenFactory(overrides?: CallOverrides): Promise<string>;
 
   badgeXPToken(overrides?: CallOverrides): Promise<string>;
+
+  certifiedRegistries(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
+
+  deployer(overrides?: CallOverrides): Promise<string>;
 
   entities(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -512,16 +531,17 @@ export class BadgeRegistry extends BaseContract {
 
   isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
 
-  levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+  isRegistryCertified(
+    _registry: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
-  owner(overrides?: CallOverrides): Promise<string>;
+  levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
 
   permTokenEntityReverseRecord(
     arg0: string,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  permissionContract(overrides?: CallOverrides): Promise<string>;
 
   permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -530,6 +550,7 @@ export class BadgeRegistry extends BaseContract {
   registerEntity(
     entityName: string,
     genesisTokenURI: string,
+    deployTokens: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -548,6 +569,12 @@ export class BadgeRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setCertifiedRegistry(
+    _certifiedRegistry: string,
+    _certified: boolean,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setEntityFactory(
     _entityFactory: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -560,6 +587,12 @@ export class BadgeRegistry extends BaseContract {
 
   setRecoveryOracle(
     _recoveryOracle: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenReverseRecords(
+    perm: string,
+    badge: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -576,6 +609,13 @@ export class BadgeRegistry extends BaseContract {
     badgeTokenFactory(overrides?: CallOverrides): Promise<string>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<string>;
+
+    certifiedRegistries(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
+    deployer(overrides?: CallOverrides): Promise<string>;
 
     entities(arg0: string, overrides?: CallOverrides): Promise<boolean>;
 
@@ -608,16 +648,17 @@ export class BadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<boolean>;
 
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
 
-    owner(overrides?: CallOverrides): Promise<string>;
+    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
 
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    permissionContract(overrides?: CallOverrides): Promise<string>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -626,6 +667,7 @@ export class BadgeRegistry extends BaseContract {
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -644,6 +686,12 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setCertifiedRegistry(
+      _certifiedRegistry: string,
+      _certified: boolean,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setEntityFactory(
       _entityFactory: string,
       overrides?: CallOverrides
@@ -658,41 +706,15 @@ export class BadgeRegistry extends BaseContract {
       _recoveryOracle: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
-    "BadgePriceCalculatorSet(address)"(
-      badgePriceCalculator?: null
-    ): TypedEventFilter<[string], { badgePriceCalculator: string }>;
-
-    BadgePriceCalculatorSet(
-      badgePriceCalculator?: null
-    ): TypedEventFilter<[string], { badgePriceCalculator: string }>;
-
-    "BadgeTokenFactorySet(address)"(
-      badgeTokenFactory?: null
-    ): TypedEventFilter<[string], { badgeTokenFactory: string }>;
-
-    BadgeTokenFactorySet(
-      badgeTokenFactory?: null
-    ): TypedEventFilter<[string], { badgeTokenFactory: string }>;
-
-    "BadgeXPTokenSet(address)"(
-      badgeXPToken?: null
-    ): TypedEventFilter<[string], { badgeXPToken: string }>;
-
-    BadgeXPTokenSet(
-      badgeXPToken?: null
-    ): TypedEventFilter<[string], { badgeXPToken: string }>;
-
-    "EntityFactorySet(address)"(
-      entityFactory?: null
-    ): TypedEventFilter<[string], { entityFactory: string }>;
-
-    EntityFactorySet(
-      entityFactory?: null
-    ): TypedEventFilter<[string], { entityFactory: string }>;
-
     "EntityRegistered(address,string,address)"(
       entityAddress?: null,
       entityName?: null,
@@ -710,22 +732,6 @@ export class BadgeRegistry extends BaseContract {
       [string, string, string],
       { entityAddress: string; entityName: string; genesisTokenHolder: string }
     >;
-
-    "PermissionTokenFactorySet(address)"(
-      permissionTokenFactory?: null
-    ): TypedEventFilter<[string], { permissionTokenFactory: string }>;
-
-    PermissionTokenFactorySet(
-      permissionTokenFactory?: null
-    ): TypedEventFilter<[string], { permissionTokenFactory: string }>;
-
-    "RecoveryOracleSet(address)"(
-      recoveryOracle?: null
-    ): TypedEventFilter<[string], { recoveryOracle: string }>;
-
-    RecoveryOracleSet(
-      recoveryOracle?: null
-    ): TypedEventFilter<[string], { recoveryOracle: string }>;
   };
 
   estimateGas: {
@@ -741,6 +747,13 @@ export class BadgeRegistry extends BaseContract {
     badgeTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    certifiedRegistries(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    deployer(overrides?: CallOverrides): Promise<BigNumber>;
 
     entities(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -773,16 +786,17 @@ export class BadgeRegistry extends BaseContract {
 
     isRegistered(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
-    owner(overrides?: CallOverrides): Promise<BigNumber>;
+    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
 
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    permissionContract(overrides?: CallOverrides): Promise<BigNumber>;
 
     permissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -791,6 +805,7 @@ export class BadgeRegistry extends BaseContract {
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -809,6 +824,12 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setCertifiedRegistry(
+      _certifiedRegistry: string,
+      _certified: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setEntityFactory(
       _entityFactory: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -821,6 +842,12 @@ export class BadgeRegistry extends BaseContract {
 
     setRecoveryOracle(
       _recoveryOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -840,6 +867,13 @@ export class BadgeRegistry extends BaseContract {
     badgeTokenFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    certifiedRegistries(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     entities(
       arg0: string,
@@ -884,18 +918,17 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    isRegistryCertified(
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     levelMultiplierX1000(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     permTokenEntityReverseRecord(
       arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    permissionContract(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -908,6 +941,7 @@ export class BadgeRegistry extends BaseContract {
     registerEntity(
       entityName: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -926,6 +960,12 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setCertifiedRegistry(
+      _certifiedRegistry: string,
+      _certified: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setEntityFactory(
       _entityFactory: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -938,6 +978,12 @@ export class BadgeRegistry extends BaseContract {
 
     setRecoveryOracle(
       _recoveryOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenReverseRecords(
+      perm: string,
+      badge: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

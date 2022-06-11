@@ -22,7 +22,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface EntityFactoryInterface extends ethers.utils.Interface {
   functions: {
     "badgeRegistry()": FunctionFragment;
-    "createEntity(string,address,address,string)": FunctionFragment;
+    "createEntity(string,address,address,string,bool)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -31,7 +31,7 @@ interface EntityFactoryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "createEntity",
-    values: [string, string, string, string]
+    values: [string, string, string, string, boolean]
   ): string;
 
   decodeFunctionResult(
@@ -105,6 +105,7 @@ export class EntityFactory extends BaseContract {
       recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -116,6 +117,7 @@ export class EntityFactory extends BaseContract {
     recoveryOracle: string,
     genesisUser: string,
     genesisTokenURI: string,
+    deployTokens: boolean,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -127,6 +129,7 @@ export class EntityFactory extends BaseContract {
       recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -157,6 +160,7 @@ export class EntityFactory extends BaseContract {
       recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -169,6 +173,7 @@ export class EntityFactory extends BaseContract {
       recoveryOracle: string,
       genesisUser: string,
       genesisTokenURI: string,
+      deployTokens: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

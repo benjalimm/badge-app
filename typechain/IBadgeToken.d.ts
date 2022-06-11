@@ -11,6 +11,7 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
+  Overrides,
   PayableOverrides,
   CallOverrides,
 } from "ethers";
@@ -21,34 +22,50 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IBadgeTokenInterface extends ethers.utils.Interface {
   functions: {
-    "burnWithPrejudice(uint256)": FunctionFragment;
+    "burn(uint256,bool)": FunctionFragment;
+    "getDemeritPoints()": FunctionFragment;
+    "getEntity()": FunctionFragment;
     "mintBadge(address,uint256,string)": FunctionFragment;
+    "setNewEntity(address)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "burnWithPrejudice",
-    values: [BigNumberish]
+    functionFragment: "burn",
+    values: [BigNumberish, boolean]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getDemeritPoints",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mintBadge",
     values: [string, BigNumberish, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setNewEntity",
+    values: [string]
+  ): string;
 
+  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "burnWithPrejudice",
+    functionFragment: "getDemeritPoints",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setNewEntity",
+    data: BytesLike
+  ): Result;
 
   events: {
     "BadgeBurned(address,bool)": EventFragment;
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
-    "RecoveryComplete(uint256[],address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "RecoveryComplete"): EventFragment;
 }
 
 export type BadgeBurnedEvent = TypedEvent<
@@ -61,14 +78,6 @@ export type BadgeMintedEvent = TypedEvent<
     tokenId: BigNumber;
     level: BigNumber;
     tokenURI: string;
-  }
->;
-
-export type RecoveryCompleteEvent = TypedEvent<
-  [BigNumber[], string, string] & {
-    recoveredIds: BigNumber[];
-    initialAddress: string;
-    recoveryAddress: string;
   }
 >;
 
@@ -116,10 +125,15 @@ export class IBadgeToken extends BaseContract {
   interface: IBadgeTokenInterface;
 
   functions: {
-    burnWithPrejudice(
+    burn(
       tokenId: BigNumberish,
+      withPrejudice: boolean,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getEntity(overrides?: CallOverrides): Promise<[string]>;
 
     mintBadge(
       _to: string,
@@ -127,12 +141,22 @@ export class IBadgeToken extends BaseContract {
       _tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
-  burnWithPrejudice(
+  burn(
     tokenId: BigNumberish,
+    withPrejudice: boolean,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getEntity(overrides?: CallOverrides): Promise<string>;
 
   mintBadge(
     _to: string,
@@ -141,11 +165,21 @@ export class IBadgeToken extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setNewEntity(
+    _entity: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
-    burnWithPrejudice(
+    burn(
       tokenId: BigNumberish,
+      withPrejudice: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getEntity(overrides?: CallOverrides): Promise<string>;
 
     mintBadge(
       _to: string,
@@ -153,6 +187,8 @@ export class IBadgeToken extends BaseContract {
       _tokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -191,59 +227,53 @@ export class IBadgeToken extends BaseContract {
       [string, BigNumber, BigNumber, string],
       { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
     >;
-
-    "RecoveryComplete(uint256[],address,address)"(
-      recoveredIds?: null,
-      initialAddress?: null,
-      recoveryAddress?: null
-    ): TypedEventFilter<
-      [BigNumber[], string, string],
-      {
-        recoveredIds: BigNumber[];
-        initialAddress: string;
-        recoveryAddress: string;
-      }
-    >;
-
-    RecoveryComplete(
-      recoveredIds?: null,
-      initialAddress?: null,
-      recoveryAddress?: null
-    ): TypedEventFilter<
-      [BigNumber[], string, string],
-      {
-        recoveredIds: BigNumber[];
-        initialAddress: string;
-        recoveryAddress: string;
-      }
-    >;
   };
 
   estimateGas: {
-    burnWithPrejudice(
+    burn(
       tokenId: BigNumberish,
+      withPrejudice: boolean,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintBadge(
       _to: string,
       level: BigNumberish,
       _tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    burnWithPrejudice(
+    burn(
       tokenId: BigNumberish,
+      withPrejudice: boolean,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mintBadge(
       _to: string,
       level: BigNumberish,
       _tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setNewEntity(
+      _entity: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
