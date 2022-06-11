@@ -26,7 +26,6 @@ interface IEntityInterface extends ethers.utils.Interface {
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
-    "incrementDemeritPoints()": FunctionFragment;
     "mintBadge(address,uint256,string)": FunctionFragment;
   };
 
@@ -44,10 +43,6 @@ interface IEntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getPermissionToken",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "incrementDemeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -71,18 +66,20 @@ interface IEntityInterface extends ethers.utils.Interface {
     functionFragment: "getPermissionToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "incrementDemeritPoints",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
 
   events: {
+    "EntityMigrated(address)": EventFragment;
     "PermissionTokenAssigned(address,address,uint8,address,uint8)": EventFragment;
+    "TokensMigrated(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "EntityMigrated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PermissionTokenAssigned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokensMigrated"): EventFragment;
 }
+
+export type EntityMigratedEvent = TypedEvent<[string] & { newEntity: string }>;
 
 export type PermissionTokenAssignedEvent = TypedEvent<
   [string, string, number, string, number] & {
@@ -92,6 +89,10 @@ export type PermissionTokenAssignedEvent = TypedEvent<
     assignee: string;
     assigneeLevel: number;
   }
+>;
+
+export type TokensMigratedEvent = TypedEvent<
+  [string, string] & { newBadgeToken: string; newPermToken: string }
 >;
 
 export class IEntity extends BaseContract {
@@ -151,10 +152,6 @@ export class IEntity extends BaseContract {
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
 
-    incrementDemeritPoints(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     mintBadge(
       to: string,
       level: BigNumberish,
@@ -175,10 +172,6 @@ export class IEntity extends BaseContract {
   getBadgeToken(overrides?: CallOverrides): Promise<string>;
 
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
-
-  incrementDemeritPoints(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   mintBadge(
     to: string,
@@ -201,8 +194,6 @@ export class IEntity extends BaseContract {
 
     getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
-    incrementDemeritPoints(overrides?: CallOverrides): Promise<void>;
-
     mintBadge(
       to: string,
       level: BigNumberish,
@@ -212,6 +203,14 @@ export class IEntity extends BaseContract {
   };
 
   filters: {
+    "EntityMigrated(address)"(
+      newEntity?: null
+    ): TypedEventFilter<[string], { newEntity: string }>;
+
+    EntityMigrated(
+      newEntity?: null
+    ): TypedEventFilter<[string], { newEntity: string }>;
+
     "PermissionTokenAssigned(address,address,uint8,address,uint8)"(
       entityAddress?: null,
       assigner?: null,
@@ -245,6 +244,22 @@ export class IEntity extends BaseContract {
         assigneeLevel: number;
       }
     >;
+
+    "TokensMigrated(address,address)"(
+      newBadgeToken?: null,
+      newPermToken?: null
+    ): TypedEventFilter<
+      [string, string],
+      { newBadgeToken: string; newPermToken: string }
+    >;
+
+    TokensMigrated(
+      newBadgeToken?: null,
+      newPermToken?: null
+    ): TypedEventFilter<
+      [string, string],
+      { newBadgeToken: string; newPermToken: string }
+    >;
   };
 
   estimateGas: {
@@ -260,10 +275,6 @@ export class IEntity extends BaseContract {
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<BigNumber>;
-
-    incrementDemeritPoints(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
 
     mintBadge(
       to: string,
@@ -287,10 +298,6 @@ export class IEntity extends BaseContract {
 
     getPermissionToken(
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    incrementDemeritPoints(
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mintBadge(

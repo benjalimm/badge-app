@@ -20,6 +20,7 @@ export type { BadgeTokenFactory } from "./BadgeTokenFactory";
 export type { BadgeXP } from "./BadgeXP";
 export type { Entity } from "./Entity";
 export type { EntityFactory } from "./EntityFactory";
+export type { NonTransferableERC721 } from "./NonTransferableERC721";
 export type { PermissionToken } from "./PermissionToken";
 export type { PermissionTokenFactory } from "./PermissionTokenFactory";
 export type { IBadgePriceCalculator } from "./IBadgePriceCalculator";
@@ -52,6 +53,7 @@ export { BadgeTokenFactory__factory } from "./factories/BadgeTokenFactory__facto
 export { BadgeXP__factory } from "./factories/BadgeXP__factory";
 export { Entity__factory } from "./factories/Entity__factory";
 export { EntityFactory__factory } from "./factories/EntityFactory__factory";
+export { NonTransferableERC721__factory } from "./factories/NonTransferableERC721__factory";
 export { PermissionToken__factory } from "./factories/PermissionToken__factory";
 export { PermissionTokenFactory__factory } from "./factories/PermissionTokenFactory__factory";
 export { IBadgePriceCalculator__factory } from "./factories/IBadgePriceCalculator__factory";

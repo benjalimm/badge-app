@@ -15,17 +15,6 @@ const _abi = [
         type: "string",
       },
     ],
-    name: "Blocked",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
     name: "Failure",
     type: "error",
   },
@@ -91,41 +80,47 @@ const _abi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256[]",
-        name: "recoveredIds",
-        type: "uint256[]",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "initialAddress",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "recoveryAddress",
-        type: "address",
-      },
-    ],
-    name: "RecoveryComplete",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
         name: "tokenId",
         type: "uint256",
       },
+      {
+        internalType: "bool",
+        name: "withPrejudice",
+        type: "bool",
+      },
     ],
-    name: "burnWithPrejudice",
+    name: "burn",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getDemeritPoints",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getEntity",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -149,6 +144,19 @@ const _abi = [
     name: "mintBadge",
     outputs: [],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_entity",
+        type: "address",
+      },
+    ],
+    name: "setNewEntity",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
 ];

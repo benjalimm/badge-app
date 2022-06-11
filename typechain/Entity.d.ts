@@ -32,7 +32,8 @@ interface EntityInterface extends ethers.utils.Interface {
     "getBadgeToken()": FunctionFragment;
     "getDemeritPoints()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
-    "incrementDemeritPoints()": FunctionFragment;
+    "migrateToEntity(address,address)": FunctionFragment;
+    "migrateToTokens(address,address)": FunctionFragment;
     "mintBadge(address,uint256,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
   };
@@ -78,8 +79,12 @@ interface EntityInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "incrementDemeritPoints",
-    values?: undefined
+    functionFragment: "migrateToEntity",
+    values: [string, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "migrateToTokens",
+    values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mintBadge",
@@ -125,7 +130,11 @@ interface EntityInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "incrementDemeritPoints",
+    functionFragment: "migrateToEntity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "migrateToTokens",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
@@ -135,11 +144,17 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
 
   events: {
+    "EntityMigrated(address)": EventFragment;
     "PermissionTokenAssigned(address,address,uint8,address,uint8)": EventFragment;
+    "TokensMigrated(address,address)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "EntityMigrated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "PermissionTokenAssigned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokensMigrated"): EventFragment;
 }
+
+export type EntityMigratedEvent = TypedEvent<[string] & { newEntity: string }>;
 
 export type PermissionTokenAssignedEvent = TypedEvent<
   [string, string, number, string, number] & {
@@ -149,6 +164,10 @@ export type PermissionTokenAssignedEvent = TypedEvent<
     assignee: string;
     assigneeLevel: number;
   }
+>;
+
+export type TokensMigratedEvent = TypedEvent<
+  [string, string] & { newBadgeToken: string; newPermToken: string }
 >;
 
 export class Entity extends BaseContract {
@@ -222,7 +241,15 @@ export class Entity extends BaseContract {
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
 
-    incrementDemeritPoints(
+    migrateToEntity(
+      _entity: string,
+      _registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    migrateToTokens(
+      badge: string,
+      permission: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -261,7 +288,15 @@ export class Entity extends BaseContract {
 
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
-  incrementDemeritPoints(
+  migrateToEntity(
+    _entity: string,
+    _registry: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  migrateToTokens(
+    badge: string,
+    permission: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -300,7 +335,17 @@ export class Entity extends BaseContract {
 
     getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
-    incrementDemeritPoints(overrides?: CallOverrides): Promise<void>;
+    migrateToEntity(
+      _entity: string,
+      _registry: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    migrateToTokens(
+      badge: string,
+      permission: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     mintBadge(
       to: string,
@@ -313,6 +358,14 @@ export class Entity extends BaseContract {
   };
 
   filters: {
+    "EntityMigrated(address)"(
+      newEntity?: null
+    ): TypedEventFilter<[string], { newEntity: string }>;
+
+    EntityMigrated(
+      newEntity?: null
+    ): TypedEventFilter<[string], { newEntity: string }>;
+
     "PermissionTokenAssigned(address,address,uint8,address,uint8)"(
       entityAddress?: null,
       assigner?: null,
@@ -346,6 +399,22 @@ export class Entity extends BaseContract {
         assigneeLevel: number;
       }
     >;
+
+    "TokensMigrated(address,address)"(
+      newBadgeToken?: null,
+      newPermToken?: null
+    ): TypedEventFilter<
+      [string, string],
+      { newBadgeToken: string; newPermToken: string }
+    >;
+
+    TokensMigrated(
+      newBadgeToken?: null,
+      newPermToken?: null
+    ): TypedEventFilter<
+      [string, string],
+      { newBadgeToken: string; newPermToken: string }
+    >;
   };
 
   estimateGas: {
@@ -374,7 +443,15 @@ export class Entity extends BaseContract {
 
     getPermissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
-    incrementDemeritPoints(
+    migrateToEntity(
+      _entity: string,
+      _registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    migrateToTokens(
+      badge: string,
+      permission: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -418,7 +495,15 @@ export class Entity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    incrementDemeritPoints(
+    migrateToEntity(
+      _entity: string,
+      _registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    migrateToTokens(
+      badge: string,
+      permission: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

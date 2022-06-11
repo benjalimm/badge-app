@@ -21,17 +21,17 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IBadgeXPInterface extends ethers.utils.Interface {
   functions: {
-    "burn(uint256,address)": FunctionFragment;
-    "mint(uint256,address)": FunctionFragment;
+    "burn(uint256,address,address)": FunctionFragment;
+    "mint(uint256,address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "burn",
-    values: [BigNumberish, string]
+    values: [BigNumberish, string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [BigNumberish, string]
+    values: [BigNumberish, string, string]
   ): string;
 
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
@@ -87,12 +87,14 @@ export class IBadgeXP extends BaseContract {
     burn(
       amount: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     mint(
       level: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
@@ -100,12 +102,14 @@ export class IBadgeXP extends BaseContract {
   burn(
     amount: BigNumberish,
     recipient: string,
+    registry: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   mint(
     level: BigNumberish,
     recipient: string,
+    registry: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -113,12 +117,14 @@ export class IBadgeXP extends BaseContract {
     burn(
       amount: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     mint(
       level: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: CallOverrides
     ): Promise<void>;
   };
@@ -129,12 +135,14 @@ export class IBadgeXP extends BaseContract {
     burn(
       amount: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     mint(
       level: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
@@ -143,12 +151,14 @@ export class IBadgeXP extends BaseContract {
     burn(
       amount: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     mint(
       level: BigNumberish,
       recipient: string,
+      registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

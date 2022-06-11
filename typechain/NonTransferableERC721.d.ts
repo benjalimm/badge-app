@@ -12,7 +12,6 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -20,25 +19,16 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface BadgeTokenInterface extends ethers.utils.Interface {
+interface NonTransferableERC721Interface extends ethers.utils.Interface {
   functions: {
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "burn(uint256,bool)": FunctionFragment;
-    "demeritPoints()": FunctionFragment;
-    "entity()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getDemeritPoints()": FunctionFragment;
-    "getEntity()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintBadge(address,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
-    "recover(uint256)": FunctionFragment;
-    "recoveryOracle()": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
-    "setNewEntity(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
@@ -51,43 +41,17 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
   encodeFunctionData(
-    functionFragment: "burn",
-    values: [BigNumberish, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "demeritPoints",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "entity", values?: undefined): string;
-  encodeFunctionData(
     functionFragment: "getApproved",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getDemeritPoints",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
-  encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintBadge",
-    values: [string, BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "recover",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "recoveryOracle",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "safeTransferFrom",
@@ -96,10 +60,6 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setApprovalForAll",
     values: [string, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setNewEntity",
-    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "supportsInterface",
@@ -117,43 +77,22 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "demeritPoints",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "entity", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getDemeritPoints",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
-  decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "recover", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "recoveryOracle",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(
     functionFragment: "safeTransferFrom",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setApprovalForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setNewEntity",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -170,15 +109,11 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "BadgeBurned(address,bool)": EventFragment;
-    "BadgeMinted(address,uint256,uint256,string)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -198,24 +133,11 @@ export type ApprovalForAllEvent = TypedEvent<
   }
 >;
 
-export type BadgeBurnedEvent = TypedEvent<
-  [string, boolean] & { entityAddress: string; withPrejudice: boolean }
->;
-
-export type BadgeMintedEvent = TypedEvent<
-  [string, BigNumber, BigNumber, string] & {
-    entity: string;
-    tokenId: BigNumber;
-    level: BigNumber;
-    tokenURI: string;
-  }
->;
-
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
 >;
 
-export class BadgeToken extends BaseContract {
+export class NonTransferableERC721 extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -256,7 +178,7 @@ export class BadgeToken extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: BadgeTokenInterface;
+  interface: NonTransferableERC721Interface;
 
   functions: {
     approve(
@@ -267,26 +189,10 @@ export class BadgeToken extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    burn(
-      tokenId: BigNumberish,
-      withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    demeritPoints(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
-
-    entity(overrides?: CallOverrides): Promise<[string]>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getEntity(overrides?: CallOverrides): Promise<[string]>;
 
     isApprovedForAll(
       owner: string,
@@ -294,26 +200,12 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    mintBadge(
-      _to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     name(overrides?: CallOverrides): Promise<[string]>;
 
     ownerOf(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[string]>;
-
-    recover(
-      id: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -333,11 +225,6 @@ export class BadgeToken extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    setNewEntity(
-      _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -369,24 +256,10 @@ export class BadgeToken extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  burn(
-    tokenId: BigNumberish,
-    withPrejudice: boolean,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-  entity(overrides?: CallOverrides): Promise<string>;
-
   getApproved(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getEntity(overrides?: CallOverrides): Promise<string>;
 
   isApprovedForAll(
     owner: string,
@@ -394,23 +267,9 @@ export class BadgeToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  mintBadge(
-    _to: string,
-    level: BigNumberish,
-    _tokenURI: string,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   name(overrides?: CallOverrides): Promise<string>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-  recover(
-    id: BigNumberish,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -430,11 +289,6 @@ export class BadgeToken extends BaseContract {
   setApprovalForAll(
     operator: string,
     approved: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  setNewEntity(
-    _entity: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -463,24 +317,10 @@ export class BadgeToken extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(
-      tokenId: BigNumberish,
-      withPrejudice: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    entity(overrides?: CallOverrides): Promise<string>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getEntity(overrides?: CallOverrides): Promise<string>;
 
     isApprovedForAll(
       owner: string,
@@ -488,20 +328,9 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    mintBadge(
-      _to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     name(overrides?: CallOverrides): Promise<string>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
-
-    recover(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -523,8 +352,6 @@ export class BadgeToken extends BaseContract {
       approved: boolean,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
 
     supportsInterface(
       interfaceId: BytesLike,
@@ -580,42 +407,6 @@ export class BadgeToken extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
-    "BadgeBurned(address,bool)"(
-      entityAddress?: null,
-      withPrejudice?: null
-    ): TypedEventFilter<
-      [string, boolean],
-      { entityAddress: string; withPrejudice: boolean }
-    >;
-
-    BadgeBurned(
-      entityAddress?: null,
-      withPrejudice?: null
-    ): TypedEventFilter<
-      [string, boolean],
-      { entityAddress: string; withPrejudice: boolean }
-    >;
-
-    "BadgeMinted(address,uint256,uint256,string)"(
-      entity?: null,
-      tokenId?: null,
-      level?: null,
-      tokenURI?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber, string],
-      { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
-    >;
-
-    BadgeMinted(
-      entity?: null,
-      tokenId?: null,
-      level?: null,
-      tokenURI?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber, string],
-      { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
-    >;
-
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
@@ -644,36 +435,15 @@ export class BadgeToken extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    burn(
-      tokenId: BigNumberish,
-      withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    entity(overrides?: CallOverrides): Promise<BigNumber>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    mintBadge(
-      _to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -682,13 +452,6 @@ export class BadgeToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    recover(
-      id: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -708,11 +471,6 @@ export class BadgeToken extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    setNewEntity(
-      _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -748,36 +506,15 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    burn(
-      tokenId: BigNumberish,
-      withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    demeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    entity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     getApproved(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     isApprovedForAll(
       owner: string,
       operator: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mintBadge(
-      _to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -786,13 +523,6 @@ export class BadgeToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    recover(
-      id: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -812,11 +542,6 @@ export class BadgeToken extends BaseContract {
     setApprovalForAll(
       operator: string,
       approved: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setNewEntity(
-      _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
