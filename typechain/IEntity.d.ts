@@ -68,32 +68,8 @@ interface IEntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
 
-  events: {
-    "EntityMigrated(address)": EventFragment;
-    "PermissionTokenAssigned(address,address,uint8,address,uint8)": EventFragment;
-    "TokensMigrated(address,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "EntityMigrated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PermissionTokenAssigned"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "TokensMigrated"): EventFragment;
+  events: {};
 }
-
-export type EntityMigratedEvent = TypedEvent<[string] & { newEntity: string }>;
-
-export type PermissionTokenAssignedEvent = TypedEvent<
-  [string, string, number, string, number] & {
-    entityAddress: string;
-    assigner: string;
-    assignerLevel: number;
-    assignee: string;
-    assigneeLevel: number;
-  }
->;
-
-export type TokensMigratedEvent = TypedEvent<
-  [string, string] & { newBadgeToken: string; newPermToken: string }
->;
 
 export class IEntity extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -202,65 +178,7 @@ export class IEntity extends BaseContract {
     ): Promise<void>;
   };
 
-  filters: {
-    "EntityMigrated(address)"(
-      newEntity?: null
-    ): TypedEventFilter<[string], { newEntity: string }>;
-
-    EntityMigrated(
-      newEntity?: null
-    ): TypedEventFilter<[string], { newEntity: string }>;
-
-    "PermissionTokenAssigned(address,address,uint8,address,uint8)"(
-      entityAddress?: null,
-      assigner?: null,
-      assignerLevel?: null,
-      assignee?: null,
-      assigneeLevel?: null
-    ): TypedEventFilter<
-      [string, string, number, string, number],
-      {
-        entityAddress: string;
-        assigner: string;
-        assignerLevel: number;
-        assignee: string;
-        assigneeLevel: number;
-      }
-    >;
-
-    PermissionTokenAssigned(
-      entityAddress?: null,
-      assigner?: null,
-      assignerLevel?: null,
-      assignee?: null,
-      assigneeLevel?: null
-    ): TypedEventFilter<
-      [string, string, number, string, number],
-      {
-        entityAddress: string;
-        assigner: string;
-        assignerLevel: number;
-        assignee: string;
-        assigneeLevel: number;
-      }
-    >;
-
-    "TokensMigrated(address,address)"(
-      newBadgeToken?: null,
-      newPermToken?: null
-    ): TypedEventFilter<
-      [string, string],
-      { newBadgeToken: string; newPermToken: string }
-    >;
-
-    TokensMigrated(
-      newBadgeToken?: null,
-      newPermToken?: null
-    ): TypedEventFilter<
-      [string, string],
-      { newBadgeToken: string; newPermToken: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     assignPermissionToken(

@@ -27,12 +27,14 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "entity()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
     "getEntity()": FunctionFragment;
-    "getPermStatusForUser(address)": FunctionFragment;
+    "getPermStatusForAdmin(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
     "mintAsEntity(address,uint8,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "ownerReverseRecord(address)": FunctionFragment;
     "permissionTokenHolders(address)": FunctionFragment;
+    "revokePermission(address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
@@ -54,7 +56,7 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "getPermStatusForUser",
+    functionFragment: "getPermStatusForAdmin",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -71,7 +73,15 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "ownerReverseRecord",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "permissionTokenHolders",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokePermission",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -109,7 +119,7 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getPermStatusForUser",
+    functionFragment: "getPermStatusForAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -123,7 +133,15 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "ownerReverseRecord",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "permissionTokenHolders",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revokePermission",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -241,8 +259,8 @@ export class PermissionToken extends BaseContract {
 
     getEntity(overrides?: CallOverrides): Promise<[string]>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admin: string,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
@@ -266,10 +284,20 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    ownerReverseRecord(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<[number]>;
+
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -334,8 +362,8 @@ export class PermissionToken extends BaseContract {
 
   getEntity(overrides?: CallOverrides): Promise<string>;
 
-  getPermStatusForUser(
-    user: string,
+  getPermStatusForAdmin(
+    admin: string,
     overrides?: CallOverrides
   ): Promise<number>;
 
@@ -356,10 +384,20 @@ export class PermissionToken extends BaseContract {
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+  ownerReverseRecord(
+    arg0: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   permissionTokenHolders(
     arg0: string,
     overrides?: CallOverrides
   ): Promise<number>;
+
+  revokePermission(
+    _owner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   "safeTransferFrom(address,address,uint256)"(
     from: string,
@@ -421,8 +459,8 @@ export class PermissionToken extends BaseContract {
 
     getEntity(overrides?: CallOverrides): Promise<string>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admin: string,
       overrides?: CallOverrides
     ): Promise<number>;
 
@@ -443,10 +481,17 @@ export class PermissionToken extends BaseContract {
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
+    ownerReverseRecord(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
     ): Promise<number>;
+
+    revokePermission(_owner: string, overrides?: CallOverrides): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -562,8 +607,8 @@ export class PermissionToken extends BaseContract {
 
     getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admin: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -587,9 +632,19 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    ownerReverseRecord(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
@@ -659,8 +714,8 @@ export class PermissionToken extends BaseContract {
 
     getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admin: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -684,9 +739,19 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    ownerReverseRecord(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(

@@ -49,11 +49,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "user",
+        name: "admins",
         type: "address",
       },
     ],
-    name: "getPermStatusForUser",
+    name: "getPermStatusForAdmin",
     outputs: [
       {
         internalType: "enum PermLevel",
@@ -91,6 +91,19 @@ const _abi = [
       },
     ],
     stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+    ],
+    name: "revokePermission",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
