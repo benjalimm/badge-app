@@ -81,6 +81,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.BadgeXP__factory>;
     getContractFactory(
+      name: "BadgeXPOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.BadgeXPOracle__factory>;
+    getContractFactory(
       name: "Entity",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Entity__factory>;
@@ -124,6 +128,10 @@ declare module "hardhat/types/runtime" {
       name: "IBadgeXP",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IBadgeXP__factory>;
+    getContractFactory(
+      name: "IBadgeXPOracle",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IBadgeXPOracle__factory>;
     getContractFactory(
       name: "IEntity",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -227,6 +235,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.BadgeXP>;
     getContractAt(
+      name: "BadgeXPOracle",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.BadgeXPOracle>;
+    getContractAt(
       name: "Entity",
       address: string,
       signer?: ethers.Signer
@@ -281,6 +294,11 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.IBadgeXP>;
+    getContractAt(
+      name: "IBadgeXPOracle",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IBadgeXPOracle>;
     getContractAt(
       name: "IEntity",
       address: string,

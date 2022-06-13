@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { BaseProvider } from "@ethersproject/providers";
 
 export async function setRecoveryAddress(recoveryAddress: string, signer: Signer) {
-  const badgeRecoveryOracle = await BadgeRecoveryOracle__factory.connect("0xB3c2dC7D2A48958Bb1b5B785ba8EB454c14D188A", signer);
+  const badgeRecoveryOracle = await BadgeRecoveryOracle__factory.connect("0xFA99FDf153e5647422484578c761889C8bF971D6", signer);
   await badgeRecoveryOracle.setRecoveryAddress(recoveryAddress);
   badgeRecoveryOracle.once("RecoveryAddressSet", (initalAddress: string, recoveryAddress: string) => {
     console.log(`Recovery address successfully set to ${recoveryAddress}`);
@@ -13,16 +13,16 @@ export async function setRecoveryAddress(recoveryAddress: string, signer: Signer
 //0x5CdD699cA4190b8E5983944BCE32CB357BF56190
 export async function recoverBadges(signer: Signer) {
   
-  const entity = Entity__factory.connect("0x5CdD699cA4190b8E5983944BCE32CB357BF56190", signer)
-  const badgeTokenAddress = await entity.badgeToken();
-  console.log(`Badge token: ${badgeTokenAddress}`);
-  const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
+  // const entity = Entity__factory.connect("0x5CdD699cA4190b8E5983944BCE32CB357BF56190", signer)
+  // const badgeTokenAddress = await entity.badgeToken();
+  // console.log(`Badge token: ${badgeTokenAddress}`);
+  const badgeToken = BadgeToken__factory.connect("0x16791d1730b5885A560720cD37Aef5F29C5A4Eaa", signer);
   const info = await badgeToken.recover(1);
   console.log(`Recovery transaction info: ${info}`)
 }
 
 export async function recoverXPTokens(signer: Signer) {
-  const badgeXPContract = BadgeXP__factory.connect("0x3b30381502a2D20ddD96168199E1864A7308dB3a", signer);
+  const badgeXPContract = BadgeXP__factory.connect("0x7052b05a584B99b96D5BD527E400e4be5f2631df", signer);
   await badgeXPContract.recover("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5")
   badgeXPContract.once("Transfer", (from: string, to: string, value: number) => {
     console.log(`Recovered ${value} XP tokens from ${from} to ${to}`);
