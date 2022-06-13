@@ -26,18 +26,20 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     "badgeRegistry()": FunctionFragment;
     "balance(address)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
-    "baseXP()": FunctionFragment;
     "burn(uint256,address,address)": FunctionFragment;
     "decimals()": FunctionFragment;
+    "deployer()": FunctionFragment;
     "mint(uint256,address,address)": FunctionFragment;
     "name()": FunctionFragment;
     "recover(address)": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
+    "setXPOracle(address)": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "totalXP()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "xpOracle()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -54,12 +56,12 @@ interface BadgeXPInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "balance", values: [string]): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(functionFragment: "baseXP", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "burn",
     values: [BigNumberish, string, string]
   ): string;
   encodeFunctionData(functionFragment: "decimals", values?: undefined): string;
+  encodeFunctionData(functionFragment: "deployer", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mint",
     values: [BigNumberish, string, string]
@@ -70,6 +72,7 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "recoveryOracle",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "setXPOracle", values: [string]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "totalSupply",
@@ -84,6 +87,7 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "xpOracle", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "allowance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
@@ -93,14 +97,18 @@ interface BadgeXPInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "balance", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "baseXP", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "decimals", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "deployer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "recover", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "recoveryOracle",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setXPOracle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
@@ -114,6 +122,7 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "xpOracle", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -198,8 +207,6 @@ export class BadgeXP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    baseXP(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     burn(
       amount: BigNumberish,
       recipient: string,
@@ -208,6 +215,8 @@ export class BadgeXP extends BaseContract {
     ): Promise<ContractTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<[number]>;
+
+    deployer(overrides?: CallOverrides): Promise<[string]>;
 
     mint(
       level: BigNumberish,
@@ -224,6 +233,11 @@ export class BadgeXP extends BaseContract {
     ): Promise<ContractTransaction>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
+
+    setXPOracle(
+      _xpOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
 
@@ -243,6 +257,8 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    xpOracle(overrides?: CallOverrides): Promise<[string]>;
   };
 
   allowance(
@@ -263,8 +279,6 @@ export class BadgeXP extends BaseContract {
 
   balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  baseXP(overrides?: CallOverrides): Promise<BigNumber>;
-
   burn(
     amount: BigNumberish,
     recipient: string,
@@ -273,6 +287,8 @@ export class BadgeXP extends BaseContract {
   ): Promise<ContractTransaction>;
 
   decimals(overrides?: CallOverrides): Promise<number>;
+
+  deployer(overrides?: CallOverrides): Promise<string>;
 
   mint(
     level: BigNumberish,
@@ -289,6 +305,11 @@ export class BadgeXP extends BaseContract {
   ): Promise<ContractTransaction>;
 
   recoveryOracle(overrides?: CallOverrides): Promise<string>;
+
+  setXPOracle(
+    _xpOracle: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -309,6 +330,8 @@ export class BadgeXP extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  xpOracle(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     allowance(
       owner: string,
@@ -328,8 +351,6 @@ export class BadgeXP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    baseXP(overrides?: CallOverrides): Promise<BigNumber>;
-
     burn(
       amount: BigNumberish,
       recipient: string,
@@ -338,6 +359,8 @@ export class BadgeXP extends BaseContract {
     ): Promise<void>;
 
     decimals(overrides?: CallOverrides): Promise<number>;
+
+    deployer(overrides?: CallOverrides): Promise<string>;
 
     mint(
       level: BigNumberish,
@@ -351,6 +374,8 @@ export class BadgeXP extends BaseContract {
     recover(from: string, overrides?: CallOverrides): Promise<void>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<string>;
+
+    setXPOracle(_xpOracle: string, overrides?: CallOverrides): Promise<void>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
 
@@ -370,6 +395,8 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    xpOracle(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -429,8 +456,6 @@ export class BadgeXP extends BaseContract {
 
     balanceOf(account: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    baseXP(overrides?: CallOverrides): Promise<BigNumber>;
-
     burn(
       amount: BigNumberish,
       recipient: string,
@@ -439,6 +464,8 @@ export class BadgeXP extends BaseContract {
     ): Promise<BigNumber>;
 
     decimals(overrides?: CallOverrides): Promise<BigNumber>;
+
+    deployer(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
       level: BigNumberish,
@@ -455,6 +482,11 @@ export class BadgeXP extends BaseContract {
     ): Promise<BigNumber>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setXPOracle(
+      _xpOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -474,6 +506,8 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    xpOracle(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -501,8 +535,6 @@ export class BadgeXP extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    baseXP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     burn(
       amount: BigNumberish,
       recipient: string,
@@ -511,6 +543,8 @@ export class BadgeXP extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     decimals(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
       level: BigNumberish,
@@ -527,6 +561,11 @@ export class BadgeXP extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setXPOracle(
+      _xpOracle: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -546,5 +585,7 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    xpOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

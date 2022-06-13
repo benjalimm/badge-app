@@ -2,7 +2,7 @@ module.exports = {
   isLocal: false,
   local : { 
     url: 'http://localhost:8545',
-    badgeContractAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    badgeContractAddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3"
   },
   mumbai: {
     url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
@@ -14,7 +14,7 @@ module.exports = {
   },
   optimisticKovan: {
     url: 'https://optimism-kovan.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x673F5aA8D0296eFbd65526724d360c2BE79Acf8E"
+    badgeContractAddress: "0x8effefA418A2342b98377e17607613B50fca851E"
   },
   optimismMainnet: {
     url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',

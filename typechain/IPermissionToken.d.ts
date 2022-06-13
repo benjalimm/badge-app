@@ -23,19 +23,24 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface IPermissionTokenInterface extends ethers.utils.Interface {
   functions: {
     "getEntity()": FunctionFragment;
-    "getPermStatusForUser(address)": FunctionFragment;
+    "getPermStatusForAdmin(address)": FunctionFragment;
     "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "revokePermission(address)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "getPermStatusForUser",
+    functionFragment: "getPermStatusForAdmin",
     values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "mintAsEntity",
     values: [string, BigNumberish, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokePermission",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setNewEntity",
@@ -44,11 +49,15 @@ interface IPermissionTokenInterface extends ethers.utils.Interface {
 
   decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "getPermStatusForUser",
+    functionFragment: "getPermStatusForAdmin",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "mintAsEntity",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revokePermission",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -105,8 +114,8 @@ export class IPermissionToken extends BaseContract {
   functions: {
     getEntity(overrides?: CallOverrides): Promise<[string]>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admins: string,
       overrides?: CallOverrides
     ): Promise<[number]>;
 
@@ -117,6 +126,11 @@ export class IPermissionToken extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setNewEntity(
       _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -125,8 +139,8 @@ export class IPermissionToken extends BaseContract {
 
   getEntity(overrides?: CallOverrides): Promise<string>;
 
-  getPermStatusForUser(
-    user: string,
+  getPermStatusForAdmin(
+    admins: string,
     overrides?: CallOverrides
   ): Promise<number>;
 
@@ -137,6 +151,11 @@ export class IPermissionToken extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  revokePermission(
+    _owner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setNewEntity(
     _entity: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -145,8 +164,8 @@ export class IPermissionToken extends BaseContract {
   callStatic: {
     getEntity(overrides?: CallOverrides): Promise<string>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admins: string,
       overrides?: CallOverrides
     ): Promise<number>;
 
@@ -157,6 +176,8 @@ export class IPermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    revokePermission(_owner: string, overrides?: CallOverrides): Promise<void>;
+
     setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
   };
 
@@ -165,8 +186,8 @@ export class IPermissionToken extends BaseContract {
   estimateGas: {
     getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admins: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -175,6 +196,11 @@ export class IPermissionToken extends BaseContract {
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setNewEntity(
@@ -186,8 +212,8 @@ export class IPermissionToken extends BaseContract {
   populateTransaction: {
     getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getPermStatusForUser(
-      user: string,
+    getPermStatusForAdmin(
+      admins: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -196,6 +222,11 @@ export class IPermissionToken extends BaseContract {
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokePermission(
+      _owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setNewEntity(

@@ -25,17 +25,18 @@ interface EntityInterface extends ethers.utils.Interface {
     "assignPermissionToken(address,uint8,string)": FunctionFragment;
     "badgeRegistry()": FunctionFragment;
     "badgeToken()": FunctionFragment;
-    "demeritPoints()": FunctionFragment;
     "entityName()": FunctionFragment;
     "genesisTokenHolder()": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
-    "getDemeritPoints()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
     "migrateToEntity(address,address)": FunctionFragment;
     "migrateToTokens(address,address)": FunctionFragment;
     "mintBadge(address,uint256,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
+    "reassignGenesisToken(address,string,bool,string)": FunctionFragment;
+    "revokePermissionToken(address)": FunctionFragment;
+    "surrenderPermissionToken()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -48,10 +49,6 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "badgeToken",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "demeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -68,10 +65,6 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBadgeToken",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getDemeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -94,6 +87,18 @@ interface EntityInterface extends ethers.utils.Interface {
     functionFragment: "permissionToken",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "reassignGenesisToken",
+    values: [string, string, boolean, string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "revokePermissionToken",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "surrenderPermissionToken",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "assignPermissionToken",
@@ -104,10 +109,6 @@ interface EntityInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "badgeToken", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "demeritPoints",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "entityName", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "genesisTokenHolder",
@@ -119,10 +120,6 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getBadgeToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getDemeritPoints",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -142,28 +139,34 @@ interface EntityInterface extends ethers.utils.Interface {
     functionFragment: "permissionToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "reassignGenesisToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "revokePermissionToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "surrenderPermissionToken",
+    data: BytesLike
+  ): Result;
 
   events: {
     "EntityMigrated(address)": EventFragment;
-    "PermissionTokenAssigned(address,address,uint8,address,uint8)": EventFragment;
+    "GenesisTokenReassigned(address,address)": EventFragment;
     "TokensMigrated(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "EntityMigrated"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "PermissionTokenAssigned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "GenesisTokenReassigned"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokensMigrated"): EventFragment;
 }
 
 export type EntityMigratedEvent = TypedEvent<[string] & { newEntity: string }>;
 
-export type PermissionTokenAssignedEvent = TypedEvent<
-  [string, string, number, string, number] & {
-    entityAddress: string;
-    assigner: string;
-    assignerLevel: number;
-    assignee: string;
-    assigneeLevel: number;
-  }
+export type GenesisTokenReassignedEvent = TypedEvent<
+  [string, string] & { from: string; to: string }
 >;
 
 export type TokensMigratedEvent = TypedEvent<
@@ -225,10 +228,6 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<[string]>;
 
-    demeritPoints(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { _value: BigNumber }>;
-
     entityName(overrides?: CallOverrides): Promise<[string]>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<[string]>;
@@ -236,8 +235,6 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -261,6 +258,23 @@ export class Entity extends BaseContract {
     ): Promise<ContractTransaction>;
 
     permissionToken(overrides?: CallOverrides): Promise<[string]>;
+
+    reassignGenesisToken(
+      assignee: string,
+      tokenURI: string,
+      switchToSuper: boolean,
+      superTokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    revokePermissionToken(
+      revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    surrenderPermissionToken(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   assignPermissionToken(
@@ -274,8 +288,6 @@ export class Entity extends BaseContract {
 
   badgeToken(overrides?: CallOverrides): Promise<string>;
 
-  demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
   entityName(overrides?: CallOverrides): Promise<string>;
 
   genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
@@ -283,8 +295,6 @@ export class Entity extends BaseContract {
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
   getBadgeToken(overrides?: CallOverrides): Promise<string>;
-
-  getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
@@ -309,6 +319,23 @@ export class Entity extends BaseContract {
 
   permissionToken(overrides?: CallOverrides): Promise<string>;
 
+  reassignGenesisToken(
+    assignee: string,
+    tokenURI: string,
+    switchToSuper: boolean,
+    superTokenURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  revokePermissionToken(
+    revokee: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  surrenderPermissionToken(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     assignPermissionToken(
       assignee: string,
@@ -321,8 +348,6 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<string>;
 
-    demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
     entityName(overrides?: CallOverrides): Promise<string>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
@@ -330,8 +355,6 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<string>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
@@ -355,6 +378,21 @@ export class Entity extends BaseContract {
     ): Promise<void>;
 
     permissionToken(overrides?: CallOverrides): Promise<string>;
+
+    reassignGenesisToken(
+      assignee: string,
+      tokenURI: string,
+      switchToSuper: boolean,
+      superTokenURI: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    revokePermissionToken(
+      revokee: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    surrenderPermissionToken(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -366,39 +404,15 @@ export class Entity extends BaseContract {
       newEntity?: null
     ): TypedEventFilter<[string], { newEntity: string }>;
 
-    "PermissionTokenAssigned(address,address,uint8,address,uint8)"(
-      entityAddress?: null,
-      assigner?: null,
-      assignerLevel?: null,
-      assignee?: null,
-      assigneeLevel?: null
-    ): TypedEventFilter<
-      [string, string, number, string, number],
-      {
-        entityAddress: string;
-        assigner: string;
-        assignerLevel: number;
-        assignee: string;
-        assigneeLevel: number;
-      }
-    >;
+    "GenesisTokenReassigned(address,address)"(
+      from?: null,
+      to?: null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
 
-    PermissionTokenAssigned(
-      entityAddress?: null,
-      assigner?: null,
-      assignerLevel?: null,
-      assignee?: null,
-      assigneeLevel?: null
-    ): TypedEventFilter<
-      [string, string, number, string, number],
-      {
-        entityAddress: string;
-        assigner: string;
-        assignerLevel: number;
-        assignee: string;
-        assigneeLevel: number;
-      }
-    >;
+    GenesisTokenReassigned(
+      from?: null,
+      to?: null
+    ): TypedEventFilter<[string, string], { from: string; to: string }>;
 
     "TokensMigrated(address,address)"(
       newBadgeToken?: null,
@@ -429,8 +443,6 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<BigNumber>;
 
-    demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
     entityName(overrides?: CallOverrides): Promise<BigNumber>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<BigNumber>;
@@ -438,8 +450,6 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -463,6 +473,23 @@ export class Entity extends BaseContract {
     ): Promise<BigNumber>;
 
     permissionToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    reassignGenesisToken(
+      assignee: string,
+      tokenURI: string,
+      switchToSuper: boolean,
+      superTokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    revokePermissionToken(
+      revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    surrenderPermissionToken(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -477,8 +504,6 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    demeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     entityName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     genesisTokenHolder(
@@ -488,8 +513,6 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermissionToken(
       overrides?: CallOverrides
@@ -515,5 +538,22 @@ export class Entity extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     permissionToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    reassignGenesisToken(
+      assignee: string,
+      tokenURI: string,
+      switchToSuper: boolean,
+      superTokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    revokePermissionToken(
+      revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    surrenderPermissionToken(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }
