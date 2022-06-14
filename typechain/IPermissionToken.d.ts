@@ -120,7 +120,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<[BigNumber]>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -145,7 +145,7 @@ export class IPermissionToken extends BaseContract {
   ): Promise<BigNumber>;
 
   mintAsEntity(
-    _owner: string,
+    assignee: string,
     level: BigNumberish,
     tokenURI: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -170,7 +170,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<BigNumber>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
@@ -192,7 +192,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<BigNumber>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -218,7 +218,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }

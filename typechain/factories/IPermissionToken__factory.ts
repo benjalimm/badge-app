@@ -68,7 +68,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "_owner",
+        name: "assignee",
         type: "address",
       },
       {

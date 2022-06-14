@@ -13,8 +13,6 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
-import { setNewEntity, setTokenForEntity, setRecoveryAddress, recoverBadges, recoverXPTokens } from '../utils/recoveryOracleUtils';
-import { awardPermissionToken, revokePermissionToken, surrenderPermissionToken } from '../utils/permissionUtils';
 
 type PageState = 
 "ENTRY" | 
@@ -38,6 +36,7 @@ export default function DeployEntityPage() {
   });
   const active = status === "authenticated";
   const { data:signer } = useSigner()
+  const provider = useProvider()
   
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 

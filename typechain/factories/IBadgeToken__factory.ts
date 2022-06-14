@@ -34,9 +34,9 @@ const _abi = [
     inputs: [
       {
         indexed: false,
-        internalType: "address",
-        name: "entityAddress",
-        type: "address",
+        internalType: "bool",
+        name: "byEntity",
+        type: "bool",
       },
       {
         indexed: false,
@@ -86,15 +86,29 @@ const _abi = [
         name: "tokenId",
         type: "uint256",
       },
+    ],
+    name: "burnAsEntity",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
-        internalType: "bool",
-        name: "withPrejudice",
-        type: "bool",
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
       },
     ],
-    name: "burn",
-    outputs: [],
-    stateMutability: "payable",
+    name: "getDateForBadge",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -143,7 +157,7 @@ const _abi = [
     ],
     name: "mintBadge",
     outputs: [],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
