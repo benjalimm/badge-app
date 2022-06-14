@@ -24,7 +24,7 @@ interface IPermissionTokenInterface extends ethers.utils.Interface {
   functions: {
     "getEntity()": FunctionFragment;
     "getPermStatusForAdmin(address)": FunctionFragment;
-    "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "mintAsEntity(address,uint256,string)": FunctionFragment;
     "revokePermission(address)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };
@@ -117,7 +117,7 @@ export class IPermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admins: string,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<[BigNumber]>;
 
     mintAsEntity(
       _owner: string,
@@ -142,7 +142,7 @@ export class IPermissionToken extends BaseContract {
   getPermStatusForAdmin(
     admins: string,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<BigNumber>;
 
   mintAsEntity(
     _owner: string,
@@ -167,7 +167,7 @@ export class IPermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admins: string,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<BigNumber>;
 
     mintAsEntity(
       _owner: string,

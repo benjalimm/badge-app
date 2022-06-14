@@ -29,7 +29,7 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "getEntity()": FunctionFragment;
     "getPermStatusForAdmin(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "mintAsEntity(address,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "ownerReverseRecord(address)": FunctionFragment;
@@ -262,7 +262,7 @@ export class PermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admin: string,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<[BigNumber] & { lvl: BigNumber }>;
 
     isApprovedForAll(
       owner: string,
@@ -292,7 +292,7 @@ export class PermissionToken extends BaseContract {
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<[BigNumber]>;
 
     revokePermission(
       _owner: string,
@@ -365,7 +365,7 @@ export class PermissionToken extends BaseContract {
   getPermStatusForAdmin(
     admin: string,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -392,7 +392,7 @@ export class PermissionToken extends BaseContract {
   permissionTokenHolders(
     arg0: string,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<BigNumber>;
 
   revokePermission(
     _owner: string,
@@ -462,7 +462,7 @@ export class PermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admin: string,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -489,7 +489,7 @@ export class PermissionToken extends BaseContract {
     permissionTokenHolders(
       arg0: string,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<BigNumber>;
 
     revokePermission(_owner: string, overrides?: CallOverrides): Promise<void>;
 

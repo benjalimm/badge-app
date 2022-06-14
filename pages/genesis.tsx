@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
 import { setNewEntity, setTokenForEntity, setRecoveryAddress, recoverBadges, recoverXPTokens } from '../utils/recoveryOracleUtils';
+import { awardPermissionToken, revokePermissionToken, surrenderPermissionToken } from '../utils/permissionUtils';
 
 type PageState = 
 "ENTRY" | 
@@ -74,7 +75,6 @@ export default function DeployEntityPage() {
   async function registerEntity(entityName: string) {
 
     try {
-
       // 1. Instantiate Badge Registry
       const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
 

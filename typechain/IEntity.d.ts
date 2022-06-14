@@ -11,8 +11,6 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-  Overrides,
-  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -22,18 +20,12 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IEntityInterface extends ethers.utils.Interface {
   functions: {
-    "assignPermissionToken(address,uint8,string)": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
-    "mintBadge(address,uint256,string)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "assignPermissionToken",
-    values: [string, BigNumberish, string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getBadgeRegistry",
     values?: undefined
   ): string;
@@ -44,17 +36,9 @@ interface IEntityInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "getPermissionToken",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintBadge",
-    values: [string, BigNumberish, string]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "assignPermissionToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getBadgeRegistry",
     data: BytesLike
   ): Result;
@@ -66,7 +50,6 @@ interface IEntityInterface extends ethers.utils.Interface {
     functionFragment: "getPermissionToken",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
 
   events: {};
 }
@@ -115,33 +98,12 @@ export class IEntity extends BaseContract {
   interface: IEntityInterface;
 
   functions: {
-    assignPermissionToken(
-      assignee: string,
-      level: BigNumberish,
-      tokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
-
-    mintBadge(
-      to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
-
-  assignPermissionToken(
-    assignee: string,
-    level: BigNumberish,
-    tokenURI: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
 
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
@@ -149,80 +111,31 @@ export class IEntity extends BaseContract {
 
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
-  mintBadge(
-    to: string,
-    level: BigNumberish,
-    _tokenURI: string,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
-    assignPermissionToken(
-      assignee: string,
-      level: BigNumberish,
-      tokenURI: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<string>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<string>;
-
-    mintBadge(
-      to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    assignPermissionToken(
-      assignee: string,
-      level: BigNumberish,
-      tokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<BigNumber>;
-
-    mintBadge(
-      to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    assignPermissionToken(
-      assignee: string,
-      level: BigNumberish,
-      tokenURI: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermissionToken(
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    mintBadge(
-      to: string,
-      level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
