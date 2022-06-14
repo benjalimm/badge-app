@@ -24,7 +24,7 @@ interface IPermissionTokenInterface extends ethers.utils.Interface {
   functions: {
     "getEntity()": FunctionFragment;
     "getPermStatusForAdmin(address)": FunctionFragment;
-    "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "mintAsEntity(address,uint256,string)": FunctionFragment;
     "revokePermission(address)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };
@@ -117,10 +117,10 @@ export class IPermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admins: string,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<[BigNumber]>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -142,10 +142,10 @@ export class IPermissionToken extends BaseContract {
   getPermStatusForAdmin(
     admins: string,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<BigNumber>;
 
   mintAsEntity(
-    _owner: string,
+    assignee: string,
     level: BigNumberish,
     tokenURI: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -167,10 +167,10 @@ export class IPermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admins: string,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<BigNumber>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
@@ -192,7 +192,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<BigNumber>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -218,7 +218,7 @@ export class IPermissionToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }

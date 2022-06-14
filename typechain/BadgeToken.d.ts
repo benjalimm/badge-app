@@ -12,7 +12,6 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
-  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -22,12 +21,15 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface BadgeTokenInterface extends ethers.utils.Interface {
   functions: {
+    "TIME_ALLOWED_TO_BURN()": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "burn(uint256,bool)": FunctionFragment;
+    "burnAsEntity(uint256)": FunctionFragment;
     "demeritPoints()": FunctionFragment;
     "entity()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
+    "getDateForBadge(uint256)": FunctionFragment;
     "getDemeritPoints()": FunctionFragment;
     "getEntity()": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
@@ -46,6 +48,10 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   };
 
   encodeFunctionData(
+    functionFragment: "TIME_ALLOWED_TO_BURN",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
   ): string;
@@ -55,12 +61,20 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     values: [BigNumberish, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "burnAsEntity",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "demeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "entity", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getApproved",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDateForBadge",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -115,9 +129,17 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "TIME_ALLOWED_TO_BURN",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "burnAsEntity",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "demeritPoints",
     data: BytesLike
@@ -125,6 +147,10 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "entity", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getApproved",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getDateForBadge",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -170,7 +196,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
-    "BadgeBurned(address,bool)": EventFragment;
+    "BadgeBurned(bool,bool)": EventFragment;
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
@@ -199,7 +225,7 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type BadgeBurnedEvent = TypedEvent<
-  [string, boolean] & { entityAddress: string; withPrejudice: boolean }
+  [boolean, boolean] & { byEntity: boolean; withPrejudice: boolean }
 >;
 
 export type BadgeMintedEvent = TypedEvent<
@@ -259,6 +285,8 @@ export class BadgeToken extends BaseContract {
   interface: BadgeTokenInterface;
 
   functions: {
+    TIME_ALLOWED_TO_BURN(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -270,7 +298,12 @@ export class BadgeToken extends BaseContract {
     burn(
       tokenId: BigNumberish,
       withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    burnAsEntity(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     demeritPoints(
@@ -284,6 +317,11 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getDateForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getEntity(overrides?: CallOverrides): Promise<[string]>;
@@ -295,10 +333,10 @@ export class BadgeToken extends BaseContract {
     ): Promise<[boolean]>;
 
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     name(overrides?: CallOverrides): Promise<[string]>;
@@ -361,6 +399,8 @@ export class BadgeToken extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  TIME_ALLOWED_TO_BURN(overrides?: CallOverrides): Promise<BigNumber>;
+
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -372,7 +412,12 @@ export class BadgeToken extends BaseContract {
   burn(
     tokenId: BigNumberish,
     withPrejudice: boolean,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  burnAsEntity(
+    tokenId: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
@@ -383,6 +428,11 @@ export class BadgeToken extends BaseContract {
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  getDateForBadge(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -395,10 +445,10 @@ export class BadgeToken extends BaseContract {
   ): Promise<boolean>;
 
   mintBadge(
-    _to: string,
+    to: string,
     level: BigNumberish,
-    _tokenURI: string,
-    overrides?: PayableOverrides & { from?: string | Promise<string> }
+    tokenURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   name(overrides?: CallOverrides): Promise<string>;
@@ -455,6 +505,8 @@ export class BadgeToken extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    TIME_ALLOWED_TO_BURN(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -469,6 +521,11 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    burnAsEntity(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
     entity(overrides?: CallOverrides): Promise<string>;
@@ -477,6 +534,11 @@ export class BadgeToken extends BaseContract {
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    getDateForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -489,9 +551,9 @@ export class BadgeToken extends BaseContract {
     ): Promise<boolean>;
 
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
+      tokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -580,20 +642,20 @@ export class BadgeToken extends BaseContract {
       { owner: string; operator: string; approved: boolean }
     >;
 
-    "BadgeBurned(address,bool)"(
-      entityAddress?: null,
+    "BadgeBurned(bool,bool)"(
+      byEntity?: null,
       withPrejudice?: null
     ): TypedEventFilter<
-      [string, boolean],
-      { entityAddress: string; withPrejudice: boolean }
+      [boolean, boolean],
+      { byEntity: boolean; withPrejudice: boolean }
     >;
 
     BadgeBurned(
-      entityAddress?: null,
+      byEntity?: null,
       withPrejudice?: null
     ): TypedEventFilter<
-      [string, boolean],
-      { entityAddress: string; withPrejudice: boolean }
+      [boolean, boolean],
+      { byEntity: boolean; withPrejudice: boolean }
     >;
 
     "BadgeMinted(address,uint256,uint256,string)"(
@@ -636,6 +698,8 @@ export class BadgeToken extends BaseContract {
   };
 
   estimateGas: {
+    TIME_ALLOWED_TO_BURN(overrides?: CallOverrides): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -647,7 +711,12 @@ export class BadgeToken extends BaseContract {
     burn(
       tokenId: BigNumberish,
       withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    burnAsEntity(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     demeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
@@ -655,6 +724,11 @@ export class BadgeToken extends BaseContract {
     entity(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getDateForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -670,10 +744,10 @@ export class BadgeToken extends BaseContract {
     ): Promise<BigNumber>;
 
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -737,6 +811,10 @@ export class BadgeToken extends BaseContract {
   };
 
   populateTransaction: {
+    TIME_ALLOWED_TO_BURN(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -751,7 +829,12 @@ export class BadgeToken extends BaseContract {
     burn(
       tokenId: BigNumberish,
       withPrejudice: boolean,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    burnAsEntity(
+      tokenId: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     demeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -759,6 +842,11 @@ export class BadgeToken extends BaseContract {
     entity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getDateForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -774,10 +862,10 @@ export class BadgeToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
-      overrides?: PayableOverrides & { from?: string | Promise<string> }
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
