@@ -56,9 +56,9 @@ const _abi = [
     name: "getPermStatusForAdmin",
     outputs: [
       {
-        internalType: "enum PermLevel",
+        internalType: "uint256",
         name: "",
-        type: "uint8",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -68,13 +68,13 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "_owner",
+        name: "assignee",
         type: "address",
       },
       {
-        internalType: "enum PermLevel",
+        internalType: "uint256",
         name: "level",
-        type: "uint8",
+        type: "uint256",
       },
       {
         internalType: "string",

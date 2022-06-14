@@ -25,6 +25,7 @@ interface EntityInterface extends ethers.utils.Interface {
     "assignPermissionToken(address,uint8,string)": FunctionFragment;
     "badgeRegistry()": FunctionFragment;
     "badgeToken()": FunctionFragment;
+    "burnBadge(uint256)": FunctionFragment;
     "entityName()": FunctionFragment;
     "genesisTokenHolder()": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
@@ -50,6 +51,10 @@ interface EntityInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "badgeToken",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "burnBadge",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "entityName",
@@ -109,6 +114,7 @@ interface EntityInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "badgeToken", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "burnBadge", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "entityName", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "genesisTokenHolder",
@@ -228,6 +234,11 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<[string]>;
 
+    burnBadge(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     entityName(overrides?: CallOverrides): Promise<[string]>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<[string]>;
@@ -288,6 +299,11 @@ export class Entity extends BaseContract {
 
   badgeToken(overrides?: CallOverrides): Promise<string>;
 
+  burnBadge(
+    id: BigNumberish,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   entityName(overrides?: CallOverrides): Promise<string>;
 
   genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
@@ -347,6 +363,8 @@ export class Entity extends BaseContract {
     badgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     badgeToken(overrides?: CallOverrides): Promise<string>;
+
+    burnBadge(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     entityName(overrides?: CallOverrides): Promise<string>;
 
@@ -443,6 +461,11 @@ export class Entity extends BaseContract {
 
     badgeToken(overrides?: CallOverrides): Promise<BigNumber>;
 
+    burnBadge(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     entityName(overrides?: CallOverrides): Promise<BigNumber>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<BigNumber>;
@@ -503,6 +526,11 @@ export class Entity extends BaseContract {
     badgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     badgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    burnBadge(
+      id: BigNumberish,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     entityName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

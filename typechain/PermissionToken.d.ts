@@ -22,6 +22,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface PermissionTokenInterface extends ethers.utils.Interface {
   functions: {
+    "adminToPermLevel(address)": FunctionFragment;
     "approve(address,uint256)": FunctionFragment;
     "balanceOf(address)": FunctionFragment;
     "entity()": FunctionFragment;
@@ -29,11 +30,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "getEntity()": FunctionFragment;
     "getPermStatusForAdmin(address)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintAsEntity(address,uint8,string)": FunctionFragment;
+    "mintAsEntity(address,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "ownerReverseRecord(address)": FunctionFragment;
-    "permissionTokenHolders(address)": FunctionFragment;
     "revokePermission(address)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
@@ -44,6 +44,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "adminToPermLevel",
+    values: [string]
+  ): string;
   encodeFunctionData(
     functionFragment: "approve",
     values: [string, BigNumberish]
@@ -77,10 +81,6 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "permissionTokenHolders",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "revokePermission",
     values: [string]
   ): string;
@@ -110,6 +110,10 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "adminToPermLevel",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "entity", data: BytesLike): Result;
@@ -134,10 +138,6 @@ interface PermissionTokenInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "ownerReverseRecord",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "permissionTokenHolders",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -242,6 +242,11 @@ export class PermissionToken extends BaseContract {
   interface: PermissionTokenInterface;
 
   functions: {
+    adminToPermLevel(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -262,7 +267,7 @@ export class PermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admin: string,
       overrides?: CallOverrides
-    ): Promise<[number]>;
+    ): Promise<[BigNumber] & { lvl: BigNumber }>;
 
     isApprovedForAll(
       owner: string,
@@ -271,7 +276,7 @@ export class PermissionToken extends BaseContract {
     ): Promise<[boolean]>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -289,13 +294,8 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[number]>;
-
     revokePermission(
-      _owner: string,
+      revokee: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -345,6 +345,8 @@ export class PermissionToken extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  adminToPermLevel(arg0: string, overrides?: CallOverrides): Promise<BigNumber>;
+
   approve(
     to: string,
     tokenId: BigNumberish,
@@ -365,7 +367,7 @@ export class PermissionToken extends BaseContract {
   getPermStatusForAdmin(
     admin: string,
     overrides?: CallOverrides
-  ): Promise<number>;
+  ): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -374,7 +376,7 @@ export class PermissionToken extends BaseContract {
   ): Promise<boolean>;
 
   mintAsEntity(
-    _owner: string,
+    assignee: string,
     level: BigNumberish,
     tokenURI: string,
     overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -389,13 +391,8 @@ export class PermissionToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  permissionTokenHolders(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
   revokePermission(
-    _owner: string,
+    revokee: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -442,6 +439,11 @@ export class PermissionToken extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    adminToPermLevel(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -462,7 +464,7 @@ export class PermissionToken extends BaseContract {
     getPermStatusForAdmin(
       admin: string,
       overrides?: CallOverrides
-    ): Promise<number>;
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -471,7 +473,7 @@ export class PermissionToken extends BaseContract {
     ): Promise<boolean>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
@@ -486,12 +488,7 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<number>;
-
-    revokePermission(_owner: string, overrides?: CallOverrides): Promise<void>;
+    revokePermission(revokee: string, overrides?: CallOverrides): Promise<void>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -590,6 +587,11 @@ export class PermissionToken extends BaseContract {
   };
 
   estimateGas: {
+    adminToPermLevel(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -619,7 +621,7 @@ export class PermissionToken extends BaseContract {
     ): Promise<BigNumber>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -637,13 +639,8 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     revokePermission(
-      _owner: string,
+      revokee: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -694,6 +691,11 @@ export class PermissionToken extends BaseContract {
   };
 
   populateTransaction: {
+    adminToPermLevel(
+      arg0: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     approve(
       to: string,
       tokenId: BigNumberish,
@@ -726,7 +728,7 @@ export class PermissionToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     mintAsEntity(
-      _owner: string,
+      assignee: string,
       level: BigNumberish,
       tokenURI: string,
       overrides?: PayableOverrides & { from?: string | Promise<string> }
@@ -744,13 +746,8 @@ export class PermissionToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    permissionTokenHolders(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     revokePermission(
-      _owner: string,
+      revokee: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
