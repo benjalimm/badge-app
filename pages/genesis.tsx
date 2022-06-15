@@ -13,6 +13,7 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
+import { burnWithPrejudice, calculateMinStake, getDemeritPoint } from '../utils/burnTests';
 
 type PageState = 
 "ENTRY" | 
@@ -74,65 +75,75 @@ export default function DeployEntityPage() {
   async function registerEntity(entityName: string) {
 
     try {
-      // 1. Instantiate Badge Registry
-      const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
-
-      setDeployState("STARTED_IPFS_UPLOAD")
-
-      // 3. Check if ipfs url exist, if not -> generate IPFS
-      const ipfsUrl = await uploadERC721ToIpfs({ 
-        title:  entityName  + " - Badge Genesis token",
-        type: "object",
-        properties: {
-          "name": { 
-            type: "string",
-            description: `${entityName} - Genesis token`
-          },
-          "description": {
-            type: "string",
-            description: `Genesis token for ${entityName} for Badge.xyz`
-          }
-        }
-      }) 
-
-      // 4. Set deploy state to uploaded
-      setDeployState("IPFS_UPLOADED")
-      console.log(`IPFS URL: ${ipfsUrl}`)
-
-      // 5. Call register entity on Badge registry contract
-      await badgeRegistry.registerEntity(entityName, ipfsUrl, true);
-
-      // 6. Start entity deployment + start loading progress bar
-      setDeployState("STARTED_ENTITY_DEPLOYMENT")
-      setPageState("LOADING")
-
-      // 7. Wait for entity to be registered, set data of entity once event is emitted
-      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
-        console.log("Entity registered ", entityAddress, entityName);
-        setDeployState("ENTITY_REGISTERED")
-
-        // 7.1. Set entity info for view
-        setEntityInfo({
-          address: entityAddress,
-          name: entityName,
-          genesisTokenHolder: genesisTokenHolder
-        })
-
-        // 7.2. Set entity info for local storage -> IMPORTANT
-        setCurrentEntity({
-          address: entityAddress,
-          name: entityName,
-          timestampOfLastVerified: Date.now()
-        })
-
-        // 7.3. Set page state to success, this will change the state to the receipt view
-        if (pageState !== "SUCCESS") {
-          setPageState("SUCCESS");
-        }
-      })
-    } catch (error) {
-      console.error(error)
+      // await burnWithPrejudice(signer);
+      await calculateMinStake(signer);
+      // await getDemeritPoint(signer);
+    } catch (e) {
+      console.error(e);
     }
+
+    // try {
+    //   // 1. Instantiate Badge Registry
+    //   const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+
+    //   setDeployState("STARTED_IPFS_UPLOAD")
+
+    //   // 3. Check if ipfs url exist, if not -> generate IPFS
+    //   const ipfsUrl = await uploadERC721ToIpfs({ 
+    //     title:  entityName  + " - Badge Genesis token",
+    //     type: "object",
+    //     properties: {
+    //       "name": { 
+    //         type: "string",
+    //         description: `${entityName} - Genesis token`
+    //       },
+    //       "description": {
+    //         type: "string",
+    //         description: `Genesis token for ${entityName} for Badge.xyz`
+    //       }
+    //     }
+    //   }) 
+
+    //   // 4. Set deploy state to uploaded
+    //   setDeployState("IPFS_UPLOADED")
+    //   console.log(`IPFS URL: ${ipfsUrl}`)
+
+    //   // 5. Call register entity on Badge registry contract
+    //   const minStakeAmount = await badgeRegistry.baseMinimumStake()
+    //   console.log(`Min stake amount: ${minStakeAmount}`)
+    //   await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+
+    //   // 6. Start entity deployment + start loading progress bar
+    //   setDeployState("STARTED_ENTITY_DEPLOYMENT")
+    //   setPageState("LOADING")
+
+    //   // 7. Wait for entity to be registered, set data of entity once event is emitted
+    //   badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+    //     console.log("Entity registered ", entityAddress, entityName);
+    //     setDeployState("ENTITY_REGISTERED")
+
+    //     // 7.1. Set entity info for view
+    //     setEntityInfo({
+    //       address: entityAddress,
+    //       name: entityName,
+    //       genesisTokenHolder: genesisTokenHolder
+    //     })
+
+    //     // 7.2. Set entity info for local storage -> IMPORTANT
+    //     setCurrentEntity({
+    //       address: entityAddress,
+    //       name: entityName,
+    //       timestampOfLastVerified: Date.now()
+    //     })
+
+    //     // 7.3. Set page state to success, this will change the state to the receipt view
+    //     if (pageState !== "SUCCESS") {
+    //       setPageState("SUCCESS");
+    //     }
+    //   })
+    // } catch (error) {
+    //   console.error(error)
+    // }
     
   }
 
