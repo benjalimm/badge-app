@@ -20,11 +20,16 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IEntityInterface extends ethers.utils.Interface {
   functions: {
+    "calculateMinStake(uint256)": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "calculateMinStake",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "getBadgeRegistry",
     values?: undefined
@@ -38,6 +43,10 @@ interface IEntityInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "calculateMinStake",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getBadgeRegistry",
     data: BytesLike
@@ -98,12 +107,22 @@ export class IEntity extends BaseContract {
   interface: IEntityInterface;
 
   functions: {
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
   };
+
+  calculateMinStake(
+    demeritPoints: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
@@ -112,6 +131,11 @@ export class IEntity extends BaseContract {
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<string>;
@@ -122,6 +146,11 @@ export class IEntity extends BaseContract {
   filters: {};
 
   estimateGas: {
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
@@ -130,6 +159,11 @@ export class IEntity extends BaseContract {
   };
 
   populateTransaction: {
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;

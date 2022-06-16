@@ -198,6 +198,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "ApprovalForAll(address,address,bool)": EventFragment;
     "BadgeBurned(bool,bool)": EventFragment;
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
+    "StakeReceived(uint256,bool)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
@@ -205,6 +206,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "StakeReceived"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -235,6 +237,10 @@ export type BadgeMintedEvent = TypedEvent<
     level: BigNumber;
     tokenURI: string;
   }
+>;
+
+export type StakeReceivedEvent = TypedEvent<
+  [BigNumber, boolean] & { amount: BigNumber; minimumStakeMet: boolean }
 >;
 
 export type TransferEvent = TypedEvent<
@@ -676,6 +682,22 @@ export class BadgeToken extends BaseContract {
     ): TypedEventFilter<
       [string, BigNumber, BigNumber, string],
       { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
+    >;
+
+    "StakeReceived(uint256,bool)"(
+      amount?: null,
+      minimumStakeMet?: null
+    ): TypedEventFilter<
+      [BigNumber, boolean],
+      { amount: BigNumber; minimumStakeMet: boolean }
+    >;
+
+    StakeReceived(
+      amount?: null,
+      minimumStakeMet?: null
+    ): TypedEventFilter<
+      [BigNumber, boolean],
+      { amount: BigNumber; minimumStakeMet: boolean }
     >;
 
     "Transfer(address,address,uint256)"(
