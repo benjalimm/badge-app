@@ -13,6 +13,7 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
+import { burnWithPrejudice, calculateMinStake, getDemeritPoint, sendEthToStake } from '../utils/burnTests';
 
 type PageState = 
 "ENTRY" | 
@@ -100,7 +101,9 @@ export default function DeployEntityPage() {
       console.log(`IPFS URL: ${ipfsUrl}`)
 
       // 5. Call register entity on Badge registry contract
-      await badgeRegistry.registerEntity(entityName, ipfsUrl, true);
+      const minStakeAmount = await badgeRegistry.baseMinimumStake()
+      console.log(`Min stake amount: ${minStakeAmount}`)
+      await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
 
       // 6. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")

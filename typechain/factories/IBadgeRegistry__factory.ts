@@ -13,42 +13,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
-    name: "Unauthorized",
-    type: "error",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "entityAddress",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "entityName",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "genesisTokenHolder",
-        type: "address",
-      },
-    ],
-    name: "EntityRegistered",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "level",
         type: "uint256",
@@ -93,12 +57,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getEntityFactory",
+    name: "getBaseMinimumStake",
     outputs: [
       {
-        internalType: "address",
+        internalType: "uint256",
         name: "",
-        type: "address",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -106,12 +70,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getLevelMultiplierX1000",
+    name: "getEntityFactory",
     outputs: [
       {
-        internalType: "uint256",
+        internalType: "address",
         name: "",
-        type: "uint256",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -192,29 +156,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "entityName",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "genesisTokenURI",
-        type: "string",
-      },
-      {
-        internalType: "bool",
-        name: "deployTokens",
-        type: "bool",
-      },
-    ],
-    name: "registerEntity",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {

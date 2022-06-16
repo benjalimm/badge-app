@@ -12,6 +12,7 @@ import {
   BaseContract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -26,6 +27,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "badgeTokenEntityReverseRecord(address)": FunctionFragment;
     "badgeTokenFactory()": FunctionFragment;
     "badgeXPToken()": FunctionFragment;
+    "baseMinimumStake()": FunctionFragment;
     "certifiedRegistries(address)": FunctionFragment;
     "deployer()": FunctionFragment;
     "entities(address)": FunctionFragment;
@@ -34,14 +36,13 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "getBadgePrice(uint256)": FunctionFragment;
     "getBadgeTokenFactory()": FunctionFragment;
     "getBadgeXPToken()": FunctionFragment;
+    "getBaseMinimumStake()": FunctionFragment;
     "getEntityFactory()": FunctionFragment;
-    "getLevelMultiplierX1000()": FunctionFragment;
     "getPermissionTokenFactory()": FunctionFragment;
     "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
     "isRegistryCertified(address)": FunctionFragment;
-    "levelMultiplierX1000()": FunctionFragment;
     "permTokenEntityReverseRecord(address)": FunctionFragment;
     "permissionTokenFactory()": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
@@ -49,6 +50,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "setBadgePriceCalculator(address)": FunctionFragment;
     "setBadgeTokenFactory(address)": FunctionFragment;
     "setBadgeXPToken(address)": FunctionFragment;
+    "setBaseMinimumStake(uint256)": FunctionFragment;
     "setCertifiedRegistry(address,bool)": FunctionFragment;
     "setEntityFactory(address)": FunctionFragment;
     "setPermissionTokenFactory(address)": FunctionFragment;
@@ -74,6 +76,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "badgeXPToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "baseMinimumStake",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -103,11 +109,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getEntityFactory",
+    functionFragment: "getBaseMinimumStake",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getLevelMultiplierX1000",
+    functionFragment: "getEntityFactory",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -126,10 +132,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "isRegistryCertified",
     values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "levelMultiplierX1000",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "permTokenEntityReverseRecord",
@@ -158,6 +160,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "setBadgeXPToken",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBaseMinimumStake",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "setCertifiedRegistry",
@@ -201,6 +207,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "baseMinimumStake",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "certifiedRegistries",
     data: BytesLike
   ): Result;
@@ -227,11 +237,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getEntityFactory",
+    functionFragment: "getBaseMinimumStake",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getLevelMultiplierX1000",
+    functionFragment: "getEntityFactory",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -249,10 +259,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isRegistryCertified",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "levelMultiplierX1000",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -281,6 +287,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setBadgeXPToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBaseMinimumStake",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -376,6 +386,8 @@ export class BadgeRegistry extends BaseContract {
 
     badgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
+    baseMinimumStake(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     certifiedRegistries(
       arg0: string,
       overrides?: CallOverrides
@@ -402,9 +414,9 @@ export class BadgeRegistry extends BaseContract {
 
     getBadgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
-    getEntityFactory(overrides?: CallOverrides): Promise<[string]>;
+    getBaseMinimumStake(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getLevelMultiplierX1000(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getEntityFactory(overrides?: CallOverrides): Promise<[string]>;
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
 
@@ -419,8 +431,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
@@ -434,7 +444,7 @@ export class BadgeRegistry extends BaseContract {
       entityName: string,
       genesisTokenURI: string,
       deployTokens: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
     setBadgePriceCalculator(
@@ -449,6 +459,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeXPToken(
       _badgeXPToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setBaseMinimumStake(
+      _baseMinimumStake: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -493,6 +508,8 @@ export class BadgeRegistry extends BaseContract {
 
   badgeXPToken(overrides?: CallOverrides): Promise<string>;
 
+  baseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
   certifiedRegistries(
     arg0: string,
     overrides?: CallOverrides
@@ -519,9 +536,9 @@ export class BadgeRegistry extends BaseContract {
 
   getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
-  getEntityFactory(overrides?: CallOverrides): Promise<string>;
+  getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getLevelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+  getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
   getPermissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -536,8 +553,6 @@ export class BadgeRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
-
   permTokenEntityReverseRecord(
     arg0: string,
     overrides?: CallOverrides
@@ -551,7 +566,7 @@ export class BadgeRegistry extends BaseContract {
     entityName: string,
     genesisTokenURI: string,
     deployTokens: boolean,
-    overrides?: Overrides & { from?: string | Promise<string> }
+    overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   setBadgePriceCalculator(
@@ -566,6 +581,11 @@ export class BadgeRegistry extends BaseContract {
 
   setBadgeXPToken(
     _badgeXPToken: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setBaseMinimumStake(
+    _baseMinimumStake: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -610,6 +630,8 @@ export class BadgeRegistry extends BaseContract {
 
     badgeXPToken(overrides?: CallOverrides): Promise<string>;
 
+    baseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
     certifiedRegistries(
       arg0: string,
       overrides?: CallOverrides
@@ -636,9 +658,9 @@ export class BadgeRegistry extends BaseContract {
 
     getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
-    getEntityFactory(overrides?: CallOverrides): Promise<string>;
+    getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getLevelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+    getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -652,8 +674,6 @@ export class BadgeRegistry extends BaseContract {
       _registry: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
 
     permTokenEntityReverseRecord(
       arg0: string,
@@ -683,6 +703,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeXPToken(
       _badgeXPToken: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBaseMinimumStake(
+      _baseMinimumStake: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -748,6 +773,8 @@ export class BadgeRegistry extends BaseContract {
 
     badgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
 
+    baseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
     certifiedRegistries(
       arg0: string,
       overrides?: CallOverrides
@@ -774,9 +801,9 @@ export class BadgeRegistry extends BaseContract {
 
     getBadgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getEntityFactory(overrides?: CallOverrides): Promise<BigNumber>;
+    getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getLevelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
+    getEntityFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -791,8 +818,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    levelMultiplierX1000(overrides?: CallOverrides): Promise<BigNumber>;
-
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
@@ -806,7 +831,7 @@ export class BadgeRegistry extends BaseContract {
       entityName: string,
       genesisTokenURI: string,
       deployTokens: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
     setBadgePriceCalculator(
@@ -821,6 +846,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeXPToken(
       _badgeXPToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setBaseMinimumStake(
+      _baseMinimumStake: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -868,6 +898,8 @@ export class BadgeRegistry extends BaseContract {
 
     badgeXPToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    baseMinimumStake(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     certifiedRegistries(
       arg0: string,
       overrides?: CallOverrides
@@ -899,11 +931,11 @@ export class BadgeRegistry extends BaseContract {
 
     getBadgeXPToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getEntityFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getLevelMultiplierX1000(
+    getBaseMinimumStake(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getEntityFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermissionTokenFactory(
       overrides?: CallOverrides
@@ -923,10 +955,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    levelMultiplierX1000(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     permTokenEntityReverseRecord(
       arg0: string,
       overrides?: CallOverrides
@@ -942,7 +970,7 @@ export class BadgeRegistry extends BaseContract {
       entityName: string,
       genesisTokenURI: string,
       deployTokens: boolean,
-      overrides?: Overrides & { from?: string | Promise<string> }
+      overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
     setBadgePriceCalculator(
@@ -957,6 +985,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeXPToken(
       _badgeXPToken: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBaseMinimumStake(
+      _baseMinimumStake: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

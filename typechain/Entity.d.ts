@@ -22,14 +22,17 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface EntityInterface extends ethers.utils.Interface {
   functions: {
+    "BASE_MINIMUM_STAKE()": FunctionFragment;
     "assignPermissionToken(address,uint8,string)": FunctionFragment;
     "badgeRegistry()": FunctionFragment;
     "badgeToken()": FunctionFragment;
     "burnBadge(uint256)": FunctionFragment;
+    "calculateMinStake(uint256)": FunctionFragment;
     "entityName()": FunctionFragment;
     "genesisTokenHolder()": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
+    "getMinStake()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
     "migrateToEntity(address,address)": FunctionFragment;
     "migrateToTokens(address,address)": FunctionFragment;
@@ -40,6 +43,10 @@ interface EntityInterface extends ethers.utils.Interface {
     "surrenderPermissionToken()": FunctionFragment;
   };
 
+  encodeFunctionData(
+    functionFragment: "BASE_MINIMUM_STAKE",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "assignPermissionToken",
     values: [string, BigNumberish, string]
@@ -57,6 +64,10 @@ interface EntityInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "calculateMinStake",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "entityName",
     values?: undefined
   ): string;
@@ -70,6 +81,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBadgeToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getMinStake",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -106,6 +121,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(
+    functionFragment: "BASE_MINIMUM_STAKE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "assignPermissionToken",
     data: BytesLike
   ): Result;
@@ -115,6 +134,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "badgeToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnBadge", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "calculateMinStake",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "entityName", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "genesisTokenHolder",
@@ -126,6 +149,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getBadgeToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getMinStake",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -223,6 +250,8 @@ export class Entity extends BaseContract {
   interface: EntityInterface;
 
   functions: {
+    BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     assignPermissionToken(
       assignee: string,
       level: BigNumberish,
@@ -239,6 +268,11 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     entityName(overrides?: CallOverrides): Promise<[string]>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<[string]>;
@@ -246,6 +280,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
+
+    getMinStake(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -288,6 +324,8 @@ export class Entity extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<BigNumber>;
+
   assignPermissionToken(
     assignee: string,
     level: BigNumberish,
@@ -304,6 +342,11 @@ export class Entity extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  calculateMinStake(
+    demeritPoints: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   entityName(overrides?: CallOverrides): Promise<string>;
 
   genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
@@ -311,6 +354,8 @@ export class Entity extends BaseContract {
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
   getBadgeToken(overrides?: CallOverrides): Promise<string>;
+
+  getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
   getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
@@ -353,6 +398,8 @@ export class Entity extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<BigNumber>;
+
     assignPermissionToken(
       assignee: string,
       level: BigNumberish,
@@ -366,6 +413,11 @@ export class Entity extends BaseContract {
 
     burnBadge(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     entityName(overrides?: CallOverrides): Promise<string>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<string>;
@@ -373,6 +425,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<string>;
+
+    getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<string>;
 
@@ -450,6 +504,8 @@ export class Entity extends BaseContract {
   };
 
   estimateGas: {
+    BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<BigNumber>;
+
     assignPermissionToken(
       assignee: string,
       level: BigNumberish,
@@ -466,6 +522,11 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     entityName(overrides?: CallOverrides): Promise<BigNumber>;
 
     genesisTokenHolder(overrides?: CallOverrides): Promise<BigNumber>;
@@ -473,6 +534,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionToken(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -516,6 +579,10 @@ export class Entity extends BaseContract {
   };
 
   populateTransaction: {
+    BASE_MINIMUM_STAKE(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     assignPermissionToken(
       assignee: string,
       level: BigNumberish,
@@ -532,6 +599,11 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    calculateMinStake(
+      demeritPoints: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     entityName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     genesisTokenHolder(
@@ -541,6 +613,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getMinStake(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermissionToken(
       overrides?: CallOverrides
