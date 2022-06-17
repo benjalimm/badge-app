@@ -29,11 +29,12 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "demeritPoints()": FunctionFragment;
     "entity()": FunctionFragment;
     "getApproved(uint256)": FunctionFragment;
-    "getDateForBadge(uint256)": FunctionFragment;
     "getDemeritPoints()": FunctionFragment;
     "getEntity()": FunctionFragment;
+    "getTimestampForBadge(uint256)": FunctionFragment;
+    "getXPForBadge(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintBadge(address,uint256,string)": FunctionFragment;
+    "mintBadge(address,uint256,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "recover(uint256)": FunctionFragment;
@@ -74,21 +75,25 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getDateForBadge",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getDemeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getTimestampForBadge",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getXPForBadge",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "isApprovedForAll",
     values: [string, string]
   ): string;
   encodeFunctionData(
     functionFragment: "mintBadge",
-    values: [string, BigNumberish, string]
+    values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -150,14 +155,18 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getDateForBadge",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getDemeritPoints",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getTimestampForBadge",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getXPForBadge",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "isApprovedForAll",
     data: BytesLike
@@ -323,14 +332,19 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
-    getDateForBadge(
+    getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getEntity(overrides?: CallOverrides): Promise<[string]>;
+
+    getTimestampForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    getEntity(overrides?: CallOverrides): Promise<[string]>;
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     isApprovedForAll(
       owner: string,
@@ -341,6 +355,7 @@ export class BadgeToken extends BaseContract {
     mintBadge(
       to: string,
       level: BigNumberish,
+      xp: BigNumberish,
       tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -435,14 +450,19 @@ export class BadgeToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  getDateForBadge(
+  getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getEntity(overrides?: CallOverrides): Promise<string>;
+
+  getTimestampForBadge(
     tokenId: BigNumberish,
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-  getEntity(overrides?: CallOverrides): Promise<string>;
+  getXPForBadge(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   isApprovedForAll(
     owner: string,
@@ -453,6 +473,7 @@ export class BadgeToken extends BaseContract {
   mintBadge(
     to: string,
     level: BigNumberish,
+    xp: BigNumberish,
     tokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -541,14 +562,19 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    getDateForBadge(
+    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getEntity(overrides?: CallOverrides): Promise<string>;
+
+    getTimestampForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getEntity(overrides?: CallOverrides): Promise<string>;
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -559,6 +585,7 @@ export class BadgeToken extends BaseContract {
     mintBadge(
       to: string,
       level: BigNumberish,
+      xp: BigNumberish,
       tokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -750,14 +777,19 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDateForBadge(
+    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTimestampForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
-
-    getEntity(overrides?: CallOverrides): Promise<BigNumber>;
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     isApprovedForAll(
       owner: string,
@@ -768,6 +800,7 @@ export class BadgeToken extends BaseContract {
     mintBadge(
       to: string,
       level: BigNumberish,
+      xp: BigNumberish,
       tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -868,14 +901,19 @@ export class BadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getDateForBadge(
+    getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getTimestampForBadge(
       tokenId: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     isApprovedForAll(
       owner: string,
@@ -886,6 +924,7 @@ export class BadgeToken extends BaseContract {
     mintBadge(
       to: string,
       level: BigNumberish,
+      xp: BigNumberish,
       tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

@@ -10,24 +10,20 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "message",
-        type: "string",
+        internalType: "uint256",
+        name: "xp",
+        type: "uint256",
       },
-    ],
-    name: "Failure",
-    type: "error",
-  },
-  {
-    inputs: [
       {
-        internalType: "string",
-        name: "message",
-        type: "string",
+        internalType: "address",
+        name: "owner",
+        type: "address",
       },
     ],
-    name: "Unauthorized",
-    type: "error",
+    name: "burnXPAsBadgeToken",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
   },
   {
     inputs: [
@@ -64,6 +60,19 @@ const _abi = [
   {
     inputs: [],
     name: "getBadgeToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getBadgeXPToken",
     outputs: [
       {
         internalType: "address",

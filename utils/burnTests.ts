@@ -3,7 +3,7 @@ import { Signer } from "ethers";
 import { Entity, Entity__factory, BadgeToken, BadgeToken__factory } from "../typechain";
 import { ethers } from "ethers";
 
-const entityAddress: string = "0x8c1Ff198AE9AF4b186EE30372A9334B812EC89F5"
+const entityAddress: string = "0xf9eA1D20d85353E6AB2C54afdDAe5CB28824F506"
 const user2Address: string = "0x845B62836650b762996FDf596AabFd19AfFAE02D"
 
 export async function revokeBadgeAsEntity(signer: Signer) {
@@ -15,7 +15,7 @@ export async function burnWithPrejudice(signer: Signer) {
   const entity = Entity__factory.connect(entityAddress, signer)
   const badgeTokenAddress = await entity.badgeToken();
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
-  await badgeToken.burn(3, true);
+  await badgeToken.burn(1, true);
 }
 
 export async function getDemeritPoint(signer: Signer) {

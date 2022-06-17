@@ -57,9 +57,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC165__factory>;
     getContractFactory(
-      name: "BadgePriceCalculator",
+      name: "BadgePriceOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.BadgePriceCalculator__factory>;
+    ): Promise<Contracts.BadgePriceOracle__factory>;
     getContractFactory(
       name: "BadgeRecoveryOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -105,9 +105,9 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.PermissionTokenFactory__factory>;
     getContractFactory(
-      name: "IBadgePriceCalculator",
+      name: "IBadgePriceOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.IBadgePriceCalculator__factory>;
+    ): Promise<Contracts.IBadgePriceOracle__factory>;
     getContractFactory(
       name: "IBadgeRecoveryOracle",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -205,10 +205,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC165>;
     getContractAt(
-      name: "BadgePriceCalculator",
+      name: "BadgePriceOracle",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.BadgePriceCalculator>;
+    ): Promise<Contracts.BadgePriceOracle>;
     getContractAt(
       name: "BadgeRecoveryOracle",
       address: string,
@@ -265,10 +265,10 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.PermissionTokenFactory>;
     getContractAt(
-      name: "IBadgePriceCalculator",
+      name: "IBadgePriceOracle",
       address: string,
       signer?: ethers.Signer
-    ): Promise<Contracts.IBadgePriceCalculator>;
+    ): Promise<Contracts.IBadgePriceOracle>;
     getContractAt(
       name: "IBadgeRecoveryOracle",
       address: string,

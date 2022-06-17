@@ -13,7 +13,6 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
-import { burnWithPrejudice, calculateMinStake, getDemeritPoint, sendEthToStake } from '../utils/burnTests';
 
 type PageState = 
 "ENTRY" | 

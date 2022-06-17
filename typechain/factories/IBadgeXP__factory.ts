@@ -10,28 +10,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
-    name: "Failure",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "message",
-        type: "string",
-      },
-    ],
-    name: "Unauthorized",
-    type: "error",
-  },
-  {
-    inputs: [
-      {
         internalType: "uint256",
         name: "amount",
         type: "uint256",
@@ -71,7 +49,13 @@ const _abi = [
       },
     ],
     name: "mint",
-    outputs: [],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "xp",
+        type: "uint256",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "function",
   },

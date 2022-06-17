@@ -34,20 +34,8 @@ interface IBadgeTokenFactoryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {
-    "BadgeTokenDeployed(string,address,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "BadgeTokenDeployed"): EventFragment;
+  events: {};
 }
-
-export type BadgeTokenDeployedEvent = TypedEvent<
-  [string, string, string] & {
-    entityName: string;
-    entityAddress: string;
-    contractAddress: string;
-  }
->;
 
 export class IBadgeTokenFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -114,25 +102,7 @@ export class IBadgeTokenFactory extends BaseContract {
     ): Promise<string>;
   };
 
-  filters: {
-    "BadgeTokenDeployed(string,address,address)"(
-      entityName?: null,
-      entityAddress?: null,
-      contractAddress?: null
-    ): TypedEventFilter<
-      [string, string, string],
-      { entityName: string; entityAddress: string; contractAddress: string }
-    >;
-
-    BadgeTokenDeployed(
-      entityName?: null,
-      entityAddress?: null,
-      contractAddress?: null
-    ): TypedEventFilter<
-      [string, string, string],
-      { entityName: string; entityAddress: string; contractAddress: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     createBadgeToken(

@@ -11,7 +11,6 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-  Overrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -19,34 +18,25 @@ import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
-interface IBadgeRecoveryOracleInterface extends ethers.utils.Interface {
+interface IBadgePriceOracleInterface extends ethers.utils.Interface {
   functions: {
-    "getRecoveryAddress(address)": FunctionFragment;
-    "setRecoveryAddress(address)": FunctionFragment;
+    "calculateBadgePrice(uint256)": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "getRecoveryAddress",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setRecoveryAddress",
-    values: [string]
+    functionFragment: "calculateBadgePrice",
+    values: [BigNumberish]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "getRecoveryAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setRecoveryAddress",
+    functionFragment: "calculateBadgePrice",
     data: BytesLike
   ): Result;
 
   events: {};
 }
 
-export class IBadgeRecoveryOracle extends BaseContract {
+export class IBadgePriceOracle extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -87,65 +77,40 @@ export class IBadgeRecoveryOracle extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TypedEvent<EventArgsArray & EventArgsObject>>>;
 
-  interface: IBadgeRecoveryOracleInterface;
+  interface: IBadgePriceOracleInterface;
 
   functions: {
-    getRecoveryAddress(
-      _address: string,
+    calculateBadgePrice(
+      level: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    setRecoveryAddress(
-      _recoveryAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    ): Promise<[BigNumber]>;
   };
 
-  getRecoveryAddress(
-    _address: string,
+  calculateBadgePrice(
+    level: BigNumberish,
     overrides?: CallOverrides
-  ): Promise<string>;
-
-  setRecoveryAddress(
-    _recoveryAddress: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  ): Promise<BigNumber>;
 
   callStatic: {
-    getRecoveryAddress(
-      _address: string,
+    calculateBadgePrice(
+      level: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<string>;
-
-    setRecoveryAddress(
-      _recoveryAddress: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
   };
 
   filters: {};
 
   estimateGas: {
-    getRecoveryAddress(
-      _address: string,
+    calculateBadgePrice(
+      level: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    setRecoveryAddress(
-      _recoveryAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    getRecoveryAddress(
-      _address: string,
+    calculateBadgePrice(
+      level: BigNumberish,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setRecoveryAddress(
-      _recoveryAddress: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
