@@ -14,41 +14,6 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "recoveryAddress",
-        type: "address",
-      },
-    ],
-    name: "RecoveryAddressAlreadySet",
-    type: "error",
-  },
-  {
-    inputs: [],
-    name: "RecoveryAddressSameAsSender",
-    type: "error",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "initialAddress",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "recoveryAddress",
-        type: "address",
-      },
-    ],
-    name: "RecoveryAddressSet",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
         name: "_address",
         type: "address",
       },

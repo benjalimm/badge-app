@@ -11,25 +11,6 @@ import type {
 
 const _abi = [
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "entityName",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "entityAddress",
-        type: "address",
-      },
-    ],
-    name: "PermissionTokenDeployed",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "string",

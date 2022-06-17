@@ -367,7 +367,7 @@ export class BadgeXP extends BaseContract {
       recipient: string,
       registry: string,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
     name(overrides?: CallOverrides): Promise<string>;
 

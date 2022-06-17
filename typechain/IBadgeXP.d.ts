@@ -126,7 +126,7 @@ export class IBadgeXP extends BaseContract {
       recipient: string,
       registry: string,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
   };
 
   filters: {};
