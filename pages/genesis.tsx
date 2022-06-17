@@ -102,36 +102,38 @@ export default function DeployEntityPage() {
       // 5. Call register entity on Badge registry contract
       const minStakeAmount = await badgeRegistry.baseMinimumStake()
       console.log(`Min stake amount: ${minStakeAmount}`)
-      await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
 
-      // 6. Start entity deployment + start loading progress bar
-      setDeployState("STARTED_ENTITY_DEPLOYMENT")
-      setPageState("LOADING")
-
-      // 7. Wait for entity to be registered, set data of entity once event is emitted
+      // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 
-        // 7.1. Set entity info for view
+        // 6.1. Set entity info for view
         setEntityInfo({
           address: entityAddress,
           name: entityName,
           genesisTokenHolder: genesisTokenHolder
         })
 
-        // 7.2. Set entity info for local storage -> IMPORTANT
+        // 6.2. Set entity info for local storage -> IMPORTANT
         setCurrentEntity({
           address: entityAddress,
           name: entityName,
           timestampOfLastVerified: Date.now()
         })
 
-        // 7.3. Set page state to success, this will change the state to the receipt view
+        // 6.3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "SUCCESS") {
           setPageState("SUCCESS");
         }
       })
+      
+      // 7. Execute registration
+      await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+
+      // 8. Start entity deployment + start loading progress bar
+      setDeployState("STARTED_ENTITY_DEPLOYMENT")
+      setPageState("LOADING")
     } catch (error) {
       console.error(error)
     }

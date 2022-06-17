@@ -41,6 +41,7 @@ interface EntityInterface extends ethers.utils.Interface {
     "mintBadge(address,uint256,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
     "reassignGenesisToken(address,string,bool,string)": FunctionFragment;
+    "resetBadgeURI(uint256,string)": FunctionFragment;
     "revokePermissionToken(address)": FunctionFragment;
     "surrenderPermissionToken()": FunctionFragment;
   };
@@ -122,6 +123,10 @@ interface EntityInterface extends ethers.utils.Interface {
     values: [string, string, boolean, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "resetBadgeURI",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "revokePermissionToken",
     values: [string]
   ): string;
@@ -192,6 +197,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "reassignGenesisToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "resetBadgeURI",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -340,6 +349,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    resetBadgeURI(
+      id: BigNumberish,
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     revokePermissionToken(
       revokee: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -422,6 +437,12 @@ export class Entity extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  resetBadgeURI(
+    id: BigNumberish,
+    tokenURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   revokePermissionToken(
     revokee: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -498,6 +519,12 @@ export class Entity extends BaseContract {
       tokenURI: string,
       switchToSuper: boolean,
       superTokenURI: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    resetBadgeURI(
+      id: BigNumberish,
+      tokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -618,6 +645,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    resetBadgeURI(
+      id: BigNumberish,
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     revokePermissionToken(
       revokee: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -704,6 +737,12 @@ export class Entity extends BaseContract {
       tokenURI: string,
       switchToSuper: boolean,
       superTokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    resetBadgeURI(
+      id: BigNumberish,
+      tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

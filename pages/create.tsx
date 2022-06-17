@@ -11,7 +11,6 @@ import { ethers } from 'ethers';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
-import TransactionInfo from '../schemas/TransactionInfo';
 import { currentChain } from '../configs/blockchainConfig';
 import { useSigner, useAccount } from 'wagmi';
 import { checkIfTransactionisSuccessful } from '../utils/etherscan';
@@ -171,17 +170,8 @@ export default function CreateBadgeView() {
       const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
     
       console.log(`Badge level: ${badgeData.level}`);
-      // 4. Mint Badge + set page state to loading
-      const transaction = await entity.mintBadge(
-        recipientAddress, 
-        badgeData.level, 
-        url,
-        { value: ethers.utils.parseEther('0.05')}
-      );
-      setPageState("LoadingMintBadge");
       
-      setTransactionHash(transaction.hash)
-
+      // 4. Start listeneing for transfer
       badgeToken.once("Transfer", (from: string, to: string, id: string) => {
         console.log("Transfer event triggered", from, to);
         console.log("Successfully minted Badge")
@@ -191,6 +181,15 @@ export default function CreateBadgeView() {
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
       })
+      
+      // 5. Mint Badge + set page state to loading
+      const transaction = await entity.mintBadge(
+        recipientAddress, 
+        badgeData.level, 
+        url,
+        { value: ethers.utils.parseEther('0.05')}
+      );
+      setPageState("LoadingMintBadge");
       
       setTransactionHash(transaction.hash)
 

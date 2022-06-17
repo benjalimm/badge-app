@@ -3,7 +3,7 @@ import { Signer } from "ethers";
 import { Entity, Entity__factory, BadgeToken, BadgeToken__factory } from "../typechain";
 import { ethers } from "ethers";
 
-const entityAddress: string = "0xf9eA1D20d85353E6AB2C54afdDAe5CB28824F506"
+const entityAddress: string = "0x0De9389e76AF895f3549800a858BB34791786Ca5"
 const user2Address: string = "0x845B62836650b762996FDf596AabFd19AfFAE02D"
 
 export async function revokeBadgeAsEntity(signer: Signer) {
@@ -39,4 +39,17 @@ export async function sendEthToStake(signer: Signer) {
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
   const minStake = (await entity.getMinStake())
   await signer.sendTransaction({ to: badgeTokenAddress, value: minStake })
+}
+
+export async function resetBadgeURI(signer: Signer) {
+  const entity = Entity__factory.connect(entityAddress, signer)
+  const badgeTokenAddress = await entity.badgeToken();
+
+  const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
+
+  badgeToken.once("BadgeURIReset", (from: string, to: string) => {
+    console.log(`Badge URI reset from ${from} to ${to}`)
+  })
+
+  await entity.resetBadgeURI(1, "URI_2");
 }
