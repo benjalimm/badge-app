@@ -23,7 +23,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface BadgeRegistryInterface extends ethers.utils.Interface {
   functions: {
     "badgeGnosisSafe()": FunctionFragment;
-    "badgePriceCalculator()": FunctionFragment;
+    "badgePriceOracle()": FunctionFragment;
     "badgeTokenEntityReverseRecord(address)": FunctionFragment;
     "badgeTokenFactory()": FunctionFragment;
     "badgeXPToken()": FunctionFragment;
@@ -47,7 +47,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "permissionTokenFactory()": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
     "registerEntity(string,string,bool)": FunctionFragment;
-    "setBadgePriceCalculator(address)": FunctionFragment;
+    "setBadgePriceOracle(address)": FunctionFragment;
     "setBadgeTokenFactory(address)": FunctionFragment;
     "setBadgeXPToken(address)": FunctionFragment;
     "setBaseMinimumStake(uint256)": FunctionFragment;
@@ -63,7 +63,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "badgePriceCalculator",
+    functionFragment: "badgePriceOracle",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -150,7 +150,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values: [string, string, boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBadgePriceCalculator",
+    functionFragment: "setBadgePriceOracle",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -191,7 +191,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "badgePriceCalculator",
+    functionFragment: "badgePriceOracle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -278,7 +278,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setBadgePriceCalculator",
+    functionFragment: "setBadgePriceOracle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -375,7 +375,7 @@ export class BadgeRegistry extends BaseContract {
   functions: {
     badgeGnosisSafe(overrides?: CallOverrides): Promise<[string]>;
 
-    badgePriceCalculator(overrides?: CallOverrides): Promise<[string]>;
+    badgePriceOracle(overrides?: CallOverrides): Promise<[string]>;
 
     badgeTokenEntityReverseRecord(
       arg0: string,
@@ -447,8 +447,8 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setBadgePriceCalculator(
-      _badgePriceCalculator: string,
+    setBadgePriceOracle(
+      _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -497,7 +497,7 @@ export class BadgeRegistry extends BaseContract {
 
   badgeGnosisSafe(overrides?: CallOverrides): Promise<string>;
 
-  badgePriceCalculator(overrides?: CallOverrides): Promise<string>;
+  badgePriceOracle(overrides?: CallOverrides): Promise<string>;
 
   badgeTokenEntityReverseRecord(
     arg0: string,
@@ -569,8 +569,8 @@ export class BadgeRegistry extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setBadgePriceCalculator(
-    _badgePriceCalculator: string,
+  setBadgePriceOracle(
+    _badgePriceOracle: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -619,7 +619,7 @@ export class BadgeRegistry extends BaseContract {
   callStatic: {
     badgeGnosisSafe(overrides?: CallOverrides): Promise<string>;
 
-    badgePriceCalculator(overrides?: CallOverrides): Promise<string>;
+    badgePriceOracle(overrides?: CallOverrides): Promise<string>;
 
     badgeTokenEntityReverseRecord(
       arg0: string,
@@ -691,8 +691,8 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBadgePriceCalculator(
-      _badgePriceCalculator: string,
+    setBadgePriceOracle(
+      _badgePriceOracle: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -762,7 +762,7 @@ export class BadgeRegistry extends BaseContract {
   estimateGas: {
     badgeGnosisSafe(overrides?: CallOverrides): Promise<BigNumber>;
 
-    badgePriceCalculator(overrides?: CallOverrides): Promise<BigNumber>;
+    badgePriceOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
     badgeTokenEntityReverseRecord(
       arg0: string,
@@ -834,8 +834,8 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setBadgePriceCalculator(
-      _badgePriceCalculator: string,
+    setBadgePriceOracle(
+      _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -885,9 +885,7 @@ export class BadgeRegistry extends BaseContract {
   populateTransaction: {
     badgeGnosisSafe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    badgePriceCalculator(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    badgePriceOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     badgeTokenEntityReverseRecord(
       arg0: string,
@@ -973,8 +971,8 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBadgePriceCalculator(
-      _badgePriceCalculator: string,
+    setBadgePriceOracle(
+      _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

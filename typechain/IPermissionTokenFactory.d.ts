@@ -34,16 +34,8 @@ interface IPermissionTokenFactoryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {
-    "PermissionTokenDeployed(string,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "PermissionTokenDeployed"): EventFragment;
+  events: {};
 }
-
-export type PermissionTokenDeployedEvent = TypedEvent<
-  [string, string] & { entityName: string; entityAddress: string }
->;
 
 export class IPermissionTokenFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -107,23 +99,7 @@ export class IPermissionTokenFactory extends BaseContract {
     ): Promise<string>;
   };
 
-  filters: {
-    "PermissionTokenDeployed(string,address)"(
-      entityName?: null,
-      entityAddress?: null
-    ): TypedEventFilter<
-      [string, string],
-      { entityName: string; entityAddress: string }
-    >;
-
-    PermissionTokenDeployed(
-      entityName?: null,
-      entityAddress?: null
-    ): TypedEventFilter<
-      [string, string],
-      { entityName: string; entityAddress: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     createPermissionToken(

@@ -22,10 +22,11 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface IBadgeTokenInterface extends ethers.utils.Interface {
   functions: {
     "burnAsEntity(uint256)": FunctionFragment;
-    "getDateForBadge(uint256)": FunctionFragment;
     "getDemeritPoints()": FunctionFragment;
     "getEntity()": FunctionFragment;
-    "mintBadge(address,uint256,string)": FunctionFragment;
+    "getTimestampForBadge(uint256)": FunctionFragment;
+    "getXPForBadge(uint256)": FunctionFragment;
+    "mintBadge(address,uint256,uint256,string)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };
 
@@ -34,17 +35,21 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getDateForBadge",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getDemeritPoints",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getEntity", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "getTimestampForBadge",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getXPForBadge",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "mintBadge",
-    values: [string, BigNumberish, string]
+    values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "setNewEntity",
@@ -56,41 +61,26 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "getDateForBadge",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getDemeritPoints",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getEntity", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getTimestampForBadge",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getXPForBadge",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setNewEntity",
     data: BytesLike
   ): Result;
 
-  events: {
-    "BadgeBurned(bool,bool)": EventFragment;
-    "BadgeMinted(address,uint256,uint256,string)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "BadgeBurned"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
+  events: {};
 }
-
-export type BadgeBurnedEvent = TypedEvent<
-  [boolean, boolean] & { byEntity: boolean; withPrejudice: boolean }
->;
-
-export type BadgeMintedEvent = TypedEvent<
-  [string, BigNumber, BigNumber, string] & {
-    entity: string;
-    tokenId: BigNumber;
-    level: BigNumber;
-    tokenURI: string;
-  }
->;
 
 export class IBadgeToken extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -141,19 +131,25 @@ export class IBadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    getDateForBadge(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     getDemeritPoints(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getEntity(overrides?: CallOverrides): Promise<[string]>;
 
+    getTimestampForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
+      xp: BigNumberish,
+      tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -168,19 +164,25 @@ export class IBadgeToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  getDateForBadge(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
   getEntity(overrides?: CallOverrides): Promise<string>;
 
+  getTimestampForBadge(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getXPForBadge(
+    tokenId: BigNumberish,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   mintBadge(
-    _to: string,
+    to: string,
     level: BigNumberish,
-    _tokenURI: string,
+    xp: BigNumberish,
+    tokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -195,62 +197,32 @@ export class IBadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    getDateForBadge(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
     getEntity(overrides?: CallOverrides): Promise<string>;
 
+    getTimestampForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
+      xp: BigNumberish,
+      tokenURI: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
   };
 
-  filters: {
-    "BadgeBurned(bool,bool)"(
-      byEntity?: null,
-      withPrejudice?: null
-    ): TypedEventFilter<
-      [boolean, boolean],
-      { byEntity: boolean; withPrejudice: boolean }
-    >;
-
-    BadgeBurned(
-      byEntity?: null,
-      withPrejudice?: null
-    ): TypedEventFilter<
-      [boolean, boolean],
-      { byEntity: boolean; withPrejudice: boolean }
-    >;
-
-    "BadgeMinted(address,uint256,uint256,string)"(
-      entity?: null,
-      tokenId?: null,
-      level?: null,
-      tokenURI?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber, string],
-      { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
-    >;
-
-    BadgeMinted(
-      entity?: null,
-      tokenId?: null,
-      level?: null,
-      tokenURI?: null
-    ): TypedEventFilter<
-      [string, BigNumber, BigNumber, string],
-      { entity: string; tokenId: BigNumber; level: BigNumber; tokenURI: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     burnAsEntity(
@@ -258,19 +230,25 @@ export class IBadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    getDateForBadge(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getDemeritPoints(overrides?: CallOverrides): Promise<BigNumber>;
 
     getEntity(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getTimestampForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
+      xp: BigNumberish,
+      tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -286,19 +264,25 @@ export class IBadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    getDateForBadge(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getDemeritPoints(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getEntity(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getTimestampForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getXPForBadge(
+      tokenId: BigNumberish,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     mintBadge(
-      _to: string,
+      to: string,
       level: BigNumberish,
-      _tokenURI: string,
+      xp: BigNumberish,
+      tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

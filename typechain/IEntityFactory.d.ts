@@ -34,16 +34,8 @@ interface IEntityFactoryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {
-    "EntityDeployed(string,address)": EventFragment;
-  };
-
-  getEvent(nameOrSignatureOrTopic: "EntityDeployed"): EventFragment;
+  events: {};
 }
-
-export type EntityDeployedEvent = TypedEvent<
-  [string, string] & { entityName: string; entityAddress: string }
->;
 
 export class IEntityFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -119,23 +111,7 @@ export class IEntityFactory extends BaseContract {
     ): Promise<string>;
   };
 
-  filters: {
-    "EntityDeployed(string,address)"(
-      entityName?: null,
-      entityAddress?: null
-    ): TypedEventFilter<
-      [string, string],
-      { entityName: string; entityAddress: string }
-    >;
-
-    EntityDeployed(
-      entityName?: null,
-      entityAddress?: null
-    ): TypedEventFilter<
-      [string, string],
-      { entityName: string; entityAddress: string }
-    >;
-  };
+  filters: {};
 
   estimateGas: {
     createEntity(

@@ -11,31 +11,6 @@ import type {
 
 const _abi = [
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "string",
-        name: "entityName",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "entityAddress",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "contractAddress",
-        type: "address",
-      },
-    ],
-    name: "BadgeTokenDeployed",
-    type: "event",
-  },
-  {
     inputs: [
       {
         internalType: "string",

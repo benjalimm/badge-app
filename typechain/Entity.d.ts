@@ -27,11 +27,13 @@ interface EntityInterface extends ethers.utils.Interface {
     "badgeRegistry()": FunctionFragment;
     "badgeToken()": FunctionFragment;
     "burnBadge(uint256)": FunctionFragment;
+    "burnXPAsBadgeToken(uint256,address)": FunctionFragment;
     "calculateMinStake(uint256)": FunctionFragment;
     "entityName()": FunctionFragment;
     "genesisTokenHolder()": FunctionFragment;
     "getBadgeRegistry()": FunctionFragment;
     "getBadgeToken()": FunctionFragment;
+    "getBadgeXPToken()": FunctionFragment;
     "getMinStake()": FunctionFragment;
     "getPermissionToken()": FunctionFragment;
     "migrateToEntity(address,address)": FunctionFragment;
@@ -64,6 +66,10 @@ interface EntityInterface extends ethers.utils.Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "burnXPAsBadgeToken",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "calculateMinStake",
     values: [BigNumberish]
   ): string;
@@ -81,6 +87,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBadgeToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getBadgeXPToken",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -135,6 +145,10 @@ interface EntityInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "badgeToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "burnBadge", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "burnXPAsBadgeToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "calculateMinStake",
     data: BytesLike
   ): Result;
@@ -149,6 +163,10 @@ interface EntityInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getBadgeToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getBadgeXPToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -268,6 +286,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    burnXPAsBadgeToken(
+      xp: BigNumberish,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     calculateMinStake(
       demeritPoints: BigNumberish,
       overrides?: CallOverrides
@@ -280,6 +304,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<[string]>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<[string]>;
+
+    getBadgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
     getMinStake(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -342,6 +368,12 @@ export class Entity extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  burnXPAsBadgeToken(
+    xp: BigNumberish,
+    owner: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   calculateMinStake(
     demeritPoints: BigNumberish,
     overrides?: CallOverrides
@@ -354,6 +386,8 @@ export class Entity extends BaseContract {
   getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
   getBadgeToken(overrides?: CallOverrides): Promise<string>;
+
+  getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
   getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -413,6 +447,12 @@ export class Entity extends BaseContract {
 
     burnBadge(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
+    burnXPAsBadgeToken(
+      xp: BigNumberish,
+      owner: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     calculateMinStake(
       demeritPoints: BigNumberish,
       overrides?: CallOverrides
@@ -425,6 +465,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<string>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<string>;
+
+    getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
     getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -522,6 +564,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    burnXPAsBadgeToken(
+      xp: BigNumberish,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     calculateMinStake(
       demeritPoints: BigNumberish,
       overrides?: CallOverrides
@@ -534,6 +582,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getBadgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getMinStake(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -599,6 +649,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    burnXPAsBadgeToken(
+      xp: BigNumberish,
+      owner: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     calculateMinStake(
       demeritPoints: BigNumberish,
       overrides?: CallOverrides
@@ -613,6 +669,8 @@ export class Entity extends BaseContract {
     getBadgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getBadgeToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getBadgeXPToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getMinStake(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
