@@ -27,6 +27,7 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     "getTimestampForBadge(uint256)": FunctionFragment;
     "getXPForBadge(uint256)": FunctionFragment;
     "mintBadge(address,uint256,uint256,string)": FunctionFragment;
+    "resetBadgeURI(uint256,string)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };
 
@@ -52,6 +53,10 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     values: [string, BigNumberish, BigNumberish, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "resetBadgeURI",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setNewEntity",
     values: [string]
   ): string;
@@ -74,6 +79,10 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "mintBadge", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "resetBadgeURI",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "setNewEntity",
     data: BytesLike
@@ -153,6 +162,12 @@ export class IBadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    resetBadgeURI(
+      tokenId: BigNumberish,
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setNewEntity(
       _entity: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -182,6 +197,12 @@ export class IBadgeToken extends BaseContract {
     to: string,
     level: BigNumberish,
     xp: BigNumberish,
+    tokenURI: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  resetBadgeURI(
+    tokenId: BigNumberish,
     tokenURI: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -219,6 +240,12 @@ export class IBadgeToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    resetBadgeURI(
+      tokenId: BigNumberish,
+      tokenURI: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
   };
 
@@ -248,6 +275,12 @@ export class IBadgeToken extends BaseContract {
       to: string,
       level: BigNumberish,
       xp: BigNumberish,
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    resetBadgeURI(
+      tokenId: BigNumberish,
       tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -282,6 +315,12 @@ export class IBadgeToken extends BaseContract {
       to: string,
       level: BigNumberish,
       xp: BigNumberish,
+      tokenURI: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    resetBadgeURI(
+      tokenId: BigNumberish,
       tokenURI: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
