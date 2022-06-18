@@ -1,3 +1,4 @@
+// ** Imports ** \\
 import React, { useEffect, useState, useContext } from 'react';
 import PageTitleView from '../components/PageTitleView';
 import NavBar from '../components/navBar/NavBar';
@@ -18,11 +19,12 @@ import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
 
 export default function CreateBadgeView() {
-
+  
+  // ** Page state ** \\
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
 
-  /** Data */
+  // ** Pertinent Badge data ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
@@ -31,7 +33,7 @@ export default function CreateBadgeView() {
   useState<number | null>(null)
   const currentEntityInfo = getCurrentEntity();
 
-  /* Wagmi hooks */
+  // ** Wagmi hooks ** \\
   const { data:signer } = useSigner()
   const { data: accountResults } = useAccount()
   const { data: session } = useSession()

@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect } from 'react';
 import style from '../../styles/create/draftBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
+import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
+import { calculateBadgePrice } from '../../utils/badgePricingUtils';
+import { ethers } from 'ethers';
+import { BadgePriceOracle__factory, BadgeRegistry__factory, BadgeRegistry, BadgePriceOracle } from '../../typechain';
+import { useSigner } from 'wagmi';
+import { badgeContractAddress } from '../../configs/blockchainConfig';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -25,6 +31,35 @@ export default function DraftBadgeForm({
   badgeLevel: number,
   setBadgeLevel: (level: number) => void
 }) {
+
+  // ** ** \\
+  const [ethPrice, setEthPrice] = useState<number>(0);
+  const [baseBadgePrice, setBaseBadgePrice] = useState<number>(0);
+  const { data:signer } = useSigner()
+
+  useEffect(() => {
+    getEthUSDPrice().then(_ethPrice => {
+      setEthPrice(_ethPrice);
+    }).catch(err => {
+      console.error(err);
+    })
+  }, [])
+
+  useEffect(() => {
+    const registry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    registry.badgePriceOracle().then(oracleAddress => {
+      console.log(`Oracle address: ${oracleAddress}`)
+      const oracle = BadgePriceOracle__factory.connect(oracleAddress, signer);
+      return oracle.baseBadgePrice()
+    }).then(_basePrice => {
+      setBaseBadgePrice(_basePrice.toNumber());
+    }).catch(err => {
+      console.log("Error with getting base badge price")
+      console.error(err);
+    })
+    
+  }, [])
+
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
       <h1 className={style.mediaSelectionHeader}>Media</h1>
@@ -46,7 +81,11 @@ export default function DraftBadgeForm({
       onChange={onTitleChange}
       value={badgeTitle}
     />
-    <BadgeLevelListBox badgeLevel={badgeLevel} setBadgeLevel={setBadgeLevel}/>
+    <BadgeLevelListBox 
+      badgeLevel={badgeLevel} 
+      baseBadgePriceInWei={baseBadgePrice}
+      ethPriceInUSD={ethPrice}
+      setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
       type="TextArea"  
       title='Short description' 
@@ -59,20 +98,29 @@ export default function DraftBadgeForm({
 }
 
 function BadgeLevelListBox(
-  { badgeLevel, setBadgeLevel} : 
-  { badgeLevel: number, setBadgeLevel: (level: number) => void }) {
+  { 
+    badgeLevel, 
+    setBadgeLevel, 
+    baseBadgePriceInWei, 
+    ethPriceInUSD
+  } : { 
+    badgeLevel: number, 
+    baseBadgePriceInWei: number, 
+    ethPriceInUSD: number, 
+    setBadgeLevel: (level: number) => void 
+  }) {
 
   let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
 
-  function calculateBadgePrice(level: number, currency: "USD" | "ETH"): number {
-    const basePrice = currency == "ETH" ? 0.002428 : 5;
-    const multiplier = Math.pow(2.5, level - 1)
-    return (basePrice) * multiplier
+  function getBadgePrice(currency: "USD" | "ETH"): number {
+    const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, badgeLevel)
+    const badgePriceInEth = badgePriceInWei * 1000000000000000000;
+    return currency == "ETH" ? badgePriceInEth : badgePriceInEth * ethPriceInUSD;
   }
 
   function calculateBXP(level:number): number {
     const baseXP = 10;
-
+    
     if (level > 0) {
 
       let totalXP = 0
@@ -88,7 +136,7 @@ function BadgeLevelListBox(
 
   function getDetails(level: number): string {
     return (level > 0) ? 
-      `${calculateBadgePrice(level, "ETH").toFixed(5)} ETH ($${calculateBadgePrice(level, "USD").toFixed(2)}) - ${calculateBXP(level).toFixed(0)} BXP` : "FREE (not inc gas) - 0 BXP";
+      `${getBadgePrice("ETH").toFixed(5)} ETH ($${getBadgePrice("USD").toFixed(2)}) - ${calculateBXP(level).toFixed(0)} BXP` : "FREE (not inc gas) - 0 BXP";
   }
 
   function getLevelTitle(level: number): string {
