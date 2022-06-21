@@ -6,11 +6,8 @@ import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
-import { calculateBadgePrice } from '../../utils/badgePricingUtils';
-import { ethers } from 'ethers';
-import { BadgePriceOracle__factory, BadgeRegistry__factory, BadgeRegistry, BadgePriceOracle } from '../../typechain';
 import { useSigner } from 'wagmi';
-import { badgeContractAddress } from '../../configs/blockchainConfig';
+import { getBaseBadgePrice,calculateBadgePrice } from '../../utils/priceOracleUtils';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -46,16 +43,8 @@ export default function DraftBadgeForm({
   }, [])
 
   useEffect(() => {
-    const registry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
-    registry.badgePriceOracle().then(oracleAddress => {
-      console.log(`Oracle address: ${oracleAddress}`)
-      const oracle = BadgePriceOracle__factory.connect(oracleAddress, signer);
-      return oracle.baseBadgePrice()
-    }).then(_basePrice => {
-      setBaseBadgePrice(_basePrice.toNumber());
-    }).catch(err => {
-      console.log("Error with getting base badge price")
-      console.error(err);
+    getBaseBadgePrice(signer).then(price => {
+      setBaseBadgePrice(price.toNumber());
     })
     
   }, [])
@@ -112,9 +101,9 @@ function BadgeLevelListBox(
 
   let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
 
-  function getBadgePrice(currency: "USD" | "ETH"): number {
-    const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, badgeLevel)
-    const badgePriceInEth = badgePriceInWei * 1000000000000000000;
+  function getBadgePrice(currency: "USD" | "ETH", level: number): number {
+    const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, level)
+    const badgePriceInEth = badgePriceInWei / 1000000000000000000;
     return currency == "ETH" ? badgePriceInEth : badgePriceInEth * ethPriceInUSD;
   }
 
@@ -136,7 +125,7 @@ function BadgeLevelListBox(
 
   function getDetails(level: number): string {
     return (level > 0) ? 
-      `${getBadgePrice("ETH").toFixed(5)} ETH ($${getBadgePrice("USD").toFixed(2)}) - ${calculateBXP(level).toFixed(0)} BXP` : "FREE (not inc gas) - 0 BXP";
+      `${getBadgePrice("ETH", level).toFixed(5)} ETH ($${getBadgePrice("USD", level).toFixed(2)}) - ${calculateBXP(level).toFixed(0)} BXP` : "FREE (not inc gas) - 0 BXP";
   }
 
   function getLevelTitle(level: number): string {
