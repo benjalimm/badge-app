@@ -48,10 +48,10 @@
 
 .whiteNoise {
   display: flex;
-  background: url('/images/landingPage/noise.png');
+  background: url('/images/landingPage/noise-min.png');
   align-items: center;
   justify-content: center;
-  height:500%;
+  height: 500%;
   width: 500%;
   animation: grain 5s steps(10) infinite;
   opacity: 0.6;
@@ -72,7 +72,7 @@
 }
 
 .secondPageSectionAnimation {
-  animation: largerFadeIn 0.7s ease-in-out;
+  animation: largerFadeIn 0.4s ease-in-out;
   opacity: 1;
 }
 
@@ -99,7 +99,7 @@
   font-family: 'AsgardFitMedium';
   font-size: 70px;
   color: white;
-  z-index: 2;
+  z-index: 1;
   text-align: left;
   width: 60%;
   padding-bottom: 20px;
@@ -109,9 +109,8 @@
   font-family: 'Inter';
   font-size: 35px;
   color: white;
-  font-family: 'Inter';
-  font-weight: 450;
-  z-index: 3;
+  font-weight: lighter;
+  z-index: 1;
   padding: 0px;
   text-align: left;
 }
@@ -120,7 +119,7 @@
   color: #FFC940;
 }
 
-.blackText{
+.blackText {
   color: black;
 }
 
@@ -144,24 +143,24 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  box-shadow: 0 15px 15px -5px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.5);
 }
 
 .signUpToBetaTextContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;    
+  justify-content: center;
 }
 
 .signUpToBetaHeader {
-  font-family: 'Inter';
+  font-family: 'AsgardFitMedium';
   font-weight: bold;
   font-size: 50px;
   margin-top: 20px;
   background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
-	background-size: 300% 300%;
-	animation: animatingGradient 9s 1s ease-in-out infinite;
+  background-size: 300% 300%;
+  animation: animatingGradient 9s 1s ease-in-out infinite;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -171,7 +170,7 @@
   font-weight: 400;
   font-size: 20px;
   color: white;
-  text-align:center;
+  text-align: center;
   margin: 0px 30px;
   margin-bottom: 20px;
 }
@@ -185,7 +184,7 @@
   font-weight: bold;
   color: black;
   border-radius: 12px;
-  box-shadow: 0 5px 10px -5px rgba(0,0,0,0.2);
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
   transition-duration: 0.2s;
   margin-bottom: 30px;
 }
@@ -227,7 +226,7 @@
     margin-top: -100px;
     padding: 0 10px;
     width: 100%;
-  } 
+  }
 
   .badgeNormalText {
     font-size: 20px;
@@ -260,6 +259,7 @@
     font-size: 30px;
     margin-top: 20px;
     text-align: center;
+    width: 80%;
   }
 
   .signUpToBetaSubtitleText {
@@ -284,15 +284,17 @@
 }
 
 @keyframes animatingGradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 
@@ -301,6 +303,7 @@
     opacity: 0;
     transform: translateY(10px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0px);
@@ -312,6 +315,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0px);
@@ -319,14 +323,45 @@
 }
 
 @keyframes grain {
-  0%, 100% { transform:translate(0, 0) }
-  10% { transform:translate(-5%, -10%) }
-  20% { transform:translate(-15%, 5%) }
-  30% { transform:translate(7%, -25%) }
-  40% { transform:translate(-5%, 25%) }
-  50% { transform:translate(-15%, 10%) }
-  60% { transform:translate(15%, 0%) }
-  70% { transform:translate(0%, 15%) }
-  80% { transform:translate(3%, 35%) }
-  90% { transform:translate(-10%, 10%) }
+
+  0%,
+  100% {
+    transform: translate(0, 0)
+  }
+
+  10% {
+    transform: translate(-5%, -10%)
+  }
+
+  20% {
+    transform: translate(-15%, 5%)
+  }
+
+  30% {
+    transform: translate(7%, -25%)
+  }
+
+  40% {
+    transform: translate(-5%, 25%)
+  }
+
+  50% {
+    transform: translate(-15%, 10%)
+  }
+
+  60% {
+    transform: translate(15%, 0%)
+  }
+
+  70% {
+    transform: translate(0%, 15%)
+  }
+
+  80% {
+    transform: translate(3%, 35%)
+  }
+
+  90% {
+    transform: translate(-10%, 10%)
+  }
 }

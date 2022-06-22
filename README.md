@@ -2,14 +2,14 @@
 
 *Note: the first three steps are meant to be run on the hardhat project, not on the frontend*
 
-Step 1 -  Compile contracts into ABI and export to frontend 
+Step 1 -  Compile contracts into Typechain and export to frontend 
 
 ```bash
 # NOTE: In root directory of hardhat project NOT frontend project
-npx hardhat compile
+npx hardhat typechain
 
 # Import to frontend - Assuming "../badge-app/artificacts" is in frontend code
-cp -rf artifacts/contracts/ ../badge-app/artifacts/contracts/
+cp -rf typechain/ ../badge-app/typechain/
 ```
 
 Step 2 - ****Run local node

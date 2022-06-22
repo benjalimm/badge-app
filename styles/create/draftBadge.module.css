@@ -1,3 +1,5 @@
+@import "./create.module.css";
+
 .container {
   background-color: white;
   width: 735px;
@@ -50,7 +52,6 @@
 
 .formTextBoxContainer {
   width: 350px;
-  margin-bottom: 10px;
 }
 
 .mediaContainer {
@@ -72,8 +73,6 @@
   height: 50px;
   background-color: #F6F6F6;
   border-radius: 10px;
-  /* margin-right: 25px; */
-  margin-bottom: 10px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -119,6 +118,92 @@
   opacity: 0;
 }
 
+.listBoxContainer {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+}
+
+.listBoxWrapper {
+  height: 50px;
+  border-radius: 10px;
+  font-size: 13px;
+  background-color: white;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.listBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  border-width: 1px;
+}
+
+.listBoxButton {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: clear;
+  position: absolute;
+  font-weight: bold;
+}
+
+.selector {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  color: darkgray
+}
+
+.checkIcon {
+  width: 20px;
+  height: 20px;
+  margin-right: 15px;
+  color: black;
+}
+
+.listBoxTitle {
+  margin-left: 15px;
+}
+
+.listBoxOptionsContainer {
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 50px;
+  position: absolute;
+  border-width: 1px;
+  clip: inherit;
+  animation: listBoxExpand 0.25s;
+
+}
+
+.listBoxOption {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 32px;
+}
+
+.listBoxOption:hover {
+  background-color: black;
+  color: white;
+}
+
+.listBoxOption:hover .checkIcon {
+  color: white;
+}
+
 @media only screen and (max-width: 850px) {
 
   .container {
@@ -143,7 +228,6 @@
   }
 
   .formTextBoxContainer {
-    margin-bottom: 10px;
     margin-right: 0px;
     display: flex;
     flex-direction: column;
@@ -155,6 +239,7 @@
   .mediaContainer {
     width: 100%;
   }
+
 }
 
 
@@ -193,10 +278,22 @@
 @keyframes expandToFull {
   0% {
     opacity: 0;
-    /* height: 0px; */
   }
 
   100% {
     opacity: 1;
   }
+}
+
+@keyframes listBoxExpand {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
 }

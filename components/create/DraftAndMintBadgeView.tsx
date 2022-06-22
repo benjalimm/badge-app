@@ -9,7 +9,6 @@ import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import MintBadgeLoadingView from './MintBadgeLoadingView';
 import cx from 'classnames';
 
 const cardData = sampleCardData[1];
@@ -18,13 +17,17 @@ export default function DraftAndMintBadgeView({
   onSubmitDraftBadgeData, 
   onBackToDraft,
   onMintAndSendBadge,
-  pageState 
+  pageState,
+  gasFeesInEth,
+  badgePriceInEth
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
   (badgeData: BadgeData, recipientAddress: string, email: string) => void,
   onBackToDraft: () => void,
-  pageState: PageState
+  pageState: PageState,
+  gasFeesInEth: number
+  badgePriceInEth: number
 }) {
 
   /** DRAFT BADGE INFORMATION */
@@ -32,6 +35,7 @@ export default function DraftAndMintBadgeView({
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
+  const [badgeLevel, setBadgeLevel] = useState<number>(1);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   /** MINT BADGE INFORMATION */
@@ -92,7 +96,8 @@ export default function DraftAndMintBadgeView({
       title: badgeTitle,
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
-      profilePhotoSource: cardData.profilePhotoSource
+      profilePhotoSource: cardData.profilePhotoSource,
+      level: badgeLevel
     });
   }
 
@@ -123,6 +128,8 @@ export default function DraftAndMintBadgeView({
               email={email}  
               onWalletAddressChange={onWalletAddressChange}
               onEmailChange={onEmailChange}
+              badgePriceInEth={badgePriceInEth}
+              gasFeesInEth={gasFeesInEth}
             /> :
             ((!isMediaCatalogueVisible) ? 
               <DraftBadgeForm 
@@ -132,6 +139,8 @@ export default function DraftAndMintBadgeView({
                 onPresentMediaCatalogue={presentMediaCatalogue}
                 badgeTitle={badgeTitle}
                 badgeDescription={badgeDescription}
+                badgeLevel={badgeLevel}
+                setBadgeLevel={setBadgeLevel}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
@@ -158,7 +167,8 @@ export default function DraftAndMintBadgeView({
                 title: badgeTitle, 
                 content: badgeDescription, 
                 videoPath: currentlySelectedMedia.url, 
-                profilePhotoSource: cardData.profilePhotoSource 
+                profilePhotoSource: cardData.profilePhotoSource,
+                level: badgeLevel
               }, walletAddress, email)}
             style={{paddingTop:'30px'}}
           />)

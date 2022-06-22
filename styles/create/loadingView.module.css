@@ -1,31 +1,38 @@
+
 .entryContainer {
-  height: 450px;
+  height: 200px;
   width: 420px;
   background-color: white;
-  border-radius: 14px;
+  border-radius: 15px;
   margin-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
   animation: fadeIn 0.1s ease-in-out;
+  justify-content: center;
 }
 
 .progressBarFiller {
-  background: linear-gradient(90deg, rgb(26, 75, 255) 0%, rgb(98, 216, 249) 70%);
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
   width: 50%;
 }
 
 .loadingHeader {
-  font-family: 'Inter';
+  font-family: 'Asgard';
   font-weight: bold;
   font-size: 20px;
   margin-top: 15px;
   text-align: center; 
 }
+
+.loadingSubtitle {
+  font-family: 'Inter';
+  font-size: 15px;
+}
 @media only screen and (max-width: 850px) {
     .entryContainer {
-      height: 376px;
-      width: 280px;
+      height: 200px;
+      width: 336px;
       background-color: white;
       border-radius: 14px;
       margin-top: 50px;;
