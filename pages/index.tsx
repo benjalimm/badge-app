@@ -9,6 +9,9 @@ import BadgeHead from '../components/landingPage/BadgeHead'
 import BadgeFooter from '../components/landingPage/BadgeFooter'
 import { useSession, signOut } from "next-auth/react"
 import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
+import MeritLayerSection from '../components/landingPage/MeritLayerSection'
+import { Features } from '@headlessui/react/dist/utils/render'
+import FeaturesSection from '../components/landingPage/FeaturesSection'
 
 const LandingPage = () => {
   const router = useRouter();
@@ -19,7 +22,7 @@ const LandingPage = () => {
 
     if (active) {
       // signOut()
-      router.push('/genesis')
+      // router.push('/genesis')
     }
     console.log(status)
   
@@ -31,7 +34,8 @@ const LandingPage = () => {
       <Navbar sticky={false}/>
       <div className={styles.sections}>
         <TopPageSection/>
-        <ExplanationPageSection/>
+        <MeritLayerSection/>
+        <FeaturesSection/>
         <BottomPageSection/>
       </div>
       <BadgeFooter/>
