@@ -68,7 +68,7 @@
 }
 
 .secondPageSectionAnimation {
-  animation: largerFadeIn 0.7s ease-in-out;
+  animation: largerFadeIn 0.4s ease-in-out;
   opacity: 1;
 }
 

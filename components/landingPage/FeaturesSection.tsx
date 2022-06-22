@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from "./FeaturesSection.module.css"
+import { useInView } from 'react-intersection-observer';
+import cx from 'classnames';
 
 interface Feature {
   title: string;
@@ -30,7 +32,7 @@ const features: Feature[] = [{
 },
 {
   title: "Exposure to upside",
-  description: "The Badge treasury exposes recipients to upside such an randomized NFT drops and coveted  whitelists.",
+  description: "Proceeds from Badges go into the Badge treasury, which then exposes recipients to upside such an randomized NFT drops and coveted  whitelists.",
   icon: "images/landingPage/Gift.svg"
 },
 {
@@ -43,8 +45,14 @@ const features: Feature[] = [{
 // ** Features section ** \\
 export default function FeaturesSection() {
 
-  return <div>
-    <h1 className={styles.header}>Badge is a feature-rich protocol:</h1>
+  const { ref, inView } = useInView({
+    threshold: 0,
+  })
+
+  const container = inView ? cx(styles.container, styles.animation) : styles.container;
+
+  return <div className={container} ref={ref}>
+    <h1 className={styles.header}>Badge is a feature-rich protocol</h1>
     <div className={styles.features}>
       {
         features.map((feature, index) => {
