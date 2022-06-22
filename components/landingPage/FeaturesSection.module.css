@@ -1,0 +1,9 @@
+.header {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+  font-family: 'Inter';
+  margin-top: 200px;
+  text-decoration: underline;
+}
