@@ -43,9 +43,16 @@ export default function DraftBadgeForm({
   }, [])
 
   useEffect(() => {
-    getBaseBadgePrice(signer).then(price => {
-      setBaseBadgePrice(price.toNumber());
-    })
+    // setInterval(() => {
+    //   console.log("Getting base badge price")
+    //   getBaseBadgePrice(signer).then(price => {
+    //     console.log(`Base bage price: ${price}`);
+    //     setBaseBadgePrice(price.toNumber());
+    //   }).catch(err => {
+    //     console.log(`Error setting base badge price: ${err}`)
+    //   })
+
+    // }, 5000)
     
   }, [])
 

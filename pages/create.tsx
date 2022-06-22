@@ -8,7 +8,7 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';
 import { PageState } from '../schemas/create';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
-import { ethers } from 'ethers';
+import { formatEther, parseEther } from 'ethers/lib/utils';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
@@ -34,7 +34,7 @@ export default function CreateBadgeView() {
   const currentEntityInfo = getCurrentEntity();
 
   // ** Wagmi hooks ** \\
-  const { data:signer } = useSigner()
+  const { data: signer } = useSigner()
   const { data: accountResults } = useAccount()
   const { data: session } = useSession()
 
@@ -128,7 +128,7 @@ export default function CreateBadgeView() {
     // 2. Estimate gas 
     /// Note: You should be able to enter in no ether with a level 0 Badge 
     const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
-    const etherEstimate = ethers.utils.formatEther(estimation)
+    const etherEstimate = formatEther(estimation)
     console.log(`Estimated gas: ${etherEstimate} ETH`)
     return parseInt(etherEstimate);
   }
@@ -189,7 +189,7 @@ export default function CreateBadgeView() {
         recipientAddress, 
         badgeData.level, 
         url,
-        { value: ethers.utils.parseEther('0.05')}
+        { value: parseEther('0.05')}
       );
       setPageState("LoadingMintBadge");
       
