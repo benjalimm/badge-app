@@ -49,7 +49,7 @@ export default function FeaturesSection() {
     threshold: 0,
   })
 
-  const container = inView ? cx(styles.container, styles.animation) : styles.container;
+  const container = inView ? cx(styles.container, styles.animation) : styles.invisible;
 
   return <div className={container} ref={ref}>
     <h1 className={styles.header}>Badge is a feature-rich protocol</h1>
