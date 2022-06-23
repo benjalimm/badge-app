@@ -89,7 +89,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  outline: 2px solid rgba(101, 50, 255, 0.3);
+  box-shadow: 0 0 10px rgba(101, 50, 255, 1);
 }
 
 .levelLabel {
@@ -139,6 +139,7 @@
   .levelContainer {
     height: 25px;
     width: 50px;
+    border-radius: 25px;
   }
 
   .levelLabel {
