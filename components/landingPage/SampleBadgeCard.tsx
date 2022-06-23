@@ -29,13 +29,17 @@ export default function SampleBadgeCard(
     </div>
 
     <div className={style.bottomContainer}>
-      <h1 className={style.userLabel}>{`${entityName} -> ${recipient}`}</h1>
-      <h1 className={style.title}>
-        {title}
-      </h1>
-      <p className={style.content}>
-        {content}
-      </p>
+      <div className={style.contentContainer}>
+        <h1 className={style.userLabel}>{`${entityName} -> ${recipient}`}</h1>
+        <h1 className={style.title}>
+          {title}
+        </h1>
+        <p className={style.content}>
+          {content}
+        </p>
+
+      </div>
+      
     </div>
   </div>
 }

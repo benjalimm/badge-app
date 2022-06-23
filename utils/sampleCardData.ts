@@ -9,7 +9,7 @@ const data: BadgeData[] = [
     profilePhotoSource: "/images/landingPage/uniswap_logo.jpeg",
     level: 3,
     entityName: "Badge labs",
-    recipientEns: "lanalim.eth"
+    recipientEns: "lana.eth"
   },
   {
     id: 1,
@@ -19,7 +19,7 @@ const data: BadgeData[] = [
     profilePhotoSource: "/images/landingPage/coinbase_logo.jpeg",
     level: 4,
     entityName: "Uniswap",
-    recipientEns: "0x15FA..3Ud"
+    recipientEns: "0x15F...3Ud"
   },
   {
     id: 2,
