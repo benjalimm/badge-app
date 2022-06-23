@@ -16,7 +16,7 @@ const features: Feature[] = [{
   icon: "images/landingPage/LockOpen.svg"
 },
 {
-  title: "Levelling system",
+  title: "Badge level system",
   description: "Not all achievements are equal. Different levels of merit are distinguished with an integer on-chain. A higher level commands a higher price.",
   icon: "images/landingPage/ModelDiamond.svg"
 },
@@ -27,7 +27,7 @@ const features: Feature[] = [{
 },
 {
   title: "Permissions system",
-  description: "Enable others to reward Badges on behalf of an entity by sending them a permission token. ",
+  description: "Enable your team to reward Badges on behalf of an entity by granting permissions on-chain. ",
   icon: "images/landingPage/UserGroupAccounts.svg"
 },
 {
