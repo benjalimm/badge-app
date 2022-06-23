@@ -5,4 +5,6 @@ export interface BadgeData {
   videoPath: string;
   profilePhotoSource: string;
   level: number;
+  entityName: string;
+  recipientEns?: string;
 }
