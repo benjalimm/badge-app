@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import styles from "../../styles/navBar.module.css";
+import styles from "./NavBar.module.css";
 import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
 import cx from 'classnames';

@@ -1,5 +1,5 @@
 import React from 'react'
-import style from '../../styles/landingPage/explanationPageSection.module.css'
+import style from './ExplanationPageSection.module.css'
 import Image from 'next/image'
 import cx from 'classnames';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/GenericComponents/textBox.module.css';
+import style from './TextBox.module.css';
 
 export default function TextBox({ placeholder, onChange, customHeight, fontSize, value }: {
   onChange: (event: React.FormEvent<HTMLInputElement>) => void,

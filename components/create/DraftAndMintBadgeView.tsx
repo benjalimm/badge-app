@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from '../../styles/create/draftBadge.module.css'
+import style from './DraftBadge.module.css'
 import BadgeCard from '../badgeCard/BadgeCard';
 import sampleCardData from '../../utils/sampleCardData';
 import { badgeMediaList } from '../../utils/badgeMediaList';

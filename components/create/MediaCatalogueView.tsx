@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/create/mediaCatalogue.module.css';
+import style from './MediaCatalogue.module.css';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import cx from 'classnames'
 // import { badgeMediaList } from '../../utils/badgeMediaList';

@@ -1,5 +1,5 @@
 import React from 'react';
-import buttonStyle from '../../styles/GenericComponents/buttons.module.css';
+import buttonStyle from './Buttons.module.css';
 
 export function BasicButton({ onClick, text, style, className } : {
   onClick: () => void, 
