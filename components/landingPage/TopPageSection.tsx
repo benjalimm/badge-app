@@ -45,6 +45,9 @@ export default function TopPageSection() {
               videoSource={card.videoPath}
               profilePhotoSource={card.profilePhotoSource}
               visible={index === indexOfCurrentCard}
+              level={card.level}
+              entityName={card.entityName}
+              recipient={card.recipientEns}
             />
       
           })
