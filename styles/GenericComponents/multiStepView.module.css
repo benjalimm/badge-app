@@ -11,7 +11,11 @@
 
 .stepContainer {
   height: 90%;
+<<<<<<< HEAD
   width: 170px;
+=======
+  width: 170px;  
+>>>>>>> main
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +33,11 @@
 }
 
 .selected {
+<<<<<<< HEAD
   background-color: #EBEBEB;
+=======
+  background-color: #F8F8F8;
+>>>>>>> main
 }
 
 .stepHeader {

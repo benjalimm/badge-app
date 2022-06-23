@@ -9,7 +9,11 @@ import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
+<<<<<<< HEAD
 import { getCurrentEntity } from "../../utils/entityLocalState";
+=======
+import MintBadgeLoadingView from './MintBadgeLoadingView';
+>>>>>>> main
 import cx from 'classnames';
 
 const cardData = sampleCardData[1];
@@ -18,17 +22,25 @@ export default function DraftAndMintBadgeView({
   onSubmitDraftBadgeData, 
   onBackToDraft,
   onMintAndSendBadge,
+<<<<<<< HEAD
   pageState,
   gasFeesInEth,
   badgePriceInEth
+=======
+  pageState 
+>>>>>>> main
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
   (badgeData: BadgeData, recipientAddress: string, email: string) => void,
   onBackToDraft: () => void,
+<<<<<<< HEAD
   pageState: PageState,
   gasFeesInEth: number
   badgePriceInEth: number
+=======
+  pageState: PageState
+>>>>>>> main
 }) {
 
   /** DRAFT BADGE INFORMATION */
@@ -36,13 +48,19 @@ export default function DraftAndMintBadgeView({
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
+<<<<<<< HEAD
   const [badgeLevel, setBadgeLevel] = useState<number>(1);
+=======
+>>>>>>> main
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
   /** MINT BADGE INFORMATION */
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
+<<<<<<< HEAD
   const currentEntity = getCurrentEntity()
+=======
+>>>>>>> main
 
   /** DRAFT BADGE METHODS */
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -98,9 +116,13 @@ export default function DraftAndMintBadgeView({
       title: badgeTitle,
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
+<<<<<<< HEAD
       profilePhotoSource: cardData.profilePhotoSource,
       level: badgeLevel,
       entityName: currentEntity.name,
+=======
+      profilePhotoSource: cardData.profilePhotoSource
+>>>>>>> main
     });
   }
 
@@ -131,8 +153,11 @@ export default function DraftAndMintBadgeView({
               email={email}  
               onWalletAddressChange={onWalletAddressChange}
               onEmailChange={onEmailChange}
+<<<<<<< HEAD
               badgePriceInEth={badgePriceInEth}
               gasFeesInEth={gasFeesInEth}
+=======
+>>>>>>> main
             /> :
             ((!isMediaCatalogueVisible) ? 
               <DraftBadgeForm 
@@ -142,8 +167,11 @@ export default function DraftAndMintBadgeView({
                 onPresentMediaCatalogue={presentMediaCatalogue}
                 badgeTitle={badgeTitle}
                 badgeDescription={badgeDescription}
+<<<<<<< HEAD
                 badgeLevel={badgeLevel}
                 setBadgeLevel={setBadgeLevel}
+=======
+>>>>>>> main
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
@@ -170,9 +198,13 @@ export default function DraftAndMintBadgeView({
                 title: badgeTitle, 
                 content: badgeDescription, 
                 videoPath: currentlySelectedMedia.url, 
+<<<<<<< HEAD
                 profilePhotoSource: cardData.profilePhotoSource,
                 level: badgeLevel,
                 entityName: currentEntity.name,
+=======
+                profilePhotoSource: cardData.profilePhotoSource 
+>>>>>>> main
               }, walletAddress, email)}
             style={{paddingTop:'30px'}}
           />)

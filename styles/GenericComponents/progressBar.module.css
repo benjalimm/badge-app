@@ -7,11 +7,19 @@
 .barContainer {
   flex: 1;
   height: 20px;
+<<<<<<< HEAD
   background: var(--bg);
+=======
+  background: #dfdfe7;
+>>>>>>> main
   border-radius: 12px;
 }
 
 .filler {
   height: 100%;
   border-radius: inherit;
+<<<<<<< HEAD
+=======
+  background-color: white;
+>>>>>>> main
 }

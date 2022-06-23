@@ -16,6 +16,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+  margin: 0 30px 0;
+  height: auto;
+  padding-bottom: 150px;
   align-items: center;
   height: auto;
   padding-bottom: 150px;
@@ -44,10 +48,17 @@
 
 .whiteNoise {
   display: flex;
+<<<<<<< HEAD
   background: url('/images/landingPage/noise-min.png');
   align-items: center;
   justify-content: center;
   height: 500%;
+=======
+  background: url('/images/landingPage/noise.png');
+  align-items: center;
+  justify-content: center;
+  height:500%;
+>>>>>>> main
   width: 500%;
   animation: grain 5s steps(10) infinite;
   opacity: 0.6;
@@ -68,7 +79,11 @@
 }
 
 .secondPageSectionAnimation {
+<<<<<<< HEAD
   animation: largerFadeIn 0.4s ease-in-out;
+=======
+  animation: largerFadeIn 0.7s ease-in-out;
+>>>>>>> main
   opacity: 1;
 }
 
@@ -105,8 +120,14 @@
   font-family: 'Inter';
   font-size: 35px;
   color: white;
+<<<<<<< HEAD
   font-weight: lighter;
   z-index: 1;
+=======
+  font-family: 'Inter';
+  font-weight: 450;
+  z-index: 3;
+>>>>>>> main
   padding: 0px;
   text-align: left;
 }
@@ -134,11 +155,23 @@
   max-width: 1100px;
   height: 300px;
   border-radius: 15px;
+<<<<<<< HEAD
   margin-top: 20px;
+=======
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
+  box-shadow: 0 15px 15px -5px rgba(0,0,0,0.5);
+}
+
+.signUpToBetaTextContainer {
+>>>>>>> main
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+<<<<<<< HEAD
   box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.5);
 }
 
@@ -151,12 +184,24 @@
 
 .signUpToBetaHeader {
   font-family: 'AsgardFitMedium';
+=======
+  justify-content: center;    
+}
+
+.signUpToBetaHeader {
+  font-family: 'Inter';
+>>>>>>> main
   font-weight: bold;
   font-size: 50px;
   margin-top: 20px;
   background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+<<<<<<< HEAD
   background-size: 300% 300%;
   animation: animatingGradient 9s 1s ease-in-out infinite;
+=======
+	background-size: 300% 300%;
+	animation: animatingGradient 9s 1s ease-in-out infinite;
+>>>>>>> main
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
@@ -166,7 +211,11 @@
   font-weight: 400;
   font-size: 20px;
   color: white;
+<<<<<<< HEAD
   text-align: center;
+=======
+  text-align:center;
+>>>>>>> main
   margin: 0px 30px;
   margin-bottom: 20px;
 }
@@ -180,7 +229,11 @@
   font-weight: bold;
   color: black;
   border-radius: 12px;
+<<<<<<< HEAD
   box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+=======
+  box-shadow: 0 5px 10px -5px rgba(0,0,0,0.2);
+>>>>>>> main
   transition-duration: 0.2s;
   margin-bottom: 30px;
 }
@@ -222,7 +275,11 @@
     margin-top: -100px;
     padding: 0 10px;
     width: 100%;
+<<<<<<< HEAD
   }
+=======
+  } 
+>>>>>>> main
 
   .badgeNormalText {
     font-size: 20px;
@@ -243,7 +300,11 @@
   .signUpToBetaContainer {
     min-width: 310px;
     height: auto;
+<<<<<<< HEAD
     margin-top: 120px;
+=======
+    margin-top: 50px;
+>>>>>>> main
     width: 70%;
   }
 
@@ -255,7 +316,10 @@
     font-size: 30px;
     margin-top: 20px;
     text-align: center;
+<<<<<<< HEAD
     width: 80%;
+=======
+>>>>>>> main
   }
 
   .signUpToBetaSubtitleText {
@@ -306,18 +370,28 @@
   }
 }
 
+<<<<<<< HEAD
 @keyframes largerFadeIn {
   0% {
     opacity: 0;
     transform: translateY(20px);
   }
 
+=======
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+>>>>>>> main
   100% {
     opacity: 1;
     transform: translateY(0px);
   }
 }
 
+<<<<<<< HEAD
 @keyframes grain {
 
   0%,
@@ -360,4 +434,28 @@
   90% {
     transform: translate(-10%, 10%)
   }
+=======
+@keyframes largerFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+
+@keyframes grain {
+  0%, 100% { transform:translate(0, 0) }
+  10% { transform:translate(-5%, -10%) }
+  20% { transform:translate(-15%, 5%) }
+  30% { transform:translate(7%, -25%) }
+  40% { transform:translate(-5%, 25%) }
+  50% { transform:translate(-15%, 10%) }
+  60% { transform:translate(15%, 0%) }
+  70% { transform:translate(0%, 15%) }
+  80% { transform:translate(3%, 35%) }
+  90% { transform:translate(-10%, 10%) }
+>>>>>>> main
 }

@@ -2,7 +2,11 @@ import React, { useEffect, useContext } from 'react'
 import Head from 'next/head';
 
 const title = "Badge."
+<<<<<<< HEAD
 const description = "Reward talent with on-chain merit."
+=======
+const description = "Protocol for on-chain reputation."
+>>>>>>> main
 const largePreviewImage = "https://www.dropbox.com/s/1e7ns2g6qn4gkw2/walletEqualsResume.jpg?raw=1"
 
 export default function BadgeHead() {
@@ -21,5 +25,9 @@ export default function BadgeHead() {
     <meta name="og:url" content="https://badge.xyz"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/images/badgeWhiteFavIcon_32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/images/badgeWhiteFavIcon_16.png"/>
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
   </Head>
 }

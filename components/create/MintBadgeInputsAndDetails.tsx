@@ -1,22 +1,36 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
 import style from '../../styles/create/mintBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
 import { getUSDPriceForEth } from '../../utils/getEthPrice';
+=======
+import React, { useState } from 'react';
+import style from '../../styles/create/mintBadge.module.css'
+import FormTextBoxContainer from './FormTextBoxContainer';
+>>>>>>> main
 
 export function MintBadgeInputsAndDetails({ 
   walletAddress,
   email,
   onWalletAddressChange,
+<<<<<<< HEAD
   onEmailChange,
   gasFeesInEth,
   badgePriceInEth
+=======
+  onEmailChange
+>>>>>>> main
 }:{ 
   walletAddress: string | null,
   email: string | null,
   onWalletAddressChange: (event: React.FormEvent<HTMLInputElement>) => void,
+<<<<<<< HEAD
   onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,  
   gasFeesInEth: number,
   badgePriceInEth: number
+=======
+  onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,
+>>>>>>> main
 }) {
   return <div className={style.inputsAndDetails}>
     <FormTextBoxContainer 
@@ -33,15 +47,20 @@ export function MintBadgeInputsAndDetails({
       onChange={onEmailChange}
       value={email}
     />
+<<<<<<< HEAD
     <TransactionDetails 
       gasFeesInEth={gasFeesInEth} 
       badgePriceInEth={badgePriceInEth} 
     />
+=======
+    <TransactionDetails/>
+>>>>>>> main
 
   </div>
   
 }
 
+<<<<<<< HEAD
 function TransactionDetails(
   { 
     gasFeesInEth, 
@@ -75,11 +94,15 @@ function TransactionDetails(
 
   }, [badgePriceInEth])
     
+=======
+function TransactionDetails() {
+>>>>>>> main
   return <div className={style.transactionDetails}>
     <h1 className={style.transactionDetailsHeader}>Transaction details</h1>
     <div className={style.detailsContainer}>
       <EstimatedTransaction
         name="BADGE COST"
+<<<<<<< HEAD
         usdValue={badgeUsdPrice}
         cryptoValue={badgePriceInEth}
         cryptoSymbol="ETH"
@@ -103,12 +126,39 @@ function TransactionDetails(
         customStyle={{ marginTop: '15px'}}
         isCryptoPricePending={false}
         isUSDPricePending={(badgeUsdPrice === null) && (gasUsdPrice === null)}
+=======
+        usdValue={10}
+        cryptoValue={0.4}
+        cryptoSymbol="MATIC"
+        customStyle={{ marginTop: '15px' }}
+      />
+      <EstimatedTransaction
+        name="EST. GAS"
+        usdValue={0.52}
+        cryptoValue={0.002}
+        cryptoSymbol="MATIC"
+      />
+      <EstimatedTransaction
+        name="TEMP STAKE"
+        usdValue={5}
+        cryptoValue={0.2}
+        cryptoSymbol="MATIC"
+        customStyle={{ color: '#DCC756'}}
+      />
+      <EstimatedTransaction
+        name="TOTAL"
+        usdValue={15.52}
+        cryptoValue={0.602}
+        cryptoSymbol="MATIC"
+        customStyle={{ marginTop: '15px'}}
+>>>>>>> main
       />
     </div>
   </div>
 }
 
 function EstimatedTransaction(
+<<<<<<< HEAD
   { name, 
     usdValue, 
     cryptoValue, 
@@ -141,5 +191,18 @@ function EstimatedTransaction(
         "..." :  
         `${cryptoValueString} ${cryptoSymbol}`}
     </span>
+=======
+  { name, usdValue, cryptoValue, cryptoSymbol, customStyle } : 
+  { name: string, 
+    usdValue: number, 
+    cryptoValue: number, 
+    cryptoSymbol: string,
+    customStyle?: React.CSSProperties
+  }) {
+  return <div className={style.estimatedTransaction} style={customStyle}>
+    <h1 className={style.transactionName}>{name}</h1>
+    <span className={style.transactionUsdText}>${usdValue}</span>
+    <span className={style.transactionCryptoText}>{cryptoValue} {cryptoSymbol}</span>
+>>>>>>> main
   </div>
 }

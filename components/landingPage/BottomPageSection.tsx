@@ -22,7 +22,11 @@ export default function BottomPageSection() {
 const SignUpToBetaContainer = () => {
   return <div className={style.signUpToBetaContainer}>
     <div className={style.signUpToBetaTextContainer}>
+<<<<<<< HEAD
       <h1 className={style.signUpToBetaHeader}>Live soon on Optimism.</h1>
+=======
+      <h1 className={style.signUpToBetaHeader}>Let's get started.</h1>
+>>>>>>> main
       <p className={style.signUpToBetaSubtitleText}>Run a company, DAO or any sort of organization? <br/>Join the waiting list to be one of the first users.</p>
     </div>
 

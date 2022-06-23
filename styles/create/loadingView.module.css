@@ -1,29 +1,49 @@
+<<<<<<< HEAD
 
 .entryContainer {
   height: 200px;
   width: 420px;
   background-color: white;
   border-radius: 15px;
+=======
+.entryContainer {
+  height: 450px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+>>>>>>> main
   margin-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
   animation: fadeIn 0.1s ease-in-out;
+<<<<<<< HEAD
   justify-content: center;
 }
 
 .progressBarFiller {
   background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+=======
+}
+
+.progressBarFiller {
+  background: linear-gradient(90deg, rgb(26, 75, 255) 0%, rgb(98, 216, 249) 70%);
+>>>>>>> main
   width: 50%;
 }
 
 .loadingHeader {
+<<<<<<< HEAD
   font-family: 'Asgard';
+=======
+  font-family: 'Inter';
+>>>>>>> main
   font-weight: bold;
   font-size: 20px;
   margin-top: 15px;
   text-align: center; 
 }
+<<<<<<< HEAD
 
 .loadingSubtitle {
   font-family: 'Inter';
@@ -33,6 +53,12 @@
     .entryContainer {
       height: 200px;
       width: 336px;
+=======
+@media only screen and (max-width: 850px) {
+    .entryContainer {
+      height: 376px;
+      width: 280px;
+>>>>>>> main
       background-color: white;
       border-radius: 14px;
       margin-top: 50px;;

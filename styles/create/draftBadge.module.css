@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 @import "./create.module.css";
 
+=======
+>>>>>>> main
 .container {
   background-color: white;
   width: 735px;
@@ -52,6 +55,10 @@
 
 .formTextBoxContainer {
   width: 350px;
+<<<<<<< HEAD
+=======
+  margin-bottom: 10px;
+>>>>>>> main
 }
 
 .mediaContainer {
@@ -73,6 +80,11 @@
   height: 50px;
   background-color: #F6F6F6;
   border-radius: 10px;
+<<<<<<< HEAD
+=======
+  /* margin-right: 25px; */
+  margin-bottom: 10px;
+>>>>>>> main
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -118,6 +130,7 @@
   opacity: 0;
 }
 
+<<<<<<< HEAD
 .listBoxContainer {
   display: flex;
   justify-content: center;
@@ -204,6 +217,8 @@
   color: white;
 }
 
+=======
+>>>>>>> main
 @media only screen and (max-width: 850px) {
 
   .container {
@@ -228,6 +243,10 @@
   }
 
   .formTextBoxContainer {
+<<<<<<< HEAD
+=======
+    margin-bottom: 10px;
+>>>>>>> main
     margin-right: 0px;
     display: flex;
     flex-direction: column;
@@ -239,7 +258,10 @@
   .mediaContainer {
     width: 100%;
   }
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
 }
 
 
@@ -278,11 +300,16 @@
 @keyframes expandToFull {
   0% {
     opacity: 0;
+<<<<<<< HEAD
+=======
+    /* height: 0px; */
+>>>>>>> main
   }
 
   100% {
     opacity: 1;
   }
+<<<<<<< HEAD
 }
 
 @keyframes listBoxExpand {
@@ -296,4 +323,6 @@
     transform: translateY(0px);
   }
 
+=======
+>>>>>>> main
 }

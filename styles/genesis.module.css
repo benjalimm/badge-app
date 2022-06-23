@@ -110,8 +110,12 @@
 
 /* DeployEntityLoadingView styles */
 .loadingContainer { 
+<<<<<<< HEAD
   height: 200px;
   justify-content: center;
+=======
+  height: 260px;
+>>>>>>> main
   background-color: white;
 }
 .animationDuration {
@@ -202,16 +206,27 @@
 /* DeployEntitySuccessView styles */
 
 .loadingHeader {
+<<<<<<< HEAD
   font-family: 'Asgard';
+=======
+  font-family: 'Inter';
+>>>>>>> main
   font-weight: bold;
   font-size: 20px;
   margin-top: 15px;
   text-align: center; 
 }
+<<<<<<< HEAD
 
 .loadingSubtitle {
   font-family: 'Inter';
   font-size: 15px;
+=======
+.loadingSubtitle {
+  font-family: 'Inter';
+  font-size: 14px;
+  margin-top: 5px;
+>>>>>>> main
 }
 
 /* Animations */
@@ -240,7 +255,11 @@
 }
 
 .progressBarFiller {
+<<<<<<< HEAD
   background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+=======
+  background: linear-gradient(90deg, rgb(26, 75, 255) 0%, rgb(98, 216, 249) 70%);
+>>>>>>> main
   width: 50%;
 }
 

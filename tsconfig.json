@@ -19,6 +19,7 @@
     "jsx": "preserve",
     "incremental": true
   },
+<<<<<<< HEAD
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -30,4 +31,8 @@
   "exclude": [
     "node_modules"
   ]
+=======
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "configs/blockchain.config.js", "configs/blockchain.config.js"],
+  "exclude": ["node_modules"]
+>>>>>>> main
 }

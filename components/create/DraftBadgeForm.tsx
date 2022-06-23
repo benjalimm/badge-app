@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
 import style from '../../styles/create/draftBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
@@ -5,6 +6,12 @@ import { BadgeMedia } from '../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import cx from 'classnames';
+=======
+import React from 'react';
+import style from '../../styles/create/draftBadge.module.css'
+import FormTextBoxContainer from './FormTextBoxContainer';
+import { BadgeMedia } from '../../schemas/BadgeMedia';
+>>>>>>> main
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -12,18 +19,26 @@ export default function DraftBadgeForm({
   onDescriptionTextChange,
   onPresentMediaCatalogue,
   badgeTitle,
+<<<<<<< HEAD
   badgeDescription,
   badgeLevel,
   setBadgeLevel
+=======
+  badgeDescription 
+>>>>>>> main
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onDescriptionTextChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
   onPresentMediaCatalogue: () => void,
   badgeTitle: string,
+<<<<<<< HEAD
   badgeDescription: string,
   badgeLevel: number,
   setBadgeLevel: (level: number) => void
+=======
+  badgeDescription: string
+>>>>>>> main
 }) {
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
@@ -46,16 +61,24 @@ export default function DraftBadgeForm({
       onChange={onTitleChange}
       value={badgeTitle}
     />
+<<<<<<< HEAD
     <BadgeLevelListBox badgeLevel={badgeLevel} setBadgeLevel={setBadgeLevel}/>
+=======
+>>>>>>> main
     <FormTextBoxContainer 
       type="TextArea"  
       title='Short description' 
       placeholder='Enter info (Why did they get this Badge?)'
+<<<<<<< HEAD
       customTextBoxHeight='120px'
+=======
+      customTextBoxHeight='180px'
+>>>>>>> main
       onChange={onDescriptionTextChange}
       value={badgeDescription}
     />
   </div>
+<<<<<<< HEAD
 }
 
 function BadgeLevelListBox(
@@ -139,4 +162,6 @@ function BadgeLevelListBox(
     </div>
        
   )
+=======
+>>>>>>> main
 }
