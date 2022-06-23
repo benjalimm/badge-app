@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/genesis.module.css'
+import style from '../../pages/genesis.module.css';
 import { EntityInfo } from '../../schemas/genesis';
 import Field from '../GenericComponents/Field';
 import cx from 'classnames';

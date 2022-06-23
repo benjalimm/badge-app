@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/genesis.module.css'
+import style from '../../pages/genesis.module.css';
 import ProgressBar from '../GenericComponents/ProgressBar';
 
 const DeployEntityLoadingView = (

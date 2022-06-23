@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import PageTitleView from '../components/PageTitleView';
+import PageTitleView from '../components/GenericComponents/PageTitleView';
 import NavBar from '../components/navBar/NavBar';
-import style from '../styles/create/create.module.css'
+import style from './create.module.css'
 import DraftAndMintBadgeView from '../components/create/DraftAndMintBadgeView';
 import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';

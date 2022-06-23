@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import styles from '../../styles/genesis.module.css'
+import styles from '../../pages/genesis.module.css';
 import cx from 'classnames';
 
 const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Promise<void> }) => {
