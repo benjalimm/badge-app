@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react'
-import style from '../../styles/landingPage/footer.module.css'
+import style from './BadgeFooter.module.css'
 export default function BadgeFooter() {
   return <footer className={style.footer}>
     <div className={style.textContainer}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "../../styles/navBar.module.css";
+import styles from "./NavBar.module.css";
 
 const SignInButton = ({ connect }: { connect: () => (void)}) => {
   return <button className={styles.loginButton} onClick={connect}>

@@ -1,0 +1,17 @@
+.progressBarFiller {
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+  width: 50%;
+}
+
+.loadingHeader {
+  font-family: 'Asgard';
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.loadingSubtitle {
+  font-family: 'Inter';
+  font-size: 15px;
+}

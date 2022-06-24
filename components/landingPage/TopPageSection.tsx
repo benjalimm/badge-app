@@ -1,6 +1,5 @@
 import React from 'react'
-import style from '../../styles/landingPage/lp.module.css';
-import '../../styles/landingPage/lp.module.css';
+import style from './TopPageSection.module.css';
 import SampleBadgeCard from './SampleBadgeCard';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';

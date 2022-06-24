@@ -1,7 +1,7 @@
 import Navbar from '../components/navBar/NavBar'
 import React, { useEffect, useContext, useState, ReactElement } from 'react'
-import styles from '../styles/genesis.module.css'
-import PageTitleView from '../components/PageTitleView'
+import styles from './genesis.module.css'
+import PageTitleView from '../components/GenericComponents/PageTitleView'
 import { useRouter } from 'next/router';
 import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
@@ -143,7 +143,7 @@ export default function DeployEntityPage() {
   /** If the user is not logged in, redirect to landing page */
   useEffect(() => {
     if (!active) {
-      router.push('/')
+      // router.push('/')
     }
   } , [active])
 

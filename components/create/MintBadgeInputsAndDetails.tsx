@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from '../../styles/create/mintBadge.module.css'
+import style from './MintBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
 import { getUSDPriceForEth } from '../../utils/getEthPrice';
 
