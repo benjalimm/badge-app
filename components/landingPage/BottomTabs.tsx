@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/landingPage/bottomTab.module.css';
+import style from './BottomTab.module.css';
 import cx from 'classnames';
 
 export function BottomTabs(

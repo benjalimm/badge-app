@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Field from '../GenericComponents/Field';
-import style from '../../styles/create/receipt.module.css';
+import style from './MintBadgeReceiptView.module.css';
 import { BasicButton } from '../GenericComponents/Buttons';
 import { Chain } from '../../schemas/ChainTypes';
 import { getScanUrl  } from '../../utils/chainUtils';

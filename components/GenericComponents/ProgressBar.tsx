@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/GenericComponents/progressBar.module.css';
+import style from './ProgressBar.module.css';
 import cx from 'classnames';
 const ProgressBar = ({ 
   valuePercentage,

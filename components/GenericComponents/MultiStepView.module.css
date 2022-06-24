@@ -11,7 +11,7 @@
 
 .stepContainer {
   height: 90%;
-  width: 170px;  
+  width: 170px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +29,7 @@
 }
 
 .selected {
-  background-color: #F8F8F8;
+  background-color: #EBEBEB;
 }
 
 .stepHeader {

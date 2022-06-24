@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from '../../styles/create/draftBadge.module.css'
+import style from './DraftBadge.module.css'
 import BadgeCard from '../badgeCard/BadgeCard';
 import sampleCardData from '../../utils/sampleCardData';
 import { badgeMediaList } from '../../utils/badgeMediaList';
@@ -9,6 +9,7 @@ import { BadgeData } from '../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
+import { getCurrentEntity } from "../../utils/entityLocalState";
 import cx from 'classnames';
 
 const cardData = sampleCardData[1];
@@ -41,6 +42,7 @@ export default function DraftAndMintBadgeView({
   /** MINT BADGE INFORMATION */
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
+  const currentEntity = getCurrentEntity()
 
   /** DRAFT BADGE METHODS */
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -97,7 +99,8 @@ export default function DraftAndMintBadgeView({
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
       profilePhotoSource: cardData.profilePhotoSource,
-      level: badgeLevel
+      level: badgeLevel,
+      entityName: currentEntity.name,
     });
   }
 
@@ -168,7 +171,8 @@ export default function DraftAndMintBadgeView({
                 content: badgeDescription, 
                 videoPath: currentlySelectedMedia.url, 
                 profilePhotoSource: cardData.profilePhotoSource,
-                level: badgeLevel
+                level: badgeLevel,
+                entityName: currentEntity.name,
               }, walletAddress, email)}
             style={{paddingTop:'30px'}}
           />)

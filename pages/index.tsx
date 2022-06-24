@@ -1,14 +1,15 @@
 import Navbar from '../components/navBar/NavBar'
 import TopPageSection from '../components/landingPage/TopPageSection'
 import BottomPageSection from '../components/landingPage/BottomPageSection'
-import ExplanationPageSection from '../components/landingPage/ExplanationPageSection'
-import styles from '../styles/landingPage/lp.module.css'
+
+import styles from './index.module.css'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import BadgeHead from '../components/landingPage/BadgeHead'
 import BadgeFooter from '../components/landingPage/BadgeFooter'
 import { useSession, signOut } from "next-auth/react"
-import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
+import MeritLayerSection from '../components/landingPage/MeritLayerSection'
+import FeaturesSection from '../components/landingPage/FeaturesSection'
 
 const LandingPage = () => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const LandingPage = () => {
 
     if (active) {
       // signOut()
-      router.push('/genesis')
+      // router.push('/genesis')
     }
     console.log(status)
   
@@ -31,7 +32,8 @@ const LandingPage = () => {
       <Navbar sticky={false}/>
       <div className={styles.sections}>
         <TopPageSection/>
-        <ExplanationPageSection/>
+        <MeritLayerSection/>
+        <FeaturesSection/>
         <BottomPageSection/>
       </div>
       <BadgeFooter/>

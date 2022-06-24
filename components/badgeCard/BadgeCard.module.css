@@ -12,19 +12,19 @@
 }
 
 .cardShadow {
-  box-shadow: 0 5px 15px -5px rgba(0,0,0,0.4);
+  box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.4);
 }
 
 .imageContainer {
-  background-color:black ;
+  background-color: black;
   height: 50%;
   width: 100%;
-  z-index:0;
+  z-index: 0;
   position: absolute;
 }
 
 .bottomContainer {
-  background: linear-gradient(to top, black 75%,rgba(0, 0, 0, 0));
+  background: linear-gradient(to top, black 75%, rgba(0, 0, 0, 0));
   height: 55%;
   width: 100%;
   z-index: 1;
@@ -72,6 +72,7 @@
     margin-top: 7px;
     margin-left: 13px;
   }
+
   .content {
     font-size: 12px;
     padding: 0px 13px;
@@ -83,7 +84,7 @@
     margin-left: 10px;
     margin-top: 5px;
   }
-  
+
 }
 
 @keyframes cardAnimation {
@@ -101,9 +102,14 @@
 }
 
 @keyframes fadeIn {
-   0% { opacity: 0.8;}
-   100% {opacity: 1;}
-} 
+  0% {
+    opacity: 0.8;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
 
 
 @media only screen and (max-width: 850px) {
@@ -120,6 +126,7 @@
     margin-top: 7px;
     margin-left: 13px;
   }
+
   .content {
     font-size: 12px;
     padding: 0px 13px;
@@ -131,7 +138,7 @@
     margin-left: 10px;
     margin-top: 5px;
   }
-  
+
 }
 
 @keyframes cardAnimation {
@@ -149,7 +156,11 @@
 }
 
 @keyframes fadeIn {
-   0% { opacity: 0.8;}
-   100% {opacity: 1;}
-} 
+  0% {
+    opacity: 0.8;
+  }
 
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import style from '../../styles/badgeCard.module.css';
+import style from './BadgeCard.module.css';
 import cx from 'classnames';
 export default function BadgeCard(
   {  title, content, videoSource, profilePhotoSource, customStyle }

@@ -1,6 +1,5 @@
 import React from 'react'
-import style from '../../styles/landingPage/lp.module.css';
-import '../../styles/landingPage/lp.module.css';
+import style from './TopPageSection.module.css';
 import SampleBadgeCard from './SampleBadgeCard';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
@@ -33,7 +32,7 @@ export default function TopPageSection() {
           Achievements as NFTs.
           </h1>
           <h3 className={style.badgeNormalText}>
-            Protocol for on-chain reputation.
+            Attract & reward talent with on-chain merit.
           </h3>
         </div>   
         <div className={style.cardContainer}>
@@ -45,6 +44,9 @@ export default function TopPageSection() {
               videoSource={card.videoPath}
               profilePhotoSource={card.profilePhotoSource}
               visible={index === indexOfCurrentCard}
+              level={card.level}
+              entityName={card.entityName}
+              recipient={card.recipientEns}
             />
       
           })

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import style from '../../styles/create/loadingView.module.css'
+import style from './MintBadgeLoadingView.module.css'
 import ProgressBar from '../GenericComponents/ProgressBar';
 
 const MintBadgeLoadingView = (

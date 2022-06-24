@@ -1,5 +1,5 @@
-import React, { useState ,useEffect } from 'react';
-import style from '../../styles/create/draftBadge.module.css'
+import React, { useState } from 'react';
+import style from './DraftBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
