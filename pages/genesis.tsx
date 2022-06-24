@@ -34,7 +34,7 @@ export default function DeployEntityPage() {
     name: "",
     genesisTokenHolder: ""
   });
-  const active = status === "authenticated";
+  const active = status !== "unauthenticated";
   const { data:signer } = useSigner()
   const provider = useProvider()
   
@@ -142,8 +142,9 @@ export default function DeployEntityPage() {
 
   /** If the user is not logged in, redirect to landing page */
   useEffect(() => {
+    console.log(`Status: ${status}`)
     if (!active) {
-      // router.push('/')
+      router.push('/')
     }
   } , [active])
 
