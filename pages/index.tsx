@@ -2,7 +2,7 @@ import Navbar from '../components/navBar/NavBar'
 import TopPageSection from '../components/landingPage/TopPageSection'
 import BottomPageSection from '../components/landingPage/BottomPageSection'
 
-import styles from '../styles/landingPage/lp.module.css'
+import styles from './index.module.css'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
 import BadgeHead from '../components/landingPage/BadgeHead'
@@ -20,7 +20,7 @@ const LandingPage = () => {
 
     if (active) {
       // signOut()
-      router.push('/genesis')
+      // router.push('/genesis')
     }
     console.log(status)
   
