@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
-import styles from '../../pages/genesis.module.css';
+import styles from './DeployEntityEntryView.module.css';
+import sharedStyle from './shared.module.css';
 import cx from 'classnames';
 
 const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Promise<void> }) => {
@@ -14,7 +15,7 @@ const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Pr
     deployEntity(currentText);
   }
 
-  return <div className={styles.entryContainer}>
+  return <div className={sharedStyle.entryContainer}>
     <div className={cx(styles.entryContainerTopGradientSection)}>
       <div className={styles.noise}/>
     </div> 

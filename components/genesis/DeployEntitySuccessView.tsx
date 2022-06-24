@@ -1,5 +1,6 @@
 import React from 'react';
-import style from '../../pages/genesis.module.css';
+import sharedStyle from './shared.module.css';
+import style from './DeployEntitySuccessView.module.css';
 import { EntityInfo } from '../../schemas/genesis';
 import Field from '../GenericComponents/Field';
 import cx from 'classnames';
@@ -13,7 +14,7 @@ const DeployEntitySuccessView =
     router.push('/create')
   }
 
-  return <div className={cx(style.entryContainer, style.successContainer)}>
+  return <div className={cx(sharedStyle.entryContainer, style.successContainer)}>
     <img className={style.blackBadge} src="images/generic/success.svg"/>
     <h1 className={style.successHeader}>Entity successfully deployed on-chain</h1>
     <h1 className={style.successSubheader}>Genesis token minted to your wallet</h1>

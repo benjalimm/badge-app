@@ -143,7 +143,7 @@ export default function DeployEntityPage() {
   /** If the user is not logged in, redirect to landing page */
   useEffect(() => {
     if (!active) {
-      router.push('/')
+      // router.push('/')
     }
   } , [active])
 

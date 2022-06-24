@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { AnimationType } from '../../schemas/genesis';
-import cx from 'classnames';
-import style from '../../pages/genesis.module.css';
+import style from './AnimatingView.module.css';
 
 type AnimationState = "Start" | "End"
 const delayMilliseconds = 0;
