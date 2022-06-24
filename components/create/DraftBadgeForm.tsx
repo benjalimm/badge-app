@@ -8,6 +8,7 @@ import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
 import { useSigner } from 'wagmi';
 import { getBaseBadgePrice,calculateBadgePrice } from '../../utils/priceOracleUtils';
+import { useSession } from 'next-auth/react';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -17,7 +18,8 @@ export default function DraftBadgeForm({
   badgeTitle,
   badgeDescription,
   badgeLevel,
-  setBadgeLevel
+  setBadgeLevel,
+  baseBadgePrice
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
@@ -26,13 +28,14 @@ export default function DraftBadgeForm({
   badgeTitle: string,
   badgeDescription: string,
   badgeLevel: number,
-  setBadgeLevel: (level: number) => void
+  setBadgeLevel: (level: number) => void,
+  baseBadgePrice: number
 }) {
 
   // ** ** \\
   const [ethPrice, setEthPrice] = useState<number>(0);
-  const [baseBadgePrice, setBaseBadgePrice] = useState<number>(0);
-  const { data:signer } = useSigner()
+  // const { data:signer, status: signerStatus } = useSigner()
+  // const { status: sessionStatus } = useSession()
 
   useEffect(() => {
     getEthUSDPrice().then(_ethPrice => {
@@ -40,20 +43,6 @@ export default function DraftBadgeForm({
     }).catch(err => {
       console.error(err);
     })
-  }, [])
-
-  useEffect(() => {
-    // setInterval(() => {
-    //   console.log("Getting base badge price")
-    //   getBaseBadgePrice(signer).then(price => {
-    //     console.log(`Base bage price: ${price}`);
-    //     setBaseBadgePrice(price.toNumber());
-    //   }).catch(err => {
-    //     console.log(`Error setting base badge price: ${err}`)
-    //   })
-
-    // }, 5000)
-    
   }, [])
 
   return <div className={style.formContainer}>
@@ -106,7 +95,7 @@ function BadgeLevelListBox(
     setBadgeLevel: (level: number) => void 
   }) {
 
-  let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7 ,8 ,9 ,10]
+  let supportedLevels = [0, 1, 2, 3, 4, 5]
 
   function getBadgePrice(currency: "USD" | "ETH", level: number): number {
     const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, level)

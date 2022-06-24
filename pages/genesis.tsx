@@ -32,11 +32,10 @@ export default function DeployEntityPage() {
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: ""
+    genesisTokenHolder: "a"
   });
-  const active = status === "authenticated";
-  const { data:signer } = useSigner()
-  const provider = useProvider()
+  const active = status !== "unauthenticated";
+  const { data:signer, status: signerStatus } = useSigner()
   
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 
@@ -72,7 +71,7 @@ export default function DeployEntityPage() {
    * @param entityName The name of the entity to deploy
    */
   async function registerEntity(entityName: string) {
-
+    console.log(`Signer status: ${signerStatus}`)
     try {
       // 1. Instantiate Badge Registry
       const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
@@ -145,6 +144,7 @@ export default function DeployEntityPage() {
     if (!active) {
       // router.push('/')
     }
+    
   } , [active])
 
   function renderViewBasedOnPageState(): ReactElement {

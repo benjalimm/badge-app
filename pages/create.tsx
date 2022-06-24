@@ -1,5 +1,4 @@
-// ** Imports ** \\
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import PageTitleView from '../components/GenericComponents/PageTitleView';
 import NavBar from '../components/navBar/NavBar';
 import style from './create.module.css'
@@ -8,23 +7,25 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { BadgeData } from '../schemas/BadgeData';
 import { PageState } from '../schemas/create';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
-import { formatEther, parseEther } from 'ethers/lib/utils';
 import { getCurrentEntity } from '../utils/entityLocalState';
 import MintBadgeLoadingView from '../components/create/MintBadgeLoadingView';
 import MintBadgeReceiptView from '../components/create/MintBadgeReceiptView';
 import { currentChain } from '../configs/blockchainConfig';
-import { useSigner, useAccount } from 'wagmi';
+import { useSigner, useAccount, useProvider } from 'wagmi';
 import { checkIfTransactionisSuccessful } from '../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
+import { calculateBadgePrice, getBaseBadgePrice } from '../utils/priceOracleUtils';
+import { weiToEthMultiplier } from '../utils/ethConversionUtils';
 
 export default function CreateBadgeView() {
   
-  // ** Page state ** \\
+  // ** PAGE STATE ** \\
+  const [randomState, setRandomState] = useState<number>(0)
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
 
-  // ** Pertinent Badge data ** \\
+  // ** PERTINENT BADGE DATA ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
@@ -33,15 +34,21 @@ export default function CreateBadgeView() {
   useState<number | null>(null)
   const currentEntityInfo = getCurrentEntity();
 
-  // ** Wagmi hooks ** \\
-  const { data: signer } = useSigner()
-  const { data: accountResults } = useAccount()
-  const { data: session } = useSession()
+  // ** BASE BADGE PRICE ** \\
+  const [baseBadgePrice, setBaseBadgePrice] = useState<number>(0);
 
-  /** Polling  */
+  // ** WAGMI HOOKS ** \\
+  const { data: signer, status: signerStatus, isLoading, isSuccess } = useSigner()
+  const { data: session, status: sessionStatus } = useSession()
+
+  // ** SHOULD MANUALLY POLL STATE  ** \\
   const [shouldPoll, setShouldPoll] = useState<boolean>(false)
 
-  /** Start loading indicator */
+  function getFinalBadgePrice(): number {
+    return calculateBadgePrice(baseBadgePrice, badgeData?.level || 0)
+  }
+
+  // ** LOADING INDICATOR LOGIC ** \\
   useEffect(() => {
     if (pageState === "LoadingMintBadge") {
       
@@ -80,8 +87,10 @@ export default function CreateBadgeView() {
 
   }, [pageState])
 
-  /** Poll transaction via api manually here*/
+  // ** MANUAL TX POLLING LOGIC ** \\
   useEffect(() => {
+    // If the event doesn't trigger -> We manually call an API to figure out if the transaction was successfull.
+
     if (shouldPoll) {
       console.log("Polling for transaction")
       checkIfTransactionisSuccessful(transactionHash, session.user!.name!).then(successful => {
@@ -95,15 +104,46 @@ export default function CreateBadgeView() {
 
   }, [shouldPoll])
 
-  /** Estimate gas fees here */
+  // ** ESTIMATE GAS FEES ** \\
   useEffect(() => {
-    estimateGasFees().then(fees => {
-      console.log(fees)
-      setEstimatedGasFeesInEth(fees)
-    }).catch(err => {
-      console.log(err);
-    })
-  }, [pageState])
+    
+    if (sessionStatus === "authenticated") {
+      estimateGasFees().then(fees => {
+        console.log(fees)
+        setEstimatedGasFeesInEth(fees)
+      }).catch(err => {
+        console.log(err);
+      })
+
+    }
+    
+  }, [sessionStatus, pageState])
+
+  // ** GET BASE BADGE PRICE ** \\
+  useEffect(() => {
+    console.log(`status: ${signerStatus}`)
+    if (isSuccess) {
+      console.log(`Getting base badge price with session status ${sessionStatus} and signer status ${signerStatus}`)
+      
+      getBaseBadgePrice(signer).then(price => {
+        console.log(`Base badge price: ${price}`);
+        setBaseBadgePrice(price);
+      }).catch(err => {
+        
+        console.log(`Error setting base badge price: ${JSON.stringify(err)}`)
+      })
+    }
+    
+  }, [randomState, isSuccess])
+
+  // ** TRIGGER RANDOM STATE AFTER 1 SECOND ** \\
+  useEffect(() => {
+    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a random state. When it's called a second time, it works.
+    setTimeout(() => {
+      setRandomState(1)
+    }, 1000)
+
+  },[])
 
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
@@ -119,6 +159,7 @@ export default function CreateBadgeView() {
     setPageState("DraftBadge");
   }
 
+  // ** ESTIMATE GAS FEE FUNCTION ** \\
   async function estimateGasFees(): Promise<number> {
 
     // 1. Establish connection to contract
@@ -128,11 +169,10 @@ export default function CreateBadgeView() {
     // 2. Estimate gas 
     /// Note: You should be able to enter in no ether with a level 0 Badge 
     const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
-    const etherEstimate = formatEther(estimation)
-    console.log(`Estimated gas: ${etherEstimate} ETH`)
-    return parseInt(etherEstimate);
+    return estimation.toNumber() * weiToEthMultiplier;
   }
 
+  // ** MINT BADGE ** \\
   async function onMintAndSendBadge(badgeData: BadgeData, recipientAddress: string, email?: string) {
     setRecipientAddress(recipientAddress);
     if(email) setEmailAddress(email);
@@ -189,7 +229,7 @@ export default function CreateBadgeView() {
         recipientAddress, 
         badgeData.level, 
         url,
-        { value: parseEther('0.05')}
+        { value: getFinalBadgePrice()}
       );
       setPageState("LoadingMintBadge");
       
@@ -222,7 +262,8 @@ export default function CreateBadgeView() {
           pageState={pageState}
           onBackToDraft={onBackToDraft}
           gasFeesInEth={estimatedGasFeesInEth}
-          badgePriceInEth={0.05}
+          baseBadgePrice={baseBadgePrice}
+          finalBadgePrice={getFinalBadgePrice()}
         />
 
     }
