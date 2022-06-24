@@ -1,11 +1,12 @@
 import React from 'react';
-import style from '../../styles/genesis.module.css'
+import style from './DeployEntityLoadingView.module.css';
+import sharedStyle from './shared.module.css';
 import ProgressBar from '../GenericComponents/ProgressBar';
 
 const DeployEntityLoadingView = (
   { loadingPercentage }:
   { loadingPercentage: number }) => {
-  return <div className={style.entryContainer} 
+  return <div className={sharedStyle.entryContainer} 
     style={{ height: '200px', justifyContent: 'center' }}>
     <div style={{ width: '90%', marginTop: '0px'}}>
       <ProgressBar

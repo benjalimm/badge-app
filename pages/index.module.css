@@ -1,0 +1,12 @@
+.lp::-webkit-scrollbar {
+  display: none;
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+  padding-bottom: 150px;
+}

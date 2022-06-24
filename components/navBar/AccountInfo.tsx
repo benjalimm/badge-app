@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styles from "../../styles/navBar.module.css";
+import styles from "./NavBar.module.css";
 import { ethers } from 'ethers';
 export default function AccountInfo({ account } : { account: string }) {
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles/pageTitleView.module.css';
+import styles from './PageTitleView.module.css';
 export default function PageTitleView({ title }: { title: string }) {
   return (
     <div className={styles.container}>

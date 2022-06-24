@@ -1,0 +1,79 @@
+.successContainer {
+  height: 580px;
+}
+
+
+.blackBadge {
+  margin-top: 30px;
+}
+
+.successHeader {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.successSubheader {
+  font-family: 'Inter';
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+.successEntityDetailsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  height: 42%;
+  width: 80%;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.successEntityDetailsHeader {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-size: 16px;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.successDetailsFieldContainer {
+  margin-top: 10px;
+  margin-left: 16px;
+}
+
+.successDetailsFieldHeader {
+  font-family: 'Inter';
+  font-size: 12px;
+  font-weight: bold;
+  color: #B0B0B0;
+}
+
+.successDetailsFieldValue {
+  font-family: 'Inter';
+  font-size: 12px;
+  color: black;
+  padding-right: 10px;
+  word-wrap: break-word;
+  max-width: 310px;
+  display: block;
+  margin-top: 2px;
+}
+
+.proceedButton {
+  width: 155px;
+  height: 50px;
+  background-color: black;
+  font: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+  transition-duration: 0.2s;
+  margin-top: 12%;
+}

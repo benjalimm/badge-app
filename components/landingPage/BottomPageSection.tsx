@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import style from '../../styles/landingPage/lp.module.css';
+import style from './BottomPageSection.module.css';
 import cx from 'classnames';
 import { useInView } from 'react-intersection-observer';
 
