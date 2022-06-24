@@ -6,9 +6,7 @@ import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
-import { useSigner } from 'wagmi';
-import { getBaseBadgePrice,calculateBadgePrice } from '../../utils/priceOracleUtils';
-import { useSession } from 'next-auth/react';
+import { calculateBadgePrice } from '../../utils/priceOracleUtils';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -32,10 +30,8 @@ export default function DraftBadgeForm({
   baseBadgePrice: number
 }) {
 
-  // ** ** \\
+  // ** ETH PRICE INFO ** \\
   const [ethPrice, setEthPrice] = useState<number>(0);
-  // const { data:signer, status: signerStatus } = useSigner()
-  // const { status: sessionStatus } = useSession()
 
   useEffect(() => {
     getEthUSDPrice().then(_ethPrice => {
