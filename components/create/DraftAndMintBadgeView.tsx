@@ -11,6 +11,7 @@ import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
 import { getCurrentEntity } from "../../utils/entityLocalState";
 import cx from 'classnames';
+import { weiToEthMultiplier } from '../../utils/ethConversionUtils';
 
 const cardData = sampleCardData[1];
 
@@ -20,7 +21,8 @@ export default function DraftAndMintBadgeView({
   onMintAndSendBadge,
   pageState,
   gasFeesInEth,
-  badgePriceInEth
+  baseBadgePrice,
+  finalBadgePrice,
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
@@ -28,10 +30,11 @@ export default function DraftAndMintBadgeView({
   onBackToDraft: () => void,
   pageState: PageState,
   gasFeesInEth: number
-  badgePriceInEth: number
+  baseBadgePrice: number,
+  finalBadgePrice: number
 }) {
 
-  /** DRAFT BADGE INFORMATION */
+  //** DRAFT BADGE INFORMATION **\\
   const [badgeTitle, setBadgeTitle] = useState('');
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
@@ -39,12 +42,12 @@ export default function DraftAndMintBadgeView({
   const [badgeLevel, setBadgeLevel] = useState<number>(1);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
 
-  /** MINT BADGE INFORMATION */
+  //** MINT BADGE INFORMATION **\\
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
   const currentEntity = getCurrentEntity()
 
-  /** DRAFT BADGE METHODS */
+  //** DRAFT BADGE METHODS **\\
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
     setBadgeTitle(event.currentTarget.value);
   }
@@ -65,7 +68,7 @@ export default function DraftAndMintBadgeView({
     setIsMediaCatalogueVisible(true);
   }
 
-  /** MINT BADGE METHODS */
+  //** MINT BADGE METHODS **\\
   function onWalletAddressChange(event: React.FormEvent<HTMLInputElement>) {
     setWalletAddress(event.currentTarget.value);
   }
@@ -74,7 +77,7 @@ export default function DraftAndMintBadgeView({
     setEmail(event.currentTarget.value);
   }
 
-  /** Placeholders for title and description */
+  //** PLACEHOLDERS **\\
   function getTitle() {
     if ((badgeTitle.length > 0) || (pageState === "MintBadge")) {
       return badgeTitle;
@@ -89,10 +92,10 @@ export default function DraftAndMintBadgeView({
     return "This is a badge description. Write a short explanation of why this Badge is being awarded."
   }
 
-  /**  This method is executed once the user is complete **/
+  //** This method is executed once the user is complete **\\
   function prepareBadge() {
+    
     // NOTE: Run checks on the data here before submitting
-
     onSubmitDraftBadgeData({
       id: 0,
       title: badgeTitle,
@@ -131,7 +134,7 @@ export default function DraftAndMintBadgeView({
               email={email}  
               onWalletAddressChange={onWalletAddressChange}
               onEmailChange={onEmailChange}
-              badgePriceInEth={badgePriceInEth}
+              badgePriceInEth={finalBadgePrice * weiToEthMultiplier}
               gasFeesInEth={gasFeesInEth}
             /> :
             ((!isMediaCatalogueVisible) ? 
@@ -144,6 +147,7 @@ export default function DraftAndMintBadgeView({
                 badgeDescription={badgeDescription}
                 badgeLevel={badgeLevel}
                 setBadgeLevel={setBadgeLevel}
+                baseBadgePrice={baseBadgePrice}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
