@@ -126,8 +126,8 @@ function EstimatedTransaction(
     isCryptoPricePending: boolean
   }) {
 
-  const usdValueString = usdValue ? `$${usdValue.toFixed(2)}` : '--';
-  const cryptoValueString = cryptoValue ? `${cryptoValue.toFixed(5)}` : '--';
+  const usdValueString = usdValue != null ? `$${usdValue.toFixed(2)}` : '--';
+  const cryptoValueString = cryptoValue  != null ? `${cryptoValue.toFixed(5)}` : '--';
   
   return <div className={style.estimatedTransaction} style={customStyle}>
     <h1 className={style.transactionName}>{name}</h1>

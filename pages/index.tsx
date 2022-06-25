@@ -20,7 +20,7 @@ const LandingPage = () => {
 
     if (active) {
       // signOut()
-      // router.push('/genesis')
+      router.push('/genesis')
     }
     console.log(status)
   
