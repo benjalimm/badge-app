@@ -1,3 +1,28 @@
+.container {
+  height: 240px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  flex-direction: column;
+  animation: expand 0.15s ease-in-out forwards;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  animation: fadeIn 1s ease-in-out;
+}
+
+
 .entryContainerTopGradientSection {
   height: 40%;
   width: 95%;
@@ -6,7 +31,6 @@
   border-radius: 5px;
   overflow: hidden;
 }
-
 
 .noise {
   overflow: hidden;
@@ -74,4 +98,25 @@
 .deployButton:hover {
   width: 175px;
   transition-duration: 0.2s;
+}
+
+@keyframes expand {
+  0% {
+    transform: scaleY(0.8);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
 }

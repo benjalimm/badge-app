@@ -13,11 +13,13 @@ import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
+import MultiStepView from '../components/GenericComponents/MultiStepView';
 
 type PageState = 
-"ENTRY" | 
-"LOADING" |
-"SUCCESS"
+"AddEntityInfo" | 
+"RegisterEntity" |
+"Loading" |
+"Success"
 
 type DeployState = 
 "STARTED_IPFS_UPLOAD" | 
@@ -28,7 +30,7 @@ type DeployState =
 export default function DeployEntityPage() {
   const router = useRouter();
   const { status } = useSession();
-  const [pageState, setPageState] = useState<PageState>("ENTRY")
+  const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
@@ -44,7 +46,7 @@ export default function DeployEntityPage() {
 
   /** Progress view timer */
   useEffect(() => {
-    if (pageState === "LOADING") {
+    if (pageState === "Loading") {
       // Start timer
       const startPercentage = 5
       const endPercentage = 95
@@ -122,8 +124,8 @@ export default function DeployEntityPage() {
         })
 
         // 6.3. Set page state to success, this will change the state to the receipt view
-        if (pageState !== "SUCCESS") {
-          setPageState("SUCCESS");
+        if (pageState !== "Success") {
+          setPageState("Success");
         }
       })
       
@@ -132,7 +134,7 @@ export default function DeployEntityPage() {
 
       // 8. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
-      setPageState("LOADING")
+      setPageState("Loading")
     } catch (error) {
       console.error(error)
     }
@@ -149,11 +151,11 @@ export default function DeployEntityPage() {
 
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
-      case "ENTRY":
+      case "AddEntityInfo":
         return <DeployEntityEntryView deployEntity={registerEntity}/>
-      case "LOADING":
+      case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
-      case "SUCCESS":
+      case "Success":
         return <DeployEntitySuccessView 
           name={entityInfo.name} 
           address={entityInfo.address} 
@@ -169,7 +171,13 @@ export default function DeployEntityPage() {
     <div className={styles.background}>
       <Navbar sticky={true}/>
       <PageTitleView title={"Deploy a new entity by minting a Genesis token"}/>
+      
       <div className={styles.pageContainer}>
+        <MultiStepView
+          steps={["Add entity info", "Register entity"]}
+          indexOfCurrentStep={0}
+          style={{ marginTop: '30px' }}
+        />
         { renderViewBasedOnPageState() }
       </div>
     </div>

@@ -15,20 +15,20 @@ const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Pr
     deployEntity(currentText);
   }
 
-  return <div className={sharedStyle.entryContainer}>
-    <div className={cx(styles.entryContainerTopGradientSection)}>
-      <div className={styles.noise}/>
-    </div> 
-    <div className={styles.formContainerView}>
-      <h3 className={styles.formHeaderText}>Entity name</h3>
-      <span className={styles.formHeaderSubtitleText}>(Don't worry, this is not permanent)</span>
-      <div className={styles.formTextFieldContainer}>
-        <input className={styles.formTextField} type="text" placeholder="Entity name (e.g. Uniswap)" onChange={onChange}/>
+  return <div className={styles.container}>
+    <div className={styles.content}>
+      <div className={styles.formContainerView}>
+        <h3 className={styles.formHeaderText}>Entity name</h3>
+      
+        <div className={styles.formTextFieldContainer}>
+          <input className={styles.formTextField} type="text" placeholder="Entity name (e.g. Uniswap)" onChange={onChange}/>
+        </div>
       </div>
+      <button className={styles.deployButton} onClick={deploy}>
+        Next
+      </button>
     </div>
-    <button className={styles.deployButton} onClick={deploy}>
-        DEPLOY
-    </button>
+    
   </div>
 }
 
