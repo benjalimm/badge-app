@@ -1,0 +1,52 @@
+.container {
+  height: 450px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  animation: expand 0.15s ease-in-out forwards;
+}
+
+.entityNameHeader {
+  font-family: 'AsgardFitMedium';
+  font-size: 28px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: black;
+}
+
+/* Stake explanation */
+.stakeExplanationContainer {
+  width: 85%;
+  margin-top: 20px;
+}
+
+.stakeExplanationHeader {
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 20px;
+  color: black;
+}
+
+.stakeExplanationText {
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: normal;
+  margin-top: 5px;
+  color: black;
+}
+
+.detailsContainer {
+  width: 350px;
+  height: 100px;
+  background-color: #F6F6F6;
+  border-radius: 12px;
+  border-width: 0.5px;
+  justify-content: center;
+  align-items: center;
+}

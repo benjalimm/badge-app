@@ -81,7 +81,7 @@
   margin-left: 15px;
 }
 
-.deployButton {
+.nextButton {
   width: 155px;
   height: 50px;
   background-color: black;
@@ -95,7 +95,7 @@
   transition-duration: 0.2s;
 }
 
-.deployButton:hover {
+.nextButton:hover {
   width: 175px;
   transition-duration: 0.2s;
 }

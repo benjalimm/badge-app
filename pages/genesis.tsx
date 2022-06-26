@@ -14,6 +14,7 @@ import { useSession } from 'next-auth/react';
 import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
 import MultiStepView from '../components/GenericComponents/MultiStepView';
+import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -29,22 +30,29 @@ type DeployState =
 
 export default function DeployEntityPage() {
   const router = useRouter();
-  const { status } = useSession();
-  const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
+
+  // ** ENTITY INFO ** \\
+  const [entityName, setEntityName] = useState<string>(""); // Before registration
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
     genesisTokenHolder: "a"
-  });
-  const active = status !== "unauthenticated";
-  const { data:signer, status: signerStatus } = useSigner()
-  
+  }); // After registstration 
+  const [minStake, setMinStake] = useState<number | null>(null);
+
+  // ** PAGE STATE INFO ** \\
+  const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
+  
+  // ** WAGMI HOOKS ** \\
+  const { status } = useSession();
+  const { data:signer, status: signerStatus } = useSigner()
+  const active = status !== "unauthenticated";
 
-  /** Progress view timer */
+  // ** PROGRESS VIEW LOGIC ** \\
   useEffect(() => {
     if (pageState === "Loading") {
       // Start timer
@@ -67,6 +75,22 @@ export default function DeployEntityPage() {
     }
 
   }, [pageState, deployState])
+
+  // ** GET MIN STAKE ** \\
+  useEffect(() => {
+    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    badgeRegistry.baseMinimumStake().then(stake => {
+      setMinStake(stake.toNumber())
+    }).catch(err => {
+      console.log(err)
+    })
+
+  },[])
+
+  function onNext(entityName: string) {
+    setEntityName(entityName)
+    setPageState("RegisterEntity")
+  }
 
   /**
    * This method registers an entity on chain
@@ -152,7 +176,12 @@ export default function DeployEntityPage() {
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
       case "AddEntityInfo":
-        return <DeployEntityEntryView deployEntity={registerEntity}/>
+        return <DeployEntityEntryView onNext={onNext}/>
+      case "RegisterEntity":
+        return <RegisterEntityConfirmationView 
+          entityName={entityName}
+          stake={minStake}
+        />
       case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "Success":
@@ -167,15 +196,19 @@ export default function DeployEntityPage() {
     }
   }
 
+  function getIndexOfCurrentStep(): number {
+    return  pageState === "AddEntityInfo" ? 0 : 1
+  }
+
   return (
     <div className={styles.background}>
       <Navbar sticky={true}/>
-      <PageTitleView title={"Deploy a new entity by minting a Genesis token"}/>
+      <PageTitleView title={"Register an entity on-chain"}/>
       
       <div className={styles.pageContainer}>
         <MultiStepView
           steps={["Add entity info", "Register entity"]}
-          indexOfCurrentStep={0}
+          indexOfCurrentStep={getIndexOfCurrentStep()}
           style={{ marginTop: '30px' }}
         />
         { renderViewBasedOnPageState() }

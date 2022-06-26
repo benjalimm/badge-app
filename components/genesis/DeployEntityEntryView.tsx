@@ -4,15 +4,15 @@ import styles from './DeployEntityEntryView.module.css';
 import sharedStyle from './shared.module.css';
 import cx from 'classnames';
 
-const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Promise<void> }) => {
+const DeployEntityEntryView = ({ onNext } : { onNext: (string) => void }) => {
   const [currentText, setCurrentText] =  useState<string>("");
   
   function onChange(event: React.FormEvent<HTMLInputElement>) {
     setCurrentText(event.currentTarget.value);
   }
 
-  function deploy() {
-    deployEntity(currentText);
+  function next() {
+    onNext(currentText);
   }
 
   return <div className={styles.container}>
@@ -24,7 +24,7 @@ const DeployEntityEntryView = ({ deployEntity } : { deployEntity: (string) => Pr
           <input className={styles.formTextField} type="text" placeholder="Entity name (e.g. Uniswap)" onChange={onChange}/>
         </div>
       </div>
-      <button className={styles.deployButton} onClick={deploy}>
+      <button className={styles.nextButton} onClick={next}>
         Next
       </button>
     </div>
