@@ -1,0 +1,47 @@
+.txContainer {
+  width: 100%;
+  height: auto;
+  padding: 7px 0px;
+  background-color: #F6F6F6;
+  border-radius: 12px;
+  border-width: 0.5px;
+  justify-content: center;
+  align-items: center;
+}
+
+.error {
+  border-color: red;
+  background-color: clear;
+  animation: fadeIn 0.25s ease-in-out;
+}
+
+.errorMessage {
+  font-family: 'Inter';
+  color: red;
+  font-size: 10px;
+  margin-left: 10px;
+  animation: fadeInFromTop 0.25s ease-in-out;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInFromTop {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

@@ -1,5 +1,5 @@
 .container {
-  height: 450px;
+  height: 500px;
   width: 420px;
   background-color: white;
   border-radius: 14px;
@@ -22,31 +22,26 @@
 /* Stake explanation */
 .stakeExplanationContainer {
   width: 85%;
-  margin-top: 20px;
+  margin-top: 0px;
 }
 
 .stakeExplanationHeader {
   font-family: 'Inter';
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: bold;
-  margin-top: 20px;
+  margin-top: 25px;
   color: black;
 }
 
 .stakeExplanationText {
   font-family: 'Inter';
-  font-size: 11px;
+  font-size: 12.5px;
   font-weight: normal;
   margin-top: 5px;
   color: black;
 }
 
-.detailsContainer {
-  width: 350px;
-  height: 100px;
-  background-color: #F6F6F6;
-  border-radius: 12px;
-  border-width: 0.5px;
-  justify-content: center;
-  align-items: center;
+.transactionContainer {
+  margin-top: 25px;
+  width: 360px;
 }

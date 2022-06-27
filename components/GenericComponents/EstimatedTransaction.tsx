@@ -18,7 +18,7 @@ export default function EstimatedTransaction(
     isCryptoPricePending: boolean
   }) {
 
-  const usdValueString = usdValue != null ? `$${usdValue.toFixed(2)}` : '--';
+  const usdValueString = usdValue != null ? `${usdValue.toFixed(2)}` : '--';
   const cryptoValueString = cryptoValue  != null ? `${cryptoValue.toFixed(5)}` : '--';
   
   return <div className={style.estimatedTransaction} style={customStyle}>

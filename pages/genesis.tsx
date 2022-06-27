@@ -15,6 +15,7 @@ import { useSigner, useProvider } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
 import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
+import { weiToEthMultiplier } from '../utils/ethConversionUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -46,8 +47,9 @@ export default function DeployEntityPage() {
   = useState<number>(5) 
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
+  const [randomState, setRandomState] = useState<number>(0);
   
-  // ** WAGMI HOOKS ** \\
+  // ** WAGMI HOOKS ** \\ 
   const { status } = useSession();
   const { data:signer, status: signerStatus } = useSigner()
   const active = status !== "unauthenticated";
@@ -80,17 +82,30 @@ export default function DeployEntityPage() {
   useEffect(() => {
     const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
     badgeRegistry.baseMinimumStake().then(stake => {
+      console.log(`Minimum stake: ${stake}`)
       setMinStake(stake.toNumber())
     }).catch(err => {
-      console.log(err)
+      console.error(err)
     })
 
-  },[])
+  },[randomState])
 
-  function onNext(entityName: string) {
-    setEntityName(entityName)
-    setPageState("RegisterEntity")
-  }
+  /** If the user is not logged in, redirect to landing page */
+  useEffect(() => {
+    if (!active) {
+      // router.push('/')
+    }
+    
+  } , [active])
+
+  // ** TRIGGER RANDOM STATE AFTER 1 SECOND ** \\
+  useEffect(() => {
+    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a random state. When it's called a second time, it works.
+    setTimeout(() => {
+      setRandomState(1)
+    }, 1000)
+
+  },[])
 
   /**
    * This method registers an entity on chain
@@ -165,13 +180,14 @@ export default function DeployEntityPage() {
     
   }
 
-  /** If the user is not logged in, redirect to landing page */
-  useEffect(() => {
-    if (!active) {
-      // router.push('/')
-    }
-    
-  } , [active])
+  function onNext(entityName: string) {
+    setEntityName(entityName)
+    setPageState("RegisterEntity")
+  }
+
+  async function onRegister() {
+    await registerEntity(entityName)
+  }
 
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
@@ -180,7 +196,8 @@ export default function DeployEntityPage() {
       case "RegisterEntity":
         return <RegisterEntityConfirmationView 
           entityName={entityName}
-          stake={minStake}
+          stake={minStake }
+          onRegister={onRegister}
         />
       case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
