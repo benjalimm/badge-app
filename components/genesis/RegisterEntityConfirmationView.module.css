@@ -10,6 +10,7 @@
   justify-content: flex-start;
   flex-direction: column;
   animation: fadeInFromLeft 0.25s ease-in-out forwards;
+  transition-duration: 0.25s;
 }
 
 .entityNameHeader {

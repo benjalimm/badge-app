@@ -7,6 +7,7 @@
 
 .blackBadge {
   margin-top: 30px;
+  height: 50px;
 }
 
 .successHeader {
@@ -69,17 +70,7 @@
 }
 
 .proceedButton {
-  width: 155px;
-  height: 50px;
-  background-color: black;
-  font: 'Inter';
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
-  transition-duration: 0.2s;
-  margin-top: 12%;
+  margin-top: 20px;
 }
 
 @keyframes expand {

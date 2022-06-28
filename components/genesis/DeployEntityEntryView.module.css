@@ -1,13 +1,13 @@
 .container {
-  height: 240px;
+  height: auto;
   width: 420px;
   background-color: white;
   border-radius: 14px;
   margin-top: 30px;
+  padding-bottom: 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-
+  justify-content: flex-start;
   flex-direction: column;
   animation: fadeInFromBottom 0.25s ease-in-out forwards;
 }
@@ -90,7 +90,7 @@
   color: white;
   border-radius: 12px;
   box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+  margin-top: 20px;
   transition-duration: 0.2s;
 }
 

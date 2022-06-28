@@ -5,10 +5,27 @@ import { EntityInfo } from '../../schemas/genesis';
 import Field from '../GenericComponents/Field';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-type ScanInput = { scanLink: string }
-interface Props extends EntityInfo, ScanInput {}
-const DeployEntitySuccessView = 
-({ name, address, genesisTokenHolder, tokenHolderEnsName, scanLink }: Props) => {
+import { BasicButton } from '../GenericComponents/Buttons';
+
+interface Props { 
+  entityName: string;
+  entityAddress: string;
+  genesisTokenHolder: string;
+  genesisHolderEnsName?: string;
+  transactionLink: string;
+  badgeTokenLink: string;
+  permissionTokenLink: string;
+}
+export default function  DeployEntitySuccessView 
+({ 
+  entityName, 
+  entityAddress, 
+  genesisTokenHolder, 
+  genesisHolderEnsName, 
+  transactionLink,
+  permissionTokenLink,
+  badgeTokenLink
+}: Props)  {
   const router = useRouter();
 
   function proceed() {
@@ -17,18 +34,18 @@ const DeployEntitySuccessView =
 
   return <div className={cx(sharedStyle.entryContainer, style.successContainer)}>
     <img className={style.blackBadge} src="images/generic/success.svg"/>
-    <h1 className={style.successHeader}>Entity successfully deployed on-chain</h1>
+    <h1 className={style.successHeader}>Entity successfully registered on-chain</h1>
     <h1 className={style.successSubheader}>Genesis token minted to your wallet</h1>
     <div className={style.successEntityDetailsContainer}>
       <h1 className={style.successEntityDetailsHeader}>Details</h1>
       <Field 
-        title="Entity address" 
-        value={address}
+        title="Entity name" 
+        value={entityName}
         className={style.successDetailsFieldContainer}
       />
       <Field 
-        title="Entity name" 
-        value={name}
+        title="Entity address" 
+        value={entityAddress}
         className={style.successDetailsFieldContainer}
       />
       <Field 
@@ -37,19 +54,17 @@ const DeployEntitySuccessView =
         className={style.successDetailsFieldContainer}
       />
       <Field 
-        title="Etherscan url" 
-        value={scanLink}
+        title="Transaction link" 
+        value={transactionLink}
         className={style.successDetailsFieldContainer}
         isLink={true}
       />
 
     </div>
-    <button 
+    <BasicButton 
       className={style.proceedButton} 
-      onClick={proceed}>
-      Proceed
-    </button>
+      onClick={proceed} 
+      text={"Proceed"}
+    />
   </div>
 }
-
-export default DeployEntitySuccessView;

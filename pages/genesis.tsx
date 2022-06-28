@@ -38,7 +38,9 @@ export default function DeployEntityPage() {
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: ""
+    genesisTokenHolder: "",
+    badgeToken: "",
+    permissionToken: ""
   }); // After registstration 
   const [minStake, setMinStake] = useState<BigNumber | null>(null);
   const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(null);
@@ -185,7 +187,7 @@ export default function DeployEntityPage() {
       console.log(`Min stake amount: ${minStakeAmount}`)
 
       // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
-      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 
@@ -193,7 +195,9 @@ export default function DeployEntityPage() {
         setEntityInfo({
           address: entityAddress,
           name: entityName,
-          genesisTokenHolder: genesisTokenHolder
+          genesisTokenHolder,
+          badgeToken,
+          permissionToken
         })
 
         // 6.2. Set entity info for local storage -> IMPORTANT
@@ -248,11 +252,14 @@ export default function DeployEntityPage() {
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
       case "Success":
         return <DeployEntitySuccessView 
-          name={entityInfo.name} 
-          address={entityInfo.address} 
+          entityName={entityInfo.name} 
+          entityAddress={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
-          tokenHolderEnsName={entityInfo.tokenHolderEnsName}
-          scanLink={getScanUrl(currentChain, txHash, 'Transaction')}
+          genesisHolderEnsName={entityInfo.tokenHolderEnsName}
+          transactionLink={getScanUrl(currentChain, txHash, 'Transaction')}
+          permissionTokenLink={getScanUrl(currentChain, entityInfo.permissionToken, 'Token')}
+          badgeTokenLink={getScanUrl(currentChain, entityInfo.badgeToken, 'Token')}
+
         />
       default:
         return <div>Unknown Page State</div>
