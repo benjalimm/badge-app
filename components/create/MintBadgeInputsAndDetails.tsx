@@ -74,9 +74,6 @@ function TransactionDetails(
     badgePriceInEth: number,
     ethPrice: number 
   }) {
-    
-  // const [gasUsdPrice, setGasUsdPrice] = useState<number | null>(null);
-  // const [badgeUsdPrice, setBadgePriceUsdPrice] = useState<number | null>(null);
 
   return <div className={style.transactionDetails}>
     <h1 className={style.transactionDetailsHeader}>Transaction details</h1>
