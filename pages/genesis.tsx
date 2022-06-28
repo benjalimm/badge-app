@@ -239,6 +239,7 @@ export default function DeployEntityPage() {
           gasFees={estimatedGasFees}
           onRegister={onRegister}
           enoughETH={enoughETH}
+          onBack={() => setPageState("AddEntityInfo")}
         />
       case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>

@@ -6,7 +6,7 @@ import ProgressBar from '../GenericComponents/ProgressBar';
 const DeployEntityLoadingView = (
   { loadingPercentage }:
   { loadingPercentage: number }) => {
-  return <div className={sharedStyle.entryContainer} 
+  return <div className={style.container} 
     style={{ height: '200px', justifyContent: 'center' }}>
     <div style={{ width: '90%', marginTop: '0px'}}>
       <ProgressBar
