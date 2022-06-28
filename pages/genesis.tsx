@@ -7,7 +7,7 @@ import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
-import { badgeContractAddress } from '../configs/blockchainConfig';
+import { badgeContractAddress, currentChain } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
@@ -16,6 +16,7 @@ import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typecha
 import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
+import { getScanUrl } from '../utils/chainUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -50,6 +51,7 @@ export default function DeployEntityPage() {
   useState<DeployState>("STARTED_IPFS_UPLOAD")
   const [randomState, setRefresh] = useState<number>(0);
   const [enoughETH, setEnoughETHStatus] = useState<boolean>(true);
+  const [txHash, setTxHash] = useState<string>("");
   
   // ** WAGMI HOOKS ** \\ 
   const { status } = useSession();
@@ -208,7 +210,8 @@ export default function DeployEntityPage() {
       })
       
       // 7. Execute registration
-      await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+      const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+      setTxHash(transaction.hash)
 
       // 8. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
@@ -249,6 +252,7 @@ export default function DeployEntityPage() {
           address={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
           tokenHolderEnsName={entityInfo.tokenHolderEnsName}
+          scanLink={getScanUrl(currentChain, txHash, 'Transaction')}
         />
       default:
         return <div>Unknown Page State</div>

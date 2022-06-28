@@ -9,7 +9,7 @@
   justify-content: space-between;
 
   flex-direction: column;
-  animation: fadeInFromLeft 0.25s ease-in-out forwards;
+  animation: fadeInFromBottom 0.25s ease-in-out forwards;
 }
 
 .content {
@@ -99,15 +99,15 @@
   transition-duration: 0.2s;
 }
 
-@keyframes fadeInFromLeft {
+@keyframes fadeInFromBottom {
   0% {
     opacity: 0;
-    transform: translateX(-40px);
+    transform: translateY(40px);
   }
 
   100% {
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateY(0px);
   }
 
 }

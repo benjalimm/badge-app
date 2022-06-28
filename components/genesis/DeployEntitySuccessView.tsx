@@ -5,9 +5,10 @@ import { EntityInfo } from '../../schemas/genesis';
 import Field from '../GenericComponents/Field';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-
+type ScanInput = { scanLink: string }
+interface Props extends EntityInfo, ScanInput {}
 const DeployEntitySuccessView = 
-({ name, address, genesisTokenHolder, tokenHolderEnsName }: EntityInfo) => {
+({ name, address, genesisTokenHolder, tokenHolderEnsName, scanLink }: Props) => {
   const router = useRouter();
 
   function proceed() {
@@ -35,6 +36,13 @@ const DeployEntitySuccessView =
         value={genesisTokenHolder}
         className={style.successDetailsFieldContainer}
       />
+      <Field 
+        title="Etherscan url" 
+        value={scanLink}
+        className={style.successDetailsFieldContainer}
+        isLink={true}
+      />
+
     </div>
     <button 
       className={style.proceedButton} 
