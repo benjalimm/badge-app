@@ -1,3 +1,27 @@
+.container {
+  height: auto;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  animation: fadeInFromBottom 0.25s ease-in-out forwards;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+
 .entryContainerTopGradientSection {
   height: 40%;
   width: 95%;
@@ -6,7 +30,6 @@
   border-radius: 5px;
   overflow: hidden;
 }
-
 
 .noise {
   overflow: hidden;
@@ -57,7 +80,7 @@
   margin-left: 15px;
 }
 
-.deployButton {
+.nextButton {
   width: 155px;
   height: 50px;
   background-color: black;
@@ -67,11 +90,35 @@
   color: white;
   border-radius: 12px;
   box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
-  margin-bottom: 20px;
+  margin-top: 20px;
   transition-duration: 0.2s;
 }
 
-.deployButton:hover {
+.nextButton:hover {
   width: 175px;
   transition-duration: 0.2s;
+}
+
+@keyframes fadeInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
 }

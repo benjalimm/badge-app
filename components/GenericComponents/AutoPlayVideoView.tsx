@@ -10,3 +10,4 @@ export default function AutoPlayVideoView({ source, className, children }:
     </video>` 
   }}/>
 }
+

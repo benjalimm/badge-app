@@ -315,17 +315,19 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
 
   events: {
-    "EntityRegistered(address,string,address)": EventFragment;
+    "EntityRegistered(address,string,address,address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "EntityRegistered"): EventFragment;
 }
 
 export type EntityRegisteredEvent = TypedEvent<
-  [string, string, string] & {
+  [string, string, string, string, string] & {
     entityAddress: string;
     entityName: string;
     genesisTokenHolder: string;
+    permissionToken: string;
+    badgeToken: string;
   }
 >;
 
@@ -740,22 +742,38 @@ export class BadgeRegistry extends BaseContract {
   };
 
   filters: {
-    "EntityRegistered(address,string,address)"(
+    "EntityRegistered(address,string,address,address,address)"(
       entityAddress?: null,
       entityName?: null,
-      genesisTokenHolder?: null
+      genesisTokenHolder?: null,
+      permissionToken?: null,
+      badgeToken?: null
     ): TypedEventFilter<
-      [string, string, string],
-      { entityAddress: string; entityName: string; genesisTokenHolder: string }
+      [string, string, string, string, string],
+      {
+        entityAddress: string;
+        entityName: string;
+        genesisTokenHolder: string;
+        permissionToken: string;
+        badgeToken: string;
+      }
     >;
 
     EntityRegistered(
       entityAddress?: null,
       entityName?: null,
-      genesisTokenHolder?: null
+      genesisTokenHolder?: null,
+      permissionToken?: null,
+      badgeToken?: null
     ): TypedEventFilter<
-      [string, string, string],
-      { entityAddress: string; entityName: string; genesisTokenHolder: string }
+      [string, string, string, string, string],
+      {
+        entityAddress: string;
+        entityName: string;
+        genesisTokenHolder: string;
+        permissionToken: string;
+        badgeToken: string;
+      }
     >;
   };
 

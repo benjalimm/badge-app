@@ -1,10 +1,13 @@
 .successContainer {
-  height: 580px;
+  height: auto;
+  padding-bottom: 20px;
+  animation: expand 0.25s ease-in-out;
 }
 
 
 .blackBadge {
   margin-top: 30px;
+  height: 50px;
 }
 
 .successHeader {
@@ -26,11 +29,12 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 42%;
+  height: auto;
   width: 80%;
   background-color: #F6F6F6;
   border-radius: 10px;
   margin-top: 20px;
+  padding-bottom: 20px;
 }
 
 .successEntityDetailsHeader {
@@ -44,6 +48,7 @@
 .successDetailsFieldContainer {
   margin-top: 10px;
   margin-left: 16px;
+  width: 95%;
 }
 
 .successDetailsFieldHeader {
@@ -59,21 +64,24 @@
   color: black;
   padding-right: 10px;
   word-wrap: break-word;
-  max-width: 310px;
+  width: 310px;
   display: block;
   margin-top: 2px;
 }
 
 .proceedButton {
-  width: 155px;
-  height: 50px;
-  background-color: black;
-  font: 'Inter';
-  font-size: 20px;
-  font-weight: bold;
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
-  transition-duration: 0.2s;
-  margin-top: 12%;
+  margin-top: 20px;
+}
+
+@keyframes expand {
+  0% {
+    opacity: 0;
+    height: 200px;
+  }
+
+  100% {
+    opacity: 1;
+    height: 580px;
+  }
+
 }
