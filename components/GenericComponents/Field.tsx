@@ -13,7 +13,13 @@ export default function Field(
       link ? 
         <a 
           className={cx(style.fieldValue, style.link)} 
-          href={value}>{value}</a> : 
+          href={value}
+          target="_blank" rel="noreferrer"
+        >
+          {value}
+          
+        </a>
+        : 
         <span 
           className={style.fieldValue}>
           {value}

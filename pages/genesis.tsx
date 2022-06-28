@@ -7,17 +7,22 @@ import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
 import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
 import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
 import { EntityInfo } from '../schemas/genesis';
-import { badgeContractAddress } from '../configs/blockchainConfig';
+import { badgeContractAddress, currentChain } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
-import { useSigner, useProvider } from 'wagmi';
+import { useSigner, useProvider, useAccount } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
+import MultiStepView from '../components/GenericComponents/MultiStepView';
+import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
+import { BigNumber } from 'ethers';
+import { getScanUrl } from '../utils/chainUtils';
 
 type PageState = 
-"ENTRY" | 
-"LOADING" |
-"SUCCESS"
+"AddEntityInfo" | 
+"RegisterEntity" |
+"Loading" |
+"Success"
 
 type DeployState = 
 "STARTED_IPFS_UPLOAD" | 
@@ -27,24 +32,43 @@ type DeployState =
 
 export default function DeployEntityPage() {
   const router = useRouter();
-  const { status } = useSession();
-  const [pageState, setPageState] = useState<PageState>("ENTRY")
+
+  // ** ENTITY INFO ** \\
+  const [entityName, setEntityName] = useState<string>(""); // Before registration
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: "a"
-  });
-  const active = status !== "unauthenticated";
-  const { data:signer, status: signerStatus } = useSigner()
-  
+    genesisTokenHolder: "",
+    badgeToken: "",
+    permissionToken: ""
+  }); // After registstration 
+  const [minStake, setMinStake] = useState<BigNumber | null>(null);
+  const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(null);
+
+  // ** PAGE STATE INFO ** \\
+  const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
+  const [randomState, setRefresh] = useState<number>(0);
+  const [enoughETH, setEnoughETHStatus] = useState<boolean>(true);
+  const [txHash, setTxHash] = useState<string>("");
+  
+  // ** WAGMI HOOKS ** \\ 
+  const { status } = useSession();
+  const { data: accountData } = useAccount();
+  const { data:signer, status: signerStatus } = useSigner()
+  const provider = useProvider();
+  const active = status !== "unauthenticated";
 
-  /** Progress view timer */
+  /**
+   * USE EFFECTS
+   */
+
+  // ** PROGRESS VIEW LOGIC ** \\
   useEffect(() => {
-    if (pageState === "LOADING") {
+    if (pageState === "Loading") {
       // Start timer
       const startPercentage = 5
       const endPercentage = 95
@@ -65,6 +89,66 @@ export default function DeployEntityPage() {
     }
 
   }, [pageState, deployState])
+
+  // ** GET MIN STAKE ** \\
+  useEffect(() => {
+    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    badgeRegistry.baseMinimumStake().then(stake => {
+      console.log(`Minimum stake: ${stake}`)
+      setMinStake(stake)
+    }).catch(err => {
+      console.error(err)
+    })
+
+  },[randomState])
+
+  // ** ESTIMATE GAS FEES ** \\
+  useEffect(() => {
+    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    badgeRegistry.estimateGas.registerEntity(entityName, "", true, { value: minStake }).then(gas => {
+      setEstimatedGasFees(gas)
+    }).catch(err => {
+      console.error(err)
+    })
+
+  }, [minStake])
+
+  useEffect(() => {
+    provider.getBalance(accountData!.address!).then(balance => {
+      console.log("FOO")
+      const enough = !balance.lt(minStake);
+      console.log(`EnoughETH ${enough}`)
+      setEnoughETHStatus(enough)
+    }).catch(err => {
+      console.log("Error with getting account balance")
+      console.error(err);
+    })
+
+  }, [randomState])
+
+  // ** If the user is not logged in, redirect to landing page ** \\
+  useEffect(() => {
+    if (!active) {
+      // router.push('/')
+    }
+    
+  } , [active])
+
+  // TODO: FIX THIS
+  // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
+  useEffect(() => {
+    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
+    setTimeout(() => {
+      setRefresh(Math.random())
+    }, 1000)
+
+  },[])
+
+  /***********/
+
+  /**
+   * COMPONENT FUNCTIONS 
+   */
 
   /**
    * This method registers an entity on chain
@@ -103,7 +187,7 @@ export default function DeployEntityPage() {
       console.log(`Min stake amount: ${minStakeAmount}`)
 
       // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
-      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string) => {
+      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 
@@ -111,7 +195,9 @@ export default function DeployEntityPage() {
         setEntityInfo({
           address: entityAddress,
           name: entityName,
-          genesisTokenHolder: genesisTokenHolder
+          genesisTokenHolder,
+          badgeToken,
+          permissionToken
         })
 
         // 6.2. Set entity info for local storage -> IMPORTANT
@@ -122,54 +208,81 @@ export default function DeployEntityPage() {
         })
 
         // 6.3. Set page state to success, this will change the state to the receipt view
-        if (pageState !== "SUCCESS") {
-          setPageState("SUCCESS");
+        if (pageState !== "Success") {
+          setPageState("Success");
         }
       })
       
       // 7. Execute registration
-      await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+      const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+      setTxHash(transaction.hash)
 
       // 8. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
-      setPageState("LOADING")
+      setPageState("Loading")
     } catch (error) {
       console.error(error)
     }
     
   }
 
-  /** If the user is not logged in, redirect to landing page */
-  useEffect(() => {
-    if (!active) {
-      // router.push('/')
-    }
-    
-  } , [active])
+  function onNext(entityName: string) {
+    setEntityName(entityName)
+    setPageState("RegisterEntity")
+  }
+
+  async function onRegister() {
+    await registerEntity(entityName)
+  }
 
   function renderViewBasedOnPageState(): ReactElement {
     switch (pageState) {
-      case "ENTRY":
-        return <DeployEntityEntryView deployEntity={registerEntity}/>
-      case "LOADING":
+      case "AddEntityInfo":
+        return <DeployEntityEntryView onNext={onNext}/>
+      case "RegisterEntity":
+        return <RegisterEntityConfirmationView 
+          entityName={entityName}
+          stake={minStake}
+          gasFees={estimatedGasFees}
+          onRegister={onRegister}
+          enoughETH={enoughETH}
+          onBack={() => setPageState("AddEntityInfo")}
+        />
+      case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
-      case "SUCCESS":
+      case "Success":
         return <DeployEntitySuccessView 
-          name={entityInfo.name} 
-          address={entityInfo.address} 
+          entityName={entityInfo.name} 
+          entityAddress={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
-          tokenHolderEnsName={entityInfo.tokenHolderEnsName}
+          genesisHolderEnsName={entityInfo.tokenHolderEnsName}
+          transactionLink={getScanUrl(currentChain, txHash, 'Transaction')}
+          permissionTokenLink={getScanUrl(currentChain, entityInfo.permissionToken, 'Token')}
+          badgeTokenLink={getScanUrl(currentChain, entityInfo.badgeToken, 'Token')}
+
         />
       default:
         return <div>Unknown Page State</div>
     }
   }
 
+  function getIndexOfCurrentStep(): number {
+    return  pageState === "AddEntityInfo" ? 0 : 1
+  }
+
+  /***********/
+
   return (
     <div className={styles.background}>
       <Navbar sticky={true}/>
-      <PageTitleView title={"Deploy a new entity by minting a Genesis token"}/>
+      <PageTitleView title={"Register an entity on-chain"}/>
+      
       <div className={styles.pageContainer}>
+        <MultiStepView
+          steps={["Add entity info", "Register entity"]}
+          indexOfCurrentStep={getIndexOfCurrentStep()}
+          style={{ marginTop: '30px' }}
+        />
         { renderViewBasedOnPageState() }
       </div>
     </div>
