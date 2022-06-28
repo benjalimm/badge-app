@@ -11,11 +11,11 @@ import { badgeContractAddress } from '../configs/blockchainConfig';
 import { setCurrentEntity } from '../utils/entityLocalState';
 import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
-import { useSigner, useProvider } from 'wagmi';
+import { useSigner, useProvider, useAccount } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
 import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
-import { weiToEthMultiplier } from '../utils/ethConversionUtils';
+import { BigNumber } from 'ethers';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -37,9 +37,10 @@ export default function DeployEntityPage() {
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: "a"
+    genesisTokenHolder: ""
   }); // After registstration 
-  const [minStake, setMinStake] = useState<number | null>(null);
+  const [minStake, setMinStake] = useState<BigNumber | null>(null);
+  const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(null);
 
   // ** PAGE STATE INFO ** \\
   const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
@@ -47,12 +48,19 @@ export default function DeployEntityPage() {
   = useState<number>(5) 
   const [deployState, setDeployState] = 
   useState<DeployState>("STARTED_IPFS_UPLOAD")
-  const [randomState, setRandomState] = useState<number>(0);
+  const [randomState, setRefresh] = useState<number>(0);
+  const [enoughETH, setEnoughETHStatus] = useState<boolean>(true);
   
   // ** WAGMI HOOKS ** \\ 
   const { status } = useSession();
+  const { data: accountData } = useAccount();
   const { data:signer, status: signerStatus } = useSigner()
+  const provider = useProvider();
   const active = status !== "unauthenticated";
+
+  /**
+   * USE EFFECTS
+   */
 
   // ** PROGRESS VIEW LOGIC ** \\
   useEffect(() => {
@@ -83,14 +91,38 @@ export default function DeployEntityPage() {
     const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
     badgeRegistry.baseMinimumStake().then(stake => {
       console.log(`Minimum stake: ${stake}`)
-      setMinStake(stake.toNumber())
+      setMinStake(stake)
     }).catch(err => {
       console.error(err)
     })
 
   },[randomState])
 
-  /** If the user is not logged in, redirect to landing page */
+  // ** ESTIMATE GAS FEES ** \\
+  useEffect(() => {
+    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    badgeRegistry.estimateGas.registerEntity(entityName, "", true, { value: minStake }).then(gas => {
+      setEstimatedGasFees(gas)
+    }).catch(err => {
+      console.error(err)
+    })
+
+  }, [minStake])
+
+  useEffect(() => {
+    provider.getBalance(accountData!.address!).then(balance => {
+      console.log("FOO")
+      const enough = !balance.lt(minStake);
+      console.log(`EnoughETH ${enough}`)
+      setEnoughETHStatus(enough)
+    }).catch(err => {
+      console.log("Error with getting account balance")
+      console.error(err);
+    })
+
+  }, [randomState])
+
+  // ** If the user is not logged in, redirect to landing page ** \\
   useEffect(() => {
     if (!active) {
       // router.push('/')
@@ -98,14 +130,21 @@ export default function DeployEntityPage() {
     
   } , [active])
 
-  // ** TRIGGER RANDOM STATE AFTER 1 SECOND ** \\
+  // TODO: FIX THIS
+  // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
   useEffect(() => {
-    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a random state. When it's called a second time, it works.
+    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
     setTimeout(() => {
-      setRandomState(1)
+      setRefresh(Math.random())
     }, 1000)
 
   },[])
+
+  /***********/
+
+  /**
+   * COMPONENT FUNCTIONS 
+   */
 
   /**
    * This method registers an entity on chain
@@ -196,8 +235,10 @@ export default function DeployEntityPage() {
       case "RegisterEntity":
         return <RegisterEntityConfirmationView 
           entityName={entityName}
-          stake={minStake }
+          stake={minStake}
+          gasFees={estimatedGasFees}
           onRegister={onRegister}
+          enoughETH={enoughETH}
         />
       case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
@@ -216,6 +257,8 @@ export default function DeployEntityPage() {
   function getIndexOfCurrentStep(): number {
     return  pageState === "AddEntityInfo" ? 0 : 1
   }
+
+  /***********/
 
   return (
     <div className={styles.background}>

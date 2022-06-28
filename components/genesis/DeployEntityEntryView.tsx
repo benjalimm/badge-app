@@ -4,7 +4,7 @@ import styles from './DeployEntityEntryView.module.css';
 import sharedStyle from './shared.module.css';
 import cx from 'classnames';
 
-const DeployEntityEntryView = ({ onNext } : { onNext: (string) => void }) => {
+const DeployEntityEntryView = ({ onNext } : { onNext: (entityName: string) => void }) => {
   const [currentText, setCurrentText] =  useState<string>("");
   
   function onChange(event: React.FormEvent<HTMLInputElement>) {

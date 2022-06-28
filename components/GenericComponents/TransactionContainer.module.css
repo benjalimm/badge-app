@@ -10,14 +10,14 @@
 }
 
 .error {
-  border-color: red;
+  border-color: var(--warning-red);
   background-color: clear;
   animation: fadeIn 0.25s ease-in-out;
 }
 
 .errorMessage {
   font-family: 'Inter';
-  color: red;
+  color: var(--warning-red);
   font-size: 10px;
   margin-left: 10px;
   animation: fadeInFromTop 0.25s ease-in-out;

@@ -81,26 +81,23 @@ function TransactionDetails(
     <div className={style.detailsContainer}>
       <EstimatedTransaction
         name="BADGE COST"
-        usdValue={badgeUsdPrice}
-        cryptoValue={badgePriceInEth}
-        cryptoSymbol="ETH"
+        usdValue={`${badgeUsdPrice} USD`}
+        cryptoValue={`${badgePriceInEth} ETH`}
         customStyle={{ marginTop: '15px' }}
         isCryptoPricePending={false}
         isUSDPricePending={badgeUsdPrice === null}
       />
       <EstimatedTransaction
         name="EST. GAS"
-        usdValue={gasUsdPrice}
-        cryptoValue={gasFeesInEth}
-        cryptoSymbol="ETH"
+        usdValue={`${gasUsdPrice} USD`}
+        cryptoValue={`${gasFeesInEth} ETH`}
         isCryptoPricePending={false}
         isUSDPricePending={gasUsdPrice === null}
       />
       <EstimatedTransaction
         name="TOTAL"
-        usdValue={badgeUsdPrice + gasUsdPrice}
-        cryptoValue={(gasFeesInEth + badgePriceInEth)}
-        cryptoSymbol="ETH"
+        usdValue={`${badgeUsdPrice} + ${gasUsdPrice} USD`}
+        cryptoValue={(`${gasFeesInEth} + ${badgePriceInEth} ETH`)}
         customStyle={{ marginTop: '15px'}}
         isCryptoPricePending={false}
         isUSDPricePending={(badgeUsdPrice === null) && (gasUsdPrice === null)}
