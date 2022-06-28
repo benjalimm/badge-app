@@ -16,7 +16,7 @@ import { checkIfTransactionisSuccessful } from '../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../utils/priceOracleUtils';
-import { weiToEthMultiplier } from '../utils/ethConversionUtils';
+import { convertWeiBigNumberToEth, weiToEthMultiplier } from '../utils/ethConversionUtils';
 
 export default function CreateBadgeView() {
   
@@ -169,7 +169,7 @@ export default function CreateBadgeView() {
     // 2. Estimate gas 
     /// Note: You should be able to enter in no ether with a level 0 Badge 
     const estimation = await entity.estimateGas.mintBadge("0x15eDb84992cd6E3ed4f0461B0Fbe743AbD1eA7b5", 0, "fakeURL", { value: 0})
-    return estimation.toNumber() * weiToEthMultiplier;
+    return convertWeiBigNumberToEth(estimation);
   }
 
   // ** MINT BADGE ** \\
