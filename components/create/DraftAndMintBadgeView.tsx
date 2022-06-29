@@ -114,7 +114,9 @@ export default function DraftAndMintBadgeView({
           title={getTitle()}
           content={getDescription()}
           videoSource={currentlySelectedMedia.url}
-          profilePhotoSource={cardData.profilePhotoSource}
+          level={badgeLevel}
+          entityName={currentEntity.name}
+          walletAddress={walletAddress}
         />
         <button 
           className={cx(style.backButton, 

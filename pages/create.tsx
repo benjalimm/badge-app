@@ -235,7 +235,7 @@ export default function CreateBadgeView() {
       // 5. Mint Badge + set page state to loading
       const transaction = await entity.mintBadge(
         recipientAddress, 
-        badgeData.level, 
+        badgeData.level,
         url,
         { value: badgePriceInWei }
       );
