@@ -7,6 +7,7 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
 import { calculateBadgePrice } from '../../utils/priceOracleUtils';
+import USDConverter from '../../utils/USDConverter';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -17,7 +18,7 @@ export default function DraftBadgeForm({
   badgeDescription,
   badgeLevel,
   setBadgeLevel,
-  baseBadgePrice
+  baseBadgePriceInEth
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
@@ -27,18 +28,22 @@ export default function DraftBadgeForm({
   badgeDescription: string,
   badgeLevel: number,
   setBadgeLevel: (level: number) => void,
-  baseBadgePrice: number
+  baseBadgePriceInEth: number
 }) {
 
   // ** ETH PRICE INFO ** \\
   const [ethPrice, setEthPrice] = useState<number>(0);
+  const [subscriptionId, setSubscriptionId] = useState<number>(0);
 
   useEffect(() => {
-    getEthUSDPrice().then(_ethPrice => {
+    // Listen to latest eth price updates
+    const id = USDConverter.subscribeToEthUSDPriceUpdates(_ethPrice => {
       setEthPrice(_ethPrice);
-    }).catch(err => {
-      console.error(err);
     })
+    setSubscriptionId(id);
+    return () => {
+      USDConverter.stopSubscribing(subscriptionId);
+    }
   }, [])
 
   return <div className={style.formContainer}>
@@ -64,7 +69,7 @@ export default function DraftBadgeForm({
     />
     <BadgeLevelListBox 
       badgeLevel={badgeLevel} 
-      baseBadgePriceInWei={baseBadgePrice}
+      baseBadgePriceInEth={baseBadgePriceInEth}
       ethPriceInUSD={ethPrice}
       setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
@@ -82,11 +87,11 @@ function BadgeLevelListBox(
   { 
     badgeLevel, 
     setBadgeLevel, 
-    baseBadgePriceInWei, 
+    baseBadgePriceInEth, 
     ethPriceInUSD
   } : { 
     badgeLevel: number, 
-    baseBadgePriceInWei: number, 
+    baseBadgePriceInEth: number, 
     ethPriceInUSD: number, 
     setBadgeLevel: (level: number) => void 
   }) {
@@ -94,8 +99,7 @@ function BadgeLevelListBox(
   let supportedLevels = [0, 1, 2, 3, 4, 5]
 
   function getBadgePrice(currency: "USD" | "ETH", level: number): number {
-    const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, level)
-    const badgePriceInEth = badgePriceInWei / 1000000000000000000;
+    const badgePriceInEth = calculateBadgePrice(baseBadgePriceInEth, level)
     return currency == "ETH" ? badgePriceInEth : badgePriceInEth * ethPriceInUSD;
   }
 

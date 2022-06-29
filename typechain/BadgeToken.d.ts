@@ -34,7 +34,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "getTimestampForBadge(uint256)": FunctionFragment;
     "getXPForBadge(uint256)": FunctionFragment;
     "isApprovedForAll(address,address)": FunctionFragment;
-    "mintBadge(address,uint256,uint256,string)": FunctionFragment;
+    "mintBadge(address,uint8,uint256,string)": FunctionFragment;
     "name()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
     "recover(uint256)": FunctionFragment;

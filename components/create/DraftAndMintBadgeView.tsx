@@ -21,8 +21,8 @@ export default function DraftAndMintBadgeView({
   onMintAndSendBadge,
   pageState,
   gasFeesInEth,
-  baseBadgePrice,
-  finalBadgePrice,
+  baseBadgePriceInEth,
+  finalBadgePriceInEth,
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
@@ -30,8 +30,8 @@ export default function DraftAndMintBadgeView({
   onBackToDraft: () => void,
   pageState: PageState,
   gasFeesInEth: number
-  baseBadgePrice: number,
-  finalBadgePrice: number
+  baseBadgePriceInEth: number,
+  finalBadgePriceInEth: number
 }) {
 
   //** DRAFT BADGE INFORMATION **\\
@@ -134,7 +134,7 @@ export default function DraftAndMintBadgeView({
               email={email}  
               onWalletAddressChange={onWalletAddressChange}
               onEmailChange={onEmailChange}
-              badgePriceInEth={finalBadgePrice * weiToEthMultiplier}
+              badgePriceInEth={baseBadgePriceInEth}
               gasFeesInEth={gasFeesInEth}
             /> :
             ((!isMediaCatalogueVisible) ? 
@@ -147,7 +147,7 @@ export default function DraftAndMintBadgeView({
                 badgeDescription={badgeDescription}
                 badgeLevel={badgeLevel}
                 setBadgeLevel={setBadgeLevel}
-                baseBadgePrice={baseBadgePrice}
+                baseBadgePriceInEth={baseBadgePriceInEth}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}

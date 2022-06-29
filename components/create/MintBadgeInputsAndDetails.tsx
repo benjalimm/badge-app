@@ -25,9 +25,9 @@ export function MintBadgeInputsAndDetails({
 
   const [subscriptionId, setSubscriptionId] = useState(0);
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
-  // ** LISTEN TO ETH TO USD PRICE UPDATES ** \\
-  useEffect(() => {
   
+  useEffect(() => {
+    // Listen to eth price updates
     const subId = USDConverter.subscribeToEthUSDPriceUpdates((ethToUsd) => {
       console.log(`Got new eth to usd multiplier: ${ethToUsd}`);
       setEthToUsd(ethToUsd);

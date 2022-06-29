@@ -26,7 +26,7 @@ interface IBadgeTokenInterface extends ethers.utils.Interface {
     "getEntity()": FunctionFragment;
     "getTimestampForBadge(uint256)": FunctionFragment;
     "getXPForBadge(uint256)": FunctionFragment;
-    "mintBadge(address,uint256,uint256,string)": FunctionFragment;
+    "mintBadge(address,uint8,uint256,string)": FunctionFragment;
     "resetBadgeURI(uint256,string)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
   };

@@ -16,7 +16,8 @@ import { checkIfTransactionisSuccessful } from '../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../utils/priceOracleUtils';
-import { convertWeiBigNumberToEth, weiToEthMultiplier } from '../utils/ethConversionUtils';
+import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../utils/ethConversionUtils';
+import { ethers } from 'ethers';
 
 export default function CreateBadgeView() {
   
@@ -35,7 +36,7 @@ export default function CreateBadgeView() {
   const currentEntityInfo = getCurrentEntity();
 
   // ** BASE BADGE PRICE ** \\
-  const [baseBadgePrice, setBaseBadgePrice] = useState<number>(0);
+  const [baseBadgePriceInEth, setBaseBadgePriceInEth] = useState<number>(0);
 
   // ** WAGMI HOOKS ** \\
   const { data: signer, status: signerStatus, isLoading, isSuccess } = useSigner()
@@ -45,7 +46,8 @@ export default function CreateBadgeView() {
   const [shouldPoll, setShouldPoll] = useState<boolean>(false)
 
   function getFinalBadgePrice(): number {
-    return calculateBadgePrice(baseBadgePrice, badgeData?.level || 0)
+    console.log("Get final badge price")
+    return calculateBadgePrice(baseBadgePriceInEth, badgeData?.level || 0)
   }
 
   // ** LOADING INDICATOR LOGIC ** \\
@@ -117,7 +119,7 @@ export default function CreateBadgeView() {
 
     }
     
-  }, [sessionStatus, pageState])
+  }, [randomState])
 
   // ** GET BASE BADGE PRICE ** \\
   useEffect(() => {
@@ -127,7 +129,8 @@ export default function CreateBadgeView() {
       
       getBaseBadgePrice(signer).then(price => {
         console.log(`Base badge price: ${price}`);
-        setBaseBadgePrice(price);
+        const eth = convertWeiBigNumberToEth(price)
+        setBaseBadgePriceInEth(eth);
       }).catch(err => {
         
         console.log(`Error setting base badge price: ${JSON.stringify(err)}`)
@@ -223,13 +226,18 @@ export default function CreateBadgeView() {
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
       })
+
+      const badgePriceInEth = getFinalBadgePrice()
+      console.log(`Final badge price in eth: ${badgePriceInEth}`)
+      const badgePriceInWei = badgePriceInEth * ethToWeiMultiplier;
+      console.log(`Final badge price in wei: ${badgePriceInWei}`);
       
       // 5. Mint Badge + set page state to loading
       const transaction = await entity.mintBadge(
         recipientAddress, 
         badgeData.level, 
         url,
-        { value: getFinalBadgePrice()}
+        { value: badgePriceInWei }
       );
       setPageState("LoadingMintBadge");
       
@@ -262,8 +270,8 @@ export default function CreateBadgeView() {
           pageState={pageState}
           onBackToDraft={onBackToDraft}
           gasFeesInEth={estimatedGasFeesInEth}
-          baseBadgePrice={baseBadgePrice}
-          finalBadgePrice={getFinalBadgePrice()}
+          baseBadgePriceInEth={baseBadgePriceInEth}
+          finalBadgePriceInEth={getFinalBadgePrice()}
         />
 
     }
