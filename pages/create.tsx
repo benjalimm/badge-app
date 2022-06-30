@@ -228,16 +228,13 @@ export default function CreateBadgeView() {
       })
 
       const badgePriceInEth = getFinalBadgePrice()
-      console.log(`Final badge price in eth: ${badgePriceInEth}`)
-      const badgePriceInWei = badgePriceInEth * ethToWeiMultiplier;
-      console.log(`Final badge price in wei: ${badgePriceInWei}`);
       
       // 5. Mint Badge + set page state to loading
       const transaction = await entity.mintBadge(
         recipientAddress, 
         badgeData.level,
         url,
-        { value: badgePriceInWei }
+        { value: ethers.utils.parseEther(`${badgePriceInEth}`) }
       );
       setPageState("LoadingMintBadge");
       

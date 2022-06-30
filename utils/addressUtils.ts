@@ -16,7 +16,7 @@ export function isValidEthAddress(address: string | null | undefined): boolean {
 export function isEns(ens: string | null | undefined): boolean {
   if (ens) {
     const splitString = ens.toLowerCase().split(".");
-    return splitString.length === 2 && splitString[1] === "eth";
+    return splitString.length >= 2 && splitString[splitString.length - 1] === "eth";
   }
   return false
 }

@@ -3,6 +3,7 @@ import style from './BadgeCard.module.css';
 import cx from 'classnames';
 import AutoPlayVideoView from '../GenericComponents/AutoPlayVideoView';
 import { shortenAddress } from '../../utils/addressUtils';
+export type WalletIdentifierType = "ENS" | "ADDRESS" | "NONE";
 export default function BadgeCard(
   {  
     title, 
@@ -11,15 +12,15 @@ export default function BadgeCard(
     customStyle, 
     level, 
     entityName,
-    walletAddress,
-    ens
+    walletIdentifier,
+    identifierType
   }: { 
     title: string, 
     content: string, 
     level: number,
     entityName: string,
-    ens?: string,
-    walletAddress: string | null,
+    walletIdentifier: string | null,
+    identifierType: WalletIdentifierType,
     videoSource: string, 
     customStyle?: React.CSSProperties
   }
@@ -37,12 +38,14 @@ export default function BadgeCard(
   }
 
   function getIdentifier(): string {
-    if (ens) {
-      return ens;
-    } else if (walletAddress) {
-      return shortenAddress(walletAddress);
+    switch (identifierType) {
+      case "ADDRESS":
+        return shortenAddress(walletIdentifier);
+      case "ENS":
+        return walletIdentifier;
+      default:
+        return ""
     }
-    return ""
   }
 
   return <div className={cx(style.badgeCard, style.cardShadow)} style={customStyle}>

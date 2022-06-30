@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import style from './DraftBadge.module.css'
-import BadgeCard from '../badgeCard/BadgeCard';
-import sampleCardData from '../../utils/sampleCardData';
+import BadgeCard, { WalletIdentifierType } from '../badgeCard/BadgeCard';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { BasicButton } from '../GenericComponents/Buttons';
 import MediaCatalogueView from './MediaCatalogueView';
@@ -14,6 +13,7 @@ import cx from 'classnames';
 import { isReallyEmpty } from '../../utils/stringUtils';
 import { getAddressForEns, isEns, isValidEthAddress } from '../../utils/addressUtils';
 import { useProvider } from 'wagmi';
+
 export type AddressHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
 
 export default function DraftAndMintBadgeView({ 
@@ -48,6 +48,7 @@ export default function DraftAndMintBadgeView({
   const [displayTitleWarning, setDisplayTitleWarning] = useState(false);
 
   // ** MINT BADGE INFORMATION ** \\
+  const [walletIdentifierType, setWalletIdentifierType] = useState<WalletIdentifierType>("NONE");
   const [walletIdentifier, setWalletIdentifier] = useState<string | null>(null) // -> ENS address or wallet addresss
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
@@ -57,10 +58,14 @@ export default function DraftAndMintBadgeView({
   // ** USE EFFECTS ** \\
 
   useEffect(() => {
-    // We set convert the wallet identifier into a wallet address here
-    // 1. We find out if it's an ENS or a 
+    // Reset wallet address + identifier type
+    setWalletAddress(null)
+    setWalletIdentifierType("NONE")
+    
+    // See if identifier is either a wallet address or ENS
     if (isValidEthAddress(walletIdentifier)) {
       setWalletAddress(walletIdentifier);
+      setWalletIdentifierType("ADDRESS")
     } else if (isEns(walletIdentifier)) {
       getAddressForEns(walletIdentifier, provider).then(address => {
         console.log(address)
@@ -68,6 +73,7 @@ export default function DraftAndMintBadgeView({
         if (address) {
           setWalletAddress(address);
           setAddressHighlightType("ENS_ADDRESS_FOUND")
+          setWalletIdentifierType("ENS")
         } else {
           setAddressHighlightType("INVALID_ENS")
         }
@@ -161,8 +167,12 @@ export default function DraftAndMintBadgeView({
 
   function mintBadge() {
     // If badge title is empty, we display a warning
-    if (isReallyEmpty(walletAddress)) {
+    if (isReallyEmpty(walletIdentifier)) {
       setAddressHighlightType("MISSING_ADDRESS")
+      return
+    } else if (!isValidEthAddress(walletIdentifier) && !isEns(walletIdentifier)) {
+      // If not empty, check if identifier is invalid
+      setAddressHighlightType("INVALID_ADDRESS")
       return
     }
 
@@ -184,7 +194,8 @@ export default function DraftAndMintBadgeView({
           videoSource={currentlySelectedMedia.url}
           level={badgeLevel}
           entityName={currentEntity.name}
-          walletAddress={walletAddress}
+          walletIdentifier={walletIdentifier}
+          identifierType={walletIdentifierType}
         />
         <button 
           className={cx(style.backButton, 
