@@ -54,6 +54,7 @@ export default function DraftAndMintBadgeView({
   const [email, setEmail] = useState<string | undefined>(undefined);
   const currentEntity = getCurrentEntity()
   const [addressHighlightType, setAddressHighlightType] = useState<AddressHighlightType | null>(null);
+  const entityName = currentEntity?.name ?? ""
 
   // ** USE EFFECTS ** \\
 
@@ -161,7 +162,7 @@ export default function DraftAndMintBadgeView({
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
       level: badgeLevel,
-      entityName: currentEntity.name,
+      entityName: entityName,
     });
   }
 
@@ -181,7 +182,7 @@ export default function DraftAndMintBadgeView({
       content: badgeDescription, 
       videoPath: currentlySelectedMedia.url, 
       level: badgeLevel,
-      entityName: currentEntity.name,
+      entityName: entityName,
     }, walletAddress, email)
   }
 
@@ -193,7 +194,7 @@ export default function DraftAndMintBadgeView({
           content={getDescription()}
           videoSource={currentlySelectedMedia.url}
           level={badgeLevel}
-          entityName={currentEntity.name}
+          entityName={entityName}
           walletIdentifier={walletIdentifier}
           identifierType={walletIdentifierType}
         />
