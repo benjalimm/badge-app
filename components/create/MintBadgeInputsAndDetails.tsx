@@ -91,6 +91,7 @@ export function MintBadgeInputsAndDetails({
       gasFeesInEth={gasFeesInEth} 
       badgePriceInEth={badgePriceInEth} 
       ethPrice={ethToUsdMultiplier}
+      isEnoughEth={true}
     />
   </div>
   
@@ -100,11 +101,13 @@ function TransactionDetails(
   { 
     gasFeesInEth, 
     badgePriceInEth,
-    ethPrice 
+    ethPrice,
+    isEnoughEth 
   } : { 
     gasFeesInEth: number, 
     badgePriceInEth: number,
-    ethPrice: number 
+    ethPrice: number,
+    isEnoughEth: boolean 
   }) {
 
   return <div className={style.transactionDetails}>
@@ -112,6 +115,8 @@ function TransactionDetails(
     <TransactionContainer 
       className={style.detailsContainer} 
       boxCustomStyle={{ height: "100%"}}
+      isError={!isEnoughEth}
+      errorMessage="You don't have enough ETH to execute this transaction"
     >
       <EstimatedTransaction
         name="BADGE COST"

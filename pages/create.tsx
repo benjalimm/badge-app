@@ -252,12 +252,13 @@ export default function CreateBadgeView() {
 
       case "BadgeSuccessfullyMinted":
         return <MintBadgeReceiptView
-          badgeId={badgeData.id}
+          badgeId={badgeData?.id ?? 0}
           recipient={recipientAddress}
           email={email}
-          level={badgeData.level}
+          level={badgeData?.level ?? 0}
           chain={currentChain}
           transactionHash={transactionHash}
+          xp={20}
 
         />
       default:
