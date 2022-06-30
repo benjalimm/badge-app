@@ -6,13 +6,15 @@ import { Chain } from '../../schemas/ChainTypes';
 import { getScanUrl  } from '../../utils/chainUtils';
 
 export default function MintBadgeReceiptView({
-  badgeId ,recipient, email, level, chain, transactionHash
+  badgeId ,recipient, ens, email, xp, level, chain, transactionHash
 }:
 {
   badgeId: number,
   recipient: string,
+  ens?: string,
   email?: string,
   level: number,
+  xp: number
   chain: Chain,
   transactionHash: string
 }) {
@@ -34,13 +36,8 @@ export default function MintBadgeReceiptView({
         />
         <Field 
           className={style.detail}
-          title="Email" 
-          value={email === undefined ? '(None)' : email}
-        />
-        <Field 
-          className={style.detail}
           title="Grade" 
-          value={`Level ${level}`}
+          value={`Level ${level} - 20 BXP`}
         />
         <Field 
           className={style.detail}

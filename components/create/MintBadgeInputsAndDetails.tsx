@@ -109,12 +109,15 @@ function TransactionDetails(
 
   return <div className={style.transactionDetails}>
     <h1 className={style.transactionDetailsHeader}>Transaction details</h1>
-    <TransactionContainer className={style.detailsContainer}>
+    <TransactionContainer 
+      className={style.detailsContainer} 
+      boxCustomStyle={{ height: "100%"}}
+    >
       <EstimatedTransaction
         name="BADGE COST"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth, ethPrice)}
         cryptoValue={formatEthString(badgePriceInEth, 5)}
-        customStyle={{ marginTop: '15px' }}
+        customStyle={{ marginTop: '5px' }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
@@ -122,6 +125,7 @@ function TransactionDetails(
         name="EST. GAS"
         usdValue={convertAndFormatEthToUSD(gasFeesInEth, ethPrice)}
         cryptoValue={formatEthString(gasFeesInEth, 5)}
+        customStyle={{ marginTop: '5px' }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
@@ -129,7 +133,7 @@ function TransactionDetails(
         name="TOTAL"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth + gasFeesInEth, ethPrice)}
         cryptoValue={formatEthString(badgePriceInEth + gasFeesInEth, 5)}
-        customStyle={{ marginTop: '15px'}}
+        customStyle={{ marginTop: '20px'}}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />

@@ -1,6 +1,6 @@
 .container {
   width: 420px;
-  height: 680px;
+  height: auto;
   background-color: white;
   border-radius: 30px;
   margin-top: 30px;
@@ -8,12 +8,12 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
+  padding-bottom: 20px;
 }
 
 .successImage {
   margin-top: 20px;
-  height: 70px;
-  width: 70px;
+  height: 50px;
 }
 
 .successHeader {
@@ -24,7 +24,7 @@
 }
 
 .detailsContainer {
-  height: 62%;
+  height: auto;
   width: 90%;
   background-color: #F5F5F5;
   border-radius: 15px;
@@ -46,7 +46,7 @@
 }
 
 .button {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 
@@ -54,28 +54,5 @@
   .container {
     width: 320px;
     height: 650px;
-  }
-}
-
-
-@keyframes contract {
-  0% {
-    opacity: 0;
-    width: 735px;
-    height: 600px;
-    transform: translateY(10px);
-  }
-
-  40% {
-    width: 420px;
-  }
-
-  90% {
-    height: 200px;
-  }
-
-  100% {
-    opacity: 1;
-    transform: translateY(0px);
   }
 }
