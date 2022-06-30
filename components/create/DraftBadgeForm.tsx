@@ -8,6 +8,7 @@ import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
 import { calculateBadgePrice } from '../../utils/priceOracleUtils';
 import USDConverter from '../../utils/USDConverter';
+import { calculateBXP } from '../../utils/badgeXPUtils';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -101,27 +102,11 @@ function BadgeLevelListBox(
     setBadgeLevel: (level: number) => void 
   }) {
 
-  let supportedLevels = [0, 1, 2, 3, 4, 5]
+  let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7];
 
   function getBadgePrice(currency: "USD" | "ETH", level: number): number {
     const badgePriceInEth = calculateBadgePrice(baseBadgePriceInEth, level)
     return currency == "ETH" ? badgePriceInEth : badgePriceInEth * ethPriceInUSD;
-  }
-
-  function calculateBXP(level:number): number {
-    const baseXP = 10;
-    
-    if (level > 0) {
-
-      let totalXP = 0
-      for (let i = level; i > 0; i--) {
-        const xp = (baseXP) + (0.25 * totalXP)
-        totalXP += xp;
-      }
-      return totalXP 
-    }
-    
-    return 0
   }
 
   function getDetails(level: number): string {

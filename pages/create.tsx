@@ -18,8 +18,12 @@ import { Entity__factory, BadgeToken__factory } from '../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../utils/priceOracleUtils';
 import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../utils/ethConversionUtils';
 import { ethers } from 'ethers';
+import { calculateBXP } from '../utils/badgeXPUtils';
 
 export default function CreateBadgeView() {
+
+  // ** USER STATE ** \\
+  const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
   
   // ** PAGE STATE ** \\
   const [randomState, setRandomState] = useState<number>(0)
@@ -41,6 +45,8 @@ export default function CreateBadgeView() {
   // ** WAGMI HOOKS ** \\
   const { data: signer, status: signerStatus, isLoading, isSuccess } = useSigner()
   const { data: session, status: sessionStatus } = useSession()
+  const provider = useProvider();
+  const { data: accountData } = useAccount()
 
   // ** SHOULD MANUALLY POLL STATE  ** \\
   const [shouldPoll, setShouldPoll] = useState<boolean>(false)
@@ -119,6 +125,18 @@ export default function CreateBadgeView() {
 
     }
     
+  }, [randomState])
+
+  // ** GET USER BALANCE ** \\
+  useEffect(() => {
+    provider.getBalance(accountData!.address!).then(balance => {
+      const ethBalance = convertWeiBigNumberToEth(balance);
+      setUserEthBalance(ethBalance);
+    }).catch(err => {
+      console.log("Error with getting account balance")
+      console.error(err);
+    })
+
   }, [randomState])
 
   // ** GET BASE BADGE PRICE ** \\
@@ -245,6 +263,10 @@ export default function CreateBadgeView() {
     }
   }
 
+  function resetToDraftBadge() {
+    setPageState("DraftBadge")
+  }
+
   function renderMainViewBasedOnPageState() {
     switch (pageState) {
       case "LoadingMintBadge":
@@ -258,7 +280,9 @@ export default function CreateBadgeView() {
           level={badgeData?.level ?? 0}
           chain={currentChain}
           transactionHash={transactionHash}
-          xp={20}
+          xp={calculateBXP(badgeData?.level ?? 0)}
+          onContinue={resetToDraftBadge}
+          ens={badgeData.recipientEns}
 
         />
       default:
@@ -270,6 +294,7 @@ export default function CreateBadgeView() {
           gasFeesInEth={estimatedGasFeesInEth}
           baseBadgePriceInEth={baseBadgePriceInEth}
           finalBadgePriceInEth={getFinalBadgePrice()}
+          userBalanceInEth={userEthBalance}
         />
 
     }

@@ -6,7 +6,15 @@ import { Chain } from '../../schemas/ChainTypes';
 import { getScanUrl  } from '../../utils/chainUtils';
 
 export default function MintBadgeReceiptView({
-  badgeId ,recipient, ens, email, xp, level, chain, transactionHash
+  badgeId,
+  recipient, 
+  ens, 
+  email, 
+  xp, 
+  level, 
+  chain, 
+  transactionHash, 
+  onContinue
 }:
 {
   badgeId: number,
@@ -16,8 +24,17 @@ export default function MintBadgeReceiptView({
   level: number,
   xp: number
   chain: Chain,
-  transactionHash: string
+  transactionHash: string,
+  onContinue: () => void
 }) {
+
+  function getAddressString() {
+    if (ens) {
+      return recipient + `\n(${ens})` 
+    }
+    return recipient
+  }
+
   return <div className={style.container}>
     <div className={style.contentContainer}>
       <img src="images/generic/success.svg" className={style.successImage}/>
@@ -33,12 +50,12 @@ export default function MintBadgeReceiptView({
           <Field 
             className={style.detail}
             title="Recipient" 
-            value={recipient}
+            value={getAddressString()}
           />
           <Field 
             className={style.detail}
             title="Grade" 
-            value={`Level ${level} - 20 BXP`}
+            value={`Level ${level} - ${xp} BXP`}
           />
           <Field 
             className={style.detail}
@@ -56,7 +73,7 @@ export default function MintBadgeReceiptView({
       <BasicButton 
         className={style.button}
         text="Continue"
-        onClick={() => {}}
+        onClick={onContinue}
       />
 
     </div>

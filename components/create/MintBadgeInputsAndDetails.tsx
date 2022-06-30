@@ -16,8 +16,9 @@ export function MintBadgeInputsAndDetails({
   onEmailChange,
   gasFeesInEth,
   badgePriceInEth,
+  userBalanceInEth,
   walletAddressHighlightType,
-  ensWalletAddress
+  ensWalletAddress,
 }:{ 
   walletIdentifier: string | null,
   email: string | null,
@@ -25,8 +26,9 @@ export function MintBadgeInputsAndDetails({
   onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,  
   gasFeesInEth: number,
   badgePriceInEth: number,
+  userBalanceInEth: number,
   walletAddressHighlightType?: AddressHighlightType
-  ensWalletAddress?: string
+  ensWalletAddress?: string,
 }) {
 
   const [subscriptionId, setSubscriptionId] = useState(0);
@@ -54,6 +56,10 @@ export function MintBadgeInputsAndDetails({
       break
     default:
       message = "";
+  }
+
+  function doesUserHaveEnoughEth(): boolean {
+    return userBalanceInEth >= badgePriceInEth + gasFeesInEth;
   }
   
   useEffect(() => {
@@ -91,7 +97,8 @@ export function MintBadgeInputsAndDetails({
       gasFeesInEth={gasFeesInEth} 
       badgePriceInEth={badgePriceInEth} 
       ethPrice={ethToUsdMultiplier}
-      isEnoughEth={true}
+      isEnoughEth={doesUserHaveEnoughEth()}
+      userBalanceInEth={userBalanceInEth}
     />
   </div>
   
@@ -101,13 +108,17 @@ function TransactionDetails(
   { 
     gasFeesInEth, 
     badgePriceInEth,
+    userBalanceInEth,
     ethPrice,
-    isEnoughEth 
+    isEnoughEth,
+    
   } : { 
     gasFeesInEth: number, 
     badgePriceInEth: number,
+    userBalanceInEth: number,
     ethPrice: number,
-    isEnoughEth: boolean 
+    isEnoughEth: boolean,
+
   }) {
 
   return <div className={style.transactionDetails}>
@@ -138,10 +149,26 @@ function TransactionDetails(
         name="TOTAL"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth + gasFeesInEth, ethPrice)}
         cryptoValue={formatEthString(badgePriceInEth + gasFeesInEth, 5)}
-        customStyle={{ marginTop: '20px'}}
+        customStyle={{
+          marginTop: '20px',
+          color: isEnoughEth ? 'black' : 'var(--warning-red)'
+        }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
+
+      { !isEnoughEth ? 
+        <EstimatedTransaction
+          name="WALLET BALANCE"
+          usdValue={convertAndFormatEthToUSD(userBalanceInEth, ethPrice)}
+          cryptoValue={formatEthString(userBalanceInEth, 5)}
+          customStyle={{
+            color: isEnoughEth ? 'var(--success-green)' : 'var(--warning-red)'}}
+          isCryptoPricePending={false}
+          isUSDPricePending={false}
+        /> : null
+      
+      }
 
     </TransactionContainer>
   </div>

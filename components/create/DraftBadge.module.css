@@ -103,7 +103,7 @@
 
 .backButton {
   font-size: 15px;
-  color: #D84242;
+  color: goldenrod;
   margin-top: 10px;
   animation: fadeInFromTop 0.25s ease-in-out;
 }

@@ -24,6 +24,7 @@ export default function DraftAndMintBadgeView({
   gasFeesInEth,
   baseBadgePriceInEth,
   finalBadgePriceInEth,
+  userBalanceInEth
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
@@ -32,7 +33,8 @@ export default function DraftAndMintBadgeView({
   pageState: PageState,
   gasFeesInEth: number
   baseBadgePriceInEth: number,
-  finalBadgePriceInEth: number
+  finalBadgePriceInEth: number,
+  userBalanceInEth: number
 }) {
 
   // ** WAGMI HOOKS ** \\
@@ -177,12 +179,16 @@ export default function DraftAndMintBadgeView({
       return
     }
 
+    const ens: string | undefined 
+    = walletIdentifierType == "ENS" ? walletIdentifier : undefined
+
     onMintAndSendBadge({ 
       title: badgeTitle, 
       content: badgeDescription, 
       videoPath: currentlySelectedMedia.url, 
       level: badgeLevel,
       entityName: entityName,
+      recipientEns: ens
     }, walletAddress, email)
   }
 
@@ -218,6 +224,7 @@ export default function DraftAndMintBadgeView({
               onEmailChange={onEmailChange}
               badgePriceInEth={finalBadgePriceInEth}
               gasFeesInEth={gasFeesInEth}
+              userBalanceInEth={userBalanceInEth}
               walletAddressHighlightType={addressHighlightType}
               ensWalletAddress={walletAddress}
             /> :
