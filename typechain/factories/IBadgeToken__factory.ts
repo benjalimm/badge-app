@@ -92,9 +92,9 @@ const _abi = [
         type: "address",
       },
       {
-        internalType: "uint256",
+        internalType: "uint8",
         name: "level",
-        type: "uint256",
+        type: "uint8",
       },
       {
         internalType: "uint256",

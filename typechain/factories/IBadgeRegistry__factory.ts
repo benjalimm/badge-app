@@ -13,9 +13,9 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
+        internalType: "uint8",
         name: "level",
-        type: "uint256",
+        type: "uint8",
       },
     ],
     name: "getBadgePrice",

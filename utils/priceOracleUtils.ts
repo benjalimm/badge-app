@@ -1,9 +1,9 @@
-import {  Signer } from "ethers";
+import {  BigNumber, Signer } from "ethers";
 import { BadgeRegistry__factory, BadgePriceOracle__factory } from "../typechain";
 import { badgeContractAddress } from "../configs/blockchainConfig";
 import { ethers } from 'ethers';
 
-export async function getBaseBadgePrice(signer: Signer): Promise<number> {
+export async function getBaseBadgePrice(signer: Signer): Promise<BigNumber> {
   console.log("1. Attempting to get base badge price")
   // 1. Get registry
   const registry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
@@ -18,10 +18,11 @@ export async function getBaseBadgePrice(signer: Signer): Promise<number> {
   const price = await oracle.baseBadgePrice()
 
   console.log(`3. Base badge price: ${price}`)
-  return price.toNumber();
+  return price
 }
 
 export function calculateBadgePrice(baseBadgePrice: number, level: number): number {
+  console.log(`Basebadge price: ${baseBadgePrice}`)
   if (level > 0) {
     const multiplier = Math.pow(2.5, level - 1)
     return (baseBadgePrice) * multiplier

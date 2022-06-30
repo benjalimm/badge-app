@@ -7,6 +7,8 @@ import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { getEthUSDPrice } from "../../utils/getEthPrice";
 import cx from 'classnames';
 import { calculateBadgePrice } from '../../utils/priceOracleUtils';
+import USDConverter from '../../utils/USDConverter';
+import { calculateBXP } from '../../utils/badgeXPUtils';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 
@@ -17,7 +19,8 @@ export default function DraftBadgeForm({
   badgeDescription,
   badgeLevel,
   setBadgeLevel,
-  baseBadgePrice
+  baseBadgePriceInEth,
+  displayWarning
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
@@ -27,18 +30,23 @@ export default function DraftBadgeForm({
   badgeDescription: string,
   badgeLevel: number,
   setBadgeLevel: (level: number) => void,
-  baseBadgePrice: number
+  baseBadgePriceInEth: number,
+  displayWarning: boolean,
 }) {
 
   // ** ETH PRICE INFO ** \\
   const [ethPrice, setEthPrice] = useState<number>(0);
+  const [subscriptionId, setSubscriptionId] = useState<number>(0);
 
   useEffect(() => {
-    getEthUSDPrice().then(_ethPrice => {
+    // Listen to latest eth price updates
+    const id = USDConverter.subscribeToEthUSDPriceUpdates(_ethPrice => {
       setEthPrice(_ethPrice);
-    }).catch(err => {
-      console.error(err);
     })
+    setSubscriptionId(id);
+    return () => {
+      USDConverter.stopSubscribing(subscriptionId);
+    }
   }, [])
 
   return <div className={style.formContainer}>
@@ -55,21 +63,24 @@ export default function DraftBadgeForm({
       </div>
           
     </div>
-    <FormTextBoxContainer 
-      type="TextBox"
-      title='Badge name' 
-      placeholder='Enter Badge name (e.g. Hackathon winner)'
-      onChange={onTitleChange}
-      value={badgeTitle}
-    />
     <BadgeLevelListBox 
       badgeLevel={badgeLevel} 
-      baseBadgePriceInWei={baseBadgePrice}
+      baseBadgePriceInEth={baseBadgePriceInEth}
       ethPriceInUSD={ethPrice}
       setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
+      type="TextBox"
+      title='Badge title' 
+      placeholder='Enter Badge name (e.g. Hackathon winner)'
+      onChange={onTitleChange}
+      value={badgeTitle}
+      highlight={displayWarning ? "ERROR" : undefined}
+      message={"Title is required"}
+    />
+    
+    <FormTextBoxContainer 
       type="TextArea"  
-      title='Short description' 
+      title='Short description (optional)' 
       placeholder='Enter info (Why did they get this Badge?)'
       customTextBoxHeight='120px'
       onChange={onDescriptionTextChange}
@@ -82,37 +93,20 @@ function BadgeLevelListBox(
   { 
     badgeLevel, 
     setBadgeLevel, 
-    baseBadgePriceInWei, 
+    baseBadgePriceInEth, 
     ethPriceInUSD
   } : { 
     badgeLevel: number, 
-    baseBadgePriceInWei: number, 
+    baseBadgePriceInEth: number, 
     ethPriceInUSD: number, 
     setBadgeLevel: (level: number) => void 
   }) {
 
-  let supportedLevels = [0, 1, 2, 3, 4, 5]
+  let supportedLevels = [0, 1, 2, 3, 4, 5, 6, 7];
 
   function getBadgePrice(currency: "USD" | "ETH", level: number): number {
-    const badgePriceInWei = calculateBadgePrice(baseBadgePriceInWei, level)
-    const badgePriceInEth = badgePriceInWei / 1000000000000000000;
+    const badgePriceInEth = calculateBadgePrice(baseBadgePriceInEth, level)
     return currency == "ETH" ? badgePriceInEth : badgePriceInEth * ethPriceInUSD;
-  }
-
-  function calculateBXP(level:number): number {
-    const baseXP = 10;
-    
-    if (level > 0) {
-
-      let totalXP = 0
-      for (let i = level; i > 0; i--) {
-        const xp = (baseXP) + (0.25 * totalXP)
-        totalXP += xp;
-      }
-      return totalXP 
-    }
-    
-    return 0
   }
 
   function getDetails(level: number): string {

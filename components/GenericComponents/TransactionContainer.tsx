@@ -5,7 +5,7 @@ import cx from 'classnames';
 export default function TransactionContainer(
   { 
     children, 
-    style: customStyle,
+    boxCustomStyle: customStyle,
     isError,
     errorMessage,
     className
@@ -14,7 +14,7 @@ export default function TransactionContainer(
   { 
     className?: string,
     children?: JSX.Element | JSX.Element[],
-    style?: React.CSSProperties,
+    boxCustomStyle?: React.CSSProperties,
     isError?: boolean,
     errorMessage?: string
     
@@ -23,8 +23,8 @@ export default function TransactionContainer(
 
   const containerStyle = _isError ? cx(style.txContainer, style.error) : style.txContainer;
 
-  return <div className={className} style={customStyle}>
-    <div className={containerStyle} >
+  return <div className={className} >
+    <div className={containerStyle} style={customStyle}>
       {children}
     </div>
     { _isError ? <span className={style.errorMessage}>{ errorMessage }</span> : null

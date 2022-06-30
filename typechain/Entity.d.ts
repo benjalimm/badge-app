@@ -38,7 +38,7 @@ interface EntityInterface extends ethers.utils.Interface {
     "getPermissionToken()": FunctionFragment;
     "migrateToEntity(address,address)": FunctionFragment;
     "migrateToTokens(address,address)": FunctionFragment;
-    "mintBadge(address,uint256,string)": FunctionFragment;
+    "mintBadge(address,uint8,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
     "reassignGenesisToken(address,string,bool,string)": FunctionFragment;
     "resetBadgeURI(uint256,string)": FunctionFragment;
