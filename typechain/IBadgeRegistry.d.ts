@@ -21,7 +21,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IBadgeRegistryInterface extends ethers.utils.Interface {
   functions: {
-    "getBadgePrice(uint256)": FunctionFragment;
+    "getBadgePrice(uint8)": FunctionFragment;
     "getBadgeTokenFactory()": FunctionFragment;
     "getBadgeXPToken()": FunctionFragment;
     "getBaseMinimumStake()": FunctionFragment;

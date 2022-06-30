@@ -20,7 +20,7 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface IBadgePriceOracleInterface extends ethers.utils.Interface {
   functions: {
-    "calculateBadgePrice(uint256)": FunctionFragment;
+    "calculateBadgePrice(uint8)": FunctionFragment;
   };
 
   encodeFunctionData(

@@ -1,33 +1,69 @@
 import React, { useEffect, useState } from 'react';
 import style from './MintBadge.module.css'
-import FormTextBoxContainer from './FormTextBoxContainer';
+import FormTextBoxContainer, { HighlightType } from './FormTextBoxContainer';
 import { getUSDPriceForEth } from '../../utils/getEthPrice';
 import EstimatedTransaction from '../GenericComponents/EstimatedTransaction';
 import USDConverter from '../../utils/USDConverter';
 import TransactionContainer from '../GenericComponents/TransactionContainer';
 import { convertAndFormatEthToUSD, formatEthString } from '../../utils/ethConversionUtils';
+import { AddressHighlightType } from './DraftAndMintBadgeView';
+import { shortenAddress } from '../../utils/addressUtils';
 
 export function MintBadgeInputsAndDetails({ 
-  walletAddress,
+  walletIdentifier,
   email,
-  onWalletAddressChange,
+  onWalletIdentifierChange,
   onEmailChange,
   gasFeesInEth,
-  badgePriceInEth
+  badgePriceInEth,
+  userBalanceInEth,
+  walletAddressHighlightType,
+  ensWalletAddress,
 }:{ 
-  walletAddress: string | null,
+  walletIdentifier: string | null,
   email: string | null,
-  onWalletAddressChange: (event: React.FormEvent<HTMLInputElement>) => void,
+  onWalletIdentifierChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,  
   gasFeesInEth: number,
-  badgePriceInEth: number
+  badgePriceInEth: number,
+  userBalanceInEth: number,
+  walletAddressHighlightType?: AddressHighlightType
+  ensWalletAddress?: string,
 }) {
 
   const [subscriptionId, setSubscriptionId] = useState(0);
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
-  // ** LISTEN TO ETH TO USD PRICE UPDATES ** \\
-  useEffect(() => {
+
+  // Figure out if there is highlight. If so, is it an error or success
+  let highlightType: HighlightType | undefined;
+  if (walletAddressHighlightType) {
+    highlightType = walletAddressHighlightType == "ENS_ADDRESS_FOUND" ? "SUCCESS" : "ERROR";
+  }
+  let message: string;
+
+  switch (walletAddressHighlightType) {
+    case "INVALID_ADDRESS":
+      message = "Invalid wallet address";
+      break;
+    case "INVALID_ENS":
+      message = "Invalid ENS address";
+      break;
+    case "MISSING_ADDRESS":
+      message = "Missing wallet address";
+      break;
+    case "ENS_ADDRESS_FOUND":
+      message = `${ensWalletAddress}`;
+      break
+    default:
+      message = "";
+  }
+
+  function doesUserHaveEnoughEth(): boolean {
+    return userBalanceInEth >= badgePriceInEth + gasFeesInEth;
+  }
   
+  useEffect(() => {
+    // Listen to eth price updates
     const subId = USDConverter.subscribeToEthUSDPriceUpdates((ethToUsd) => {
       console.log(`Got new eth to usd multiplier: ${ethToUsd}`);
       setEthToUsd(ethToUsd);
@@ -45,8 +81,10 @@ export function MintBadgeInputsAndDetails({
       type="TextBox" 
       title="Recipient wallet address / ENS"
       placeholder="e.g. ben.eth or 0xF12s..f9"
-      onChange={onWalletAddressChange}
-      value={walletAddress}
+      onChange={onWalletIdentifierChange}
+      value={walletIdentifier}
+      highlight={highlightType}
+      message={message}
     />
     <FormTextBoxContainer 
       type="TextBox" 
@@ -59,6 +97,8 @@ export function MintBadgeInputsAndDetails({
       gasFeesInEth={gasFeesInEth} 
       badgePriceInEth={badgePriceInEth} 
       ethPrice={ethToUsdMultiplier}
+      isEnoughEth={doesUserHaveEnoughEth()}
+      userBalanceInEth={userBalanceInEth}
     />
   </div>
   
@@ -68,21 +108,32 @@ function TransactionDetails(
   { 
     gasFeesInEth, 
     badgePriceInEth,
-    ethPrice 
+    userBalanceInEth,
+    ethPrice,
+    isEnoughEth,
+    
   } : { 
     gasFeesInEth: number, 
     badgePriceInEth: number,
-    ethPrice: number 
+    userBalanceInEth: number,
+    ethPrice: number,
+    isEnoughEth: boolean,
+
   }) {
 
   return <div className={style.transactionDetails}>
     <h1 className={style.transactionDetailsHeader}>Transaction details</h1>
-    <div className={style.detailsContainer}>
+    <TransactionContainer 
+      className={style.detailsContainer} 
+      boxCustomStyle={{ height: "100%"}}
+      isError={!isEnoughEth}
+      errorMessage="You don't have enough ETH to execute this transaction"
+    >
       <EstimatedTransaction
         name="BADGE COST"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth, ethPrice)}
         cryptoValue={formatEthString(badgePriceInEth, 5)}
-        customStyle={{ marginTop: '15px' }}
+        customStyle={{ marginTop: '5px' }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
@@ -90,6 +141,7 @@ function TransactionDetails(
         name="EST. GAS"
         usdValue={convertAndFormatEthToUSD(gasFeesInEth, ethPrice)}
         cryptoValue={formatEthString(gasFeesInEth, 5)}
+        customStyle={{ marginTop: '5px' }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
@@ -97,10 +149,27 @@ function TransactionDetails(
         name="TOTAL"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth + gasFeesInEth, ethPrice)}
         cryptoValue={formatEthString(badgePriceInEth + gasFeesInEth, 5)}
-        customStyle={{ marginTop: '15px'}}
+        customStyle={{
+          marginTop: '20px',
+          color: isEnoughEth ? 'black' : 'var(--warning-red)'
+        }}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
-    </div>
+
+      { !isEnoughEth ? 
+        <EstimatedTransaction
+          name="WALLET BALANCE"
+          usdValue={convertAndFormatEthToUSD(userBalanceInEth, ethPrice)}
+          cryptoValue={formatEthString(userBalanceInEth, 5)}
+          customStyle={{
+            color: isEnoughEth ? 'var(--success-green)' : 'var(--warning-red)'}}
+          isCryptoPricePending={false}
+          isUSDPricePending={false}
+        /> : null
+      
+      }
+
+    </TransactionContainer>
   </div>
 }

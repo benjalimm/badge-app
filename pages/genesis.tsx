@@ -187,7 +187,7 @@ export default function DeployEntityPage() {
       console.log(`Min stake amount: ${minStakeAmount}`)
 
       // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
-      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken) => {
+      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken: string) => {
         console.log("Entity registered ", entityAddress, entityName);
         setDeployState("ENTITY_REGISTERED")
 

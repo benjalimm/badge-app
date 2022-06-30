@@ -33,7 +33,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     "entities(address)": FunctionFragment;
     "entityFactory()": FunctionFragment;
     "filterAddressesForEntityReverseRecord(uint8,address[])": FunctionFragment;
-    "getBadgePrice(uint256)": FunctionFragment;
+    "getBadgePrice(uint8)": FunctionFragment;
     "getBadgeTokenFactory()": FunctionFragment;
     "getBadgeXPToken()": FunctionFragment;
     "getBaseMinimumStake()": FunctionFragment;
