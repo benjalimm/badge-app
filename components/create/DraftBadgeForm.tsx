@@ -18,7 +18,8 @@ export default function DraftBadgeForm({
   badgeDescription,
   badgeLevel,
   setBadgeLevel,
-  baseBadgePriceInEth
+  baseBadgePriceInEth,
+  displayWarning
 }: 
 { currentlySelectedMedia: BadgeMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
@@ -28,7 +29,8 @@ export default function DraftBadgeForm({
   badgeDescription: string,
   badgeLevel: number,
   setBadgeLevel: (level: number) => void,
-  baseBadgePriceInEth: number
+  baseBadgePriceInEth: number,
+  displayWarning: boolean,
 }) {
 
   // ** ETH PRICE INFO ** \\
@@ -60,21 +62,24 @@ export default function DraftBadgeForm({
       </div>
           
     </div>
-    <FormTextBoxContainer 
-      type="TextBox"
-      title='Badge name' 
-      placeholder='Enter Badge name (e.g. Hackathon winner)'
-      onChange={onTitleChange}
-      value={badgeTitle}
-    />
     <BadgeLevelListBox 
       badgeLevel={badgeLevel} 
       baseBadgePriceInEth={baseBadgePriceInEth}
       ethPriceInUSD={ethPrice}
       setBadgeLevel={setBadgeLevel}/>
     <FormTextBoxContainer 
+      type="TextBox"
+      title='Badge title' 
+      placeholder='Enter Badge name (e.g. Hackathon winner)'
+      onChange={onTitleChange}
+      value={badgeTitle}
+      highlight={displayWarning ? "ERROR" : undefined}
+      message={"Title is required"}
+    />
+    
+    <FormTextBoxContainer 
       type="TextArea"  
-      title='Short description' 
+      title='Short description (optional)' 
       placeholder='Enter info (Why did they get this Badge?)'
       customTextBoxHeight='120px'
       onChange={onDescriptionTextChange}

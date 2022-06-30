@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import style from './BadgeCard.module.css';
 import cx from 'classnames';
 import AutoPlayVideoView from '../GenericComponents/AutoPlayVideoView';
+import { shortenAddress } from '../../utils/addressUtils';
 export default function BadgeCard(
   {  
     title, 
@@ -38,8 +39,10 @@ export default function BadgeCard(
   function getIdentifier(): string {
     if (ens) {
       return ens;
+    } else if (walletAddress) {
+      return shortenAddress(walletAddress);
     }
-    return shortenIdentifier(walletAddress);
+    return ""
   }
 
   return <div className={cx(style.badgeCard, style.cardShadow)} style={customStyle}>

@@ -1,30 +1,60 @@
 import React, { useEffect, useState } from 'react';
 import style from './MintBadge.module.css'
-import FormTextBoxContainer from './FormTextBoxContainer';
+import FormTextBoxContainer, { HighlightType } from './FormTextBoxContainer';
 import { getUSDPriceForEth } from '../../utils/getEthPrice';
 import EstimatedTransaction from '../GenericComponents/EstimatedTransaction';
 import USDConverter from '../../utils/USDConverter';
 import TransactionContainer from '../GenericComponents/TransactionContainer';
 import { convertAndFormatEthToUSD, formatEthString } from '../../utils/ethConversionUtils';
+import { AddressHighlightType } from './DraftAndMintBadgeView';
+import { shortenAddress } from '../../utils/addressUtils';
 
 export function MintBadgeInputsAndDetails({ 
-  walletAddress,
+  walletIdentifier,
   email,
-  onWalletAddressChange,
+  onWalletIdentifierChange,
   onEmailChange,
   gasFeesInEth,
-  badgePriceInEth
+  badgePriceInEth,
+  walletAddressHighlightType,
+  ensWalletAddress
 }:{ 
-  walletAddress: string | null,
+  walletIdentifier: string | null,
   email: string | null,
-  onWalletAddressChange: (event: React.FormEvent<HTMLInputElement>) => void,
+  onWalletIdentifierChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onEmailChange: (event: React.FormEvent<HTMLInputElement>) => void,  
   gasFeesInEth: number,
-  badgePriceInEth: number
+  badgePriceInEth: number,
+  walletAddressHighlightType?: AddressHighlightType
+  ensWalletAddress?: string
 }) {
 
   const [subscriptionId, setSubscriptionId] = useState(0);
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
+
+  // Figure out if there is highlight. If so, is it an error or success
+  let highlightType: HighlightType | undefined;
+  if (walletAddressHighlightType) {
+    highlightType = walletAddressHighlightType == "ENS_ADDRESS_FOUND" ? "SUCCESS" : "ERROR";
+  }
+  let message: string;
+
+  switch (walletAddressHighlightType) {
+    case "INVALID_ADDRESS":
+      message = "Invalid wallet address";
+      break;
+    case "INVALID_ENS":
+      message = "Invalid ENS address";
+      break;
+    case "MISSING_ADDRESS":
+      message = "Missing wallet address";
+      break;
+    case "ENS_ADDRESS_FOUND":
+      message = `${ensWalletAddress}`;
+      break
+    default:
+      message = "";
+  }
   
   useEffect(() => {
     // Listen to eth price updates
@@ -45,8 +75,10 @@ export function MintBadgeInputsAndDetails({
       type="TextBox" 
       title="Recipient wallet address / ENS"
       placeholder="e.g. ben.eth or 0xF12s..f9"
-      onChange={onWalletAddressChange}
-      value={walletAddress}
+      onChange={onWalletIdentifierChange}
+      value={walletIdentifier}
+      highlight={highlightType}
+      message={message}
     />
     <FormTextBoxContainer 
       type="TextBox" 
@@ -77,7 +109,7 @@ function TransactionDetails(
 
   return <div className={style.transactionDetails}>
     <h1 className={style.transactionDetailsHeader}>Transaction details</h1>
-    <div className={style.detailsContainer}>
+    <TransactionContainer className={style.detailsContainer}>
       <EstimatedTransaction
         name="BADGE COST"
         usdValue={convertAndFormatEthToUSD(badgePriceInEth, ethPrice)}
@@ -101,6 +133,7 @@ function TransactionDetails(
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
-    </div>
+
+    </TransactionContainer>
   </div>
 }

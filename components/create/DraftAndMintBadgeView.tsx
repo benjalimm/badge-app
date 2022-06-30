@@ -11,9 +11,10 @@ import { PageState } from '../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
 import { getCurrentEntity } from "../../utils/entityLocalState";
 import cx from 'classnames';
-import { weiToEthMultiplier } from '../../utils/ethConversionUtils';
-
-const cardData = sampleCardData[1];
+import { isReallyEmpty } from '../../utils/stringUtils';
+import { getAddressForEns, isEns, isValidEthAddress } from '../../utils/addressUtils';
+import { useProvider } from 'wagmi';
+export type AddressHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
 
 export default function DraftAndMintBadgeView({ 
   onSubmitDraftBadgeData, 
@@ -34,20 +35,66 @@ export default function DraftAndMintBadgeView({
   finalBadgePriceInEth: number
 }) {
 
-  //** DRAFT BADGE INFORMATION **\\
+  // ** WAGMI HOOKS ** \\
+  const provider = useProvider();
+
+  // ** DRAFT BADGE INFORMATION ** \\
   const [badgeTitle, setBadgeTitle] = useState('');
   const [badgeDescription, setBadgeDescription] = useState('');
   const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
   const [badgeLevel, setBadgeLevel] = useState<number>(1);
   const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
+  const [displayTitleWarning, setDisplayTitleWarning] = useState(false);
 
-  //** MINT BADGE INFORMATION **\\
+  // ** MINT BADGE INFORMATION ** \\
+  const [walletIdentifier, setWalletIdentifier] = useState<string | null>(null) // -> ENS address or wallet addresss
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
   const currentEntity = getCurrentEntity()
+  const [addressHighlightType, setAddressHighlightType] = useState<AddressHighlightType | null>(null);
 
-  //** DRAFT BADGE METHODS **\\
+  // ** USE EFFECTS ** \\
+
+  useEffect(() => {
+    // We set convert the wallet identifier into a wallet address here
+    // 1. We find out if it's an ENS or a 
+    if (isValidEthAddress(walletIdentifier)) {
+      setWalletAddress(walletIdentifier);
+    } else if (isEns(walletIdentifier)) {
+      getAddressForEns(walletIdentifier, provider).then(address => {
+        console.log(address)
+        
+        if (address) {
+          setWalletAddress(address);
+          setAddressHighlightType("ENS_ADDRESS_FOUND")
+        } else {
+          setAddressHighlightType("INVALID_ENS")
+        }
+        
+      }).catch(err => {
+        console.error(err);
+      })
+    }
+
+  }, [walletIdentifier])
+
+  useEffect(() => {
+
+    // If there is a title warning, remove if user adds a title
+    if (!isReallyEmpty(badgeTitle) && displayTitleWarning) {
+      setDisplayTitleWarning(false);
+    }
+  }, [badgeTitle])
+
+  useEffect(() => {
+    // If there is a wallet address warning, remove if user starts typing
+    if (!isReallyEmpty(walletIdentifier) && addressHighlightType) {
+      setAddressHighlightType(null);
+    }
+  }, [walletIdentifier])
+
+  // ** DRAFT BADGE METHODS ** \\
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
     setBadgeTitle(event.currentTarget.value);
   }
@@ -69,8 +116,8 @@ export default function DraftAndMintBadgeView({
   }
 
   //** MINT BADGE METHODS **\\
-  function onWalletAddressChange(event: React.FormEvent<HTMLInputElement>) {
-    setWalletAddress(event.currentTarget.value);
+  function onWalletIdentifierChange(event: React.FormEvent<HTMLInputElement>) {
+    setWalletIdentifier(event.currentTarget.value);
   }
 
   function onEmailChange(event: React.FormEvent<HTMLInputElement>) {
@@ -94,6 +141,12 @@ export default function DraftAndMintBadgeView({
 
   //** This method is executed once the user is complete **\\
   function prepareBadge() {
+
+    // If badge title is empty, we display a warning
+    if (isReallyEmpty(badgeTitle)) {
+      setDisplayTitleWarning(true)
+      return
+    }
     
     // NOTE: Run checks on the data here before submitting
     onSubmitDraftBadgeData({
@@ -101,10 +154,25 @@ export default function DraftAndMintBadgeView({
       title: badgeTitle,
       content: badgeDescription,
       videoPath: currentlySelectedMedia.url,
-      profilePhotoSource: cardData.profilePhotoSource,
       level: badgeLevel,
       entityName: currentEntity.name,
     });
+  }
+
+  function mintBadge() {
+    // If badge title is empty, we display a warning
+    if (isReallyEmpty(walletAddress)) {
+      setAddressHighlightType("MISSING_ADDRESS")
+      return
+    }
+
+    onMintAndSendBadge({ 
+      title: badgeTitle, 
+      content: badgeDescription, 
+      videoPath: currentlySelectedMedia.url, 
+      level: badgeLevel,
+      entityName: currentEntity.name,
+    }, walletAddress, email)
   }
 
   return <div className={style.container}>
@@ -132,12 +200,14 @@ export default function DraftAndMintBadgeView({
         { 
           pageState === "MintBadge" ? 
             <MintBadgeInputsAndDetails 
-              walletAddress={walletAddress}
+              walletIdentifier={walletIdentifier}
               email={email}  
-              onWalletAddressChange={onWalletAddressChange}
+              onWalletIdentifierChange={onWalletIdentifierChange}
               onEmailChange={onEmailChange}
-              badgePriceInEth={baseBadgePriceInEth}
+              badgePriceInEth={finalBadgePriceInEth}
               gasFeesInEth={gasFeesInEth}
+              walletAddressHighlightType={addressHighlightType}
+              ensWalletAddress={walletAddress}
             /> :
             ((!isMediaCatalogueVisible) ? 
               <DraftBadgeForm 
@@ -150,6 +220,7 @@ export default function DraftAndMintBadgeView({
                 badgeLevel={badgeLevel}
                 setBadgeLevel={setBadgeLevel}
                 baseBadgePriceInEth={baseBadgePriceInEth}
+                displayWarning={displayTitleWarning}
               /> :
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
@@ -171,15 +242,7 @@ export default function DraftAndMintBadgeView({
         (
           <BasicButton 
             text="Mint + Send" 
-            onClick={() => 
-              onMintAndSendBadge({ 
-                title: badgeTitle, 
-                content: badgeDescription, 
-                videoPath: currentlySelectedMedia.url, 
-                profilePhotoSource: cardData.profilePhotoSource,
-                level: badgeLevel,
-                entityName: currentEntity.name,
-              }, walletAddress, email)}
+            onClick={mintBadge}
             style={{paddingTop:'30px'}}
           />)
     }

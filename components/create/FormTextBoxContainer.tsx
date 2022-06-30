@@ -3,13 +3,26 @@ import style from './DraftBadge.module.css'
 import TextBox from '../GenericComponents/TextBox';
 import TextArea from '../GenericComponents/TextArea';
 
+export type HighlightType = "ERROR" | "SUCCESS";
 export default function FormTextBoxContainer(
-  { type, title, placeholder, value, customTextBoxHeight, onChange, customStyle }: { 
+  { 
+    type, 
+    title, 
+    placeholder, 
+    value, 
+    customTextBoxHeight, 
+    highlight,
+    message,
+    onChange, 
+    customStyle 
+  }: { 
     type: "TextBox" | "TextArea"
     title: string, 
     placeholder: string,
     value: string,
-    customTextBoxHeight?: string
+    customTextBoxHeight?: string,
+    highlight?: HighlightType
+    message?: string
     onChange:(event: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => void
     customStyle?: React.CSSProperties
   }) {
@@ -24,6 +37,8 @@ export default function FormTextBoxContainer(
           customHeight={customTextBoxHeight}
           fontSize='13px'
           value={value}
+          highlight={highlight}
+          message={message}
         /> :
         <TextArea
           onChange={onChange} 
