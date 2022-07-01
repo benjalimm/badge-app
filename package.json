@@ -7,13 +7,12 @@
     "type-check": "tsc"
   },
   "dependencies": {
-    "@biconomy/mexa": "^2.0.30",
     "@ensdomains/ens-contracts": "^0.0.8",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@walletconnect/web3-provider": "^1.7.0",
     "classnames": "^2.3.1",
-    "ethers": "^5.6.5",
+    "ethers": "^5.5.1",
     "ipfs-http-client": "^57.0.0",
     "lottie-web": "^5.8.1",
     "next": "latest",
@@ -22,6 +21,7 @@
     "react-dom": "^17.0.2",
     "react-horizontal-scrolling-menu": "^2.7.0",
     "react-intersection-observer": "^8.33.1",
+    "react-spinners": "^0.13.2",
     "react-transition-group": "^4.4.2",
     "react-window": "^1.8.6",
     "siwe": "^1.1.6",

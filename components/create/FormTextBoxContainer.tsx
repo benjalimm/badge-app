@@ -34,8 +34,10 @@ export default function FormTextBoxContainer(
         <TextBox 
           onChange={onChange} 
           placeholder={placeholder} 
-          customHeight={customTextBoxHeight}
-          fontSize='13px'
+          textBoxStyle={{ 
+            height:customTextBoxHeight,
+            fontSize: '13px'
+          }}
           value={value}
           highlight={highlight}
           message={message}

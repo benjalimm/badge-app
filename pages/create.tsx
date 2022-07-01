@@ -29,6 +29,7 @@ export default function CreateBadgeView() {
   const [randomState, setRandomState] = useState<number>(0)
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false)
 
   // ** PERTINENT BADGE DATA ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
@@ -195,6 +196,11 @@ export default function CreateBadgeView() {
 
   // ** MINT BADGE ** \\
   async function onMintAndSendBadge(badgeData: BadgeData, recipientAddress: string, email?: string) {
+
+    // We set button to loading here as this is where the "Pause" starts
+    setIsButtonLoading(true)
+
+    // Cache addresses
     setRecipientAddress(recipientAddress);
     if(email) setEmailAddress(email);
 
@@ -244,21 +250,23 @@ export default function CreateBadgeView() {
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
       })
-
-      const badgePriceInEth = getFinalBadgePrice()
       
       // 5. Mint Badge + set page state to loading
+      const badgePriceInEth = getFinalBadgePrice()
       const transaction = await entity.mintBadge(
         recipientAddress, 
         badgeData.level,
         url,
         { value: ethers.utils.parseEther(`${badgePriceInEth}`) }
       );
+      setIsButtonLoading(false)
       setPageState("LoadingMintBadge");
       
       setTransactionHash(transaction.hash)
 
     } catch (error) {
+      // Cancel loading if there is an error
+      setIsButtonLoading(false)
       console.log(error);
     }
   }
@@ -295,6 +303,7 @@ export default function CreateBadgeView() {
           baseBadgePriceInEth={baseBadgePriceInEth}
           finalBadgePriceInEth={getFinalBadgePrice()}
           userBalanceInEth={userEthBalance}
+          isButtonLoading={isButtonLoading}
         />
 
     }
