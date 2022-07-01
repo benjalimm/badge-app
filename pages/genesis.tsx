@@ -54,6 +54,7 @@ export default function DeployEntityPage() {
   const [randomState, setRefresh] = useState<number>(0);
   const [enoughETH, setEnoughETHStatus] = useState<boolean>(true);
   const [txHash, setTxHash] = useState<string>("");
+  const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false);
   
   // ** WAGMI HOOKS ** \\ 
   const { status } = useSession();
@@ -156,6 +157,7 @@ export default function DeployEntityPage() {
    */
   async function registerEntity(entityName: string) {
     console.log(`Signer status: ${signerStatus}`)
+    setIsButtonLoading(true);
     try {
       // 1. Instantiate Badge Registry
       const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
@@ -216,12 +218,15 @@ export default function DeployEntityPage() {
       // 7. Execute registration
       const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
       setTxHash(transaction.hash)
+      setIsButtonLoading(false);
 
       // 8. Start entity deployment + start loading progress bar
       setDeployState("STARTED_ENTITY_DEPLOYMENT")
       setPageState("Loading")
     } catch (error) {
+      setIsButtonLoading(false);
       console.error(error)
+
     }
     
   }
@@ -247,6 +252,7 @@ export default function DeployEntityPage() {
           onRegister={onRegister}
           enoughETH={enoughETH}
           onBack={() => setPageState("AddEntityInfo")}
+          isButtonLoading={isButtonLoading}
         />
       case "Loading":
         return <DeployEntityLoadingView loadingPercentage={loadingPercentage}/>
