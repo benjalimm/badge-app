@@ -1,18 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import styles from './DeployEntityEntryView.module.css';
 import sharedStyle from './shared.module.css';
 import cx from 'classnames';
+import { isReallyEmpty } from '../../utils/stringUtils';
+import { BasicButton } from '../GenericComponents/Buttons';
+import TextBox from '../GenericComponents/TextBox';
 
-const DeployEntityEntryView = ({ onNext } : { onNext: (entityName: string) => void }) => {
+export function DeployEntityEntryView(
+  { 
+    onNext
+  } :{ 
+    onNext: (entityName: string) => void }) {
   const [currentText, setCurrentText] =  useState<string>("");
-  
+  const [isError, setIsError] = useState<boolean>(false);
+
+  useEffect(() => {
+    setIsError(false)
+  }, [currentText]);
+
   function onChange(event: React.FormEvent<HTMLInputElement>) {
     setCurrentText(event.currentTarget.value);
   }
 
+  function isEmpty() {
+    return isReallyEmpty(currentText);
+  }
+
   function next() {
-    onNext(currentText);
+    if (!isEmpty()) {
+      onNext(currentText);
+    } else {
+      // If user attempts to go next with empty name, show error message
+      setIsError(true)
+    }
+    
   }
 
   return <div className={styles.container}>
@@ -20,13 +42,21 @@ const DeployEntityEntryView = ({ onNext } : { onNext: (entityName: string) => vo
       <div className={styles.formContainerView}>
         <h3 className={styles.formHeaderText}>Entity name</h3>
       
-        <div className={styles.formTextFieldContainer}>
-          <input className={styles.formTextField} type="text" placeholder="Entity name (e.g. Uniswap)" onChange={onChange}/>
-        </div>
+        <TextBox
+        
+          placeholder="Entity name (e.g. Uniswap)" 
+          onChange={onChange}
+          value={currentText}
+          message={"Entity name cannot be empty"}
+          style={{ marginTop: "10px" }}
+          highlight={isError ? "ERROR" : undefined}
+        />
       </div>
-      <button className={styles.nextButton} onClick={next}>
-        Next
-      </button>
+      <BasicButton 
+        onClick={next} 
+        className={styles.nextButton} 
+        text="Next"
+      />
     </div>
     
   </div>

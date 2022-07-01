@@ -24,7 +24,8 @@ export default function DraftAndMintBadgeView({
   gasFeesInEth,
   baseBadgePriceInEth,
   finalBadgePriceInEth,
-  userBalanceInEth
+  userBalanceInEth,
+  isButtonLoading
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
@@ -34,7 +35,8 @@ export default function DraftAndMintBadgeView({
   gasFeesInEth: number
   baseBadgePriceInEth: number,
   finalBadgePriceInEth: number,
-  userBalanceInEth: number
+  userBalanceInEth: number,
+  isButtonLoading: boolean
 }) {
 
   // ** WAGMI HOOKS ** \\
@@ -256,13 +258,12 @@ export default function DraftAndMintBadgeView({
         <BasicButton 
           text="Prepare" 
           onClick={prepareBadge} 
-          style={{paddingTop:'30px'}}
         /> :
         (
           <BasicButton 
+            isLoading={isButtonLoading}
             text="Mint + Send" 
             onClick={mintBadge}
-            style={{paddingTop:'30px'}}
           />)
     }
     

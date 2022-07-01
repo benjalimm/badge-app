@@ -14,14 +14,16 @@ export function RegisterEntityConfirmationView(
     onRegister,
     gasFees,
     enoughETH,
-    onBack
+    onBack,
+    isButtonLoading
   } : { 
     entityName: string, 
     stake?: BigNumber, 
     gasFees?: BigNumber,
     onRegister: () => void,
     enoughETH: boolean,
-    onBack: () => void
+    onBack: () => void,
+    isButtonLoading: boolean
   }) {
 
   const [subscriptionId, setSubscriptionId] = useState(0);
@@ -82,6 +84,7 @@ export function RegisterEntityConfirmationView(
       text={"Register"}
       style={{marginTop: '20px'}}
       onClick={onRegister}
+      isLoading={isButtonLoading}
     />
     <button className={style.backButton} onClick={onBack}>
       Back
