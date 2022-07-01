@@ -28,6 +28,13 @@ const listOfChainInfo: ChainInfo[] = [
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
+  },
+  {
+    chain: "Ethereum Rinkeby",
+    baseUrl: "https://rinkeby.etherscan.io",
+    transactionPath: "tx",
+    tokenPath: "token",
+    addressPath: "address"
   }
 
 ]
