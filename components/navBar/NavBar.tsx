@@ -4,9 +4,9 @@ import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { getCsrfToken, signIn } from 'next-auth/react'
+import { getCsrfToken, signIn, signOut } from 'next-auth/react'
 import { SiweMessage } from 'siwe'
-import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
+import { useAccount, useConnect, useNetwork, useSigner, useSignMessage } from 'wagmi'
 import { useSession } from 'next-auth/react';
 
 export default function NavBar({ sticky } :{ sticky: boolean }) {
@@ -16,8 +16,10 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
   const { data: networkData, pendingChainId, activeChain } = useNetwork()
   const { data: accountData } = useAccount();
   const { status, data: session } = useSession();
+  const { isError, isIdle, isSuccess } = useSigner();
   const active = (status === "authenticated")
 
+  // ** SIGN IN WITH ETHREUM ** \\
   const handleLogin = async () => {
     try {
       await connect(connectors[0]);
@@ -37,6 +39,15 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
       console.log(error)
     }
   }
+
+  useEffect(() => {
+    console.log(`isActive: ${active}`)
+    if (active && (isError || isIdle || !isSuccess)) {
+      signOut()
+      router.push("/")
+    }
+
+  }, [])
 
   const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
   return (
