@@ -4,7 +4,9 @@ export interface ERC721Metadata {
   properties: ERC721MetadataProperties;
 }
 
-export type ERC721MetadataProperties =  { [key: string]: ERC721MetadataProperty }
+export type ERC721MetadataProperties =  { 
+  [key: string]: ERC721MetadataProperty | Trait[]
+}
 
 // ** Metadata ** \\ 
 export interface ERC721Metadata2 {

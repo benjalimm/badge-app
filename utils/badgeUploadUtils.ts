@@ -1,16 +1,18 @@
 import { BadgeData } from "../schemas/BadgeData"
 import { uploadERC721ToIpfs, uploadERC721ToIpfs2 } from "./ipfsHelper"
 
-export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string) {
+export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp: number): Promise<string> {
+  const title = appendTitleLevelAddition(badgeData.title, badgeData.level)
+
   // 2. Upload ERC721 metadata to IPFS
   
   const url = await uploadERC721ToIpfs({
-    title: badgeData.title,
+    title: title,
     type: 'object',
     properties: {
       "name": { 
         type: 'string',
-        description: appendTitleLevelAddition(badgeData.title, badgeData.level)
+        description: title
       },
       "description": {
         type: 'string',
@@ -20,32 +22,13 @@ export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string) {
         type: 'string',
         description: videoUrl
       },
-      "animation_url": {
-        type: 'string',
-        description: videoUrl
-      },
-    }
-  })
-}
-
-export async function uploadBadgeIPFS2(badgeData: BadgeData, videoUrl: string, xp: number): Promise<string> {
-  // 2. Upload ERC721 metadata to IPFS
-  const title = appendTitleLevelAddition(badgeData.title, badgeData.level)
-  const url = await uploadERC721ToIpfs2({
-    title: title,
-    type: 'object',
-    properties: {
-      name: title,
-      description: appendBadgeExplanationToDescription(badgeData.content),
-      image: videoUrl,
-      animation_url: videoUrl,
-      attributes: [
+      "attributes": [
         {
           trait_type: "Level",
           value: `${badgeData.level}`
         },
         {
-          trait_type: "XP",
+          trait_type: "BXP",
           value: `${xp}`
         }
       ]
@@ -61,7 +44,7 @@ function appendTitleLevelAddition(title: string, level: number) {
 }
 
 function appendBadgeExplanationToDescription(description: string): string {
-  const divider = "// ** //"
-  const badgeExplanation = `This NFT was minted on badge.xyz. Badges are non-transferable NFTs that showcase a person's achievement.`
-  return description + " " + divider + " " + badgeExplanation
+  const divider = "\n////\n"
+  const badgeExplanation = `This NFT was minted on https://badge.xyz. Badges are non-transferable NFTs that showcase a person's achievement.`
+  return description + " \n" + divider + " " + badgeExplanation + " " + divider
 }
