@@ -20,23 +20,28 @@ export default function DraftAndMintBadgeView({
   onSubmitDraftBadgeData, 
   onBackToDraft,
   onMintAndSendBadge,
+  setIndexOfBadgeMedia,
   pageState,
   gasFeesInEth,
   baseBadgePriceInEth,
   finalBadgePriceInEth,
   userBalanceInEth,
-  isButtonLoading
+  isButtonLoading,
+  indexOfBadgeMedia
+  
 } : { 
   onSubmitDraftBadgeData: (badgeData: BadgeData) => void,
   onMintAndSendBadge: 
   (badgeData: BadgeData, recipientAddress: string, email: string) => void,
   onBackToDraft: () => void,
+  setIndexOfBadgeMedia: (index: number) => void,
   pageState: PageState,
   gasFeesInEth: number
   baseBadgePriceInEth: number,
   finalBadgePriceInEth: number,
   userBalanceInEth: number,
-  isButtonLoading: boolean
+  isButtonLoading: boolean,
+  indexOfBadgeMedia: number,
 }) {
 
   // ** WAGMI HOOKS ** \\
@@ -45,10 +50,9 @@ export default function DraftAndMintBadgeView({
   // ** DRAFT BADGE INFORMATION ** \\
   const [badgeTitle, setBadgeTitle] = useState('');
   const [badgeDescription, setBadgeDescription] = useState('');
-  const [indexOfSelectedBadgeMedia, setIndexOfSelectedBadgeMedia] = useState(0);
   const [isMediaCatalogueVisible, setIsMediaCatalogueVisible] = useState(false);
   const [badgeLevel, setBadgeLevel] = useState<number>(1);
-  const currentlySelectedMedia = badgeMediaList[indexOfSelectedBadgeMedia];
+  const currentlySelectedMedia = badgeMediaList[indexOfBadgeMedia];
   const [displayTitleWarning, setDisplayTitleWarning] = useState(false);
 
   // ** MINT BADGE INFORMATION ** \\
@@ -115,7 +119,7 @@ export default function DraftAndMintBadgeView({
   }
 
   function onBadgeMediaSelect(index: number) {
-    setIndexOfSelectedBadgeMedia(index);
+    setIndexOfBadgeMedia(index);
   }
 
   function onCancelOfMediaCatalogue() {
@@ -246,7 +250,7 @@ export default function DraftAndMintBadgeView({
               <MediaCatalogueView 
                 onCancel={onCancelOfMediaCatalogue}
                 badgeMediaList={badgeMediaList}
-                indexOfCurrentlySelectedMedia={indexOfSelectedBadgeMedia}
+                indexOfCurrentlySelectedMedia={indexOfBadgeMedia}
                 onBadgeMediaSelect={onBadgeMediaSelect}
               />)
         }

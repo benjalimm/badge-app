@@ -4,11 +4,32 @@ export interface ERC721Metadata {
   properties: ERC721MetadataProperties;
 }
 
-export type ERC721MetadataProperties =  { [key: string]: ERC721MetadataProperty }
+export type ERC721MetadataProperties =  { 
+  [key: string]: ERC721MetadataProperty | Trait[]
+}
+
+// ** Metadata ** \\ 
+export interface ERC721Metadata2 {
+  title: string;
+  type: "object";
+  properties: ERC721MetadataProperties2;
+}
+
+interface Trait {
+  trait_type: string;
+  value: string;
+}
+export type ERC721MetadataProperties2 = {
+  name: string;
+  description: string;
+  image: string;
+  animation_url: string;
+  attributes: Trait[];
+}
 
 export interface ERC721MetadataProperty {
-  type: "string" | "integer" | "number" | "boolean" | "array" | "object" | "null";
-  description: string;
+  type?: "string" | "integer" | "number" | "boolean" | "array" | "object" | "null";
+  description?: string;
 }
 
 /* Example of ERC721Metadata:

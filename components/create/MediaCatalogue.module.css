@@ -1,5 +1,5 @@
 .container {
-  background-color: white;
+  background-color: clear;
   width: 87%;
   height: 100%;
   border-radius: 14px;
@@ -80,7 +80,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background-color: red; */
 }
 
 
@@ -99,7 +98,10 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* border: 3px solid #0018f3; */
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .isSelected {

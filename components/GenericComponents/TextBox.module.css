@@ -19,12 +19,12 @@
 }
 
 .errorBorder {
-  border: 0.5px solid var(--warning-red);
+  border: 1px solid var(--warning-red);
 
 }
 
 .successBorder {
-  border: 0.5px solid var(--success-green);
+  border: 2px solid var(--success-green);
 }
 
 .formTextField {

@@ -4,37 +4,19 @@ export const badgeMediaList: BadgeMedia[] = [
   {
     id: 0,
     name: "Spinning badge",
-    url: "/videos/sampleNFTVideos/badgeTick.mp4",
+    url: "https://www.dropbox.com/s/uzzh5k954itv433/Badge%20Tick.mp4?raw=1",
     mediaType: "Video"
   },
   {
     id: 1,
     name: "Badge glass trophy",
-    url: "/videos/sampleNFTVideos/badgeTrophy.mp4",
+    url: "https://www.dropbox.com/s/i0nqh2fprq8lsb5/Badge%20Trophy.mp4?raw=1",
     mediaType: "Video"
   },
   {
     id: 2,
-    name: "The glass badge",
-    url: "/videos/sampleNFTVideos/testVideo.mp4",
-    mediaType: "Video"
-  },
-  {
-    id: 3,
-    name: "Spinning cube",
-    url: "/videos/sampleNFTVideos/nft_damien.mp4",
-    mediaType: "Video"
-  },
-  {
-    id: 4,
-    name: "Glass cube",
-    url: "/videos/sampleNFTVideos/nft_damien_1.mp4",
-    mediaType: "Video"
-  },
-  {
-    id: 5,
-    name: "Spinning crystal",
-    url: "/videos/sampleNFTVideos/nft_damien_2.mp4",
+    name: "Retro keyboard",
+    url: "https://www.dropbox.com/s/ygbkahi4u6amyps/Badge%20Keyboard.mp4?raw=1",
     mediaType: "Video"
   },
 ]

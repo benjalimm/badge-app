@@ -19,6 +19,8 @@ import { calculateBadgePrice, getBaseBadgePrice } from '../utils/priceOracleUtil
 import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../utils/ethConversionUtils';
 import { ethers } from 'ethers';
 import { calculateBXP } from '../utils/badgeXPUtils';
+import { uploadBadgeIPFS } from '../utils/badgeUploadUtils';
+import { badgeMediaList } from '../utils/badgeMediaList';
 
 export default function CreateBadgeView() {
 
@@ -39,9 +41,10 @@ export default function CreateBadgeView() {
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
   const currentEntityInfo = getCurrentEntity();
+  const [indexOfBadgeMedia, setIndexOfBadgeMedia] = useState(0);
 
   // ** BASE BADGE PRICE ** \\
-  const [baseBadgePriceInEth, setBaseBadgePriceInEth] = useState<number>(0);
+  const [baseBadgePriceInEth, setBaseBadgePriceInEth] = useState<number>(0.0035);
 
   // ** WAGMI HOOKS ** \\
   const { data: signer, status: signerStatus, isLoading, isSuccess: isSignerSuccess } = useSigner()
@@ -213,25 +216,11 @@ export default function CreateBadgeView() {
         throw new Error("No current entity info");
       }
 
+      // 1. Get video url
+      const videoUrl = badgeMediaList[indexOfBadgeMedia].url
+
       // 2. Upload ERC721 metadata to IPFS
-      const url = await uploadERC721ToIpfs({
-        title: badgeData.title,
-        type: 'object',
-        properties: {
-          "name": { 
-            type: 'string',
-            description: badgeData.title
-          },
-          "description": {
-            type: 'string',
-            description: badgeData.content
-          },
-          "image": {
-            type: 'string',
-            description: "https://www.dropbox.com/s/i0nqh2fprq8lsb5/Badge%20Trophy.mp4?raw=1"
-          }
-        }
-      })
+      const url = await uploadBadgeIPFS(badgeData, videoUrl, calculateBXP(badgeData?.level ?? 0));
       console.log(`Badge IPFS URL: ${url}`)
       
       // 3. Instantiate Entity contract
@@ -307,6 +296,8 @@ export default function CreateBadgeView() {
           finalBadgePriceInEth={getFinalBadgePrice()}
           userBalanceInEth={userEthBalance}
           isButtonLoading={isButtonLoading}
+          indexOfBadgeMedia={indexOfBadgeMedia}
+          setIndexOfBadgeMedia={setIndexOfBadgeMedia}
         />
 
     }
