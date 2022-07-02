@@ -1,3 +1,4 @@
+import { currentChain } from "../configs/blockchainConfig";
 
 interface TransactionDetails {
   hash: string;
@@ -11,6 +12,18 @@ interface TransactionResponse {
   status: string;
   message: string;
   result: TransactionDetails[];
+}
+
+function getEtherscanAddress(): string {
+  switch (currentChain) {
+    case "Optimistic Kovan":
+      return 'api-kovan-optimistic.etherscan.io'
+    case "Optimistic Mainnet":
+      return 'optimistic.etherscan.io'
+    case "Ethereum Rinkeby":
+      return "rinkeby.etherscan.io"
+
+  }
 }
 
 export const etherscanAddress =  process.env.IS_PROD ? 

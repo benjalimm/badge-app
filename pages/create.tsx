@@ -45,10 +45,10 @@ export default function CreateBadgeView() {
   const [baseBadgePriceInEth, setBaseBadgePriceInEth] = useState<number>(0.0035);
 
   // ** WAGMI HOOKS ** \\
-  const { data: signer, status: signerStatus, isLoading, isSuccess } = useSigner()
+  const { data: signer, status: signerStatus, isLoading, isSuccess: isSignerSuccess } = useSigner()
   const { data: session, status: sessionStatus } = useSession()
   const provider = useProvider();
-  const { data: accountData } = useAccount()
+  const { data: accountData, isSuccess:isAccountSuccess } = useAccount()
 
   // ** SHOULD MANUALLY POLL STATE  ** \\
   const [shouldPoll, setShouldPoll] = useState<boolean>(false)
@@ -131,20 +131,23 @@ export default function CreateBadgeView() {
 
   // ** GET USER BALANCE ** \\
   useEffect(() => {
-    provider.getBalance(accountData!.address!).then(balance => {
-      const ethBalance = convertWeiBigNumberToEth(balance);
-      setUserEthBalance(ethBalance);
-    }).catch(err => {
-      console.log("Error with getting account balance")
-      console.error(err);
-    })
+    if (isAccountSuccess) {
+      provider.getBalance(accountData!.address!).then(balance => {
+        const ethBalance = convertWeiBigNumberToEth(balance);
+        setUserEthBalance(ethBalance);
+      }).catch(err => {
+        console.log("Error with getting account balance")
+        console.error(err);
+      })
 
-  }, [randomState])
+    }
+  }, [randomState, isAccountSuccess])
 
   // ** GET BASE BADGE PRICE ** \\
   useEffect(() => {
     console.log(`status: ${signerStatus}`)
-    if (isSuccess) {
+    if (isSignerSuccess) {
+      console.log("Signer success")
       console.log(`Getting base badge price with session status ${sessionStatus} and signer status ${signerStatus}`)
       
       getBaseBadgePrice(signer).then(price => {
@@ -157,7 +160,7 @@ export default function CreateBadgeView() {
       })
     }
     
-  }, [randomState, isSuccess])
+  }, [randomState, isSignerSuccess])
 
   // ** TRIGGER RANDOM STATE AFTER 1 SECOND ** \\
   useEffect(() => {
