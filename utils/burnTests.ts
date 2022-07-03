@@ -53,3 +53,11 @@ export async function resetBadgeURI(signer: Signer) {
 
   await entity.resetBadgeURI(1, "URI_2");
 }
+
+export async function resetBadgeRecipient(signer: Signer) {
+  const entity = Entity__factory.connect(entityAddress, signer)
+  await entity.resetBadgeRecipient(1, user2Address);
+  entity.once("RecipientReset", (from: string, to: string) => {
+    console.log(`Recipient reset from ${from} to ${to}`)
+  })
+}

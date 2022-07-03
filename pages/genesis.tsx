@@ -115,15 +115,19 @@ export default function DeployEntityPage() {
   }, [minStake])
 
   useEffect(() => {
-    provider.getBalance(accountData!.address!).then(balance => {
-      console.log("FOO")
-      const enough = !balance.lt(minStake);
-      console.log(`EnoughETH ${enough}`)
-      setEnoughETHStatus(enough)
-    }).catch(err => {
-      console.log("Error with getting account balance")
-      console.error(err);
-    })
+
+    if (accountData) {
+      provider.getBalance(accountData.address).then(balance => {
+        console.log("FOO")
+        const enough = !balance.lt(minStake);
+        console.log(`EnoughETH ${enough}`)
+        setEnoughETHStatus(enough)
+      }).catch(err => {
+        console.log("Error with getting account balance")
+        console.error(err);
+      })
+
+    }
 
   }, [randomState])
 

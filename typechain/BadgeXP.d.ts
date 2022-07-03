@@ -33,12 +33,14 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     "name()": FunctionFragment;
     "recover(address)": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
+    "resetXP(uint256,address,address,address)": FunctionFragment;
     "setXPOracle(address)": FunctionFragment;
     "symbol()": FunctionFragment;
     "totalSupply()": FunctionFragment;
     "totalXP()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
+    "userToBadgeTokenLedger(address,address)": FunctionFragment;
     "xpOracle()": FunctionFragment;
   };
 
@@ -72,6 +74,10 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "recoveryOracle",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "resetXP",
+    values: [BigNumberish, string, string, string]
+  ): string;
   encodeFunctionData(functionFragment: "setXPOracle", values: [string]): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
   encodeFunctionData(
@@ -86,6 +92,10 @@ interface BadgeXPInterface extends ethers.utils.Interface {
   encodeFunctionData(
     functionFragment: "transferFrom",
     values: [string, string, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "userToBadgeTokenLedger",
+    values: [string, string]
   ): string;
   encodeFunctionData(functionFragment: "xpOracle", values?: undefined): string;
 
@@ -107,6 +117,7 @@ interface BadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "recoveryOracle",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "resetXP", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setXPOracle",
     data: BytesLike
@@ -120,6 +131,10 @@ interface BadgeXPInterface extends ethers.utils.Interface {
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "userToBadgeTokenLedger",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "xpOracle", data: BytesLike): Result;
@@ -234,6 +249,14 @@ export class BadgeXP extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
 
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setXPOracle(
       _xpOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -257,6 +280,12 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    userToBadgeTokenLedger(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
 
     xpOracle(overrides?: CallOverrides): Promise<[string]>;
   };
@@ -306,6 +335,14 @@ export class BadgeXP extends BaseContract {
 
   recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
+  resetXP(
+    amount: BigNumberish,
+    from: string,
+    to: string,
+    registry: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setXPOracle(
     _xpOracle: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -329,6 +366,12 @@ export class BadgeXP extends BaseContract {
     amount: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  userToBadgeTokenLedger(
+    arg0: string,
+    arg1: string,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
 
   xpOracle(overrides?: CallOverrides): Promise<string>;
 
@@ -375,6 +418,14 @@ export class BadgeXP extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setXPOracle(_xpOracle: string, overrides?: CallOverrides): Promise<void>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
@@ -395,6 +446,12 @@ export class BadgeXP extends BaseContract {
       amount: BigNumberish,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    userToBadgeTokenLedger(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     xpOracle(overrides?: CallOverrides): Promise<string>;
   };
@@ -483,6 +540,14 @@ export class BadgeXP extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setXPOracle(
       _xpOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -505,6 +570,12 @@ export class BadgeXP extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    userToBadgeTokenLedger(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     xpOracle(overrides?: CallOverrides): Promise<BigNumber>;
@@ -562,6 +633,14 @@ export class BadgeXP extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setXPOracle(
       _xpOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -584,6 +663,12 @@ export class BadgeXP extends BaseContract {
       recipient: string,
       amount: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    userToBadgeTokenLedger(
+      arg0: string,
+      arg1: string,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     xpOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;

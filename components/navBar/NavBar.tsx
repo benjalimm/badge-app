@@ -19,7 +19,7 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
   const { isError, isIdle, isSuccess } = useSigner();
   const active = (status === "authenticated")
 
-  // ** SIGN IN WITH ETHREUM ** \\
+  // ** SIGN IN WITH ETHEREUM ** \\
   const handleLogin = async () => {
     try {
       await connect(connectors[0]);
@@ -41,11 +41,11 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
   }
 
   useEffect(() => {
-    console.log(`isActive: ${active}`)
-    if (active && (isError || isIdle || !isSuccess)) {
-      signOut()
-      router.push("/")
-    }
+    // console.log(`isActive: ${active}`)
+    // if (!active && (isError || isIdle || !isSuccess)) {
+    //   signOut()
+    //   router.push('/')
+    // }
 
   }, [])
 

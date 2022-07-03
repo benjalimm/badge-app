@@ -39,12 +39,15 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "ownerOf(uint256)": FunctionFragment;
     "recover(uint256)": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
+    "resetBadgeRecipient(uint256,address)": FunctionFragment;
     "resetBadgeURI(uint256,string)": FunctionFragment;
     "safeTransferFrom(address,address,uint256)": FunctionFragment;
     "setApprovalForAll(address,bool)": FunctionFragment;
     "setNewEntity(address)": FunctionFragment;
+    "setTokenSite(string)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "symbol()": FunctionFragment;
+    "tokenSite()": FunctionFragment;
     "tokenURI(uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
@@ -110,6 +113,10 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "resetBadgeRecipient",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "resetBadgeURI",
     values: [BigNumberish, string]
   ): string;
@@ -126,10 +133,15 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
+    functionFragment: "setTokenSite",
+    values: [string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "supportsInterface",
     values: [BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "symbol", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenSite", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "tokenURI",
     values: [BigNumberish]
@@ -185,6 +197,10 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "resetBadgeRecipient",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "resetBadgeURI",
     data: BytesLike
   ): Result;
@@ -201,10 +217,15 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setTokenSite",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "supportsInterface",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "symbol", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenSite", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenURI", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -218,6 +239,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
     "BadgeMinted(address,uint256,uint256,string)": EventFragment;
     "BadgeURIReset(string,string)": EventFragment;
     "StakeReceived(uint256,bool)": EventFragment;
+    "TokenSiteSet(string)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
@@ -227,6 +249,7 @@ interface BadgeTokenInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BadgeMinted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BadgeURIReset"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "StakeReceived"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "TokenSiteSet"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
 
@@ -266,6 +289,8 @@ export type BadgeURIResetEvent = TypedEvent<
 export type StakeReceivedEvent = TypedEvent<
   [BigNumber, boolean] & { amount: BigNumber; minimumStakeMet: boolean }
 >;
+
+export type TokenSiteSetEvent = TypedEvent<[string] & { site: string }>;
 
 export type TransferEvent = TypedEvent<
   [string, string, BigNumber] & { from: string; to: string; tokenId: BigNumber }
@@ -389,6 +414,12 @@ export class BadgeToken extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
 
+    resetBadgeRecipient(
+      tokenId: BigNumberish,
+      newRecipient: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     resetBadgeURI(
       tokenId: BigNumberish,
       tokenURI: string,
@@ -421,12 +452,19 @@ export class BadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setTokenSite(
+      site: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
     symbol(overrides?: CallOverrides): Promise<[string]>;
+
+    tokenSite(overrides?: CallOverrides): Promise<[string]>;
 
     tokenURI(
       tokenId: BigNumberish,
@@ -510,6 +548,12 @@ export class BadgeToken extends BaseContract {
 
   recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
+  resetBadgeRecipient(
+    tokenId: BigNumberish,
+    newRecipient: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   resetBadgeURI(
     tokenId: BigNumberish,
     tokenURI: string,
@@ -542,12 +586,19 @@ export class BadgeToken extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setTokenSite(
+    site: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   supportsInterface(
     interfaceId: BytesLike,
     overrides?: CallOverrides
   ): Promise<boolean>;
 
   symbol(overrides?: CallOverrides): Promise<string>;
+
+  tokenSite(overrides?: CallOverrides): Promise<string>;
 
   tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -625,6 +676,12 @@ export class BadgeToken extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<string>;
 
+    resetBadgeRecipient(
+      tokenId: BigNumberish,
+      newRecipient: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     resetBadgeURI(
       tokenId: BigNumberish,
       tokenURI: string,
@@ -654,12 +711,16 @@ export class BadgeToken extends BaseContract {
 
     setNewEntity(_entity: string, overrides?: CallOverrides): Promise<void>;
 
+    setTokenSite(site: string, overrides?: CallOverrides): Promise<void>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<boolean>;
 
     symbol(overrides?: CallOverrides): Promise<string>;
+
+    tokenSite(overrides?: CallOverrides): Promise<string>;
 
     tokenURI(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -770,6 +831,12 @@ export class BadgeToken extends BaseContract {
       { amount: BigNumber; minimumStakeMet: boolean }
     >;
 
+    "TokenSiteSet(string)"(
+      site?: null
+    ): TypedEventFilter<[string], { site: string }>;
+
+    TokenSiteSet(site?: null): TypedEventFilter<[string], { site: string }>;
+
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
@@ -862,6 +929,12 @@ export class BadgeToken extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
+    resetBadgeRecipient(
+      tokenId: BigNumberish,
+      newRecipient: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     resetBadgeURI(
       tokenId: BigNumberish,
       tokenURI: string,
@@ -894,12 +967,19 @@ export class BadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setTokenSite(
+      site: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     symbol(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokenSite(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenURI(
       tokenId: BigNumberish,
@@ -992,6 +1072,12 @@ export class BadgeToken extends BaseContract {
 
     recoveryOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    resetBadgeRecipient(
+      tokenId: BigNumberish,
+      newRecipient: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     resetBadgeURI(
       tokenId: BigNumberish,
       tokenURI: string,
@@ -1024,12 +1110,19 @@ export class BadgeToken extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setTokenSite(
+      site: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     supportsInterface(
       interfaceId: BytesLike,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     symbol(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenSite(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     tokenURI(
       tokenId: BigNumberish,
