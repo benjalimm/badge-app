@@ -21,7 +21,7 @@ module.exports = {
     badgeContractAddress: ""
   },
   ethereumRinkeby: {
-    url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x9fD4a6e325721fccbC3645f21a749EF9b21f6eaC"
+    url: 'https://rinkeby.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: "0x3fBA53FE262c00828F4042415060f583e80503d6"
   }
 }

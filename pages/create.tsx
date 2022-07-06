@@ -71,7 +71,7 @@ export default function CreateBadgeView() {
       const endPercentage = 95
 
       // 3. Timer should be 20s
-      const duration = 20
+      const duration = 30
       let currentPercentage = startPercentage
 
       // 4. Calculated increment for every loop

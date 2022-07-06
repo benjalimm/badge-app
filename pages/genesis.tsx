@@ -17,6 +17,8 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
 import { getScanUrl } from '../utils/chainUtils';
+import { burnWithPrejudice, resetBadgeRecipient, revokeBadgeAsEntity } from '../utils/burnTests';
+import { setSiteForEntity } from '../utils/setSiteUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -73,7 +75,7 @@ export default function DeployEntityPage() {
       // Start timer
       const startPercentage = 5
       const endPercentage = 95
-      const duration = 20
+      const duration = 30
       let currentPercentage = startPercentage
       const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
       const interval = setInterval(() => {
@@ -109,21 +111,27 @@ export default function DeployEntityPage() {
     badgeRegistry.estimateGas.registerEntity(entityName, "", true, { value: minStake }).then(gas => {
       setEstimatedGasFees(gas)
     }).catch(err => {
+      console.log("Error with estimating gas")
       console.error(err)
+      setEstimatedGasFees(BigNumber.from("0"))
     })
 
   }, [minStake])
 
   useEffect(() => {
-    provider.getBalance(accountData!.address!).then(balance => {
-      console.log("FOO")
-      const enough = !balance.lt(minStake);
-      console.log(`EnoughETH ${enough}`)
-      setEnoughETHStatus(enough)
-    }).catch(err => {
-      console.log("Error with getting account balance")
-      console.error(err);
-    })
+
+    if (accountData) {
+      provider.getBalance(accountData.address).then(balance => {
+        console.log("FOO")
+        const enough = !balance.lt(minStake);
+        console.log(`EnoughETH ${enough}`)
+        setEnoughETHStatus(enough)
+      }).catch(err => {
+        console.log("Error with getting account balance")
+        console.error(err);
+      })
+
+    }
 
   }, [randomState])
 
@@ -226,9 +234,7 @@ export default function DeployEntityPage() {
     } catch (error) {
       setIsButtonLoading(false);
       console.error(error)
-
-    }
-    
+    } 
   }
 
   function onNext(entityName: string) {
