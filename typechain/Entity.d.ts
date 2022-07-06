@@ -41,8 +41,10 @@ interface EntityInterface extends ethers.utils.Interface {
     "mintBadge(address,uint8,string)": FunctionFragment;
     "permissionToken()": FunctionFragment;
     "reassignGenesisToken(address,string,bool,string)": FunctionFragment;
+    "resetBadgeRecipient(uint256,address)": FunctionFragment;
     "resetBadgeURI(uint256,string)": FunctionFragment;
     "revokePermissionToken(address)": FunctionFragment;
+    "setTokenSite(string)": FunctionFragment;
     "surrenderPermissionToken()": FunctionFragment;
   };
 
@@ -123,11 +125,19 @@ interface EntityInterface extends ethers.utils.Interface {
     values: [string, string, boolean, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "resetBadgeRecipient",
+    values: [BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "resetBadgeURI",
     values: [BigNumberish, string]
   ): string;
   encodeFunctionData(
     functionFragment: "revokePermissionToken",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setTokenSite",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -200,11 +210,19 @@ interface EntityInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "resetBadgeRecipient",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "resetBadgeURI",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "revokePermissionToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setTokenSite",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -215,11 +233,13 @@ interface EntityInterface extends ethers.utils.Interface {
   events: {
     "EntityMigrated(address)": EventFragment;
     "GenesisTokenReassigned(address,address)": EventFragment;
+    "RecipientReset(address,address,uint256,uint256)": EventFragment;
     "TokensMigrated(address,address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "EntityMigrated"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "GenesisTokenReassigned"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "RecipientReset"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "TokensMigrated"): EventFragment;
 }
 
@@ -227,6 +247,15 @@ export type EntityMigratedEvent = TypedEvent<[string] & { newEntity: string }>;
 
 export type GenesisTokenReassignedEvent = TypedEvent<
   [string, string] & { from: string; to: string }
+>;
+
+export type RecipientResetEvent = TypedEvent<
+  [string, string, BigNumber, BigNumber] & {
+    from: string;
+    to: string;
+    tokenId: BigNumber;
+    xp: BigNumber;
+  }
 >;
 
 export type TokensMigratedEvent = TypedEvent<
@@ -349,6 +378,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    resetBadgeRecipient(
+      id: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     resetBadgeURI(
       id: BigNumberish,
       tokenURI: string,
@@ -357,6 +392,11 @@ export class Entity extends BaseContract {
 
     revokePermissionToken(
       revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setTokenSite(
+      site: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -437,6 +477,12 @@ export class Entity extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  resetBadgeRecipient(
+    id: BigNumberish,
+    to: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   resetBadgeURI(
     id: BigNumberish,
     tokenURI: string,
@@ -445,6 +491,11 @@ export class Entity extends BaseContract {
 
   revokePermissionToken(
     revokee: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setTokenSite(
+    site: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -522,6 +573,12 @@ export class Entity extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    resetBadgeRecipient(
+      id: BigNumberish,
+      to: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     resetBadgeURI(
       id: BigNumberish,
       tokenURI: string,
@@ -532,6 +589,8 @@ export class Entity extends BaseContract {
       revokee: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    setTokenSite(site: string, overrides?: CallOverrides): Promise<void>;
 
     surrenderPermissionToken(overrides?: CallOverrides): Promise<void>;
   };
@@ -554,6 +613,26 @@ export class Entity extends BaseContract {
       from?: null,
       to?: null
     ): TypedEventFilter<[string, string], { from: string; to: string }>;
+
+    "RecipientReset(address,address,uint256,uint256)"(
+      from?: null,
+      to?: null,
+      tokenId?: null,
+      xp?: null
+    ): TypedEventFilter<
+      [string, string, BigNumber, BigNumber],
+      { from: string; to: string; tokenId: BigNumber; xp: BigNumber }
+    >;
+
+    RecipientReset(
+      from?: null,
+      to?: null,
+      tokenId?: null,
+      xp?: null
+    ): TypedEventFilter<
+      [string, string, BigNumber, BigNumber],
+      { from: string; to: string; tokenId: BigNumber; xp: BigNumber }
+    >;
 
     "TokensMigrated(address,address)"(
       newBadgeToken?: null,
@@ -645,6 +724,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    resetBadgeRecipient(
+      id: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     resetBadgeURI(
       id: BigNumberish,
       tokenURI: string,
@@ -653,6 +738,11 @@ export class Entity extends BaseContract {
 
     revokePermissionToken(
       revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setTokenSite(
+      site: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -740,6 +830,12 @@ export class Entity extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    resetBadgeRecipient(
+      id: BigNumberish,
+      to: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     resetBadgeURI(
       id: BigNumberish,
       tokenURI: string,
@@ -748,6 +844,11 @@ export class Entity extends BaseContract {
 
     revokePermissionToken(
       revokee: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setTokenSite(
+      site: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

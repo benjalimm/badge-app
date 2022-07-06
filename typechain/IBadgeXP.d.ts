@@ -23,6 +23,7 @@ interface IBadgeXPInterface extends ethers.utils.Interface {
   functions: {
     "burn(uint256,address,address)": FunctionFragment;
     "mint(uint256,address,address)": FunctionFragment;
+    "resetXP(uint256,address,address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -33,9 +34,14 @@ interface IBadgeXPInterface extends ethers.utils.Interface {
     functionFragment: "mint",
     values: [BigNumberish, string, string]
   ): string;
+  encodeFunctionData(
+    functionFragment: "resetXP",
+    values: [BigNumberish, string, string, string]
+  ): string;
 
   decodeFunctionResult(functionFragment: "burn", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "resetXP", data: BytesLike): Result;
 
   events: {};
 }
@@ -97,6 +103,14 @@ export class IBadgeXP extends BaseContract {
       registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   burn(
@@ -109,6 +123,14 @@ export class IBadgeXP extends BaseContract {
   mint(
     level: BigNumberish,
     recipient: string,
+    registry: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  resetXP(
+    amount: BigNumberish,
+    from: string,
+    to: string,
     registry: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -127,6 +149,14 @@ export class IBadgeXP extends BaseContract {
       registry: string,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {};
@@ -145,6 +175,14 @@ export class IBadgeXP extends BaseContract {
       registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -158,6 +196,14 @@ export class IBadgeXP extends BaseContract {
     mint(
       level: BigNumberish,
       recipient: string,
+      registry: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    resetXP(
+      amount: BigNumberish,
+      from: string,
+      to: string,
       registry: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;

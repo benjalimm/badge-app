@@ -120,6 +120,24 @@ const _abi = [
         type: "uint256",
       },
       {
+        internalType: "address",
+        name: "newRecipient",
+        type: "address",
+      },
+    ],
+    name: "resetBadgeRecipient",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
         internalType: "string",
         name: "tokenURI",
         type: "string",
@@ -139,6 +157,19 @@ const _abi = [
       },
     ],
     name: "setNewEntity",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "site",
+        type: "string",
+      },
+    ],
+    name: "setTokenSite",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

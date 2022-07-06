@@ -59,22 +59,22 @@ export function RegisterEntityConfirmationView(
     >
       <EstimatedTransaction
         name="Initial stake"
-        usdValue={convertAndFormatWeiToUSD(stake, ethToUsdMultiplier)}
-        cryptoValue={formatWeiToEthString(stake, 4)}
+        usdValue={stake ? convertAndFormatWeiToUSD(stake, ethToUsdMultiplier) : '--'}
+        cryptoValue={stake ? formatWeiToEthString(stake, 4) : "--"}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
       <EstimatedTransaction
         name="Gas fees"
-        usdValue={convertAndFormatWeiToUSD(gasFees, ethToUsdMultiplier)}
-        cryptoValue={formatWeiToEthString(gasFees, 5)}
+        usdValue={gasFees ? convertAndFormatWeiToUSD(gasFees, ethToUsdMultiplier) :  "--"}
+        cryptoValue={gasFees ? formatWeiToEthString(gasFees, 5) : "--"}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
       <EstimatedTransaction
         name="Total"
-        usdValue={convertAndFormatWeiToUSD(stake.add(gasFees), ethToUsdMultiplier)}
-        cryptoValue={formatWeiToEthString(stake.add(gasFees), 5)}
+        usdValue={stake ? convertAndFormatWeiToUSD(stake.add(gasFees), ethToUsdMultiplier) : "--"}
+        cryptoValue={stake ? formatWeiToEthString(stake.add(gasFees), 5) : "--"}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
