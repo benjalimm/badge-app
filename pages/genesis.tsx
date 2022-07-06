@@ -17,6 +17,8 @@ import MultiStepView from '../components/GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
 import { getScanUrl } from '../utils/chainUtils';
+import { burnWithPrejudice, resetBadgeRecipient, revokeBadgeAsEntity } from '../utils/burnTests';
+import { setSiteForEntity } from '../utils/setSiteUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -73,7 +75,7 @@ export default function DeployEntityPage() {
       // Start timer
       const startPercentage = 5
       const endPercentage = 95
-      const duration = 20
+      const duration = 30
       let currentPercentage = startPercentage
       const incrementedPercentagePerMs = (endPercentage - startPercentage) / (duration * 100) 
       const interval = setInterval(() => {
@@ -109,7 +111,9 @@ export default function DeployEntityPage() {
     badgeRegistry.estimateGas.registerEntity(entityName, "", true, { value: minStake }).then(gas => {
       setEstimatedGasFees(gas)
     }).catch(err => {
+      console.log("Error with estimating gas")
       console.error(err)
+      setEstimatedGasFees(BigNumber.from("0"))
     })
 
   }, [minStake])
@@ -160,77 +164,83 @@ export default function DeployEntityPage() {
    * @param entityName The name of the entity to deploy
    */
   async function registerEntity(entityName: string) {
-    console.log(`Signer status: ${signerStatus}`)
-    setIsButtonLoading(true);
-    try {
-      // 1. Instantiate Badge Registry
-      const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    // console.log(`Signer status: ${signerStatus}`)
+    // setIsButtonLoading(true);
+    // try {
+    //   // 1. Instantiate Badge Registry
+    //   const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
 
-      setDeployState("STARTED_IPFS_UPLOAD")
+    //   setDeployState("STARTED_IPFS_UPLOAD")
 
-      // 3. Check if ipfs url exist, if not -> generate IPFS
-      const ipfsUrl = await uploadERC721ToIpfs({ 
-        title:  entityName  + " - Badge Genesis token",
-        type: "object",
-        properties: {
-          "name": { 
-            type: "string",
-            description: `${entityName} - Genesis token`
-          },
-          "description": {
-            type: "string",
-            description: `Genesis token for ${entityName} for Badge.xyz`
-          }
-        }
-      }) 
+    //   // 3. Check if ipfs url exist, if not -> generate IPFS
+    //   const ipfsUrl = await uploadERC721ToIpfs({ 
+    //     title:  entityName  + " - Badge Genesis token",
+    //     type: "object",
+    //     properties: {
+    //       "name": { 
+    //         type: "string",
+    //         description: `${entityName} - Genesis token`
+    //       },
+    //       "description": {
+    //         type: "string",
+    //         description: `Genesis token for ${entityName} for Badge.xyz`
+    //       }
+    //     }
+    //   }) 
 
-      // 4. Set deploy state to uploaded
-      setDeployState("IPFS_UPLOADED")
-      console.log(`IPFS URL: ${ipfsUrl}`)
+    //   // 4. Set deploy state to uploaded
+    //   setDeployState("IPFS_UPLOADED")
+    //   console.log(`IPFS URL: ${ipfsUrl}`)
 
-      // 5. Call register entity on Badge registry contract
-      const minStakeAmount = await badgeRegistry.baseMinimumStake()
-      console.log(`Min stake amount: ${minStakeAmount}`)
+    //   // 5. Call register entity on Badge registry contract
+    //   const minStakeAmount = await badgeRegistry.baseMinimumStake()
+    //   console.log(`Min stake amount: ${minStakeAmount}`)
 
-      // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
-      badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken: string) => {
-        console.log("Entity registered ", entityAddress, entityName);
-        setDeployState("ENTITY_REGISTERED")
+    //   // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
+    //   badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken: string) => {
+    //     console.log("Entity registered ", entityAddress, entityName);
+    //     setDeployState("ENTITY_REGISTERED")
 
-        // 6.1. Set entity info for view
-        setEntityInfo({
-          address: entityAddress,
-          name: entityName,
-          genesisTokenHolder,
-          badgeToken,
-          permissionToken
-        })
+    //     // 6.1. Set entity info for view
+    //     setEntityInfo({
+    //       address: entityAddress,
+    //       name: entityName,
+    //       genesisTokenHolder,
+    //       badgeToken,
+    //       permissionToken
+    //     })
 
-        // 6.2. Set entity info for local storage -> IMPORTANT
-        setCurrentEntity({
-          address: entityAddress,
-          name: entityName,
-          timestampOfLastVerified: Date.now()
-        })
+    //     // 6.2. Set entity info for local storage -> IMPORTANT
+    //     setCurrentEntity({
+    //       address: entityAddress,
+    //       name: entityName,
+    //       timestampOfLastVerified: Date.now()
+    //     })
 
-        // 6.3. Set page state to success, this will change the state to the receipt view
-        if (pageState !== "Success") {
-          setPageState("Success");
-        }
-      })
+    //     // 6.3. Set page state to success, this will change the state to the receipt view
+    //     if (pageState !== "Success") {
+    //       setPageState("Success");
+    //     }
+    //   })
       
-      // 7. Execute registration
-      const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
-      setTxHash(transaction.hash)
-      setIsButtonLoading(false);
+    //   // 7. Execute registration
+    //   const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
+    //   setTxHash(transaction.hash)
+    //   setIsButtonLoading(false);
 
-      // 8. Start entity deployment + start loading progress bar
-      setDeployState("STARTED_ENTITY_DEPLOYMENT")
-      setPageState("Loading")
-    } catch (error) {
-      setIsButtonLoading(false);
-      console.error(error)
-
+    //   // 8. Start entity deployment + start loading progress bar
+    //   setDeployState("STARTED_ENTITY_DEPLOYMENT")
+    //   setPageState("Loading")
+    // } catch (error) {
+    //   setIsButtonLoading(false);
+    //   console.error(error)
+    // }
+    try {
+      // await revokeBadgeAsEntity(signer);
+      // await resetBadgeRecipient(signer);
+      await burnWithPrejudice(signer);
+    } catch (e) {
+      console.error(e);
     }
     
   }
