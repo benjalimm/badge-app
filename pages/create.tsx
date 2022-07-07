@@ -41,7 +41,7 @@ export default function CreateBadgeView() {
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
   const currentEntityInfo = getCurrentEntity();
-  const [indexOfBadgeMedia, setIndexOfBadgeMedia] = useState(0);
+  const [indexOfBadgeMedia, setIndexOfBadgeMedia] = useState<number>(0);
 
   // ** BASE BADGE PRICE ** \\
   const [baseBadgePriceInEth, setBaseBadgePriceInEth] = useState<number>(0.0035);

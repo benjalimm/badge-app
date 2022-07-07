@@ -49,6 +49,22 @@ export default function DraftBadgeForm({
     }
   }, [])
 
+  // ** LISTEN TO CMD M KEY ** \\
+  useEffect(() => {
+    function keyDownHandler(event: KeyboardEvent) {
+      if (event.key === "m" && event.metaKey) {
+        event.preventDefault();
+        onPresentMediaCatalogue();
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler, true);
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler, true);
+    }
+  }, [])
+
   return <div className={style.formContainer}>
     <div className={style.mediaContainer}>
       <h1 className={style.mediaSelectionHeader}>Media</h1>

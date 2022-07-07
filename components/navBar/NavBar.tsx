@@ -41,13 +41,14 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
   }
 
   useEffect(() => {
+    // const currentRoute = router.pathname;
     // console.log(`isActive: ${active}`)
-    // if (!active && (isError || isIdle || !isSuccess)) {
+    // if (!active && (currentRoute !== "/")) {
     //   signOut()
     //   router.push('/')
     // }
 
-  }, [])
+  }, [status])
 
   const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
   return (
