@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Field from '../GenericComponents/Field';
+import Field from '../../GenericComponents/Field';
 import style from './MintBadgeReceiptView.module.css';
-import { BasicButton } from '../GenericComponents/Buttons';
-import { Chain } from '../../schemas/ChainTypes';
-import { getScanUrl  } from '../../utils/chainUtils';
+import { BasicButton } from '../../GenericComponents/Buttons';
+import { Chain } from '../../../schemas/ChainTypes';
+import { getScanUrl  } from '../../../utils/chainUtils';
 
 export default function MintBadgeReceiptView({
   badgeId,

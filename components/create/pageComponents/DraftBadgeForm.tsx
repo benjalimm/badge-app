@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import style from './DraftBadge.module.css'
 import FormTextBoxContainer from './FormTextBoxContainer';
-import { BadgeMedia } from '../../schemas/BadgeMedia';
+import { BadgeMedia } from '../../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
-import { getEthUSDPrice } from "../../utils/getEthPrice";
+import { getEthUSDPrice } from "../../../utils/getEthPrice";
 import cx from 'classnames';
-import { calculateBadgePrice } from '../../utils/priceOracleUtils';
-import USDConverter from '../../utils/USDConverter';
-import { calculateBXP } from '../../utils/badgeXPUtils';
+import { calculateBadgePrice } from '../../../utils/priceOracleUtils';
+import USDConverter from '../../../utils/USDConverter';
+import { calculateBXP } from '../../../utils/badgeXPUtils';
 
 export default function DraftBadgeForm({ 
   currentlySelectedMedia, 

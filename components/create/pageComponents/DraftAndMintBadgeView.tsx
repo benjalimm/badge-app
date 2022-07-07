@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import style from './DraftBadge.module.css'
-import BadgeCard, { WalletIdentifierType } from '../badgeCard/BadgeCard';
-import { badgeMediaList } from '../../utils/badgeMediaList';
-import { BasicButton } from '../GenericComponents/Buttons';
+import BadgeCard, { WalletIdentifierType } from '../../badgeCard/BadgeCard';
+import { badgeMediaList } from '../../../utils/badgeMediaList';
+import { BasicButton } from '../../GenericComponents/Buttons';
 import MediaCatalogueView from './MediaCatalogueView';
-import { BadgeData } from '../../schemas/BadgeData';
+import { BadgeData } from '../../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
-import { PageState } from '../../schemas/create';
+import { PageState } from '../../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import { getCurrentEntity } from "../../utils/entityLocalState";
+import { getCurrentEntity } from "../../../utils/entityLocalState";
 import cx from 'classnames';
-import { isReallyEmpty } from '../../utils/stringUtils';
-import { getAddressForEns, isEns, isValidEthAddress } from '../../utils/addressUtils';
+import { isReallyEmpty } from '../../../utils/stringUtils';
+import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/addressUtils';
 import { useProvider } from 'wagmi';
 
 export type AddressHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
@@ -126,7 +126,6 @@ export default function DraftAndMintBadgeView({
         } 
       } else if (event.key === "[" && event.metaKey) {
         event.preventDefault();
-
         onBackToDraft();
       }
     }
