@@ -4,7 +4,7 @@ import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/se
 import RegisterEntityPage from '../components/genesis/Genesis';
 
 export default function Page({ domainType }: DomainTypeProps) {
-  return domainType === "alpha" ? <RegisterEntityPage/> : null;
+  return domainType === "app-subdomain" ? <RegisterEntityPage/> : null;
 }
 
 export const getServerSideProps: GetServerSideProps = getServerSidePropsWildCardFunction;

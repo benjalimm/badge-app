@@ -4,6 +4,6 @@ import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/se
 import CreateBadgeView from '../components/create/Create';
 
 export default function Page({ domainType }: DomainTypeProps) {
-  return domainType === "alpha"  ? <CreateBadgeView/> : null;
+  return domainType === "app-subdomain"  ? <CreateBadgeView/> : null;
 }
 export const getServerSideProps: GetServerSideProps = getServerSidePropsWildCardFunction;

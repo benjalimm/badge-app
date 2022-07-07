@@ -1,12 +1,12 @@
 import { GetServerSideProps } from "next";
 
-export type DomainType = "badge" | "alpha" | "unrecognized";
+export type DomainType = "main" | "app-subdomain" | "unrecognized";
 
 export interface DomainTypeProps {
   domainType: DomainType;
   host: string;
 }
-
+const CURRENT_SUBDOMAIN = "alpha";
 function parseWildCardWithHost(host: string): DomainType {
 
   // 1. Split and get first domain
@@ -18,9 +18,20 @@ function parseWildCardWithHost(host: string): DomainType {
 
   // 3. Check if it's local host, if so treat as main badge domain
   if (lowerCaseString.includes("localhost") && splits.length === 1) {
-    return "badge";
+    /// If it's just localhost, we treat it as main badge domain
+    return "main";
+  } else if (splits.length === 3 && splits[1] === "vercel") {
+    /// We make a provision for the app running in vercel dev or prod here
+    return "main"
   } else {
-    return (wildCardString === "alpha" || wildCardString === "badge") ? wildCardString : "unrecognized";
+    switch (lowerCaseString) {
+      case "badge":
+        return "main"
+      case CURRENT_SUBDOMAIN: 
+        return "app-subdomain"
+      default:
+        return "unrecognized"
+    }
   }
 }
 

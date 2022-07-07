@@ -11,11 +11,11 @@ import MainNavigation from '../components/MainNavigation/MainNavigation';
 
 const IndexPage = (domainTypeProps: DomainTypeProps) => {
   const { domainType } = domainTypeProps;
-  
+
   switch (domainType) {
-    case "badge":
+    case "main":
       return <LandingPage {...domainTypeProps} />
-    case "alpha":
+    case "app-subdomain":
       return <MainNavigation/>
     default:
       return null;
