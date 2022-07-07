@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './SampleBadgeCard.module.css';
 import cx from 'classnames';
-import AutoPlayVideoView from '../GenericComponents/AutoPlayVideoView';
+import AutoPlayVideoView from '../../GenericComponents/AutoPlayVideoView';
 export default function SampleBadgeCard(
   {  title, content, videoSource, visible, level, entityName, recipient }
   : { 

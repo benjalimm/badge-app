@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { AnimationType } from '../../schemas/genesis';
+import { AnimationType } from '../../../schemas/genesis';
 import style from './AnimatingView.module.css';
 
 type AnimationState = "Start" | "End"

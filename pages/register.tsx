@@ -1,9 +1,10 @@
-import React from 'react';
+import React from 'react'
 import { GetServerSideProps } from 'next'
 import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
-import CreateBadgeView from '../components/create/Create';
+import RegisterEntityPage from '../components/genesis/Genesis';
 
 export default function Page({ domainType }: DomainTypeProps) {
-  return domainType === "alpha"  ? <CreateBadgeView/> : null;
+  return domainType === "alpha" ? <RegisterEntityPage/> : null;
 }
+
 export const getServerSideProps: GetServerSideProps = getServerSidePropsWildCardFunction;
