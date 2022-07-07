@@ -15,9 +15,27 @@ export function DeployEntityEntryView(
   const [currentText, setCurrentText] =  useState<string>("");
   const [isError, setIsError] = useState<boolean>(false);
 
+  // ** USE EFFECTS ** \\
+
   useEffect(() => {
     setIsError(false)
   }, [currentText]);
+
+  // ** LISTEN TO ENTER KEY ** \\
+  useEffect(() => {
+    function keyDownHandler(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        next();
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler);
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler);
+    }
+  }, [currentText])
 
   function onChange(event: React.FormEvent<HTMLInputElement>) {
     setCurrentText(event.currentTarget.value);

@@ -44,6 +44,25 @@ export function RegisterEntityConfirmationView(
     }
   }, [])
 
+  useEffect(() => {
+    function keyDownHandler(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        onRegister();
+      } else if (event.key === "[" && event.metaKey) {
+        event.preventDefault();
+        onBack();
+
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler, true);
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler, true);
+    }
+  }, [entityName])
+
   return <div className={style.container}>
     <h1 className={style.entityNameHeader}>{entityName}</h1>
     <div className={style.stakeExplanationContainer}>
@@ -55,7 +74,7 @@ export function RegisterEntityConfirmationView(
     <TransactionContainer 
       className={style.transactionContainer}
       isError={!enoughETH} 
-      errorMessage={"You do not have enough ETH stake to register this entity"}
+      errorMessage={"You might not have enough ETH stake to register this entity"}
     >
       <EstimatedTransaction
         name="Initial stake"
@@ -66,15 +85,15 @@ export function RegisterEntityConfirmationView(
       />
       <EstimatedTransaction
         name="Gas fees"
-        usdValue={gasFees ? convertAndFormatWeiToUSD(gasFees, ethToUsdMultiplier) :  "--"}
-        cryptoValue={gasFees ? formatWeiToEthString(gasFees, 5) : "--"}
+        usdValue={gasFees ? "~"+convertAndFormatWeiToUSD(gasFees, ethToUsdMultiplier) :  "--"}
+        cryptoValue={gasFees ? "~"+formatWeiToEthString(gasFees, 5) : "--"}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />
       <EstimatedTransaction
         name="Total"
-        usdValue={stake ? convertAndFormatWeiToUSD(stake.add(gasFees), ethToUsdMultiplier) : "--"}
-        cryptoValue={stake ? formatWeiToEthString(stake.add(gasFees), 5) : "--"}
+        usdValue={stake ? "~"+convertAndFormatWeiToUSD(stake.add(gasFees), ethToUsdMultiplier) : "--"}
+        cryptoValue={stake ? "~"+formatWeiToEthString(stake.add(gasFees), 5) : "--"}
         isCryptoPricePending={false}
         isUSDPricePending={false}
       />

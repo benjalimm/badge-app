@@ -109,6 +109,35 @@ export default function DraftAndMintBadgeView({
     }
   }, [walletIdentifier])
 
+  useEffect(() => {
+    function keyDownHandler(event: KeyboardEvent) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+
+        switch (pageState) {
+          case "DraftBadge":
+            prepareBadge()
+            break
+          case "MintBadge":
+            mintBadge()
+            break
+          default:
+            break
+        } 
+      } else if (event.key === "[" && event.metaKey) {
+        event.preventDefault();
+
+        onBackToDraft();
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler, true);
+
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler, true);
+    }
+  }, [badgeTitle, badgeDescription, badgeLevel, currentlySelectedMedia, walletIdentifier, walletAddress, email])
+
   // ** DRAFT BADGE METHODS ** \\
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
     setBadgeTitle(event.currentTarget.value);

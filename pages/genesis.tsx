@@ -19,6 +19,8 @@ import { BigNumber } from 'ethers';
 import { getScanUrl } from '../utils/chainUtils';
 import { burnWithPrejudice, resetBadgeRecipient, revokeBadgeAsEntity } from '../utils/burnTests';
 import { setSiteForEntity } from '../utils/setSiteUtils';
+import { ethToWeiMultiplier } from '../utils/ethConversionUtils';
+import next from 'next';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -44,8 +46,8 @@ export default function DeployEntityPage() {
     badgeToken: "",
     permissionToken: ""
   }); // After registstration 
-  const [minStake, setMinStake] = useState<BigNumber | null>(null);
-  const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(null);
+  const [minStake, setMinStake] = useState<BigNumber | null>(BigNumber.from(`${0.015 * ethToWeiMultiplier}`));
+  const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(BigNumber.from(`${0.013 * ethToWeiMultiplier}`));
 
   // ** PAGE STATE INFO ** \\
   const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
@@ -107,16 +109,18 @@ export default function DeployEntityPage() {
 
   // ** ESTIMATE GAS FEES ** \\
   useEffect(() => {
-    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
-    badgeRegistry.estimateGas.registerEntity(entityName, "", true, { value: minStake }).then(gas => {
-      setEstimatedGasFees(gas)
-    }).catch(err => {
-      console.log("Error with estimating gas")
-      console.error(err)
-      setEstimatedGasFees(BigNumber.from("0"))
-    })
+    // console.log("Estimating gas fees...")
+    // const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    // badgeRegistry.estimateGas.registerEntity(entityName, "https://ipfs.infura.io/abcdefghijklmnop", true, { value: minStake }).then(gas => {
+    //   console.log(`Estimated gas fees: ${gas}`)
+    //   setEstimatedGasFees(gas)
+    // }).catch(err => {
+    //   console.log("Error with estimating gas")
+    //   console.error(err)
+    //   setEstimatedGasFees(BigNumber.from("0"))
+    // })
 
-  }, [minStake])
+  }, [minStake, entityName, randomState])
 
   useEffect(() => {
 
