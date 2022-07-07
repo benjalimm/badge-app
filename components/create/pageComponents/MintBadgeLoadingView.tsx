@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import style from './MintBadgeLoadingView.module.css'
-import ProgressBar from '../GenericComponents/ProgressBar';
+import ProgressBar from '../../GenericComponents/ProgressBar';
 
 const MintBadgeLoadingView = (
   { loadingPercentage }:

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import style from './MediaCatalogue.module.css';
-import { BadgeMedia } from '../../schemas/BadgeMedia';
+import { BadgeMedia } from '../../../schemas/BadgeMedia';
 import cx from 'classnames'
 import { BarLoader, ClipLoader } from 'react-spinners';
 // import { badgeMediaList } from '../../utils/badgeMediaList';

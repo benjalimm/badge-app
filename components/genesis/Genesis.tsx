@@ -1,26 +1,23 @@
-import Navbar from '../components/navBar/NavBar'
+import Navbar from '../../components/navBar/NavBar'
 import React, { useEffect, useContext, useState, ReactElement } from 'react'
-import styles from './genesis.module.css'
-import PageTitleView from '../components/GenericComponents/PageTitleView'
+import styles from './Genesis.module.css'
+import PageTitleView from '../../components/GenericComponents/PageTitleView'
 import { useRouter } from 'next/router';
-import DeployEntityEntryView from '../components/genesis/DeployEntityEntryView';
-import DeployEntitySuccessView from '../components/genesis/DeployEntitySuccessView';
-import DeployEntityLoadingView from '../components/genesis/DeployEntityLoadingView';
-import { EntityInfo } from '../schemas/genesis';
-import { badgeContractAddress, currentChain } from '../configs/blockchainConfig';
-import { setCurrentEntity } from '../utils/entityLocalState';
-import { uploadERC721ToIpfs } from '../utils/ipfsHelper';
+import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';
+import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
+import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
+import { EntityInfo } from '../../schemas/genesis';
+import { badgeContractAddress, currentChain } from '../../configs/blockchainConfig';
+import { setCurrentEntity } from '../../utils/entityLocalState';
+import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../typechain";
-import MultiStepView from '../components/GenericComponents/MultiStepView';
-import { RegisterEntityConfirmationView } from '../components/genesis/RegisterEntityConfirmationView';
+import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../../typechain";
+import MultiStepView from '../../components/GenericComponents/MultiStepView';
+import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
-import { getScanUrl } from '../utils/chainUtils';
-import { burnWithPrejudice, resetBadgeRecipient, revokeBadgeAsEntity } from '../utils/burnTests';
-import { setSiteForEntity } from '../utils/setSiteUtils';
-import { ethToWeiMultiplier } from '../utils/ethConversionUtils';
-import next from 'next';
+import { getScanUrl } from '../../utils/chainUtils';
+import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -34,7 +31,7 @@ type DeployState =
 "STARTED_ENTITY_DEPLOYMENT" | 
 "ENTITY_REGISTERED";
 
-export default function DeployEntityPage() {
+export default function RegisterEntityPage() {
   const router = useRouter();
 
   // ** ENTITY INFO ** \\

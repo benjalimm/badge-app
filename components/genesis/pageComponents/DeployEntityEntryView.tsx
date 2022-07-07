@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './DeployEntityEntryView.module.css';
-import sharedStyle from './shared.module.css';
-import cx from 'classnames';
-import { isReallyEmpty } from '../../utils/stringUtils';
-import { BasicButton } from '../GenericComponents/Buttons';
-import TextBox from '../GenericComponents/TextBox';
+import { isReallyEmpty } from '../../../utils/stringUtils';
+import { BasicButton } from '../../GenericComponents/Buttons';
+import TextBox from '../../GenericComponents/TextBox';
 
 export function DeployEntityEntryView(
   { 

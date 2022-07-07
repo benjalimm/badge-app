@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import style from "./RegisterEntityConfirmationView.module.css"
-import EstimatedTransaction from '../GenericComponents/EstimatedTransaction';
-import TransactionContainer from '../GenericComponents/TransactionContainer';
-import { BasicButton } from '../GenericComponents/Buttons';
-import { convertAndFormatWeiToUSD, formatWeiToEthString, weiToEthMultiplier } from '../../utils/ethConversionUtils';
+import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
+import TransactionContainer from '../../GenericComponents/TransactionContainer';
+import { BasicButton } from '../../GenericComponents/Buttons';
+import { convertAndFormatWeiToUSD, formatWeiToEthString, weiToEthMultiplier } from '../../../utils/ethConversionUtils';
 import { BigNumber, ethers } from 'ethers';
-import USDConverter from '../../utils/USDConverter';
+import USDConverter from '../../../utils/USDConverter';
 
 export function RegisterEntityConfirmationView(
   { 

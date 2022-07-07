@@ -1,7 +1,6 @@
 import React from 'react';
 import style from './DeployEntityLoadingView.module.css';
-import sharedStyle from './shared.module.css';
-import ProgressBar from '../GenericComponents/ProgressBar';
+import ProgressBar from '../../GenericComponents/ProgressBar';
 
 const DeployEntityLoadingView = (
   { loadingPercentage }:

@@ -1,7 +1,7 @@
 import React from 'react';
 import style from './DraftBadge.module.css'
-import TextBox from '../GenericComponents/TextBox';
-import TextArea from '../GenericComponents/TextArea';
+import TextBox from '../../GenericComponents/TextBox';
+import TextArea from '../../GenericComponents/TextArea';
 
 export type HighlightType = "ERROR" | "SUCCESS";
 export default function FormTextBoxContainer(
