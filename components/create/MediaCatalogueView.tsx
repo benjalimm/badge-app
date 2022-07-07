@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import style from './MediaCatalogue.module.css';
 import { BadgeMedia } from '../../schemas/BadgeMedia';
 import cx from 'classnames'
@@ -16,6 +16,50 @@ export default function MediaCatalogueView({
   badgeMediaList: BadgeMedia[],
   indexOfCurrentlySelectedMedia: number,
 }) {
+
+  // ** LISTEN TO KEYBOARD SHORTCUTS ** \\
+  useEffect(() => {
+    /// Handle escape + back for media catalogue
+    function keyDownHandler(event: KeyboardEvent) {
+      console.log(`Keydown: ${event.key}`);
+      if (event.key === "Escape" || (event.key == "[" && event.metaKey) || event.key === "Enter") {
+        event.preventDefault();
+        onCancel();
+      } else if (event.key === 'ArrowLeft') {
+        // left arrow
+        event.preventDefault();
+        progressMediaIndexBy(-1);
+      } else if (event.key === 'ArrowRight') {
+        // right arrow
+        event.preventDefault();
+        progressMediaIndexBy(1);
+        
+      } else if (event.key === 'ArrowUp') {
+        // up arrow
+        event.preventDefault();
+        progressMediaIndexBy(-2);
+        
+      } else if (event.key === 'ArrowDown') {
+        // down arrow
+        event.preventDefault();
+        progressMediaIndexBy(2);
+      }
+    }
+
+    document.addEventListener('keydown', keyDownHandler, true);
+    return () => {
+      document.removeEventListener('keydown', keyDownHandler, true);
+    }
+  }, [indexOfCurrentlySelectedMedia])
+
+  function progressMediaIndexBy(delta: number) {
+    
+    const newIndex = indexOfCurrentlySelectedMedia + delta;
+    console.log(`Index: ${indexOfCurrentlySelectedMedia} , newIndex: ${newIndex}`);
+    if (newIndex >= 0 && newIndex < badgeMediaList.length) {
+      onBadgeMediaSelect(newIndex);
+    }
+  }
 
   function onSelect(index: number){
     onBadgeMediaSelect(index);
