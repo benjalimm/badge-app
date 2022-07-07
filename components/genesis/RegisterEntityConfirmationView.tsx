@@ -52,7 +52,6 @@ export function RegisterEntityConfirmationView(
       } else if (event.key === "[" && event.metaKey) {
         event.preventDefault();
         onBack();
-
       }
     }
 
