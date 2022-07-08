@@ -50,6 +50,10 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
 
   }, [status])
 
+  useEffect(() => {
+    console.log(`isActive: ${active}`)
+  }, [active])
+
   const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
   return (
     <div className={navBarStyles}>
