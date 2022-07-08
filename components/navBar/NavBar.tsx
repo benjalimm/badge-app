@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import styles from "./NavBar.module.css";
+import styles from "./NavBar.module.scss";
 import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
 import cx from 'classnames';
@@ -9,7 +9,7 @@ import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useNetwork, useSigner, useSignMessage } from 'wagmi'
 import { useSession } from 'next-auth/react';
 
-export default function NavBar({ sticky } :{ sticky: boolean }) {
+export default function NavBar({ sticky, host } :{ sticky: boolean, host?: string }) {
   const router = useRouter()
   const { connect, connectors }  = useConnect();
   const { signMessageAsync, error: signError  } = useSignMessage();
@@ -60,7 +60,8 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
       <div className={styles.badgeLogo}>
         BADGE.
       </div>
-      { active ? <AccountInfo account={session.user?.name}/> : <SignInButton connect={handleLogin}/> }
+      { active ? <AccountInfo account={session.user?.name} host={host}/> : <SignInButton connect={handleLogin}/> }
+      
     </div>
   )
 }

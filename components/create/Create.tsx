@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PageTitleView from '../../components/GenericComponents/PageTitleView';
-import NavBar from '../../components/navBar/NavBar';
+import NavBar from '../NavBar/NavBar';
 import style from './Create.module.css'
 import DraftAndMintBadgeView from './pageComponents/DraftAndMintBadgeView';
 import MultiStepView from '../../components/GenericComponents/MultiStepView';
@@ -20,8 +20,9 @@ import { ethers } from 'ethers';
 import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
+import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
-export default function CreateBadgeView() {
+export default function CreateBadgeView({ host }: DomainTypeProps) {
 
   // ** USER STATE ** \\
   const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
@@ -303,7 +304,7 @@ export default function CreateBadgeView() {
   }
 
   return <div className={style.background}>
-    <NavBar sticky={true}/>
+    <NavBar sticky={true} host={host}/>
     <PageTitleView title='Award a Badge'/>
     
     <div className={style.pageContainer}>

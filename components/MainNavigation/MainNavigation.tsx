@@ -1,12 +1,13 @@
 import { useRouter } from 'next/router';
 import React from 'react';
+import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import PageTitleView from '../GenericComponents/PageTitleView';
-import NavBar from '../navBar/NavBar';
+import NavBar from '../NavBar/NavBar';
 import style from './MainNavigation.module.css';
 
-export default function MainNavigation() {
+export default function MainNavigation({ host }: DomainTypeProps) {
   return <div className={style.container}>
-    <NavBar sticky={false}/>
+    <NavBar sticky={false} host={host}/>
     <PageTitleView title={"Navigation"}/>
     <div className={style.contentContainer}>
       <NavigationButton 

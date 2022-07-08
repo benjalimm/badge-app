@@ -1,4 +1,4 @@
-import Navbar from '../components/navBar/NavBar'
+import Navbar from '../components/NavBar/NavBar'
 
 import styles from './index.module.css'
 import React, { useEffect } from 'react'
@@ -16,7 +16,7 @@ const IndexPage = (domainTypeProps: DomainTypeProps) => {
     case "main":
       return <LandingPage {...domainTypeProps} />
     case "app-subdomain":
-      return <MainNavigation/>
+      return <MainNavigation {...domainTypeProps}/>
     default:
       return null;
   }

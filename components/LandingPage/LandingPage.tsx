@@ -1,4 +1,4 @@
-import Navbar from '../navBar/NavBar'
+import Navbar from '../NavBar/NavBar'
 import TopPageSection from './pageComponents/TopPageSection'
 import BottomPageSection from './pageComponents/BottomPageSection'
 
@@ -21,7 +21,7 @@ const LandingPage = ({ host }: DomainTypeProps) => {
 
     if (active) {
       // signOut()
-      window.location.assign(`http://alpha.${host}`)
+      // window.location.assign(`http://alpha.${host}`)
     }
     console.log(status)
   
@@ -30,7 +30,7 @@ const LandingPage = ({ host }: DomainTypeProps) => {
   return (
     <div className={styles.lp}>
       <BadgeHead/>
-      <Navbar sticky={false}/>
+      <Navbar sticky={false} host={host}/>
       <div className={styles.sections}>
         <TopPageSection/>
         <MeritLayerSection/>

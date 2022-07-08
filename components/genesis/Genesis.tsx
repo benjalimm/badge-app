@@ -1,4 +1,4 @@
-import Navbar from '../../components/navBar/NavBar'
+import Navbar from '../NavBar/NavBar'
 import React, { useEffect, useContext, useState, ReactElement } from 'react'
 import styles from './Genesis.module.css'
 import PageTitleView from '../../components/GenericComponents/PageTitleView'
@@ -18,6 +18,7 @@ import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityC
 import { BigNumber } from 'ethers';
 import { getScanUrl } from '../../utils/chainUtils';
 import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
+import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -31,7 +32,7 @@ type DeployState =
 "STARTED_ENTITY_DEPLOYMENT" | 
 "ENTITY_REGISTERED";
 
-export default function RegisterEntityPage() {
+export default function RegisterEntityPage({ host } : DomainTypeProps) {
   const router = useRouter();
 
   // ** ENTITY INFO ** \\
@@ -287,7 +288,7 @@ export default function RegisterEntityPage() {
 
   return (
     <div className={styles.background}>
-      <Navbar sticky={true}/>
+      <Navbar sticky={true} host={host}/>
       <PageTitleView title={"Register an entity on-chain"}/>
       
       <div className={styles.pageContainer}>
