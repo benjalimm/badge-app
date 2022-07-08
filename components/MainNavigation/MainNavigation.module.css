@@ -15,24 +15,79 @@
 
 .navigationButton {
   width: 250px;
-  height: 60px;
+  height: 65px;
   border-radius: 15px;
   background-color: white;
   margin-top: 30px;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   transition-duration: 0.2s;
+  position: relative;
 }
 
 .navigationButton:hover {
   width: 260px;
-  height: 65px;
+  height: 70px;
   background-color: black;
   color: white;
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.3);
 }
 
 .navigationButtonTitle {
   font-size: 16px;
   font-weight: bold;
+  margin-left: 22px;
+}
+
+.circle {
+  width: 25px;
+  height: 25px;
+  border-radius: 12.5px;
+  background-color: #EDEDED;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  right: 10px;
+}
+
+.navigationButton:hover .circle {
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+}
+
+.rightArrow {
+  width: 10px;
+  height: 10px;
+  filter: grayscale(100%);
+}
+
+@media only screen and (max-width: 850px) {
+  .navigationButton {
+    width: 200px;
+    height: 55px;
+  }
+
+  .navigationButton:hover {
+    width: 210px;
+    height: 59px;
+
+  }
+
+  .navigationButtonTitle {
+    font-size: 14px;
+  }
+
+  .circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 12.5px;
+  }
+
+  .rightArrow {
+    width: 8px;
+    height: 8px;
+  }
+
+
 }

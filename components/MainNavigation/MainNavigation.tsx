@@ -18,6 +18,11 @@ export default function MainNavigation() {
         route="/create"
       />
 
+      <NavigationButton 
+        title="Issue permission" 
+        route="/create"
+      />
+
     </div>
   </div>
 }
@@ -40,5 +45,8 @@ function NavigationButton(
     }
   }}>
     <h1 className={style.navigationButtonTitle}>{title}</h1>
+    <div className={style.circle}>
+      <img className={style.rightArrow} src="images/generic/right-arrow.png"/>
+    </div>
   </button>
 }
