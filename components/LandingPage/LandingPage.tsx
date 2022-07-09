@@ -12,7 +12,7 @@ import MeritLayerSection from './pageComponents/MeritLayerSection'
 import FeaturesSection from './pageComponents/FeaturesSection'
 import  { DomainTypeProps } from '../../utils/serverSidePropsUtil'
 
-const LandingPage = ({ host }: DomainTypeProps) => {
+const LandingPage = (domainTypeProps: DomainTypeProps) => {
   const router = useRouter();
   const { status } = useSession();
   const active = (status === "authenticated");
@@ -30,7 +30,7 @@ const LandingPage = ({ host }: DomainTypeProps) => {
   return (
     <div className={styles.lp}>
       <BadgeHead/>
-      <Navbar sticky={false} host={host}/>
+      <Navbar sticky={false} {...domainTypeProps}/>
       <div className={styles.sections}>
         <TopPageSection/>
         <MeritLayerSection/>

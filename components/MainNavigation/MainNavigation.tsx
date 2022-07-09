@@ -3,11 +3,11 @@ import React from 'react';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import PageTitleView from '../GenericComponents/PageTitleView';
 import NavBar from '../NavBar/NavBar';
-import style from './MainNavigation.module.css';
+import style from './MainNavigation.module.scss';
 
-export default function MainNavigation({ host }: DomainTypeProps) {
+export default function MainNavigation(domainTypeProps: DomainTypeProps) {
   return <div className={style.container}>
-    <NavBar sticky={false} host={host}/>
+    <NavBar sticky={false} {...domainTypeProps}/>
     <PageTitleView title={"Navigation"}/>
     <div className={style.contentContainer}>
       <NavigationButton 

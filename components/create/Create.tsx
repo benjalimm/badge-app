@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import PageTitleView from '../../components/GenericComponents/PageTitleView';
+import PageTitleView from '../GenericComponents/PageTitleView';
 import NavBar from '../NavBar/NavBar';
 import style from './Create.module.css'
 import DraftAndMintBadgeView from './pageComponents/DraftAndMintBadgeView';
-import MultiStepView from '../../components/GenericComponents/MultiStepView';
+import MultiStepView from '../GenericComponents/MultiStepView';
 import { BadgeData } from '../../schemas/BadgeData';
 import { PageState } from '../../schemas/create';
 import { getCurrentEntity } from '../../utils/entityLocalState';
@@ -22,7 +22,7 @@ import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
-export default function CreateBadgeView({ host }: DomainTypeProps) {
+export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   // ** USER STATE ** \\
   const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
@@ -304,7 +304,7 @@ export default function CreateBadgeView({ host }: DomainTypeProps) {
   }
 
   return <div className={style.background}>
-    <NavBar sticky={true} host={host}/>
+    <NavBar sticky={true} {...domainTypeProps}/>
     <PageTitleView title='Award a Badge'/>
     
     <div className={style.pageContainer}>

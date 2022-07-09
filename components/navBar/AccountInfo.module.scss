@@ -1,7 +1,9 @@
+@import "../../styles/CommonAnimations.module.scss";
+
 $contractedHeight: 57px;
 $contractedHeightMobile: 42px;
-$expandedHeight: auto;
-
+$expandedHeight: 140px;
+$expandedHeightMobile: 110px;
 
 .accountInfoBackground {
   display: flex;
@@ -24,22 +26,17 @@ $expandedHeight: auto;
   flex-direction: column;
   position: relative;
   transition-duration: 0.2s;
-  max-height: 300px;
   z-index: 2;
+  user-select: none;
 }
 
 .accountInfoContainer:hover {
-  background-color: black;
-  color: white;
-
   width: 210px;
 }
 
 .accountInfoContainerExpanded {
   @extend .accountInfoContainer;
   height: $expandedHeight;
-  max-height: 300px;
-  transition: 300px 0.15s ease-in-out;
 }
 
 .accountInfoContainer:hover .circle {
@@ -60,8 +57,9 @@ $expandedHeight: auto;
 .topContentContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: $contractedHeight;
+  width: 100%;
 }
 
 .accountInfoTextContainer {
@@ -110,6 +108,7 @@ $expandedHeight: auto;
   width: 100%;
   flex-direction: column;
   padding-bottom: 10px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 .goToAppButton {
@@ -125,15 +124,16 @@ $expandedHeight: auto;
   border-radius: 8px;
 }
 
+.goToAppButton:active {
+  @extend .buttonPress;
+}
+
 .disconnectButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 90%;
+  @extend .goToAppButton;
+  background-color: transparent;
   color: black;
-  font-weight: bold;
-  height: 40px;
-  font-size: 12px;
+  width: 90%;
+
 }
 
 @media only screen and (max-width: 850px) {
@@ -144,6 +144,11 @@ $expandedHeight: auto;
 
   .accountInfoContainer {
     width: 150px;
+    height: $contractedHeightMobile;
+  }
+
+  .accountInfoContainerExpanded {
+    height: $expandedHeightMobile;
   }
 
   .accountInfoContainer:hover {
@@ -168,4 +173,21 @@ $expandedHeight: auto;
     font-size: 8px;
   }
 
+  .goToAppButton {
+    height: 30px;
+    font-size: 10px;
+  }
+
+}
+
+@keyframes expand {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }

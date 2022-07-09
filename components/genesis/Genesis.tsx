@@ -1,7 +1,7 @@
 import Navbar from '../NavBar/NavBar'
 import React, { useEffect, useContext, useState, ReactElement } from 'react'
 import styles from './Genesis.module.css'
-import PageTitleView from '../../components/GenericComponents/PageTitleView'
+import PageTitleView from '../GenericComponents/PageTitleView'
 import { useRouter } from 'next/router';
 import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';
 import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
@@ -13,7 +13,7 @@ import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../../typechain";
-import MultiStepView from '../../components/GenericComponents/MultiStepView';
+import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
 import { getScanUrl } from '../../utils/chainUtils';
@@ -32,7 +32,7 @@ type DeployState =
 "STARTED_ENTITY_DEPLOYMENT" | 
 "ENTITY_REGISTERED";
 
-export default function RegisterEntityPage({ host } : DomainTypeProps) {
+export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const router = useRouter();
 
   // ** ENTITY INFO ** \\
@@ -288,7 +288,7 @@ export default function RegisterEntityPage({ host } : DomainTypeProps) {
 
   return (
     <div className={styles.background}>
-      <Navbar sticky={true} host={host}/>
+      <Navbar sticky={true} {...domainTypeProps}/>
       <PageTitleView title={"Register an entity on-chain"}/>
       
       <div className={styles.pageContainer}>

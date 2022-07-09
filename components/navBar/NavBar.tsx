@@ -8,8 +8,13 @@ import { getCsrfToken, signIn, signOut } from 'next-auth/react'
 import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useNetwork, useSigner, useSignMessage } from 'wagmi'
 import { useSession } from 'next-auth/react';
+import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
-export default function NavBar({ sticky, host } :{ sticky: boolean, host?: string }) {
+interface Props extends DomainTypeProps {
+  sticky?: boolean;
+}
+
+export default function NavBar({ sticky, host, domainType }:Props) {
   const router = useRouter()
   const { connect, connectors }  = useConnect();
   const { signMessageAsync, error: signError  } = useSignMessage();
@@ -23,7 +28,7 @@ export default function NavBar({ sticky, host } :{ sticky: boolean, host?: strin
   const handleLogin = async () => {
     try {
       await connect(connectors[0]);
-      const callbackUrl = '/protected';
+      const callbackUrl = `${CURRENT_SUBDOMAIN}.${host}`;
       const message = new SiweMessage({
         domain: window.location.host,
         address: accountData?.address,
@@ -60,7 +65,13 @@ export default function NavBar({ sticky, host } :{ sticky: boolean, host?: strin
       <div className={styles.badgeLogo}>
         BADGE.
       </div>
-      { active ? <AccountInfo account={session.user?.name} host={host}/> : <SignInButton connect={handleLogin}/> }
+      { active ? 
+        <AccountInfo 
+          account={session.user?.name} 
+          host={host} 
+          domainType={domainType}/> 
+        : 
+        <SignInButton connect={handleLogin}/> }
       
     </div>
   )

@@ -1,3 +1,5 @@
+@import "../../styles/CommonAnimations.module.scss";
+
 .basicButton {
   width: 155px;
   height: 50px;
@@ -17,4 +19,8 @@
 .basicButton:hover {
   width: 175px;
   transition-duration: 0.2s;
+}
+
+.basicButton:active {
+  @extend .buttonPress;
 }
