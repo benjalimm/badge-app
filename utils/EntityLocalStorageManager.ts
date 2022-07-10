@@ -3,12 +3,14 @@ import { setValue, getValue } from "./storage";
 import { v4 as uuidv4 } from 'uuid';
 
 export function setCurrentEntityInLocalStorage(entity: EntityInfo) {
-  setValue("CURRENT_ENTITY", JSON.stringify(entity));
+  setValue("current_entity", JSON.stringify(entity));
 }
 
 export function getCurrentEntityFromLocalStorage(): EntityInfo | undefined {
-  const currentEntity = getValue("CURRENT_ENTITY");
+  console.log('Getting current entity from local storage');
+  const currentEntity = getValue("current_entity");
   if (currentEntity) {
+    console.log(`Current entity exist: ${currentEntity}`);
     return JSON.parse(currentEntity);
   }
   return undefined;
@@ -34,7 +36,7 @@ export default class EntityLocalStorageManager {
   }
 
   static stopListening(id: string) {
-    const index = this.updates.findIndex((update) => update.id === id);
+    const index = EntityLocalStorageManager.updates.findIndex((update) => update.id === id);
     delete this.updates[index];
   }
 
