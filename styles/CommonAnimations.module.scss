@@ -25,6 +25,18 @@
   }
 }
 
+@keyframes fadeInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(2.5%);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
 @keyframes fadeOutToTop {
   0% {
     opacity: 1;

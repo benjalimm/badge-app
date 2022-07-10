@@ -1,6 +1,6 @@
 import Navbar from '../NavBar/NavBar'
 import React, { useEffect, useContext, useState, ReactElement } from 'react'
-import styles from './Genesis.module.css'
+import styles from './Genesis.module.scss'
 import PageTitleView from '../GenericComponents/PageTitleView'
 import { useRouter } from 'next/router';
 import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';

@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import style from './MediaCatalogue.module.css';
 import { BadgeMedia } from '../../../schemas/BadgeMedia';
 import cx from 'classnames'
 import { BarLoader, ClipLoader } from 'react-spinners';
+import useOutsideAlerter from '../../../utils/hooks/useOutsideAlerter';
 // import { badgeMediaList } from '../../utils/badgeMediaList';
 
 export default function MediaCatalogueView({ 
@@ -16,6 +17,9 @@ export default function MediaCatalogueView({
   badgeMediaList: BadgeMedia[],
   indexOfCurrentlySelectedMedia: number,
 }) {
+
+  const ref = useRef(null);
+  useOutsideAlerter(ref, onCancel);
 
   // ** LISTEN TO KEYBOARD SHORTCUTS ** \\
   useEffect(() => {
