@@ -6,7 +6,7 @@ import DraftAndMintBadgeView from './pageComponents/DraftAndMintBadgeView';
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { BadgeData } from '../../schemas/BadgeData';
 import { PageState } from '../../schemas/create';
-import { getCurrentEntity } from '../../utils/entityLocalState';
+import useCurrentEntity from '../../utils/hooks/useCurrentEntity';
 import MintBadgeLoadingView from './pageComponents/MintBadgeLoadingView';
 import MintBadgeReceiptView from './pageComponents/MintBadgeReceiptView';
 import { currentChain } from '../../configs/blockchainConfig';
@@ -40,7 +40,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
-  const currentEntityInfo = getCurrentEntity();
+  const currentEntityInfo = useCurrentEntity();
   const [indexOfBadgeMedia, setIndexOfBadgeMedia] = useState<number>(0);
 
   // ** BASE BADGE PRICE ** \\

@@ -6,9 +6,9 @@ import { useRouter } from 'next/router';
 import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';
 import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
 import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
-import { EntityInfo } from '../../schemas/genesis';
+import { EntityInfo } from '../../schemas/EntityInfo';
 import { badgeContractAddress, currentChain } from '../../configs/blockchainConfig';
-import { setCurrentEntity } from '../../utils/entityLocalState';
+import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
 import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
@@ -40,9 +40,12 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: "",
     badgeToken: "",
-    permissionToken: ""
+    permissionToken: "",
+    permissionTokenType: "GENESIS",
+    timestampOfLastVerified: 0,
+    chain: "Ethereum Rinkeby",
+    genesisTokenHolder:""
   }); // After registstration 
   const [minStake, setMinStake] = useState<BigNumber | null>(BigNumber.from(`${0.015 * ethToWeiMultiplier}`));
   const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(BigNumber.from(`${0.013 * ethToWeiMultiplier}`));
@@ -204,20 +207,20 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
         setDeployState("ENTITY_REGISTERED")
 
         // 6.1. Set entity info for view
-        setEntityInfo({
+        const info: EntityInfo  = {
           address: entityAddress,
           name: entityName,
-          genesisTokenHolder,
           badgeToken,
-          permissionToken
-        })
+          permissionToken,
+          permissionTokenType: "GENESIS",
+          timestampOfLastVerified: Date.now(),
+          chain: currentChain,
+          genesisTokenHolder: genesisTokenHolder
+        }
+        setEntityInfo(info);
 
         // 6.2. Set entity info for local storage -> IMPORTANT
-        setCurrentEntity({
-          address: entityAddress,
-          name: entityName,
-          timestampOfLastVerified: Date.now()
-        })
+        EntityLocalStorageManager.setLatestCurrentEntity(info);
 
         // 6.3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "Success") {
@@ -269,7 +272,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
           entityName={entityInfo.name} 
           entityAddress={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
-          genesisHolderEnsName={entityInfo.tokenHolderEnsName}
+          genesisHolderEnsName={""}
           transactionLink={getScanUrl(currentChain, txHash, 'Transaction')}
           permissionTokenLink={getScanUrl(currentChain, entityInfo.permissionToken, 'Token')}
           badgeTokenLink={getScanUrl(currentChain, entityInfo.badgeToken, 'Token')}

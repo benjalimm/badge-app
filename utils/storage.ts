@@ -1,18 +1,20 @@
 
 export const isOnClient = () => typeof window !== 'undefined';
 
-export function setValue(key: string, value: string) {
+type StorageKey = "CURRENT_ENTITY"
+
+export function setValue(key: StorageKey, value: string) {
   if (isOnClient()) {
     localStorage.setItem(key, value)
   }
 }
 
-export function clearValue(key: string) {
+export function clearValue(key: StorageKey) {
   if (isOnClient()) {
     localStorage.removeItem(key)
   }
 }
-export function getValue(key: string): string | undefined {
+export function getValue(key: StorageKey): string | undefined {
   if (isOnClient()) {
     const value = localStorage.getItem(key);
     return value !== "" ? value : undefined;
@@ -20,4 +22,4 @@ export function getValue(key: string): string | undefined {
   return undefined
 }
 
-export const isSet = (key: string) => getValue(key) !== undefined;
+export const isSet = (key: StorageKey) => getValue(key) !== undefined;

@@ -8,7 +8,7 @@ import { BadgeData } from '../../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import { getCurrentEntity } from "../../../utils/entityLocalState";
+import useCurrentEntity from '../../../utils/hooks/useCurrentEntity';
 import cx from 'classnames';
 import { isReallyEmpty } from '../../../utils/stringUtils';
 import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/addressUtils';
@@ -60,7 +60,7 @@ export default function DraftAndMintBadgeView({
   const [walletIdentifier, setWalletIdentifier] = useState<string | null>(null) // -> ENS address or wallet addresss
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
-  const currentEntity = getCurrentEntity()
+  const currentEntity = useCurrentEntity()
   const [addressHighlightType, setAddressHighlightType] = useState<AddressHighlightType | null>(null);
   const entityName = currentEntity?.name ?? ""
 

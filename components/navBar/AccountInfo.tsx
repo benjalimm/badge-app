@@ -6,7 +6,7 @@ import { signOut } from 'next-auth/react';
 import useOutsideAlerter from '../../utils/hooks/useOutsideAlerter';
 import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import { useRouter } from 'next/router';
-import { getCurrentEntity } from '../../utils/entityLocalState';
+import useCurrentEntity from '../../utils/hooks/useCurrentEntity';
 
 interface Props extends DomainTypeProps {
   account: string
@@ -19,7 +19,7 @@ export default function AccountInfo({ account, host, domainType } : Props) {
   
   // ** WALLET / ENTITY STATE ** \\
   const [walletHandle,setWalletHandle] = useState(null);
-  const entity = getCurrentEntity();
+  const entity = useCurrentEntity();
 
   // ** ACCOUNT INFO STATE ** \\
   const [expanded, setExpanded] = useState(false);

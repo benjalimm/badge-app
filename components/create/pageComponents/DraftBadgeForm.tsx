@@ -36,7 +36,7 @@ export default function DraftBadgeForm({
 
   // ** ETH PRICE INFO ** \\
   const [ethPrice, setEthPrice] = useState<number>(0);
-  const [subscriptionId, setSubscriptionId] = useState<number>(0);
+  const [subscriptionId, setSubscriptionId] = useState<string>("");
 
   useEffect(() => {
     // Listen to latest eth price updates

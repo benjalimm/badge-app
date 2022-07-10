@@ -31,7 +31,7 @@ export function MintBadgeInputsAndDetails({
   ensWalletAddress?: string,
 }) {
 
-  const [subscriptionId, setSubscriptionId] = useState(0);
+  const [subscriptionId, setSubscriptionId] = useState("");
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
 
   // Figure out if there is highlight. If so, is it an error or success
