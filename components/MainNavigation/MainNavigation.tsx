@@ -2,7 +2,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import PageTitleView from '../GenericComponents/PageTitleView';
-import NavBar from '../NavBar/NavBar';
+import NavBar from '../navBar/NavBar';
 import style from './MainNavigation.module.scss';
 
 export default function MainNavigation(domainTypeProps: DomainTypeProps) {

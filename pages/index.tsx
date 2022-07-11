@@ -1,4 +1,4 @@
-import Navbar from '../components/NavBar/NavBar'
+import Navbar from '../components/navBar/NavBar'
 
 import styles from './index.module.css'
 import React, { useEffect } from 'react'

@@ -1,4 +1,4 @@
-import Navbar from '../NavBar/NavBar'
+import Navbar from '../navBar/NavBar'
 import React, { useEffect, useState, ReactElement } from 'react'
 import styles from './Genesis.module.scss'
 import PageTitleView from '../GenericComponents/PageTitleView'
