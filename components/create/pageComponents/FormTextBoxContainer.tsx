@@ -1,5 +1,5 @@
 import React from 'react';
-import style from './DraftBadge.module.css'
+import style from './DraftBadge.module.scss'
 import TextBox from '../../GenericComponents/TextBox';
 import TextArea from '../../GenericComponents/TextArea';
 

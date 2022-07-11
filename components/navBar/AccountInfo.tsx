@@ -7,6 +7,7 @@ import useOutsideAlerter from '../../utils/hooks/useOutsideAlerter';
 import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import { useRouter } from 'next/router';
 import useCurrentEntity from '../../utils/hooks/useCurrentEntity';
+import useAccountEns from '../../utils/hooks/useAccountEns';
 
 interface Props extends DomainTypeProps {
   account: string
@@ -18,16 +19,28 @@ export default function AccountInfo({ account, host, domainType } : Props) {
   useOutsideAlerter(ref, contract);
   
   // ** WALLET / ENTITY STATE ** \\
-  const [walletHandle,setWalletHandle] = useState(null);
   const entity = useCurrentEntity();
+  const possibleEns = useAccountEns(account);
 
   // ** ACCOUNT INFO STATE ** \\
   const [expanded, setExpanded] = useState(false);
 
-  const provider = ethers.getDefaultProvider();
-
   const shortenAddress = (address: string) => {
     return address.substring(0, 5) + ".." + address.substring(address.length - 3, address.length);
+  }
+
+  const shortenEns = (ens: string) => {
+    if (ens.length > 14) {
+      return ens.substring(0, 8) + "...[.eth]";
+    }
+    return ens;
+  }
+
+  const shortenEntityName = (name: string) => {
+    if (name.length > 17) {
+      return name.substring(0, 14) + "...";
+    }
+    return name;
   }
 
   function contract() {
@@ -45,27 +58,13 @@ export default function AccountInfo({ account, host, domainType } : Props) {
     }
   },[])
 
-  useEffect(() => {
-    setWalletHandle(shortenAddress(account));
-  },[])
-
-  useEffect(() => {
-    provider.lookupAddress(account).then(result => {
-      setWalletHandle(result);
-    })
-  },[])
-
-  useEffect(() => {
-    console.log(expanded)
-  }, [expanded])
-
   const infoContainer = expanded ? styles.accountInfoContainerExpanded : styles.accountInfoContainer
   return (
     <div className={styles.accountInfoBackground} ref={ref}>
       <div className={infoContainer}>
         <TopContentContainer 
-          handle={walletHandle} 
-          entityName={entity?.name ?? "--"}
+          handle={possibleEns ? shortenEns(possibleEns) : shortenAddress(account)} 
+          entityName={entity?.name ? shortenEntityName(entity?.name):"--"}
           expanded={expanded}
           onClick={toggle}
         />

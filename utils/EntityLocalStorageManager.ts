@@ -36,7 +36,7 @@ export default class EntityLocalStorageManager {
   }
 
   static stopListening(id: string) {
-    const index = EntityLocalStorageManager.updates.findIndex((update) => update.id === id);
+    const index = EntityLocalStorageManager.updates.findIndex((update) => update?.id === id);
     delete this.updates[index];
   }
 

@@ -33,7 +33,14 @@ export default class USDConverter {
 
   // ** REMOVE Subscriber -> AVOID MEMORY LEAK** \\
   static stopSubscribing(id: string) {
-    const index = this._subscriptions.findIndex((subscription) => subscription.id === id);
+    console.log(`Number of subscriptions: ${USDConverter._subscriptions.length}`);
+    const index = USDConverter._subscriptions.findIndex((subscription) => {
+      console.log(`Subscription: ${subscription}`);
+      if (subscription) {
+        
+        return subscription.id === id
+      }
+    });
     delete this._subscriptions[index];
     if (this._subscriptions.length === 0) {
       this.stopPolling();

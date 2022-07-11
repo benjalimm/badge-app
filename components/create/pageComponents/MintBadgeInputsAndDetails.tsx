@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import style from './MintBadge.module.css'
 import FormTextBoxContainer, { HighlightType } from './FormTextBoxContainer';
-import { getUSDPriceForEth } from '../../../utils/getEthPrice';
 import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
 import USDConverter from '../../../utils/USDConverter';
 import TransactionContainer from '../../GenericComponents/TransactionContainer';
 import { convertAndFormatEthToUSD, formatEthString } from '../../../utils/ethConversionUtils';
 import { AddressHighlightType } from './DraftAndMintBadgeView';
-import { shortenAddress } from '../../../utils/addressUtils';
 
 export function MintBadgeInputsAndDetails({ 
   walletIdentifier,
