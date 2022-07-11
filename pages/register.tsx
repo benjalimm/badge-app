@@ -1,7 +1,7 @@
 import React from 'react'
 import { GetServerSideProps } from 'next'
 import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
-import RegisterEntityPage from '../components/genesis/Genesis';
+import RegisterEntityPage from '../components/Genesis/Genesis';
 
 export default function Page(domainTypeProps: DomainTypeProps) {
   const { domainType } = domainTypeProps;
