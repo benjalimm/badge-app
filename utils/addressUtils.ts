@@ -1,4 +1,5 @@
 import { Provider } from "@wagmi/core";
+import { ethers } from "ethers";
 
 export function shortenAddress(address: string): string {
   return address.substring(0, 4) + ".." + address.substring(address.length - 3, address.length);
@@ -23,4 +24,8 @@ export function isEns(ens: string | null | undefined): boolean {
 
 export function getAddressForEns(ens: string, provider: Provider): Promise<string> {
   return provider.resolveName(ens);
+}
+
+export function getEnsForAddress(address: string, provider: Provider): Promise<string | null> {
+  return provider.lookupAddress(address);
 }

@@ -26,14 +26,14 @@ export default async function auth(req, res) {
           const siwe = new SiweMessage(JSON.parse(credentials?.message || "{}"))
           
           // NOTE: We only check domain if it's in prod
-          const domain = process.env.PROD_DOMAIN
-          const isProd = process.env.IS_PROD
+          // const domain = process.env.PROD_DOMAIN
+          // const isProd = process.env.IS_PROD
 
-          if (isProd) {
-            if (siwe.domain !== domain) {
-              return null
-            }
-          }
+          // if (isProd) {
+          //   if (siwe.domain !== domain) {
+          //     return null
+          //   }
+          // }
 
           if (siwe.nonce !== (await getCsrfToken({ req }))) {
             return null

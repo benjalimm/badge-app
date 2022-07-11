@@ -56,11 +56,11 @@ export function DeployEntityEntryView(
   return <div className={styles.container}>
     <div className={styles.content}>
       <div className={styles.formContainerView}>
-        <h3 className={styles.formHeaderText}>Entity name</h3>
+        <h3 className={styles.formHeaderText}>Set entity name</h3>
       
         <TextBox
         
-          placeholder="Entity name (e.g. Uniswap)" 
+          placeholder="(e.g. Uniswap)" 
           onChange={onChange}
           value={currentText}
           message={"Entity name cannot be empty"}

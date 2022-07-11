@@ -26,7 +26,7 @@ export function RegisterEntityConfirmationView(
     isButtonLoading: boolean
   }) {
 
-  const [subscriptionId, setSubscriptionId] = useState(0);
+  const [subscriptionId, setSubscriptionId] = useState("");
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
 
   // ** LISTEN TO ETH TO USD PRICE UPDATES ** \\

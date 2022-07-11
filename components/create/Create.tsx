@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import PageTitleView from '../../components/GenericComponents/PageTitleView';
-import NavBar from '../../components/navBar/NavBar';
-import style from './Create.module.css'
+import PageTitleView from '../GenericComponents/PageTitleView';
+import NavBar from '../navBar/NavBar';
+import style from './Create.module.scss'
 import DraftAndMintBadgeView from './pageComponents/DraftAndMintBadgeView';
-import MultiStepView from '../../components/GenericComponents/MultiStepView';
+import MultiStepView from '../GenericComponents/MultiStepView';
 import { BadgeData } from '../../schemas/BadgeData';
 import { PageState } from '../../schemas/create';
-import { getCurrentEntity } from '../../utils/entityLocalState';
+import useCurrentEntity from '../../utils/hooks/useCurrentEntity';
 import MintBadgeLoadingView from './pageComponents/MintBadgeLoadingView';
 import MintBadgeReceiptView from './pageComponents/MintBadgeReceiptView';
 import { currentChain } from '../../configs/blockchainConfig';
@@ -20,8 +20,9 @@ import { ethers } from 'ethers';
 import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
+import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
-export default function CreateBadgeView() {
+export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   // ** USER STATE ** \\
   const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
@@ -39,7 +40,7 @@ export default function CreateBadgeView() {
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
-  const currentEntityInfo = getCurrentEntity();
+  const currentEntityInfo = useCurrentEntity();
   const [indexOfBadgeMedia, setIndexOfBadgeMedia] = useState<number>(0);
 
   // ** BASE BADGE PRICE ** \\
@@ -303,7 +304,7 @@ export default function CreateBadgeView() {
   }
 
   return <div className={style.background}>
-    <NavBar sticky={true}/>
+    <NavBar sticky={true} {...domainTypeProps}/>
     <PageTitleView title='Award a Badge'/>
     
     <div className={style.pageContainer}>

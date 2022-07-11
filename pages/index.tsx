@@ -16,7 +16,7 @@ const IndexPage = (domainTypeProps: DomainTypeProps) => {
     case "main":
       return <LandingPage {...domainTypeProps} />
     case "app-subdomain":
-      return <MainNavigation/>
+      return <MainNavigation {...domainTypeProps}/>
     default:
       return null;
   }

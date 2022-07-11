@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import style from './MintBadge.module.css'
 import FormTextBoxContainer, { HighlightType } from './FormTextBoxContainer';
-import { getUSDPriceForEth } from '../../../utils/getEthPrice';
 import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
 import USDConverter from '../../../utils/USDConverter';
 import TransactionContainer from '../../GenericComponents/TransactionContainer';
 import { convertAndFormatEthToUSD, formatEthString } from '../../../utils/ethConversionUtils';
 import { AddressHighlightType } from './DraftAndMintBadgeView';
-import { shortenAddress } from '../../../utils/addressUtils';
 
 export function MintBadgeInputsAndDetails({ 
   walletIdentifier,
@@ -31,7 +29,7 @@ export function MintBadgeInputsAndDetails({
   ensWalletAddress?: string,
 }) {
 
-  const [subscriptionId, setSubscriptionId] = useState(0);
+  const [subscriptionId, setSubscriptionId] = useState("");
   const [ethToUsdMultiplier, setEthToUsd] = useState<number | null>(null);
 
   // Figure out if there is highlight. If so, is it an error or success

@@ -6,7 +6,7 @@ export interface DomainTypeProps {
   domainType: DomainType;
   host: string;
 }
-const CURRENT_SUBDOMAIN = "alpha";
+export const CURRENT_SUBDOMAIN = "alpha";
 function parseWildCardWithHost(host: string): DomainType {
 
   // 1. Split and get first domain
