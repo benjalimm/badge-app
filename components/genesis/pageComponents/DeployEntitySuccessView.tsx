@@ -1,7 +1,6 @@
 import React from 'react';
 import sharedStyle from './shared.module.css';
 import style from './DeployEntitySuccessView.module.css';
-import { EntityInfo } from '../../../schemas/genesis';
 import Field from '../../GenericComponents/Field';
 import cx from 'classnames';
 import { useRouter } from 'next/router';

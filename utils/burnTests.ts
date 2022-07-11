@@ -2,19 +2,19 @@ import { Provider } from "@wagmi/core";
 import { Signer } from "ethers";
 import { Entity, Entity__factory, BadgeToken, BadgeToken__factory } from "../typechain";
 import { ethers } from "ethers";
-import { getCurrentEntity } from "./entityLocalState";
+import { getCurrentEntityFromLocalStorage } from "./EntityLocalStorageManager";
 
 const entityAddress: string = "0x0De9389e76AF895f3549800a858BB34791786Ca5"
 const user2Address: string = "0x845B62836650b762996FDf596AabFd19AfFAE02D"
 
 export async function revokeBadgeAsEntity(signer: Signer) {
-  const address = getCurrentEntity().address;
+  const address = getCurrentEntityFromLocalStorage().address;
   const entity = Entity__factory.connect(address, signer)
   await entity.burnBadge(1);
 }
 
 export async function burnWithPrejudice(signer: Signer) {
-  const address = getCurrentEntity().address;
+  const address = getCurrentEntityFromLocalStorage().address;
   const entity = Entity__factory.connect(address, signer)
   const badgeTokenAddress = await entity.badgeToken();
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
@@ -58,7 +58,7 @@ export async function resetBadgeURI(signer: Signer) {
 }
 
 export async function resetBadgeRecipient(signer: Signer) {
-  const address = getCurrentEntity().address;
+  const address = getCurrentEntityFromLocalStorage().address;
   const entity = Entity__factory.connect(address, signer)
   await entity.resetBadgeRecipient(1, user2Address);
   entity.once("RecipientReset", (from: string, to: string) => {

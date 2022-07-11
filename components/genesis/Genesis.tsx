@@ -1,23 +1,24 @@
-import Navbar from '../../components/navBar/NavBar'
-import React, { useEffect, useContext, useState, ReactElement } from 'react'
-import styles from './Genesis.module.css'
-import PageTitleView from '../../components/GenericComponents/PageTitleView'
+import Navbar from '../navBar/NavBar'
+import React, { useEffect, useState, ReactElement } from 'react'
+import styles from './Genesis.module.scss'
+import PageTitleView from '../GenericComponents/PageTitleView'
 import { useRouter } from 'next/router';
 import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';
 import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
 import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
-import { EntityInfo } from '../../schemas/genesis';
+import { EntityInfo } from '../../schemas/EntityInfo';
 import { badgeContractAddress, currentChain } from '../../configs/blockchainConfig';
-import { setCurrentEntity } from '../../utils/entityLocalState';
+import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
 import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../../typechain";
-import MultiStepView from '../../components/GenericComponents/MultiStepView';
+import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
 import { getScanUrl } from '../../utils/chainUtils';
 import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
+import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -31,7 +32,7 @@ type DeployState =
 "STARTED_ENTITY_DEPLOYMENT" | 
 "ENTITY_REGISTERED";
 
-export default function RegisterEntityPage() {
+export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const router = useRouter();
 
   // ** ENTITY INFO ** \\
@@ -39,9 +40,12 @@ export default function RegisterEntityPage() {
   const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
     address: "",
     name: "",
-    genesisTokenHolder: "",
     badgeToken: "",
-    permissionToken: ""
+    permissionToken: "",
+    permissionTokenType: "GENESIS",
+    timestampOfLastVerified: 0,
+    chain: "Ethereum Rinkeby",
+    genesisTokenHolder:""
   }); // After registstration 
   const [minStake, setMinStake] = useState<BigNumber | null>(BigNumber.from(`${0.015 * ethToWeiMultiplier}`));
   const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(BigNumber.from(`${0.013 * ethToWeiMultiplier}`));
@@ -203,20 +207,20 @@ export default function RegisterEntityPage() {
         setDeployState("ENTITY_REGISTERED")
 
         // 6.1. Set entity info for view
-        setEntityInfo({
+        const info: EntityInfo  = {
           address: entityAddress,
           name: entityName,
-          genesisTokenHolder,
           badgeToken,
-          permissionToken
-        })
+          permissionToken,
+          permissionTokenType: "GENESIS",
+          timestampOfLastVerified: Date.now(),
+          chain: currentChain,
+          genesisTokenHolder: genesisTokenHolder
+        }
+        setEntityInfo(info);
 
         // 6.2. Set entity info for local storage -> IMPORTANT
-        setCurrentEntity({
-          address: entityAddress,
-          name: entityName,
-          timestampOfLastVerified: Date.now()
-        })
+        EntityLocalStorageManager.setLatestCurrentEntity(info);
 
         // 6.3. Set page state to success, this will change the state to the receipt view
         if (pageState !== "Success") {
@@ -268,7 +272,7 @@ export default function RegisterEntityPage() {
           entityName={entityInfo.name} 
           entityAddress={entityInfo.address} 
           genesisTokenHolder={entityInfo.genesisTokenHolder}
-          genesisHolderEnsName={entityInfo.tokenHolderEnsName}
+          genesisHolderEnsName={""}
           transactionLink={getScanUrl(currentChain, txHash, 'Transaction')}
           permissionTokenLink={getScanUrl(currentChain, entityInfo.permissionToken, 'Token')}
           badgeTokenLink={getScanUrl(currentChain, entityInfo.badgeToken, 'Token')}
@@ -287,7 +291,7 @@ export default function RegisterEntityPage() {
 
   return (
     <div className={styles.background}>
-      <Navbar sticky={true}/>
+      <Navbar sticky={true} {...domainTypeProps}/>
       <PageTitleView title={"Register an entity on-chain"}/>
       
       <div className={styles.pageContainer}>

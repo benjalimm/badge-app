@@ -1,4 +1,4 @@
-import Navbar from '../navBar/NavBar'
+import Navbar from '../navBar/NavBar';
 import TopPageSection from './pageComponents/TopPageSection'
 import BottomPageSection from './pageComponents/BottomPageSection'
 
@@ -12,7 +12,7 @@ import MeritLayerSection from './pageComponents/MeritLayerSection'
 import FeaturesSection from './pageComponents/FeaturesSection'
 import  { DomainTypeProps } from '../../utils/serverSidePropsUtil'
 
-const LandingPage = ({ host }: DomainTypeProps) => {
+const LandingPage = (domainTypeProps: DomainTypeProps) => {
   const router = useRouter();
   const { status } = useSession();
   const active = (status === "authenticated");
@@ -21,7 +21,7 @@ const LandingPage = ({ host }: DomainTypeProps) => {
 
     if (active) {
       // signOut()
-      window.location.assign(`http://alpha.${host}`)
+      // window.location.assign(`http://alpha.${host}`)
     }
     console.log(status)
   
@@ -30,7 +30,7 @@ const LandingPage = ({ host }: DomainTypeProps) => {
   return (
     <div className={styles.lp}>
       <BadgeHead/>
-      <Navbar sticky={false}/>
+      <Navbar sticky={false} {...domainTypeProps}/>
       <div className={styles.sections}>
         <TopPageSection/>
         <MeritLayerSection/>

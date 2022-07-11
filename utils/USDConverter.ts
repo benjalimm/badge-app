@@ -1,9 +1,10 @@
 import { getEthUSDPrice } from "./getEthPrice";
+import { v4 as uuidv4 } from 'uuid';
 
 type Subscription = (ethToUSDMultiplier: number) => void;
 export default class USDConverter {
   
-  private static _subscriptions: Subscription[] = [];
+  private static _subscriptions: {id: string, subscription: Subscription}[] = [];
   private static _intervalId: NodeJS.Timeout | null = null;
   private static isPolling(): boolean {
     return this._intervalId !== null;
@@ -13,8 +14,9 @@ export default class USDConverter {
   private static _refreshInterval: number = 60000; // Every 1 min
 
   // ** LISTEN TO ETH TO USD UPDATES ** \\
-  public static subscribeToEthUSDPriceUpdates(subscription: Subscription):number {
-    this._subscriptions.push(subscription);
+  public static subscribeToEthUSDPriceUpdates(subscription: Subscription):string {
+    const id = uuidv4()
+    this._subscriptions.push({subscription, id });
 
     // If we're not already polling, start polling
     if (!this.isPolling()) {
@@ -26,12 +28,20 @@ export default class USDConverter {
       subscription(this._latestEthToUSDMultiplier);
     }
 
-    return this._subscriptions.length - 1;
+    return id;
   }
 
   // ** REMOVE Subscriber -> AVOID MEMORY LEAK** \\
-  static stopSubscribing(id: number) {
-    delete this._subscriptions[id];
+  static stopSubscribing(id: string) {
+    console.log(`Number of subscriptions: ${USDConverter._subscriptions.length}`);
+    const index = USDConverter._subscriptions.findIndex((subscription) => {
+      console.log(`Subscription: ${subscription}`);
+      if (subscription) {
+        
+        return subscription.id === id
+      }
+    });
+    delete this._subscriptions[index];
     if (this._subscriptions.length === 0) {
       this.stopPolling();
     }
@@ -43,7 +53,7 @@ export default class USDConverter {
       this._latestEthToUSDMultiplier = number;
 
       // 2. Update all listeners
-      this._subscriptions.forEach(listener => listener(number));
+      this._subscriptions.forEach(listener => listener.subscription(number));
     })
 
   }

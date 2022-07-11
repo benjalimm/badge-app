@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import style from './DraftBadge.module.css'
+import style from './DraftBadge.module.scss'
 import BadgeCard, { WalletIdentifierType } from '../../badgeCard/BadgeCard';
 import { badgeMediaList } from '../../../utils/badgeMediaList';
 import { BasicButton } from '../../GenericComponents/Buttons';
@@ -8,11 +8,12 @@ import { BadgeData } from '../../../schemas/BadgeData';
 import { MintBadgeInputsAndDetails } from './MintBadgeInputsAndDetails';
 import { PageState } from '../../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
-import { getCurrentEntity } from "../../../utils/entityLocalState";
+import useCurrentEntity from '../../../utils/hooks/useCurrentEntity';
 import cx from 'classnames';
 import { isReallyEmpty } from '../../../utils/stringUtils';
 import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/addressUtils';
 import { useProvider } from 'wagmi';
+import { mainnet } from '../../../configs/blockchain.config';
 
 export type AddressHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
 
@@ -46,6 +47,7 @@ export default function DraftAndMintBadgeView({
 
   // ** WAGMI HOOKS ** \\
   const provider = useProvider();
+  const ensProvider = useProvider({ chainId: 1});
 
   // ** DRAFT BADGE INFORMATION ** \\
   const [badgeTitle, setBadgeTitle] = useState('');
@@ -60,7 +62,7 @@ export default function DraftAndMintBadgeView({
   const [walletIdentifier, setWalletIdentifier] = useState<string | null>(null) // -> ENS address or wallet addresss
   const [walletAddress, setWalletAddress] = useState<string | null>(null);
   const [email, setEmail] = useState<string | undefined>(undefined);
-  const currentEntity = getCurrentEntity()
+  const currentEntity = useCurrentEntity()
   const [addressHighlightType, setAddressHighlightType] = useState<AddressHighlightType | null>(null);
   const entityName = currentEntity?.name ?? ""
 
@@ -76,7 +78,7 @@ export default function DraftAndMintBadgeView({
       setWalletAddress(walletIdentifier);
       setWalletIdentifierType("ADDRESS")
     } else if (isEns(walletIdentifier)) {
-      getAddressForEns(walletIdentifier, provider).then(address => {
+      getAddressForEns(walletIdentifier, ensProvider).then(address => {
         console.log(address)
         
         if (address) {
@@ -290,12 +292,15 @@ export default function DraftAndMintBadgeView({
         <BasicButton 
           text="Prepare" 
           onClick={prepareBadge} 
+          className={style.prepareButton}
         /> :
         (
           <BasicButton 
             isLoading={isButtonLoading}
             text="Mint + Send" 
             onClick={mintBadge}
+            className={style.prepareButton}
+
           />)
     }
     
