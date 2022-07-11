@@ -1,4 +1,4 @@
-import Navbar from '../NavBar/NavBar'
+import Navbar from '../NavBar/NavBar';
 import TopPageSection from './pageComponents/TopPageSection'
 import BottomPageSection from './pageComponents/BottomPageSection'
 
