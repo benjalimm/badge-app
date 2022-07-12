@@ -16,10 +16,10 @@ interface Props extends DomainTypeProps {
 
 export default function NavBar({ sticky, host, domainType }:Props) {
   const router = useRouter()
-  const { connect, connectors }  = useConnect();
-  const { signMessageAsync, error: signError  } = useSignMessage();
-  const { data: networkData, pendingChainId, activeChain } = useNetwork()
-  const { data: accountData } = useAccount();
+  const { connect }  = useConnect();
+  const { signMessageAsync, error: signError } = useSignMessage();
+  const { chain } = useNetwork()
+  const { address, connector } = useAccount();
   const { status, data: session } = useSession();
   const { isError, isIdle, isSuccess } = useSigner();
   const active = (status === "authenticated")
@@ -27,15 +27,15 @@ export default function NavBar({ sticky, host, domainType }:Props) {
   // ** SIGN IN WITH ETHEREUM ** \\
   const handleLogin = async () => {
     try {
-      await connect(connectors[0]);
+      await connect();
       const callbackUrl = `${CURRENT_SUBDOMAIN}.${host}`;
       const message = new SiweMessage({
         domain: window.location.host,
-        address: accountData?.address,
+        address: address,
         statement: 'Sign in with Ethereum into Badge.',
         uri: window.location.origin,
         version: '1',
-        chainId: activeChain.id || pendingChainId ,
+        chainId: chain.id,
         nonce: await getCsrfToken()
       });
       const signature = await signMessageAsync({ message: message.prepareMessage() });

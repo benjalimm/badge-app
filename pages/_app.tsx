@@ -3,15 +3,21 @@ import { AppProps } from 'next/app'
 import '../styles/index.css'
 import { SessionProvider } from "next-auth/react"
 import { WagmiConfig } from "wagmi"
-import client from '../utils/wagmiClient';
+import client, { chains } from '../utils/wagmiClient';
+import {
+  RainbowKitProvider,
+} from '@rainbow-me/rainbowkit';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <WagmiConfig client={client}>
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <Component {...pageProps} />
-      </SessionProvider>
+      <RainbowKitProvider chains={chains}>
+        <SessionProvider session={pageProps.session} refetchInterval={0}>
+          <Component {...pageProps} />
+        </SessionProvider>
+      </RainbowKitProvider>
+      
     </WagmiConfig>
   )
   
