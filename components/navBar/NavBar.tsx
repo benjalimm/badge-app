@@ -9,6 +9,7 @@ import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useNetwork, useSigner, useSignMessage } from 'wagmi'
 import { useSession } from 'next-auth/react';
 import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 interface Props extends DomainTypeProps {
   sticky?: boolean;
@@ -61,18 +62,28 @@ export default function NavBar({ sticky, host, domainType }:Props) {
 
   const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
   return (
-    <div className={navBarStyles}>
-      <div className={styles.badgeLogo}>
+    <ConnectButton.Custom>
+      {({
+        account,
+        chain,
+        openAccountModal,
+        openChainModal,
+        openConnectModal,
+        mounted,
+      }) => { return <div className={navBarStyles}>
+        <div className={styles.badgeLogo}>
         BADGE.
-      </div>
-      { active ? 
-        <AccountInfo 
-          account={session.user?.name} 
-          host={host} 
-          domainType={domainType}/> 
-        : 
-        <SignInButton connect={handleLogin}/> }
+        </div>
+        { active ? 
+          <AccountInfo 
+            account={session.user?.name} 
+            host={host} 
+            domainType={domainType}/> 
+          : 
+          <SignInButton connect={openConnectModal}/> }
       
-    </div>
+      </div>}}
+    </ConnectButton.Custom>
+    
   )
 }
