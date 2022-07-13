@@ -136,6 +136,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     if (isAccountSuccess) {
       provider.getBalance(accountData!.address!).then(balance => {
         const ethBalance = convertWeiBigNumberToEth(balance);
+        console.log(`User balance: ${ethBalance}`)
         setUserEthBalance(ethBalance);
       }).catch(err => {
         console.log("Error with getting account balance")
