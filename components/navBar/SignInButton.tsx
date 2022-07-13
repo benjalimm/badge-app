@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from "./NavBar.module.scss";
 
-const SignInButton = ({ connect }: { connect: () => (void)}) => {
+const SignInButton = ({ title, connect }: { title: string, connect: () => (void)}) => {
   return <button className={styles.loginButton} onClick={connect}>
-        Sign in with Ethereum
+    { title }
   </button>
 }
 

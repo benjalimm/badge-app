@@ -291,7 +291,11 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
 
   return (
     <div className={styles.background}>
-      <Navbar sticky={true} {...domainTypeProps}/>
+      <Navbar 
+        sticky={true}
+        connectButtonAction="CONNECT_WALLET" 
+        {...domainTypeProps}
+      />
       <PageTitleView title={"Register an entity on-chain"}/>
       
       <div className={styles.pageContainer}>

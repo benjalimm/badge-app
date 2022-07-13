@@ -305,7 +305,10 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   }
 
   return <div className={style.background}>
-    <NavBar sticky={true} {...domainTypeProps}/>
+    <NavBar sticky={true} 
+      {...domainTypeProps} 
+      connectButtonAction="CONNECT_WALLET"
+    />
     <PageTitleView title='Award a Badge'/>
     
     <div className={style.pageContainer}>

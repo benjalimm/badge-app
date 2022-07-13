@@ -1,6 +1,6 @@
 import Airtable from "airtable";
 
-export interface BetaUser {
+export interface AlphaUser {
   Name: string;
   walletAddress: string;
   email: string;
@@ -14,9 +14,9 @@ class AirtableController {
     this.base = new Airtable({ apiKey }).base(baseId);
   }
 
-  async getListOfBetaUsers(): Promise<BetaUser[]> {
+  async getListOfAlphaUsers(): Promise<AlphaUser[]> {
     return new Promise((res, rej) => {
-      let betaUsers: BetaUser[] = [];
+      let alphaUsers: AlphaUser[] = [];
       this.base(this.betaUserBaseName).select({
         // Selecting the first 3 records in Grid view:
         maxRecords: 3,
@@ -26,19 +26,19 @@ class AirtableController {
 
         records.forEach(function(record) {
           console.log('Retrieved', record.get('Name'));
-          const user: BetaUser = { 
+          const user: AlphaUser = { 
             Name: record.get('Name').toString(), 
             walletAddress: record.get('walletAddress').toString(), 
             email: record.get('email').toString()
           };
-          betaUsers.push(user);
+          alphaUsers.push(user);
         });
 
         // To fetch the next page of records, call `fetchNextPage`.
         // If there are more records, `page` will get called again.
         // If there are no more records, `done` will get called.
         fetchNextPage();
-
+        res(alphaUsers);
       }, function done(err) {
         rej(err);
       });
@@ -46,7 +46,7 @@ class AirtableController {
     })
   }
 
-  async getBetaUser(walletAddress: string): Promise<BetaUser | null> {
+  async getAlphaUser(walletAddress: string): Promise<AlphaUser | null> {
     return new Promise((res, rej) => {
       this.base(this.betaUserBaseName).select({
         filterByFormula: `{walletAddress} = '${walletAddress}'`,
@@ -57,7 +57,7 @@ class AirtableController {
 
         records.forEach(function(record) {
           console.log('Retrieved', record.get('Name'));
-          const user: BetaUser = { 
+          const user: AlphaUser = { 
             Name: record.get('Name').toString(), 
             walletAddress: record.get('walletAddress').toString(), 
             email: record.get('email').toString()
@@ -81,5 +81,5 @@ class AirtableController {
   }
 }
 
-const airtableController = new AirtableController(process.env.AIRTABLE_API_KEY, "app1BoC9ixwHTWj6Z");
+const airtableController = new AirtableController("key7KhVestb0VALRd", "app1BoC9ixwHTWj6Z");
 export default airtableController;

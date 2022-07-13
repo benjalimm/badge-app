@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import airtableController, { BetaUser } from '../../backend/AirtableController';
+import airtableController, { AlphaUser } from '../../backend/AirtableController';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const walletAddress = req.query.walletAddress as string;
 
   try {
-    const betaUser: BetaUser = await airtableController.getBetaUser(walletAddress)
+    const betaUser: AlphaUser = await airtableController.getAlphaUser(walletAddress)
     if (betaUser) {
       res.status(200).json({betaUser});
     } else {

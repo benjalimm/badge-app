@@ -9,12 +9,14 @@ import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useNetwork, useSigner, useSignMessage } from 'wagmi'
 import { useSession } from 'next-auth/react';
 import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import useSiwe from '../../utils/hooks/useSiwe';
 
 interface Props extends DomainTypeProps {
   sticky?: boolean;
+  connectButtonAction: "REDIRECT_TO_ALPHA" | "CONNECT_WALLET"
 }
 
-export default function NavBar({ sticky, host, domainType }:Props) {
+export default function NavBar({ sticky, host, domainType, connectButtonAction }:Props) {
   const router = useRouter()
   const { connect, connectors }  = useConnect();
   const { signMessageAsync, error: signError  } = useSignMessage();
@@ -23,6 +25,7 @@ export default function NavBar({ sticky, host, domainType }:Props) {
   const { status, data: session } = useSession();
   const { isError, isIdle, isSuccess } = useSigner();
   const active = (status === "authenticated")
+  const { login } = useSiwe();
 
   // ** SIGN IN WITH ETHEREUM ** \\
   const handleLogin = async () => {
@@ -43,6 +46,16 @@ export default function NavBar({ sticky, host, domainType }:Props) {
     } catch (error) {
       console.log(error)
     }
+  }
+
+  const redirectToAlphaPage = () => {
+    if (domainType === "app-subdomain") {
+      // We're already in the desired subdomain -> Push to main page
+      router.push('/')
+    } else {
+      console.log(`${CURRENT_SUBDOMAIN}.${host}`)
+      window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
+    }  
   }
 
   useEffect(() => {
@@ -71,7 +84,13 @@ export default function NavBar({ sticky, host, domainType }:Props) {
           host={host} 
           domainType={domainType}/> 
         : 
-        <SignInButton connect={handleLogin}/> }
+        <SignInButton 
+          title= {connectButtonAction === "REDIRECT_TO_ALPHA" ? "Launch Alpha" : "Sign in with Ethereum"}
+          connect={
+            connectButtonAction == "CONNECT_WALLET" ?  
+              login : 
+              redirectToAlphaPage
+          }/> }
       
     </div>
   )

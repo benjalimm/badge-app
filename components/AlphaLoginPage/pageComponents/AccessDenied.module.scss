@@ -1,0 +1,53 @@
+@import "../../../styles/CommonAnimations.module.scss";
+
+.container {
+  margin-top: 50px;
+  background-color: white;
+  width: 450px;
+  height: 230px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+
+.textContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 20px;
+}
+
+.header {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.paragraph {
+  text-align: center;
+  padding: 0 20px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.button {
+  background-color: black;
+  color: white;
+  padding: 15px 25px;
+  font-weight: bold;
+
+  border-radius: 13px;
+  margin-bottom: 20px;
+  transition-duration: 0.2s;
+}
+
+.button:hover {
+  padding: 15px 50px;
+}
+
+.button:active {
+  @extend .buttonPress;
+}

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next'
 import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
 import LandingPage from '../components/LandingPage/LandingPage';
-import MainNavigation from '../components/MainNavigation/MainNavigation';
+import AlphaBadgePage from '../components/AlphaBadgePage/AlphaBadgePage';
 
 const IndexPage = (domainTypeProps: DomainTypeProps) => {
   const { domainType } = domainTypeProps;
@@ -16,7 +16,7 @@ const IndexPage = (domainTypeProps: DomainTypeProps) => {
     case "main":
       return <LandingPage {...domainTypeProps} />
     case "app-subdomain":
-      return <MainNavigation {...domainTypeProps}/>
+      return <AlphaBadgePage {...domainTypeProps}/>
     default:
       return null;
   }
