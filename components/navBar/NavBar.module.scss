@@ -1,3 +1,5 @@
+@import "../../styles/CommonAnimations.module.scss";
+
 .navBar {
   height: 88px;
   background-color: white;
@@ -26,18 +28,28 @@
   border-radius: 30px;
   margin-right: 40px;
   color: white;
-  font: 'Inter';
   font-weight: bold;
-  font-size: 14px;
+  font-size: 15px;
   transition-duration: 0.2s;
   box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.4);
+}
+
+.loginButton:active {
+  @extend .buttonPress;
 }
 
 .loginButton:hover {
   height: 60px;
   width: 215px;
   transition-duration: 0.2s;
-  background-color: royalblue;
+  background-color: black;
+}
+
+
+.loginButton:hover .title {
+  background-image: var(--green-gradient);
+  background-clip: text;
+  color: transparent;
 }
 
 

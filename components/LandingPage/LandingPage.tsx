@@ -30,7 +30,11 @@ const LandingPage = (domainTypeProps: DomainTypeProps) => {
   return (
     <div className={styles.lp}>
       <BadgeHead/>
-      <Navbar sticky={false} {...domainTypeProps}/>
+      <Navbar 
+        sticky={false}
+        connectButtonAction="REDIRECT_TO_ALPHA"
+        {...domainTypeProps} 
+      />
       <div className={styles.sections}>
         <TopPageSection/>
         <MeritLayerSection/>

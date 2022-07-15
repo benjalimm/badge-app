@@ -1,0 +1,25 @@
+@import "../../../styles/CommonAnimations.module.scss";
+
+.container {
+  height: 400px;
+  width: 400px;
+  background-color: white;
+  margin-top: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  animation: fadeInFromBottom 0.15s ease-in-out;
+}
+
+.header {
+  font-family: 'Inter';
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+.video {
+  width: 40%;
+  border-radius: 10px;
+}
