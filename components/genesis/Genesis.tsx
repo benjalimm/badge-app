@@ -70,13 +70,6 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const provider = useProvider();
   const active = status !== "unauthenticated";
 
-  // ** IF UNAUTHORIZED, REDIRECT TO ALPHA HOMEPAGE ** \\
-  useEffect(() => {
-    if (!loading && !allowed) {
-      router.push('/')
-    }
-  },[allowed, loading])
-
   // ** PROGRESS VIEW LOGIC ** \\
   useEffect(() => {
     if (pageState === "Loading") {
