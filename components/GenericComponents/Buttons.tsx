@@ -1,7 +1,7 @@
 import React from 'react';
 import buttonStyle from './Buttons.module.scss';
 import cx from 'classnames';
-import { MoonLoader, PulseLoader, SyncLoader } from 'react-spinners';
+import { PulseLoader } from 'react-spinners';
 
 export function BasicButton({ onClick, text, style, className, isLoading } : {
   onClick: () => void, 

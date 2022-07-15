@@ -5,13 +5,14 @@ import { AlphaUser } from '../../backend/AirtableController';
 import auth from '../../pages/api/auth/[...nextauth]';
 import useSiwe from '../../utils/hooks/useSiwe';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import AlphaInstructions from './pageComponents/AlphaInstructions';
 import PageTitleView from '../GenericComponents/PageTitleView';
 import NavBar from '../navBar/NavBar';
 import style from "./AlphaLoginPage.module.scss"
 import AccessDenied from './pageComponents/AccessDenied';
 import AwaitingConnection from './pageComponents/AwaitingConnection';
 
-type PageState = "AwaitingConnection" | "CancelledConnection" | "AccessDenied"  | "AlphaInstructions"
+type PageState = "AwaitingConnection" | "CancelledConnection" | "AccessDenied" 
 
 interface Props extends DomainTypeProps { 
   alphaUser: AlphaUser | null
@@ -50,13 +51,15 @@ export default function AlphaLoginPage(props: Props) {
 
   }, [])
 
+  function goToWaitlist(){
+    window.open('https://forms.gle/4T1P2G95GH6VUXiv8', '_blank');
+  }
+
   function renderViewBasedOnState() {
     switch (pageState) {
       
       case "AccessDenied":
-        return <AccessDenied />
-      case "AlphaInstructions":
-        return <AlphaInstructions />
+        return <AccessDenied onClick={goToWaitlist}/>
       default:
         return <AwaitingConnection />
     }

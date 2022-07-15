@@ -15,7 +15,7 @@ import { checkIfTransactionisSuccessful } from '../../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../../utils/priceOracleUtils';
-import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../../utils/ethConversionUtils';
+import { convertWeiBigNumberToEth, } from '../../utils/ethConversionUtils';
 import { ethers } from 'ethers';
 import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
