@@ -43,7 +43,7 @@ export default function useSiwe(): {
       SiweManager.setLoadingState(false);
 
       if (error instanceof UserRejectedRequestError) {
-        setCancelled(true)
+        SiweManager.setCancelledState(true);
       }
       throw error;
     }
@@ -52,8 +52,9 @@ export default function useSiwe(): {
 
   useEffect(() => {
 
-    const id = SiweManager.listenToLoading(loading => {
+    const id = SiweManager.listenToState((loading, cancelled) => {
       setLoading(loading)
+      setCancelled(cancelled);
     })
     setListenerId(id)
 
@@ -68,20 +69,28 @@ export default function useSiwe(): {
 
 // ** MANAGE SHARED STATE FOR SIWE HERE ** \\
 class SiweManager {
-  static loading = false;
-  private static listeners: {id: string, execute: ((loading: boolean) => void)}[] = [];
+  private static loading = false;
+  private static cancelled = false;
+  private static listeners: {id: string, execute: ((loading: boolean, cancelled: boolean) => void)}[] = [];
 
   static setLoadingState(loading: boolean) {
     this.loading = loading;
     this.listeners.forEach(listener => {
-      listener.execute(loading);
+      listener.execute(loading,  this.cancelled);
     })
   }
 
-  static listenToLoading(setLoading: (loading: boolean) => void): string {
-    setLoading(SiweManager.loading);
+  static setCancelledState(cancelled: boolean) {
+    this.cancelled = cancelled;
+    this.listeners.forEach(listener => {
+      listener.execute(this.loading, cancelled);
+    })
+  }
+
+  static listenToState(onChange: (loading: boolean, cancelled: boolean) => void): string {
+    onChange(this.loading, this.cancelled);
     const id = uuidv4()
-    this.listeners.push({ id, execute: setLoading });
+    this.listeners.push({ id, execute: onChange });
     return id;
   }
 

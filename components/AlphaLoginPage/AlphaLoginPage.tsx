@@ -1,6 +1,6 @@
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect, useState} from 'react';
-import { UserRejectedRequestError } from 'wagmi';
+import { useAccount, UserRejectedRequestError } from 'wagmi';
 import { AlphaUser } from '../../backend/AirtableController';
 import auth from '../../pages/api/auth/[...nextauth]';
 import useSiwe from '../../utils/hooks/useSiwe';
@@ -16,40 +16,41 @@ type PageState = "AwaitingConnection" | "CancelledConnection" | "AccessDenied"
 
 interface Props extends DomainTypeProps { 
   alphaUser: AlphaUser | null
-  authenticated: boolean
 } 
 export default function AlphaLoginPage(props: Props) {
   const [pageState, setPageState] = useState<PageState>("AwaitingConnection");
-  const { alphaUser, authenticated } = props;
-  const { login } = useSiwe();
+  const { alphaUser } = props;
+  const { login, cancelledLastLogin, loading } = useSiwe();
+  const { status } = useSession();
 
   useEffect(() => {
     console.log(alphaUser)
-    console.log(`authenticated: ${authenticated}`)
-    if (!alphaUser && authenticated === true) {
+    console.log(`Cancelled last login: ${cancelledLastLogin}`)
+    console.log(`Loading: ${loading}`)
+    if (loading) {
+      setPageState("AwaitingConnection")
+    } else if (alphaUser === null && status === "authenticated") {
+      setPageState("AccessDenied");
+    } else if (cancelledLastLogin) {
       setPageState("AccessDenied");
     }
 
-  }, [alphaUser, authenticated])
+  }, [alphaUser, loading, status])
 
   useEffect(() => {
 
-    if (!authenticated) {
+    if (status !== "authenticated" && status !== "loading") {
       setTimeout(() => {
         console.log("Attempting to sign in...")
         login().catch(err => {
-          if (err instanceof UserRejectedRequestError) {
-            setPageState("CancelledConnection");
-          }
-        
           console.log(err);
         })
         
-      }, 500)
-      
+      }, 1000)
+        
     }
 
-  }, [])
+  }, [status])
 
   function goToWaitlist(){
     window.open('https://forms.gle/4T1P2G95GH6VUXiv8', '_blank');
