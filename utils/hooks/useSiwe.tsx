@@ -21,7 +21,7 @@ export default function useSiwe(): {
   // ** SIGN IN WITH ETHEREUM ** \\
   const login = async () => {
     try {
-      setCancelled(false);
+      SiweManager.setCancelledState(false);
       SiweManager.setLoadingState(true);
       await connect(connectors[0]);
       const callbackUrl = `` // Redirect set to false -> Ignore callback Url

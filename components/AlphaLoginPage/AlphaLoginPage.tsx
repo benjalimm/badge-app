@@ -35,7 +35,7 @@ export default function AlphaLoginPage(props: Props) {
       setPageState("AccessDenied");
     }
 
-  }, [alphaUser, loading, status])
+  }, [alphaUser, loading, status, cancelledLastLogin])
 
   useEffect(() => {
 

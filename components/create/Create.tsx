@@ -21,8 +21,14 @@ import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import useGateKeep from '../../utils/hooks/useGateKeep';
+import { useRouter } from 'next/router';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
+
+  // Block if not authorized
+  const { allowed, loading } = useGateKeep(domainTypeProps.domainType)
+  const router = useRouter();
 
   // ** USER STATE ** \\
   const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
@@ -59,6 +65,13 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     console.log("Get final badge price")
     return calculateBadgePrice(baseBadgePriceInEth, badgeData?.level || 0)
   }
+
+  // ** IF UNAUTHORIZED, REDIRECT TO ALPHA HOMEPAGE ** \\
+  useEffect(() => {
+    if (!loading && !allowed) {
+      router.push('/')
+    }
+  },[allowed, loading])
 
   // ** LOADING INDICATOR LOGIC ** \\
   useEffect(() => {
@@ -302,6 +315,11 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         />
 
     }
+  }
+
+  // Is user authorized?
+  if (!allowed) {
+    return null;
   }
 
   return <div className={style.background}>

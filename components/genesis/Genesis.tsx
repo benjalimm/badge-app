@@ -19,6 +19,7 @@ import { BigNumber } from 'ethers';
 import { getScanUrl } from '../../utils/chainUtils';
 import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import useGateKeep from '../../utils/hooks/useGateKeep';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -34,6 +35,7 @@ type DeployState =
 
 export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const router = useRouter();
+  const { allowed, loading } = useGateKeep(domainTypeProps.domainType);
 
   // ** ENTITY INFO ** \\
   const [entityName, setEntityName] = useState<string>(""); // Before registration
@@ -68,9 +70,12 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   const provider = useProvider();
   const active = status !== "unauthenticated";
 
-  /**
-   * USE EFFECTS
-   */
+  // ** IF UNAUTHORIZED, REDIRECT TO ALPHA HOMEPAGE ** \\
+  useEffect(() => {
+    if (!loading && !allowed) {
+      router.push('/')
+    }
+  },[allowed, loading])
 
   // ** PROGRESS VIEW LOGIC ** \\
   useEffect(() => {
@@ -288,6 +293,8 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   }
 
   /***********/
+
+  if (!allowed) return null;
 
   return (
     <div className={styles.background}>
