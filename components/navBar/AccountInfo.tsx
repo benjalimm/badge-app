@@ -131,7 +131,6 @@ function ButtonsContentContainer(
         window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
       }  
     })
-    
   }
 
   function disconnect() {

@@ -7,7 +7,10 @@ import style from './MainNavigation.module.scss';
 
 export default function MainNavigation(domainTypeProps: DomainTypeProps) {
   return <div className={style.container}>
-    <NavBar sticky={false} {...domainTypeProps}/>
+    <NavBar sticky={false} 
+      connectButtonAction="CONNECT_WALLET"
+      {...domainTypeProps} 
+    />
     <PageTitleView title={"Navigation"}/>
     <div className={style.contentContainer}>
       <NavigationButton 
