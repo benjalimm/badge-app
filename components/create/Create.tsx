@@ -15,20 +15,18 @@ import { checkIfTransactionisSuccessful } from '../../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../../utils/priceOracleUtils';
-import { convertWeiBigNumberToEth, } from '../../utils/ethConversionUtils';
+import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../../utils/ethConversionUtils';
 import { ethers } from 'ethers';
 import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
-import { useRouter } from 'next/router';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
-  // Block if not authorized
+  // Block if not authorized  
   const { allowed, loading } = useGateKeep(domainTypeProps.domainType)
-  const router = useRouter();
 
   // ** USER STATE ** \\
   const [userEthBalance, setUserEthBalance] = useState<number | null>(null);
@@ -65,13 +63,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     console.log("Get final badge price")
     return calculateBadgePrice(baseBadgePriceInEth, badgeData?.level || 0)
   }
-
-  // ** IF UNAUTHORIZED, REDIRECT TO ALPHA HOMEPAGE ** \\
-  useEffect(() => {
-    if (!loading && !allowed) {
-      router.push('/')
-    }
-  },[allowed, loading])
 
   // ** LOADING INDICATOR LOGIC ** \\
   useEffect(() => {
@@ -149,7 +140,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     if (isAccountSuccess) {
       provider.getBalance(accountData!.address!).then(balance => {
         const ethBalance = convertWeiBigNumberToEth(balance);
-        console.log(`User balance: ${ethBalance}`)
         setUserEthBalance(ethBalance);
       }).catch(err => {
         console.log("Error with getting account balance")
@@ -316,17 +306,14 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
     }
   }
-
-  // Is user authorized?
-  if (!allowed) {
-    return null;
-  }
+  if (!allowed) return null;
 
   return <div className={style.background}>
     <NavBar sticky={true} 
       {...domainTypeProps} 
-      connectButtonAction="CONNECT_WALLET"
-    />
+      connectButtonAction={
+        "CONNECT_WALLET"
+      }/>
     <PageTitleView title='Award a Badge'/>
     
     <div className={style.pageContainer}>
