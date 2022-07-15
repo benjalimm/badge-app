@@ -46,7 +46,7 @@ export default function AlphaLoginPage(props: Props) {
           console.log(err);
         })
         
-      }, 1000)
+      }, 500)
         
     }
 

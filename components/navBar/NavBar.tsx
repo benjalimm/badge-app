@@ -18,15 +18,19 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
   const { status, data: session } = useSession();
   const active = (status === "authenticated")
   const { login, loading } = useSiwe();
+  const [redirecting, setRedirecting] = useState(false);
 
   const redirectToAlphaPage = () => {
-    if (domainType === "app-subdomain") {
+    setRedirecting(true);
+    setTimeout(() => {
+      if (domainType === "app-subdomain") {
       // We're already in the desired subdomain -> Push to main page
-      router.push('/')
-    } else {
-      console.log(`${CURRENT_SUBDOMAIN}.${host}`)
-      window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
-    }  
+        router.push('/')
+      } else {
+        console.log(`${CURRENT_SUBDOMAIN}.${host}`)
+        window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
+      }
+    }, 1000)  
   }
 
   async function signInWithEthereum() {
@@ -51,7 +55,7 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
           domainType={domainType}/> 
         : 
         <SignInButton 
-          isLoading={loading}
+          isLoading={connectButtonAction === "REDIRECT_TO_ALPHA" ? redirecting : loading}
           title= {connectButtonAction === "REDIRECT_TO_ALPHA" ? "Launch Alpha" : "Sign in with Ethereum"}
           
           connect={
