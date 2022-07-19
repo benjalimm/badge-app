@@ -5,7 +5,7 @@ import AlphaUserManager from '../AlphaUserManager';
 
 export default function useAlphaUser(): AlphaUser | null {
   const [alphaUser, setAlphaUser] = React.useState<AlphaUser | null>(null);
-  const { data:account } = useAccount();
+  const { address } = useAccount();
 
   useEffect(() => {
     // Initialize the alpha user
@@ -14,8 +14,8 @@ export default function useAlphaUser(): AlphaUser | null {
 
   useEffect(() => {
 
-    if (account?.address) {
-      AlphaUserManager.getAlphaUser(account.address).then(user => {
+    if (address) {
+      AlphaUserManager.getAlphaUser(address).then(user => {
         console.log(user);
         setAlphaUser(user)
       }).catch(err => {
@@ -23,7 +23,7 @@ export default function useAlphaUser(): AlphaUser | null {
       })
     }
 
-  }, [account?.address])
+  }, [address])
 
   return alphaUser
 }

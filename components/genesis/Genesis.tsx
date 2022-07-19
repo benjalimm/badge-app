@@ -65,7 +65,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   
   // ** WAGMI HOOKS ** \\ 
   const { status } = useSession();
-  const { data: accountData } = useAccount();
+  const { address } = useAccount();
   const { data:signer, status: signerStatus } = useSigner()
   const provider = useProvider();
   const active = status !== "unauthenticated";
@@ -123,8 +123,8 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
 
   useEffect(() => {
 
-    if (accountData) {
-      provider.getBalance(accountData.address).then(balance => {
+    if (address) {
+      provider.getBalance(address).then(balance => {
         console.log("FOO")
         const enough = !balance.lt(minStake);
         console.log(`EnoughETH ${enough}`)
