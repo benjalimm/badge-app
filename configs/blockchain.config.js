@@ -22,6 +22,6 @@ module.exports = {
   },
   ethereumRinkeby: {
     url: 'https://rinkeby.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0x3fBA53FE262c00828F4042415060f583e80503d6"
+    badgeContractAddress: "0x30c5E81bF232365311c863C4f8DC002427847990"
   }
 }

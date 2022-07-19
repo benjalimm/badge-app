@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from "./NavBar.module.scss";
 import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useSiwe from '../../utils/hooks/useSiwe';
+import { useAccount, useSigner } from 'wagmi';
 
 interface Props extends DomainTypeProps {
   sticky?: boolean;
@@ -19,6 +20,18 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
   const active = (status === "authenticated")
   const { login, loading } = useSiwe();
   const [redirecting, setRedirecting] = useState(false);
+  const { data: accountData } = useAccount()
+
+  useEffect(() => {
+    if (status === "authenticated" && accountData === null) {
+      // This means that the user is signed in but the signer has expired. Need to relogin.
+      console.log("Signing out")
+      login().catch(err => {
+        console.error(err);
+      })
+    }
+
+  }, [status, accountData])
 
   const redirectToAlphaPage = () => {
     setRedirecting(true);
