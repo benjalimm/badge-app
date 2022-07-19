@@ -1,0 +1,107 @@
+.container {
+  height: auto;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  padding-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  animation: fadeInFromBottom 0.25s ease-in-out forwards;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.formContainerView {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  background-color: clear;
+  width: 85%;
+  height: 40%;
+  margin-top: 30px;
+}
+
+.formHeaderText {
+  font-family: 'Inter';
+  font-weight: bold;
+  color: black;
+  font-size: 15px;
+  padding-left: 5px;
+}
+
+.formHeaderSubtitleText {
+  font-family: 'Inter';
+  color: #323232;
+  font-size: 13px;
+  padding-left: 5px;
+}
+
+.formTextFieldContainer {
+  height: 55px;
+  width: 100%;
+  background-color: #EFEFEF;
+  border-radius: 12px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.formTextField {
+  width: 90%;
+  background-color: transparent;
+  outline-width: 0;
+  margin-left: 15px;
+}
+
+.nextButton {
+  width: 155px;
+  height: 50px;
+  background-color: black;
+  font: 'Inter';
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 10px -5px rgba(0, 0, 0, 0.2);
+  margin-top: 20px;
+  transition-duration: 0.2s;
+}
+
+.nextButton:hover {
+  width: 175px;
+  transition-duration: 0.2s;
+}
+
+@keyframes fadeInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+
+}

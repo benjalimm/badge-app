@@ -1,0 +1,192 @@
+@import "../../styles/CommonAnimations.module.scss";
+
+$contractedHeight: 57px;
+$contractedHeightMobile: 42px;
+$expandedHeight: 140px;
+$expandedHeightMobile: 110px;
+
+.accountInfoBackground {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-right: 25px;
+  height: $contractedHeight;
+}
+
+.accountInfoContainer {
+  width: 190px;
+  height: 100%;
+  background-color: white;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+  position: relative;
+  transition-duration: 0.2s;
+  z-index: 2;
+  user-select: none;
+}
+
+.accountInfoContainer:hover {
+  width: 210px;
+}
+
+.accountInfoContainerExpanded {
+  @extend .accountInfoContainer;
+  height: $expandedHeight;
+}
+
+.accountInfoContainer:hover .circle {
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+}
+
+.accountInfoContainerExpanded:hover {
+  background-color: white;
+  color: black;
+}
+
+.accountInfoContainerExpanded:hover .circle {
+  background: #EDEDED;
+  background-color: #EDEDED;
+}
+
+// ** TOP CONTENT CONTAINER ** \\
+.topContentContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: $contractedHeight;
+  width: 100%;
+}
+
+.accountInfoTextContainer {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.profileImageCircle {
+  height: 35px;
+  width: 35px;
+  border-radius: 50%;
+  background-color: black;
+  margin-left: 10px;
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+}
+
+.address {
+  font-family: 'Inter';
+  font-size: 13px;
+}
+
+.entity {
+  font-family: 'Inter';
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.circle {
+  height: 17px;
+  width: 17px;
+  border-radius: 50%;
+  background-color: #EDEDED;
+  position: absolute;
+  right: 5%;
+}
+
+// ** BUTTONS CONTENT CONTAINER ** \\
+.buttonsContentContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  width: 100%;
+  flex-direction: column;
+  padding-bottom: 10px;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.goToAppButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90%;
+  background-color: black;
+  color: white;
+  font-weight: bold;
+  height: 40px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.goToAppButton:active {
+  @extend .buttonPress;
+}
+
+.disconnectButton {
+  @extend .goToAppButton;
+  background-color: transparent;
+  color: black;
+  width: 90%;
+
+}
+
+@media only screen and (max-width: 850px) {
+
+  .accountInfoBackground {
+    height: $contractedHeightMobile;
+  }
+
+  .accountInfoContainer {
+    width: 150px;
+    height: $contractedHeightMobile;
+  }
+
+  .accountInfoContainerExpanded {
+    height: $expandedHeightMobile;
+  }
+
+  .accountInfoContainer:hover {
+    width: 160px;
+  }
+
+  .topContentContainer {
+    height: $contractedHeightMobile;
+  }
+
+  .profileImageCircle {
+    height: 25px;
+    width: 25px;
+  }
+
+  .address {
+    font-family: 'Inter';
+    font-size: 10px;
+  }
+
+  .entity {
+    font-size: 8px;
+  }
+
+  .goToAppButton {
+    height: 30px;
+    font-size: 10px;
+  }
+
+}
+
+@keyframes expand {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}

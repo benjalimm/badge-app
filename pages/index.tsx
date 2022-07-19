@@ -1,42 +1,27 @@
 import Navbar from '../components/navBar/NavBar'
-import TopPageSection from '../components/landingPage/TopPageSection'
-import BottomPageSection from '../components/landingPage/BottomPageSection'
-import ExplanationPageSection from '../components/landingPage/ExplanationPageSection'
-import styles from '../styles/landingPage/lp.module.css'
+
+import styles from './index.module.css'
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router';
-import BadgeHead from '../components/landingPage/BadgeHead'
-import BadgeFooter from '../components/landingPage/BadgeFooter'
-import { useSession, signOut } from "next-auth/react"
-import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
 
-const LandingPage = () => {
-  const router = useRouter();
-  const { status } = useSession();
-  const active = (status === "authenticated");
+import { GetServerSideProps } from 'next'
+import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
+import LandingPage from '../components/LandingPage/LandingPage';
+import AlphaBadgePage from '../components/AlphaBadgePage/AlphaBadgePage';
 
-  useEffect(() => {
+const IndexPage = (domainTypeProps: DomainTypeProps) => {
+  const { domainType } = domainTypeProps;
 
-    if (active) {
-      // signOut()
-      router.push('/genesis')
-    }
-    console.log(status)
-  
-  }, [status])
-
-  return (
-    <div className={styles.lp}>
-      <BadgeHead/>
-      <Navbar sticky={false}/>
-      <div className={styles.sections}>
-        <TopPageSection/>
-        <ExplanationPageSection/>
-        <BottomPageSection/>
-      </div>
-      <BadgeFooter/>
-    </div>
-  )
+  switch (domainType) {
+    case "main":
+      return <LandingPage {...domainTypeProps} />
+    case "app-subdomain":
+      return <AlphaBadgePage {...domainTypeProps}/>
+    default:
+      return null;
+  }
 }
 
-export default LandingPage
+export default IndexPage
+
+export const getServerSideProps: GetServerSideProps = getServerSidePropsWildCardFunction;

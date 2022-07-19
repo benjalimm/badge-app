@@ -1,0 +1,56 @@
+.container {
+  height: 200px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  animation: contract 0.25s ease-in-out;
+}
+
+.progressBarFiller {
+  background: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
+  width: 50%;
+}
+
+.loadingHeader {
+  font-family: 'Asgard';
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 15px;
+  text-align: center;
+}
+
+.loadingSubtitle {
+  font-family: 'Inter';
+  font-size: 15px;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    height: 200px;
+    width: 336px;
+    background-color: white;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@keyframes contract {
+  0% {
+    opacity: 0;
+    height: 500px;
+  }
+
+  100% {
+    opacity: 1;
+    height: 200px;
+  }
+
+}

@@ -1,0 +1,34 @@
+.entryContainer {
+  height: 450px;
+  width: 420px;
+  background-color: white;
+  border-radius: 14px;
+  margin-top: 30px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  animation: fadeIn 0.1s ease-in-out;
+}
+
+@media only screen and (max-width: 850px) {
+  .entryContainer {
+    height: 200px;
+    width: 336px;
+    background-color: white;
+    border-radius: 14px;
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1
+  }
+}

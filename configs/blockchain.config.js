@@ -2,11 +2,11 @@ module.exports = {
   isLocal: false,
   local : { 
     url: 'http://localhost:8545',
-    badgeContractAddress: "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+    badgeContractAddress: "0x5fbdb2315678afecb367f032d93f642f64180aa3"
   },
   mumbai: {
     url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0xC9De94E3B2F4BFE487641eB87839B1cDF8EF9FD1"
+    badgeContractAddress: "0xC446BAE3161743a30B5425D2B0EF819902Ed990e"
   },
   mainnet: {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
@@ -14,10 +14,14 @@ module.exports = {
   },
   optimisticKovan: {
     url: 'https://optimism-kovan.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: "0xe4dd989F5B4F6F205f8ee24E2c9Fb0d12A4C0Dd1"
+    badgeContractAddress: "0x5f74077334FcdDad2dDA11F93A332980EE52C662"
   },
   optimismMainnet: {
     url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: ""
+  },
+  ethereumRinkeby: {
+    url: 'https://rinkeby.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
+    badgeContractAddress: "0x30c5E81bF232365311c863C4f8DC002427847990"
   }
 }

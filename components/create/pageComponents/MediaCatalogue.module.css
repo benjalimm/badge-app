@@ -1,0 +1,124 @@
+.container {
+  background-color: clear;
+  width: 87%;
+  height: 100%;
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  ;
+  box-shadow: 0 10px 20px -8px rgba(0, 0, 0, 0.4);
+  border-width: 5px;
+  border-color: white;
+  animation: expandAnimation 0.2s ease-in-out 0s 1 normal forwards;
+}
+
+.gradientBorder {
+  border: solid 4px transparent;
+  background-image: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%), linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.navBar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #e5e5e5;
+  color: white;
+  border-radius: 10px 10px 0px 0px;
+  background-color: black;
+  position: relative;
+}
+
+.header {
+  font-family: 'Inter';
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+  display: absolute;
+  /* background-color: blue; */
+}
+
+.leaveButton {
+  font-size: 13px;
+  position: absolute;
+  left: 0px;
+  width: 50px;
+  height: 50px;
+  /* background-color: red; */
+}
+
+.mediaTileView {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-rows: 175px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  margin-top: 5px;
+}
+
+
+.mediaTileView::-webkit-scrollbar {
+  width: 0em;
+}
+
+
+.mediaTile {
+  width: 175px;
+  height: 175px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mediaTileVideo {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mediaTileVideoMask {
+  width: 170px;
+  height: 170px;
+  border-radius: 10px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.isSelected {
+  /* border: 4px solid #a2a500; */
+  border: solid 4px transparent;
+  background-image: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%), linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+
+@keyframes expandAnimation {
+  0% {
+    opacity: 0;
+    height: 5%;
+  }
+
+  100% {
+    opacity: 1;
+    height: 100%;
+  }
+}

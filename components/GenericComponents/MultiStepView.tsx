@@ -1,5 +1,5 @@
 import React from 'react';
-import msvStyle from '../../styles/GenericComponents/multiStepView.module.css';
+import msvStyle from './MultiStepView.module.css';
 import cx from 'classnames';
 
 export default function MultiStepView({ steps, indexOfCurrentStep, style }: 

@@ -1,5 +1,5 @@
 import React from 'react';
-import style from '../../styles/GenericComponents/field.module.css';
+import style from './Field.module.css';
 import cx from 'classnames';
 
 export default function Field(
@@ -13,7 +13,13 @@ export default function Field(
       link ? 
         <a 
           className={cx(style.fieldValue, style.link)} 
-          href={value}>{value}</a> : 
+          href={value}
+          target="_blank" rel="noreferrer"
+        >
+          {value}
+          
+        </a>
+        : 
         <span 
           className={style.fieldValue}>
           {value}

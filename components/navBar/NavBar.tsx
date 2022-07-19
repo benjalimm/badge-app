@@ -1,41 +1,58 @@
-import React, { useEffect, useContext } from 'react';
-import styles from "../../styles/navBar.module.css";
+import React, { useState, useEffect } from 'react';
+import styles from "./NavBar.module.scss";
 import SignInButton from './SignInButton';
 import AccountInfo from './AccountInfo';
 import cx from 'classnames';
 import { useRouter } from 'next/router';
-import { getCsrfToken, signIn } from 'next-auth/react'
-import { SiweMessage } from 'siwe'
-import { useAccount, useConnect, useNetwork, useSignMessage } from 'wagmi'
-import { useSession } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
+import { CURRENT_SUBDOMAIN, DomainTypeProps } from '../../utils/serverSidePropsUtil';
+import useSiwe from '../../utils/hooks/useSiwe';
+import { useAccount, useSigner } from 'wagmi';
 
-export default function NavBar({ sticky } :{ sticky: boolean }) {
+interface Props extends DomainTypeProps {
+  sticky?: boolean;
+  connectButtonAction: "REDIRECT_TO_ALPHA" | "CONNECT_WALLET"
+}
+
+export default function NavBar({ sticky, host, domainType, connectButtonAction }:Props) {
   const router = useRouter()
-  const { connect, connectors }  = useConnect();
-  const { signMessageAsync, error: signError  } = useSignMessage();
-  const { data: networkData, pendingChainId, activeChain } = useNetwork()
-  const { data: accountData } = useAccount();
   const { status, data: session } = useSession();
   const active = (status === "authenticated")
+  const { login, loading } = useSiwe();
+  const [redirecting, setRedirecting] = useState(false);
+  const { address } = useAccount()
 
-  const handleLogin = async () => {
-    try {
-      await connect(connectors[0]);
-      const callbackUrl = '/protected';
-      const message = new SiweMessage({
-        domain: window.location.host,
-        address: accountData?.address,
-        statement: 'Sign in with Ethereum into Badge.',
-        uri: window.location.origin,
-        version: '1',
-        chainId: activeChain.id || pendingChainId ,
-        nonce: await getCsrfToken()
-      });
-      const signature = await signMessageAsync({ message: message.prepareMessage() });
-      await signIn('credentials', { message: JSON.stringify(message), redirect: false, signature, callbackUrl });
-    } catch (error) {
-      console.log(error)
+  useEffect(() => {
+    if (status === "authenticated" && address === null) {
+      // This means that the user is signed in but the signer has expired. Need to relogin.
+      console.log("Signing out")
+      login().catch(err => {
+        console.error(err);
+      })
     }
+
+  }, [status, address])
+
+  const redirectToAlphaPage = () => {
+    setRedirecting(true);
+    setTimeout(() => {
+      if (domainType === "app-subdomain") {
+      // We're already in the desired subdomain -> Push to main page
+        router.push('/')
+      } else {
+        console.log(`${CURRENT_SUBDOMAIN}.${host}`)
+        window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
+      }
+    }, 1000)  
+  }
+
+  async function signInWithEthereum() {
+    try {
+      await login();
+    } catch (error) {
+      console.error(error)
+    }
+    
   }
 
   const navBarStyles = sticky ? cx(styles.navBar, styles.sticky) : styles.navBar;
@@ -44,7 +61,22 @@ export default function NavBar({ sticky } :{ sticky: boolean }) {
       <div className={styles.badgeLogo}>
         BADGE.
       </div>
-      { active ? <AccountInfo account={session.user?.name}/> : <SignInButton connect={handleLogin}/> }
+      { active ? 
+        <AccountInfo 
+          account={session.user?.name} 
+          host={host} 
+          domainType={domainType}/> 
+        : 
+        <SignInButton 
+          isLoading={connectButtonAction === "REDIRECT_TO_ALPHA" ? redirecting : loading}
+          title= {connectButtonAction === "REDIRECT_TO_ALPHA" ? "Launch Alpha" : "Sign in with Ethereum"}
+          
+          connect={
+            connectButtonAction == "CONNECT_WALLET" ?  
+              signInWithEthereum : 
+              redirectToAlphaPage
+          }/> }
+      
     </div>
   )
 }

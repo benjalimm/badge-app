@@ -34,5 +34,7 @@
 
 :root {
   --bg: #F4F4F4;
-  
+  --warning-red: #E00000;
+  --success-green: green;
+  --green-gradient: linear-gradient(180deg, rgb(131, 255, 30) 0%, rgb(218, 255, 7) 100%);
 }
