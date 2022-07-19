@@ -1,9 +1,4 @@
-import Navbar from '../components/navBar/NavBar'
-
-import styles from './index.module.css'
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/router';
-
+import React  from 'react'
 import { GetServerSideProps } from 'next'
 import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
 import LandingPage from '../components/landingPage/LandingPage';
