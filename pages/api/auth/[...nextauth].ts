@@ -45,6 +45,8 @@ export default async function auth(req: NextApiRequest, res: NextApiResponse) {
             id: siwe.address,
           }
         } catch (e) {
+          console.log("Next auth error: ")
+          console.error(e);
           return null
         }
       },
