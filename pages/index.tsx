@@ -1,7 +1,7 @@
 import React  from 'react'
 import { GetServerSideProps } from 'next'
 import getServerSidePropsWildCardFunction, { DomainTypeProps } from '../utils/serverSidePropsUtil'
-import LandingPage from '../components/landingPage/LandingPage';
+import LandingPage from '../components/LandingPage/LandingPage';
 import AlphaBadgePage from '../components/AlphaBadgePage/AlphaBadgePage';
 
 const IndexPage = (domainTypeProps: DomainTypeProps) => {
