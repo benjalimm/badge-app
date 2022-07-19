@@ -12,8 +12,8 @@ export default function useSiwe(): {
 } {
   const { connect, connectors }  = useConnect();
   const { signMessageAsync  } = useSignMessage();
-  const {  pendingChainId, activeChain } = useNetwork()
-  const { data: accountData } = useAccount();
+  const { chain } = useNetwork()
+  const { address } = useAccount();
   const [loading,setLoading] = useState(false);
   const [listenerId, setListenerId] = useState("");
   const [cancelledLastLogin, setCancelled] = useState(false);
@@ -23,15 +23,15 @@ export default function useSiwe(): {
     try {
       SiweManager.setCancelledState(false);
       SiweManager.setLoadingState(true);
-      await connect(connectors[0]);
+      await connect();
       const callbackUrl = `` // Redirect set to false -> Ignore callback Url
       const message = new SiweMessage({
         domain: window.location.host,
-        address: accountData?.address,
+        address: address,
         statement: 'Sign in with Ethereum into Badge.',
         uri: window.location.origin,
         version: '1',
-        chainId: activeChain.id || pendingChainId ,
+        chainId: chain.id,
         nonce: await getCsrfToken()
       });
       const signature = await signMessageAsync({ message: message.prepareMessage() });

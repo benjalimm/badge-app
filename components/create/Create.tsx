@@ -54,7 +54,8 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const { data: signer, status: signerStatus, isLoading, isSuccess: isSignerSuccess } = useSigner()
   const { data: session, status: sessionStatus } = useSession()
   const provider = useProvider();
-  const { data: accountData, isSuccess:isAccountSuccess } = useAccount()
+  // const { data: accountData, isSuccess:isAccountSuccess } = useAccount()
+  const { address } = useAccount()
 
   // ** SHOULD MANUALLY POLL STATE  ** \\
   const [shouldPoll, setShouldPoll] = useState<boolean>(false)
@@ -139,8 +140,8 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   useEffect(() => {
     console.log(`Signer: ${signer}`)
 
-    if (accountData) {
-      provider.getBalance(accountData!.address!).then(balance => {
+    if (address) {
+      provider.getBalance(address).then(balance => {
         const ethBalance = convertWeiBigNumberToEth(balance);
         setUserEthBalance(ethBalance);
       }).catch(err => {
@@ -149,7 +150,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       })
 
     }
-  }, [randomState, isAccountSuccess])
+  }, [randomState])
 
   // ** GET BASE BADGE PRICE ** \\
   useEffect(() => {

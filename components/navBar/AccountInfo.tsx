@@ -135,7 +135,9 @@ function ButtonsContentContainer(
 
   function disconnect() {
     onTap(() => {
-      signOut()
+      signOut().catch(err => {
+        console.error(err);
+      }) 
     })
   }
 
