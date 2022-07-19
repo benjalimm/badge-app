@@ -9,6 +9,10 @@ export default function useGateKeep(domainType: DomainType):
   const alphaUser = useAlphaUser();
   const { status } = useSession();
   let allowed: boolean;
+
+  useEffect(() => {
+    console.log(`SessionStatus: ${status}`)
+  },[status])
    
   switch (domainType) {
     case "app-subdomain":
