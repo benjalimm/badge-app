@@ -1,5 +1,5 @@
 import { BadgeData } from "../schemas/BadgeData"
-import { uploadERC721ToIpfs, uploadERC721ToIpfs2 } from "./ipfsHelper"
+import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp: number): Promise<string> {
   const title = appendTitleLevelAddition(badgeData.title, badgeData.level)

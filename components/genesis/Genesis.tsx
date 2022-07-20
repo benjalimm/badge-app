@@ -20,6 +20,7 @@ import { getScanUrl } from '../../utils/chainUtils';
 import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
+import { uploadPermTokenIPFS } from '../../utils/permTokenUploadUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -176,20 +177,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
       setDeployState("STARTED_IPFS_UPLOAD")
 
       // 3. Check if ipfs url exist, if not -> generate IPFS
-      const ipfsUrl = await uploadERC721ToIpfs({ 
-        title:  entityName  + " - Badge Genesis token",
-        type: "object",
-        properties: {
-          "name": { 
-            type: "string",
-            description: `${entityName} - Genesis token`
-          },
-          "description": {
-            type: "string",
-            description: `Genesis token for ${entityName} for Badge.xyz`
-          }
-        }
-      }) 
+      const ipfsUrl = await uploadPermTokenIPFS(entityName, "Genesis")
 
       // 4. Set deploy state to uploaded
       setDeployState("IPFS_UPLOADED")
