@@ -3,6 +3,7 @@ export interface BadgeEmailData {
   content: string;
   scanLink: string;
   badgeLevel: number;
+  badgeXP: number;
   entityName: string;
   entityContractAddress: string;
   recipientAddress: string;

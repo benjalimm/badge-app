@@ -197,6 +197,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         title: badgeData.title,
         content: badgeData.content,
         badgeLevel: badgeData.level,
+        badgeXP: calculateBXP(badgeData.level),
         entityName: badgeData.entityName,
         entityContractAddress: shortenAddress(currentEntityInfo.address),
         recipientAddress: badgeData.recipientEns ?? shortenAddress(recipientAddress),
@@ -277,7 +278,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         setPageState("BadgeSuccessfullyMinted")
 
         const updatedBadgeData = { ...badgeData, id: parseInt(id) }
-        setBadgeData(updatedBadgeData);
+        setBadgeData(updatedBadgeData) 
         console.log(parseInt(id))
         
         // Send email
@@ -293,7 +294,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         { value: ethers.utils.parseEther(`${badgePriceInEth}`) }
       );
       setIsButtonLoading(false)
-      setPageState("LoadingMintBadge");
+      setPageState("LoadingMintBadge")
       setTransactionHash(transaction.hash)
 
     } catch (error) {
@@ -305,6 +306,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   function resetToDraftBadge() {
     setPageState("DraftBadge")
+    setSentEmail(false)
   }
 
   async function sendEmail(email: string, data: BadgeEmailData) {

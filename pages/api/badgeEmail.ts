@@ -14,7 +14,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const msg = {
     to: email,
     from: "ben@badge.xyz",
-    subject: `Badge labs sent you a Badge - Lead Contributor`,
+    subject: "",
     dynamicTemplateData: badgeEmailData,
     templateId: "d-8f9af7d559054eb6b878f9554c36e162"
   }
