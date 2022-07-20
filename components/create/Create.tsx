@@ -22,6 +22,10 @@ import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
+import { BadgeEmailData } from '../../schemas/BadgeEmailData';
+import { isReallyEmpty } from '../../utils/stringUtils';
+import { getScanUrl } from '../../utils/chainUtils';
+import { shortenAddress } from '../../utils/addressUtils';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
@@ -36,6 +40,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const [pageState, setPageState] = useState<PageState>("DraftBadge");
   const [loadingPercentage, setLoadingPercentage] = useState<number>(0)
   const [isButtonLoading, setIsButtonLoading] = useState<boolean>(false)
+  const [sentEmail, setSentEmail] = useState<boolean>(false)
 
   // ** PERTINENT BADGE DATA ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
@@ -180,6 +185,32 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   },[])
 
+  // ** SEND EMAIL ** \\
+  useEffect(() => { 
+    if (
+      !isReallyEmpty(email) && 
+      !isReallyEmpty(transactionHash) && 
+      pageState === "BadgeSuccessfullyMinted" && 
+      sentEmail === false
+    ) {
+      sendEmail(email,{
+        title: badgeData.title,
+        content: badgeData.content,
+        badgeLevel: badgeData.level,
+        entityName: badgeData.entityName,
+        entityContractAddress: shortenAddress(currentEntityInfo.address),
+        recipientAddress: badgeData.recipientEns ?? shortenAddress(recipientAddress),
+        scanLink: getScanUrl(currentChain, transactionHash, "Transaction"),
+      }).then(() => {
+        setSentEmail(true)
+      }).catch(err => {
+        console.error(err);
+      })
+
+    }
+
+  }, [transactionHash, sentEmail, pageState])
+
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
   }
@@ -248,6 +279,9 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         const updatedBadgeData = { ...badgeData, id: parseInt(id) }
         setBadgeData(updatedBadgeData);
         console.log(parseInt(id))
+        
+        // Send email
+        
       })
       
       // 5. Mint Badge + set page state to loading
@@ -260,7 +294,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       );
       setIsButtonLoading(false)
       setPageState("LoadingMintBadge");
-      
       setTransactionHash(transaction.hash)
 
     } catch (error) {
@@ -272,6 +305,15 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   function resetToDraftBadge() {
     setPageState("DraftBadge")
+  }
+
+  async function sendEmail(email: string, data: BadgeEmailData) {
+    console.log("Sending badge email")
+    return fetch('/api/badgeEmail', { 
+      method: "POST" , 
+      body : JSON.stringify({ data, email  })}).then(res => {
+      console.log(`Successfully sent email ${res}`)
+    })
   }
 
   function renderMainViewBasedOnPageState() {

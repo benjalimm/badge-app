@@ -1,25 +1,21 @@
 import sgMail from '@sendgrid/mail';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { BadgeEmailData } from '../../schemas/BadgeEmailData';
 import generateBadgeEmail from '../../utils/emails/badgeEmailFormatter';
 
-export default function handler(req, res) {
+export default function handler(req: NextApiRequest, res: NextApiResponse) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-
-  console.log("Sending badge email...");
-  const data = {
-    title: "Lead mobile engineer",
-    content:"Benjamin was instrumental in architecting and building out the DAO's core contract. Additionally, he was heavily involved in the governance process.",
-    scanLink: "",
-    badgeLevel: 5,
-    entityName: "Badge Labs",
-    entityContractAddress: "0x18...e7b5",
-    recipientAddress: "0xF1xda..asda"
-  }
-
+  console.log(`Body: ${req.body}`)
+  const body = JSON.parse(req.body);
+  const badgeEmailData: BadgeEmailData = body.data
+  const email: string  = body.email;
+  console.log(`Sending email to ${email} with data: ${badgeEmailData}`);
+  
   const msg = {
-    to: "ben@badge.xyz",
+    to: email,
     from: "ben@badge.xyz",
     subject: `Badge labs sent you a Badge - Lead Contributor`,
-    dynamicTemplateData: data,
+    dynamicTemplateData: badgeEmailData,
     templateId: "d-8f9af7d559054eb6b878f9554c36e162"
   }
   sgMail
