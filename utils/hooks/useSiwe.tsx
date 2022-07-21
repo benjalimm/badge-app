@@ -23,7 +23,7 @@ export default function useSiwe(): {
     try {
       SiweManager.setCancelledState(false);
       SiweManager.setLoadingState(true);
-      await connect();
+      await connect({ connector: connectors[0]});
       const callbackUrl = `` // Redirect set to false -> Ignore callback Url
       const message = new SiweMessage({
         domain: window.location.host,

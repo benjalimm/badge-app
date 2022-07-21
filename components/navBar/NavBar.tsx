@@ -21,17 +21,19 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
   const { login, loading } = useSiwe();
   const [redirecting, setRedirecting] = useState(false);
   const { address } = useAccount()
+  const {data: signer} = useSigner()
 
   useEffect(() => {
-    if (status === "authenticated" && address === null) {
+    console.log(`Status: ${status} , signer: ${signer}`)
+    if (status === "authenticated" && signer === null) {
       // This means that the user is signed in but the signer has expired. Need to relogin.
-      console.log("Signing out")
-      login().catch(err => {
+      console.log("Signing in")
+      signOut().catch(err => {
         console.error(err);
       })
     }
 
-  }, [status, address])
+  }, [status, signer])
 
   const redirectToAlphaPage = () => {
     setRedirecting(true);

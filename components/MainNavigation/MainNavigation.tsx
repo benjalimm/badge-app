@@ -6,6 +6,7 @@ import NavBar from '../navBar/NavBar';
 import style from './MainNavigation.module.scss';
 
 export default function MainNavigation(domainTypeProps: DomainTypeProps) {
+  
   return <div className={style.container}>
     <NavBar sticky={false} 
       connectButtonAction="CONNECT_WALLET"

@@ -1,5 +1,5 @@
 import { BadgeData } from "../schemas/BadgeData"
-import { uploadERC721ToIpfs, uploadERC721ToIpfs2 } from "./ipfsHelper"
+import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp: number): Promise<string> {
   const title = appendTitleLevelAddition(badgeData.title, badgeData.level)
@@ -44,7 +44,7 @@ function appendTitleLevelAddition(title: string, level: number) {
 }
 
 function appendBadgeExplanationToDescription(description: string): string {
-  const divider = "\n////\n"
-  const badgeExplanation = `This NFT was minted on https://badge.xyz. Badges are non-transferable NFTs that showcase a person's achievement.`
+  const divider = "\n----\n"
+  const badgeExplanation = `Minted on https://badge.xyz`
   return description + " \n" + divider + " " + badgeExplanation + " " + divider
 }

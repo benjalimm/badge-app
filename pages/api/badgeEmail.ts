@@ -1,7 +1,6 @@
 import sgMail from '@sendgrid/mail';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { BadgeEmailData } from '../../schemas/BadgeEmailData';
-import generateBadgeEmail from '../../utils/emails/badgeEmailFormatter';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
