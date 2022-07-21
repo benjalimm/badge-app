@@ -9,7 +9,7 @@
   flex-direction: column;
   animation: fadeIn 0.1s ease-in-out;
   justify-content: center;
-  animation: contract 0.6s ease-in-out;
+  animation: contract 0.2s ease-in-out;
 }
 
 .progressBarFiller {

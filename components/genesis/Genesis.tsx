@@ -12,7 +12,7 @@ import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
 import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-import { BadgeRegistry__factory, BadgeRecoveryOracle__factory } from "../../typechain";
+import { BadgeRegistry__factory, BadgeRecoveryOracle__factory, NonTransferableERC721__factory } from "../../typechain";
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';

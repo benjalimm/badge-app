@@ -44,7 +44,7 @@ function appendTitleLevelAddition(title: string, level: number) {
 }
 
 function appendBadgeExplanationToDescription(description: string): string {
-  const divider = "\n////\n"
-  const badgeExplanation = `This NFT was minted on https://badge.xyz. Badges are non-transferable NFTs that showcase a person's achievement.`
+  const divider = "\n----\n"
+  const badgeExplanation = `Minted on https://badge.xyz`
   return description + " \n" + divider + " " + badgeExplanation + " " + divider
 }

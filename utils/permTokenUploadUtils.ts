@@ -3,7 +3,7 @@ import { uploadERC721ToIpfs } from "./ipfsHelper"
 type TokenType = "Genesis" | "Super user" | "Admin"
 export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenType): Promise<string> {
 
-  const title = `${entityName} permission token - ${tokenType}`
+  const title = `${entityName} - Badge permission token: ${tokenType}`
   const url = await uploadERC721ToIpfs({
     title: title,
     type: 'object',
@@ -18,7 +18,7 @@ export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenTy
       },
       "image": {
         type: 'string',
-        description: "https://www.dropbox.com/s/ckdxzz1bajegvid/Genesis%20Token.mp4?raw=1"
+        description: "https://gateway.pinata.cloud/ipfs/QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
       },
       "attributes": [
         {
@@ -32,7 +32,14 @@ export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenTy
 }
 
 function getDescriptionForPermissionToken(entityName: string, tokenType: TokenType): string {
-  const startingExplanation = `Permission tokens allow users to reward Badges on behalf of ${entityName}. The Genesis token is minted to the users wallet when they register an entity on-chain through Badge.`
-  return startingExplanation
+  const explanation = `Badge permission tokens allow users to reward Badges on behalf of an entity (${entityName}). Specifically, the genesis token is minted when a user registers a new entity on the Badge protocol. This allows the user to award Badges as well as grant other users permission to award Badges.`
+  const content = appendBadgeExplanationToDescription(explanation)
+  return content;
+}
+
+function appendBadgeExplanationToDescription(description: string): string {
+  const divider = "\n----\n"
+  const badgeExplanation = `Minted on https://badge.xyz`
+  return description + " \n" + divider + " " + badgeExplanation + " " + divider
 }
 
