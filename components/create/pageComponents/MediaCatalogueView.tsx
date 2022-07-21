@@ -102,7 +102,7 @@ function MediaTile({ media, index, selected, onSelect }: { media: BadgeMedia, se
 
   return <div className={style.mediaTile} onClick={onClick}>
     <div className={maskClasses}>
-      <video className={style.mediaTileVideo} preload="meta" autoPlay loop muted src={media.url}/> 
+      <video className={style.mediaTileVideo} preload="meta" autoPlay loop muted src={media.quickAccessPath}/> 
     </div>
   </div>
 }

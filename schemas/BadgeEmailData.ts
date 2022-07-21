@@ -7,4 +7,5 @@ export interface BadgeEmailData {
   entityName: string;
   entityContractAddress: string;
   recipientAddress: string;
+  gifUrl: string;
 }

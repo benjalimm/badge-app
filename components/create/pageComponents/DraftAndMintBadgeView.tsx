@@ -198,7 +198,7 @@ export default function DraftAndMintBadgeView({
       id: 0,
       title: badgeTitle,
       content: badgeDescription,
-      videoPath: currentlySelectedMedia.url,
+      videoPath: currentlySelectedMedia.storageUrl,
       level: badgeLevel,
       entityName: entityName,
     });
@@ -221,7 +221,7 @@ export default function DraftAndMintBadgeView({
     onMintAndSendBadge({ 
       title: badgeTitle, 
       content: badgeDescription, 
-      videoPath: currentlySelectedMedia.url, 
+      videoPath: currentlySelectedMedia.storageUrl, 
       level: badgeLevel,
       entityName: entityName,
       recipientEns: ens
@@ -234,7 +234,7 @@ export default function DraftAndMintBadgeView({
         <BadgeCard 
           title={getTitle()}
           content={getDescription()}
-          videoSource={currentlySelectedMedia.url}
+          videoSource={currentlySelectedMedia.quickAccessPath}
           level={badgeLevel}
           entityName={entityName}
           walletIdentifier={walletIdentifier}
