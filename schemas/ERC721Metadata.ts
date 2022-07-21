@@ -9,22 +9,9 @@ export type ERC721MetadataProperties =  {
 }
 
 // ** Metadata ** \\ 
-export interface ERC721Metadata2 {
-  title: string;
-  type: "object";
-  properties: ERC721MetadataProperties2;
-}
-
 interface Trait {
   trait_type: string;
   value: string;
-}
-export type ERC721MetadataProperties2 = {
-  name: string;
-  description: string;
-  image: string;
-  animation_url: string;
-  attributes: Trait[];
 }
 
 export interface ERC721MetadataProperty {

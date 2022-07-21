@@ -1,6 +1,6 @@
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect, useState} from 'react';
-import { useAccount, UserRejectedRequestError } from 'wagmi';
+import { useAccount, UserRejectedRequestError, useSigner } from 'wagmi';
 import { AlphaUser } from '../../backend/AirtableController';
 import auth from '../../pages/api/auth/[...nextauth]';
 import useSiwe from '../../utils/hooks/useSiwe';
@@ -11,6 +11,7 @@ import NavBar from '../navBar/NavBar';
 import style from "./AlphaLoginPage.module.scss"
 import AccessDenied from './pageComponents/AccessDenied';
 import AwaitingConnection from './pageComponents/AwaitingConnection';
+import { IERC721__factory, NonTransferableERC721__factory } from '../../typechain';
 
 type PageState = "AwaitingConnection" | "CancelledConnection" | "AccessDenied" 
 
@@ -22,6 +23,7 @@ export default function AlphaLoginPage(props: Props) {
   const { alphaUser } = props;
   const { login, cancelledLastLogin, loading } = useSiwe();
   const { status } = useSession();
+  const { data: signer } = useSigner();
 
   useEffect(() => {
     console.log(alphaUser)
