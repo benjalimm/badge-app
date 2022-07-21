@@ -202,6 +202,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         entityContractAddress: shortenAddress(currentEntityInfo.address),
         recipientAddress: badgeData.recipientEns ?? shortenAddress(recipientAddress),
         scanLink: getScanUrl(currentChain, transactionHash, "Transaction"),
+        gifUrl: badgeMediaList[indexOfBadgeMedia].gifUrl
       }).then(() => {
         setSentEmail(true)
       }).catch(err => {
@@ -256,7 +257,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       }
 
       // 1. Get video url
-      const videoUrl = badgeMediaList[indexOfBadgeMedia].url
+      const videoUrl = badgeMediaList[indexOfBadgeMedia].storageUrl
 
       // 2. Upload ERC721 metadata to IPFS
       const url = await uploadBadgeIPFS(badgeData, videoUrl, calculateBXP(badgeData?.level ?? 0));
