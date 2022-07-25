@@ -70,6 +70,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "getDeployer",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "getEntityFactory",
     outputs: [
       {
@@ -156,24 +169,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "perm",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "badge",
-        type: "address",
-      },
-    ],
-    name: "setTokenReverseRecords",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

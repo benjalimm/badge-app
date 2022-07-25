@@ -24,6 +24,7 @@ interface BadgeRecoveryOracleInterface extends ethers.utils.Interface {
     "getRecoveryAddress(address)": FunctionFragment;
     "recoveryAddressMap(address)": FunctionFragment;
     "setRecoveryAddress(address)": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -38,6 +39,7 @@ interface BadgeRecoveryOracleInterface extends ethers.utils.Interface {
     functionFragment: "setRecoveryAddress",
     values: [string]
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "getRecoveryAddress",
@@ -51,6 +53,7 @@ interface BadgeRecoveryOracleInterface extends ethers.utils.Interface {
     functionFragment: "setRecoveryAddress",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {
     "RecoveryAddressSet(address,address)": EventFragment;
@@ -121,6 +124,8 @@ export class BadgeRecoveryOracle extends BaseContract {
       _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    version(overrides?: CallOverrides): Promise<[string]>;
   };
 
   getRecoveryAddress(
@@ -134,6 +139,8 @@ export class BadgeRecoveryOracle extends BaseContract {
     _recoveryAddress: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  version(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     getRecoveryAddress(
@@ -150,6 +157,8 @@ export class BadgeRecoveryOracle extends BaseContract {
       _recoveryAddress: string,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    version(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -185,6 +194,8 @@ export class BadgeRecoveryOracle extends BaseContract {
       _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -202,5 +213,7 @@ export class BadgeRecoveryOracle extends BaseContract {
       _recoveryAddress: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

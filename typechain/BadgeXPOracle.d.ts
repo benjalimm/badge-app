@@ -21,17 +21,20 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 interface BadgeXPOracleInterface extends ethers.utils.Interface {
   functions: {
     "calculateXP(uint256)": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "calculateXP",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "calculateXP",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {};
 }
@@ -84,6 +87,8 @@ export class BadgeXPOracle extends BaseContract {
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    version(overrides?: CallOverrides): Promise<[string]>;
   };
 
   calculateXP(
@@ -91,11 +96,15 @@ export class BadgeXPOracle extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  version(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     calculateXP(
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
@@ -105,6 +114,8 @@ export class BadgeXPOracle extends BaseContract {
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -112,5 +123,7 @@ export class BadgeXPOracle extends BaseContract {
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

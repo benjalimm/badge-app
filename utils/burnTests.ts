@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { getCurrentEntityFromLocalStorage } from "./EntityLocalStorageManager";
 
 const entityAddress: string = "0x0De9389e76AF895f3549800a858BB34791786Ca5"
-const user2Address: string = "0x845B62836650b762996FDf596AabFd19AfFAE02D"
+const user2Address: string = "0x95dE2aF29E3cc1B776C70ECe4c6392022B1180dC"
 
 export async function revokeBadgeAsEntity(signer: Signer) {
   const address = getCurrentEntityFromLocalStorage().address;
@@ -18,7 +18,7 @@ export async function burnWithPrejudice(signer: Signer) {
   const entity = Entity__factory.connect(address, signer)
   const badgeTokenAddress = await entity.badgeToken();
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
-  await badgeToken.burn(2, true);
+  await badgeToken.burn(3, true);
 }
 
 export async function getDemeritPoint(signer: Signer) {
@@ -45,7 +45,8 @@ export async function sendEthToStake(signer: Signer) {
 }
 
 export async function resetBadgeURI(signer: Signer) {
-  const entity = Entity__factory.connect(entityAddress, signer)
+  const address = getCurrentEntityFromLocalStorage().address;
+  const entity = Entity__factory.connect(address, signer)
   const badgeTokenAddress = await entity.badgeToken();
 
   const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
@@ -54,7 +55,7 @@ export async function resetBadgeURI(signer: Signer) {
     console.log(`Badge URI reset from ${from} to ${to}`)
   })
 
-  await entity.resetBadgeURI(1, "URI_2");
+  await entity.resetBadgeURI(2, "URI_2");
 }
 
 export async function resetBadgeRecipient(signer: Signer) {
