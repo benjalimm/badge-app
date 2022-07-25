@@ -3,7 +3,7 @@ import { uploadERC721ToIpfs } from "./ipfsHelper"
 type TokenType = "Genesis" | "Super user" | "Admin"
 export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenType): Promise<string> {
 
-  const title = `${entityName} - Badge permission token: ${tokenType}`
+  const title = `${tokenType} token - ${entityName}`
   const url = await uploadERC721ToIpfs({
     title: title,
     type: 'object',
@@ -18,7 +18,7 @@ export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenTy
       },
       "image": {
         type: 'string',
-        description: "https://gateway.pinata.cloud/ipfs/QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
+        description: getVideo(tokenType)
       },
       "attributes": [
         {
@@ -41,5 +41,19 @@ function appendBadgeExplanationToDescription(description: string): string {
   const divider = "\n----\n"
   const badgeExplanation = `Minted on https://badge.xyz`
   return description + " \n" + divider + " " + badgeExplanation + " " + divider
+}
+
+function getVideo(tokenType: TokenType): string {
+
+  switch (tokenType) {
+    case "Genesis": 
+      return "https://gateway.pinata.cloud/ipfs/QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
+    case "Super user":
+      return "https://gateway.pinata.cloud/ipfs/QmWF3yw9bpkpv596WCcBBq84B5PgQeTuhmA6Qp4mbAKSCh"
+    case "Admin":
+      return "https://gateway.pinata.cloud/ipfs/QmQ5V9tiWSaKKyt19roK48is2ouUJiL3b1S9vFQqUNacGP"
+    
+  }
+
 }
 

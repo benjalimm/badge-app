@@ -22,44 +22,46 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface BadgeRegistryInterface extends ethers.utils.Interface {
   functions: {
-    "badgeGnosisSafe()": FunctionFragment;
+    "acceptDeployerRequest()": FunctionFragment;
     "badgePriceOracle()": FunctionFragment;
-    "badgeTokenEntityReverseRecord(address)": FunctionFragment;
     "badgeTokenFactory()": FunctionFragment;
+    "badgeTreasury()": FunctionFragment;
     "badgeXPToken()": FunctionFragment;
     "baseMinimumStake()": FunctionFragment;
     "certifiedRegistries(address)": FunctionFragment;
     "deployer()": FunctionFragment;
     "entities(address)": FunctionFragment;
     "entityFactory()": FunctionFragment;
-    "filterAddressesForEntityReverseRecord(uint8,address[])": FunctionFragment;
     "getBadgePrice(uint8)": FunctionFragment;
     "getBadgeTokenFactory()": FunctionFragment;
     "getBadgeXPToken()": FunctionFragment;
     "getBaseMinimumStake()": FunctionFragment;
+    "getDeployer()": FunctionFragment;
     "getEntityFactory()": FunctionFragment;
     "getPermissionTokenFactory()": FunctionFragment;
     "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
     "isRegistryCertified(address)": FunctionFragment;
-    "permTokenEntityReverseRecord(address)": FunctionFragment;
     "permissionTokenFactory()": FunctionFragment;
     "recoveryOracle()": FunctionFragment;
     "registerEntity(string,string,bool)": FunctionFragment;
+    "requestNewDeployer(address)": FunctionFragment;
+    "requestedDeployer()": FunctionFragment;
     "setBadgePriceOracle(address)": FunctionFragment;
     "setBadgeTokenFactory(address)": FunctionFragment;
+    "setBadgeTreasury(address)": FunctionFragment;
     "setBadgeXPToken(address)": FunctionFragment;
     "setBaseMinimumStake(uint256)": FunctionFragment;
     "setCertifiedRegistry(address,bool)": FunctionFragment;
     "setEntityFactory(address)": FunctionFragment;
     "setPermissionTokenFactory(address)": FunctionFragment;
     "setRecoveryOracle(address)": FunctionFragment;
-    "setTokenReverseRecords(address,address)": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
   encodeFunctionData(
-    functionFragment: "badgeGnosisSafe",
+    functionFragment: "acceptDeployerRequest",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -67,11 +69,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "badgeTokenEntityReverseRecord",
-    values: [string]
+    functionFragment: "badgeTokenFactory",
+    values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "badgeTokenFactory",
+    functionFragment: "badgeTreasury",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -93,10 +95,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "filterAddressesForEntityReverseRecord",
-    values: [BigNumberish, string[]]
-  ): string;
-  encodeFunctionData(
     functionFragment: "getBadgePrice",
     values: [BigNumberish]
   ): string;
@@ -110,6 +108,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBaseMinimumStake",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDeployer",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -134,10 +136,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values: [string]
   ): string;
   encodeFunctionData(
-    functionFragment: "permTokenEntityReverseRecord",
-    values: [string]
-  ): string;
-  encodeFunctionData(
     functionFragment: "permissionTokenFactory",
     values?: undefined
   ): string;
@@ -150,11 +148,23 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     values: [string, string, boolean]
   ): string;
   encodeFunctionData(
+    functionFragment: "requestNewDeployer",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "requestedDeployer",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "setBadgePriceOracle",
     values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setBadgeTokenFactory",
+    values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBadgeTreasury",
     values: [string]
   ): string;
   encodeFunctionData(
@@ -181,13 +191,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "setRecoveryOracle",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setTokenReverseRecords",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "badgeGnosisSafe",
+    functionFragment: "acceptDeployerRequest",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -195,11 +202,11 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "badgeTokenEntityReverseRecord",
+    functionFragment: "badgeTokenFactory",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "badgeTokenFactory",
+    functionFragment: "badgeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -221,10 +228,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "filterAddressesForEntityReverseRecord",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "getBadgePrice",
     data: BytesLike
   ): Result;
@@ -238,6 +241,10 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getBaseMinimumStake",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getDeployer",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -262,10 +269,6 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "permTokenEntityReverseRecord",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "permissionTokenFactory",
     data: BytesLike
   ): Result;
@@ -278,11 +281,23 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "requestNewDeployer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "requestedDeployer",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setBadgePriceOracle",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "setBadgeTokenFactory",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBadgeTreasury",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -309,10 +324,7 @@ interface BadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "setRecoveryOracle",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTokenReverseRecords",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {
     "EntityRegistered(address,string,address,address,address)": EventFragment;
@@ -375,16 +387,15 @@ export class BadgeRegistry extends BaseContract {
   interface: BadgeRegistryInterface;
 
   functions: {
-    badgeGnosisSafe(overrides?: CallOverrides): Promise<[string]>;
+    acceptDeployerRequest(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
 
     badgePriceOracle(overrides?: CallOverrides): Promise<[string]>;
 
-    badgeTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     badgeTokenFactory(overrides?: CallOverrides): Promise<[string]>;
+
+    badgeTreasury(overrides?: CallOverrides): Promise<[string]>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
@@ -401,12 +412,6 @@ export class BadgeRegistry extends BaseContract {
 
     entityFactory(overrides?: CallOverrides): Promise<[string]>;
 
-    filterAddressesForEntityReverseRecord(
-      tokenType: BigNumberish,
-      addresses: string[],
-      overrides?: CallOverrides
-    ): Promise<[string[]]>;
-
     getBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
@@ -417,6 +422,8 @@ export class BadgeRegistry extends BaseContract {
     getBadgeXPToken(overrides?: CallOverrides): Promise<[string]>;
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getDeployer(overrides?: CallOverrides): Promise<[string]>;
 
     getEntityFactory(overrides?: CallOverrides): Promise<[string]>;
 
@@ -433,11 +440,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    permTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     permissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<[string]>;
@@ -449,6 +451,13 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    requestNewDeployer(
+      _requestedDeployer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    requestedDeployer(overrides?: CallOverrides): Promise<[string]>;
+
     setBadgePriceOracle(
       _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -456,6 +465,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeTokenFactory(
       _badgeTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    setBadgeTreasury(
+      _badgeTreasury: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -490,23 +504,18 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    version(overrides?: CallOverrides): Promise<[string]>;
   };
 
-  badgeGnosisSafe(overrides?: CallOverrides): Promise<string>;
+  acceptDeployerRequest(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
 
   badgePriceOracle(overrides?: CallOverrides): Promise<string>;
 
-  badgeTokenEntityReverseRecord(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   badgeTokenFactory(overrides?: CallOverrides): Promise<string>;
+
+  badgeTreasury(overrides?: CallOverrides): Promise<string>;
 
   badgeXPToken(overrides?: CallOverrides): Promise<string>;
 
@@ -523,12 +532,6 @@ export class BadgeRegistry extends BaseContract {
 
   entityFactory(overrides?: CallOverrides): Promise<string>;
 
-  filterAddressesForEntityReverseRecord(
-    tokenType: BigNumberish,
-    addresses: string[],
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
   getBadgePrice(
     level: BigNumberish,
     overrides?: CallOverrides
@@ -539,6 +542,8 @@ export class BadgeRegistry extends BaseContract {
   getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
   getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getDeployer(overrides?: CallOverrides): Promise<string>;
 
   getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -555,11 +560,6 @@ export class BadgeRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  permTokenEntityReverseRecord(
-    arg0: string,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
   recoveryOracle(overrides?: CallOverrides): Promise<string>;
@@ -571,6 +571,13 @@ export class BadgeRegistry extends BaseContract {
     overrides?: PayableOverrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  requestNewDeployer(
+    _requestedDeployer: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  requestedDeployer(overrides?: CallOverrides): Promise<string>;
+
   setBadgePriceOracle(
     _badgePriceOracle: string,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -578,6 +585,11 @@ export class BadgeRegistry extends BaseContract {
 
   setBadgeTokenFactory(
     _badgeTokenFactory: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  setBadgeTreasury(
+    _badgeTreasury: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -612,23 +624,16 @@ export class BadgeRegistry extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  setTokenReverseRecords(
-    perm: string,
-    badge: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  version(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
-    badgeGnosisSafe(overrides?: CallOverrides): Promise<string>;
+    acceptDeployerRequest(overrides?: CallOverrides): Promise<void>;
 
     badgePriceOracle(overrides?: CallOverrides): Promise<string>;
 
-    badgeTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     badgeTokenFactory(overrides?: CallOverrides): Promise<string>;
+
+    badgeTreasury(overrides?: CallOverrides): Promise<string>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<string>;
 
@@ -645,12 +650,6 @@ export class BadgeRegistry extends BaseContract {
 
     entityFactory(overrides?: CallOverrides): Promise<string>;
 
-    filterAddressesForEntityReverseRecord(
-      tokenType: BigNumberish,
-      addresses: string[],
-      overrides?: CallOverrides
-    ): Promise<string[]>;
-
     getBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
@@ -661,6 +660,8 @@ export class BadgeRegistry extends BaseContract {
     getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getDeployer(overrides?: CallOverrides): Promise<string>;
 
     getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -677,11 +678,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
-    permTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     permissionTokenFactory(overrides?: CallOverrides): Promise<string>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<string>;
@@ -693,6 +689,13 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    requestNewDeployer(
+      _requestedDeployer: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    requestedDeployer(overrides?: CallOverrides): Promise<string>;
+
     setBadgePriceOracle(
       _badgePriceOracle: string,
       overrides?: CallOverrides
@@ -700,6 +703,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeTokenFactory(
       _badgeTokenFactory: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    setBadgeTreasury(
+      _badgeTreasury: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -734,11 +742,7 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    version(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -778,16 +782,15 @@ export class BadgeRegistry extends BaseContract {
   };
 
   estimateGas: {
-    badgeGnosisSafe(overrides?: CallOverrides): Promise<BigNumber>;
+    acceptDeployerRequest(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
 
     badgePriceOracle(overrides?: CallOverrides): Promise<BigNumber>;
 
-    badgeTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     badgeTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
+
+    badgeTreasury(overrides?: CallOverrides): Promise<BigNumber>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -804,12 +807,6 @@ export class BadgeRegistry extends BaseContract {
 
     entityFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
-    filterAddressesForEntityReverseRecord(
-      tokenType: BigNumberish,
-      addresses: string[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
@@ -820,6 +817,8 @@ export class BadgeRegistry extends BaseContract {
     getBadgeXPToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getDeployer(overrides?: CallOverrides): Promise<BigNumber>;
 
     getEntityFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -836,11 +835,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    permTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     permissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
     recoveryOracle(overrides?: CallOverrides): Promise<BigNumber>;
@@ -852,6 +846,13 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    requestNewDeployer(
+      _requestedDeployer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    requestedDeployer(overrides?: CallOverrides): Promise<BigNumber>;
+
     setBadgePriceOracle(
       _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -859,6 +860,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeTokenFactory(
       _badgeTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    setBadgeTreasury(
+      _badgeTreasury: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -893,24 +899,19 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    badgeGnosisSafe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    acceptDeployerRequest(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
 
     badgePriceOracle(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    badgeTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     badgeTokenFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    badgeTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     badgeXPToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -930,12 +931,6 @@ export class BadgeRegistry extends BaseContract {
 
     entityFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    filterAddressesForEntityReverseRecord(
-      tokenType: BigNumberish,
-      addresses: string[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     getBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
@@ -950,6 +945,8 @@ export class BadgeRegistry extends BaseContract {
     getBaseMinimumStake(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    getDeployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getEntityFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -971,11 +968,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    permTokenEntityReverseRecord(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     permissionTokenFactory(
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
@@ -989,6 +981,13 @@ export class BadgeRegistry extends BaseContract {
       overrides?: PayableOverrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    requestNewDeployer(
+      _requestedDeployer: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    requestedDeployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     setBadgePriceOracle(
       _badgePriceOracle: string,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -996,6 +995,11 @@ export class BadgeRegistry extends BaseContract {
 
     setBadgeTokenFactory(
       _badgeTokenFactory: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBadgeTreasury(
+      _badgeTreasury: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1030,10 +1034,6 @@ export class BadgeRegistry extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

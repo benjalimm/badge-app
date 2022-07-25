@@ -11,7 +11,6 @@ import {
   PopulatedTransaction,
   BaseContract,
   ContractTransaction,
-  Overrides,
   CallOverrides,
 } from "ethers";
 import { BytesLike } from "@ethersproject/bytes";
@@ -25,13 +24,13 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
     "getBadgeTokenFactory()": FunctionFragment;
     "getBadgeXPToken()": FunctionFragment;
     "getBaseMinimumStake()": FunctionFragment;
+    "getDeployer()": FunctionFragment;
     "getEntityFactory()": FunctionFragment;
     "getPermissionTokenFactory()": FunctionFragment;
     "getRecoveryOracle()": FunctionFragment;
     "getSafe()": FunctionFragment;
     "isRegistered(address)": FunctionFragment;
     "isRegistryCertified(address)": FunctionFragment;
-    "setTokenReverseRecords(address,address)": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -48,6 +47,10 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getBaseMinimumStake",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getDeployer",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -71,10 +74,6 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
     functionFragment: "isRegistryCertified",
     values: [string]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setTokenReverseRecords",
-    values: [string, string]
-  ): string;
 
   decodeFunctionResult(
     functionFragment: "getBadgePrice",
@@ -90,6 +89,10 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getBaseMinimumStake",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getDeployer",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -111,10 +114,6 @@ interface IBadgeRegistryInterface extends ethers.utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "isRegistryCertified",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setTokenReverseRecords",
     data: BytesLike
   ): Result;
 
@@ -176,6 +175,8 @@ export class IBadgeRegistry extends BaseContract {
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getDeployer(overrides?: CallOverrides): Promise<[string]>;
+
     getEntityFactory(overrides?: CallOverrides): Promise<[string]>;
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<[string]>;
@@ -190,12 +191,6 @@ export class IBadgeRegistry extends BaseContract {
       _registry: string,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
-
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
   };
 
   getBadgePrice(
@@ -208,6 +203,8 @@ export class IBadgeRegistry extends BaseContract {
   getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
   getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getDeployer(overrides?: CallOverrides): Promise<string>;
 
   getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -224,12 +221,6 @@ export class IBadgeRegistry extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  setTokenReverseRecords(
-    perm: string,
-    badge: string,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
   callStatic: {
     getBadgePrice(
       level: BigNumberish,
@@ -241,6 +232,8 @@ export class IBadgeRegistry extends BaseContract {
     getBadgeXPToken(overrides?: CallOverrides): Promise<string>;
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getDeployer(overrides?: CallOverrides): Promise<string>;
 
     getEntityFactory(overrides?: CallOverrides): Promise<string>;
 
@@ -256,12 +249,6 @@ export class IBadgeRegistry extends BaseContract {
       _registry: string,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
   };
 
   filters: {};
@@ -278,6 +265,8 @@ export class IBadgeRegistry extends BaseContract {
 
     getBaseMinimumStake(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getDeployer(overrides?: CallOverrides): Promise<BigNumber>;
+
     getEntityFactory(overrides?: CallOverrides): Promise<BigNumber>;
 
     getPermissionTokenFactory(overrides?: CallOverrides): Promise<BigNumber>;
@@ -291,12 +280,6 @@ export class IBadgeRegistry extends BaseContract {
     isRegistryCertified(
       _registry: string,
       overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
@@ -316,6 +299,8 @@ export class IBadgeRegistry extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getDeployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getEntityFactory(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getPermissionTokenFactory(
@@ -334,12 +319,6 @@ export class IBadgeRegistry extends BaseContract {
     isRegistryCertified(
       _registry: string,
       overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    setTokenReverseRecords(
-      perm: string,
-      badge: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
 }
