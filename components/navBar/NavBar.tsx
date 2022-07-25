@@ -25,13 +25,13 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
 
   useEffect(() => {
     console.log(`Status: ${status} , signer: ${signer}`)
-    if (status === "authenticated" && signer === null) {
-      // This means that the user is signed in but the signer has expired. Need to relogin.
-      console.log("Signing in")
-      signOut().catch(err => {
-        console.error(err);
-      })
-    }
+    // if (status === "authenticated" && signer === null) {
+    //   // This means that the user is signed in but the signer has expired. Need to relogin.
+    //   console.log("Signing in")
+    //   signOut().catch(err => {
+    //     console.error(err);
+    //   })
+    // }
 
   }, [status, signer])
 

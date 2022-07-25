@@ -9,10 +9,9 @@ import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
 import { EntityInfo } from '../../schemas/EntityInfo';
 import { badgeContractAddress, currentChain } from '../../configs/blockchainConfig';
 import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
-import { uploadERC721ToIpfs } from '../../utils/ipfsHelper';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-import { BadgeRegistry__factory, BadgeRecoveryOracle__factory, NonTransferableERC721__factory } from "../../typechain";
+import { BadgeRegistry__factory } from "../../typechain";
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
@@ -226,7 +225,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
       setIsButtonLoading(false);
       console.error(error)
     } 
-  }
+  } 
 
   function onNext(entityName: string) {
     setEntityName(entityName)

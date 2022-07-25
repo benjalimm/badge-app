@@ -21,14 +21,19 @@ import type { TypedEventFilter, TypedEvent, TypedListener } from "./common";
 
 interface BadgePriceOracleInterface extends ethers.utils.Interface {
   functions: {
+    "badgeRegistry()": FunctionFragment;
     "baseBadgePrice()": FunctionFragment;
     "calculateBadgePrice(uint8)": FunctionFragment;
-    "deployer()": FunctionFragment;
     "levelMultiplierX100()": FunctionFragment;
     "setBaseBadgePrice(uint256)": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
   encodeFunctionData(
+    functionFragment: "badgeRegistry",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "baseBadgePrice",
     values?: undefined
   ): string;
@@ -36,7 +41,6 @@ interface BadgePriceOracleInterface extends ethers.utils.Interface {
     functionFragment: "calculateBadgePrice",
     values: [BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "deployer", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "levelMultiplierX100",
     values?: undefined
@@ -45,8 +49,13 @@ interface BadgePriceOracleInterface extends ethers.utils.Interface {
     functionFragment: "setBaseBadgePrice",
     values: [BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
+    functionFragment: "badgeRegistry",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "baseBadgePrice",
     data: BytesLike
   ): Result;
@@ -54,7 +63,6 @@ interface BadgePriceOracleInterface extends ethers.utils.Interface {
     functionFragment: "calculateBadgePrice",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "deployer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "levelMultiplierX100",
     data: BytesLike
@@ -63,6 +71,7 @@ interface BadgePriceOracleInterface extends ethers.utils.Interface {
     functionFragment: "setBaseBadgePrice",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {};
 }
@@ -111,6 +120,8 @@ export class BadgePriceOracle extends BaseContract {
   interface: BadgePriceOracleInterface;
 
   functions: {
+    badgeRegistry(overrides?: CallOverrides): Promise<[string]>;
+
     baseBadgePrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     calculateBadgePrice(
@@ -118,15 +129,17 @@ export class BadgePriceOracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    deployer(overrides?: CallOverrides): Promise<[string]>;
-
     levelMultiplierX100(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     setBaseBadgePrice(
       price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    version(overrides?: CallOverrides): Promise<[string]>;
   };
+
+  badgeRegistry(overrides?: CallOverrides): Promise<string>;
 
   baseBadgePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -135,8 +148,6 @@ export class BadgePriceOracle extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  deployer(overrides?: CallOverrides): Promise<string>;
-
   levelMultiplierX100(overrides?: CallOverrides): Promise<BigNumber>;
 
   setBaseBadgePrice(
@@ -144,15 +155,17 @@ export class BadgePriceOracle extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  version(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
+    badgeRegistry(overrides?: CallOverrides): Promise<string>;
+
     baseBadgePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     calculateBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
-
-    deployer(overrides?: CallOverrides): Promise<string>;
 
     levelMultiplierX100(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -160,11 +173,15 @@ export class BadgePriceOracle extends BaseContract {
       price: BigNumberish,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    version(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
 
   estimateGas: {
+    badgeRegistry(overrides?: CallOverrides): Promise<BigNumber>;
+
     baseBadgePrice(overrides?: CallOverrides): Promise<BigNumber>;
 
     calculateBadgePrice(
@@ -172,25 +189,25 @@ export class BadgePriceOracle extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    deployer(overrides?: CallOverrides): Promise<BigNumber>;
-
     levelMultiplierX100(overrides?: CallOverrides): Promise<BigNumber>;
 
     setBaseBadgePrice(
       price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
+    badgeRegistry(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     baseBadgePrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     calculateBadgePrice(
       level: BigNumberish,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
-
-    deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     levelMultiplierX100(
       overrides?: CallOverrides
@@ -200,5 +217,7 @@ export class BadgePriceOracle extends BaseContract {
       price: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

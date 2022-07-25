@@ -33,6 +33,30 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "badgeContract",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+    ],
+    name: "getXPForBadgeContractToRecipient",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "level",
         type: "uint256",

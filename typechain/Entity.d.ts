@@ -46,6 +46,7 @@ interface EntityInterface extends ethers.utils.Interface {
     "revokePermissionToken(address)": FunctionFragment;
     "setTokenSite(string)": FunctionFragment;
     "surrenderPermissionToken()": FunctionFragment;
+    "version()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -144,6 +145,7 @@ interface EntityInterface extends ethers.utils.Interface {
     functionFragment: "surrenderPermissionToken",
     values?: undefined
   ): string;
+  encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "BASE_MINIMUM_STAKE",
@@ -229,6 +231,7 @@ interface EntityInterface extends ethers.utils.Interface {
     functionFragment: "surrenderPermissionToken",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "version", data: BytesLike): Result;
 
   events: {
     "EntityMigrated(address)": EventFragment;
@@ -403,6 +406,8 @@ export class Entity extends BaseContract {
     surrenderPermissionToken(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    version(overrides?: CallOverrides): Promise<[string]>;
   };
 
   BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<BigNumber>;
@@ -503,6 +508,8 @@ export class Entity extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  version(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
     BASE_MINIMUM_STAKE(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -593,6 +600,8 @@ export class Entity extends BaseContract {
     setTokenSite(site: string, overrides?: CallOverrides): Promise<void>;
 
     surrenderPermissionToken(overrides?: CallOverrides): Promise<void>;
+
+    version(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -749,6 +758,8 @@ export class Entity extends BaseContract {
     surrenderPermissionToken(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    version(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -855,5 +866,7 @@ export class Entity extends BaseContract {
     surrenderPermissionToken(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    version(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
