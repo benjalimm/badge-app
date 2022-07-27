@@ -23,7 +23,7 @@ const listOfChainInfo: ChainInfo[] = [
     addressPath: "address"
   },
   {
-    chain: "Optimistic Mainnet",
+    chain: "Optimism Mainnet",
     baseUrl: "https://optimistic.etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
@@ -32,6 +32,13 @@ const listOfChainInfo: ChainInfo[] = [
   {
     chain: "Ethereum Rinkeby",
     baseUrl: "https://rinkeby.etherscan.io",
+    transactionPath: "tx",
+    tokenPath: "token",
+    addressPath: "address"
+  },
+  {
+    chain: "Ethereum Mainnet",
+    baseUrl: "https://etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"

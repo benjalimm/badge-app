@@ -18,7 +18,7 @@ function getEtherscanAddress(): string {
   switch (currentChain) {
     case "Optimistic Kovan":
       return 'api-kovan-optimistic.etherscan.io'
-    case "Optimistic Mainnet":
+    case "Optimism Mainnet":
       return 'optimistic.etherscan.io'
     case "Ethereum Rinkeby":
       return "rinkeby.etherscan.io"
