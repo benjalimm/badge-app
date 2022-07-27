@@ -1,5 +1,5 @@
 
-export type Chain = "Polygon POS" | "Polygon Mumbai" | "Optimistic Kovan" | "Optimistic Mainnet" | "Ethereum Rinkeby";
+export type Chain = "Ethereum Mainnet"|"Polygon POS" | "Polygon Mumbai" | "Optimistic Kovan" | "Optimism Mainnet" | "Ethereum Rinkeby";
 export interface ChainInfo {
   chain: Chain;
   baseUrl: string;

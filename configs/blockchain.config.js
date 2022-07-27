@@ -8,7 +8,7 @@ module.exports = {
     url: 'https://polygon-mumbai.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: "0xC446BAE3161743a30B5425D2B0EF819902Ed990e"
   },
-  mainnet: {
+  polygonMainnet: {
     url: 'https://polygon-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512"
   },
@@ -18,10 +18,14 @@ module.exports = {
   },
   optimismMainnet: {
     url: 'https://optimism-mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
-    badgeContractAddress: ""
+    badgeContractAddress: "0x920f3D3A8FCf2E707D1ae577aA0BFE4BD5bC3fcf"
   },
   ethereumRinkeby: {
     url: 'https://rinkeby.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6',
     badgeContractAddress: "0x58C9aeDbBC3f202e7c2756Fd9b80DE25E05890e7"
+  },
+  mainnet: {
+    url: "https://mainnet.infura.io/v3/9c0e4231c73e40da8c90be9e43411cd6",
+    badgeContractAddress: "0x920f3D3A8FCf2E707D1ae577aA0BFE4BD5bC3fcf"
   }
 }

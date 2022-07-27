@@ -5,35 +5,24 @@ export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp
   const title = appendTitleLevelAddition(badgeData.title, badgeData.level)
 
   // 2. Upload ERC721 metadata to IPFS
-  
+
   const url = await uploadERC721ToIpfs({
-    title: title,
-    type: 'object',
-    properties: {
-      "name": { 
-        type: 'string',
-        description: title
+    name: title,
+    description: appendBadgeExplanationToDescription(badgeData.content),
+    image: videoUrl,
+    animation_url: videoUrl,
+    attributes: [
+      {
+        trait_type: "Level",
+        value: `${badgeData.level}`
       },
-      "description": {
-        type: 'string',
-        description: appendBadgeExplanationToDescription(badgeData.content)
-      },
-      "image": {
-        type: 'string',
-        description: videoUrl
-      },
-      "attributes": [
-        {
-          trait_type: "Level",
-          value: `${badgeData.level}`
-        },
-        {
-          trait_type: "BXP",
-          value: `${xp}`
-        }
-      ]
-    }
+      { 
+        trait_type: "BXP",
+        value: `${xp}` 
+      }
+    ]
   })
+  
   return url;
 }
 

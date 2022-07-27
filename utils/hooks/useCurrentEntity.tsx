@@ -16,6 +16,5 @@ export default function useCurrentEntity(): EntityInfo | undefined {
       EntityLocalStorageManager.stopListening(id);
     }
   },[])
-
-  return currentEntity
+  return currentEntity;
 }

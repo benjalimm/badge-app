@@ -11,7 +11,7 @@ import { badgeContractAddress, currentChain } from '../../configs/blockchainConf
 import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-import { BadgeRegistry__factory } from "../../typechain";
+import { BadgeRegistry__factory, BadgeToken__factory, IBadgeTokenFactory } from "../../typechain";
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
@@ -108,16 +108,16 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
 
   // ** ESTIMATE GAS FEES ** \\
   useEffect(() => {
-    // console.log("Estimating gas fees...")
-    // const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
-    // badgeRegistry.estimateGas.registerEntity(entityName, "https://ipfs.infura.io/abcdefghijklmnop", true, { value: minStake }).then(gas => {
-    //   console.log(`Estimated gas fees: ${gas}`)
-    //   setEstimatedGasFees(gas)
-    // }).catch(err => {
-    //   console.log("Error with estimating gas")
-    //   console.error(err)
-    //   setEstimatedGasFees(BigNumber.from("0"))
-    // })
+    console.log("Estimating gas fees...")
+    const badgeRegistry = BadgeRegistry__factory.connect(badgeContractAddress, signer)
+    badgeRegistry.estimateGas.registerEntity(entityName, "https://ipfs.infura.io/abcdefghijklmnop", true, { value: minStake }).then(gas => {
+      console.log(`Estimated gas fees: ${gas}`)
+      setEstimatedGasFees(gas)
+    }).catch(err => {
+      console.log("Error with estimating gas")
+      console.error(err)
+      setEstimatedGasFees(BigNumber.from("0"))
+    })
 
   }, [minStake, entityName, randomState])
 
@@ -224,7 +224,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
     } catch (error) {
       setIsButtonLoading(false);
       console.error(error)
-    } 
+    }     
   } 
 
   function onNext(entityName: string) {

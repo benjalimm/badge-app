@@ -2,32 +2,21 @@ import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 type TokenType = "Genesis" | "Super user" | "Admin"
 export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenType): Promise<string> {
-
+  const ipfsVideo = getVideo(tokenType)
   const title = `${tokenType} token - ${entityName}`
   const url = await uploadERC721ToIpfs({
-    title: title,
-    type: 'object',
-    properties: {
-      "name": { 
-        type: 'string',
-        description: title
-      },
-      "description": {
-        type: 'string',
-        description: getDescriptionForPermissionToken(entityName, tokenType)
-      },
-      "image": {
-        type: 'string',
-        description: getVideo(tokenType)
-      },
-      "attributes": [
-        {
-          trait_type: "Permission token type",
-          value: `${tokenType}`
-        }
-      ]
-    }
+    name: title,
+    description: getDescriptionForPermissionToken(entityName, tokenType),
+    image: ipfsVideo,
+    animation_url: ipfsVideo,
+    attributes: [
+      {
+        trait_type: "Permission token type",
+        value: `${tokenType}`
+      }
+    ]
   })
+  
   return url;
 }
 
@@ -47,11 +36,11 @@ function getVideo(tokenType: TokenType): string {
 
   switch (tokenType) {
     case "Genesis": 
-      return "https://gateway.pinata.cloud/ipfs/QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
+      return "ipfs://QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
     case "Super user":
-      return "https://gateway.pinata.cloud/ipfs/QmWF3yw9bpkpv596WCcBBq84B5PgQeTuhmA6Qp4mbAKSCh"
+      return "ipfs://QmWF3yw9bpkpv596WCcBBq84B5PgQeTuhmA6Qp4mbAKSCh"
     case "Admin":
-      return "https://gateway.pinata.cloud/ipfs/QmQ5V9tiWSaKKyt19roK48is2ouUJiL3b1S9vFQqUNacGP"
+      return "ipfs://QmQ5V9tiWSaKKyt19roK48is2ouUJiL3b1S9vFQqUNacGP"
     
   }
 
