@@ -9,7 +9,6 @@ export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp
   const url = await uploadERC721ToIpfs({
     name: title,
     description: appendBadgeExplanationToDescription(badgeData.content),
-    image: videoUrl,
     animation_url: videoUrl,
     attributes: [
       {

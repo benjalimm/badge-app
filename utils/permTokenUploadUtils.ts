@@ -7,7 +7,6 @@ export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenTy
   const url = await uploadERC721ToIpfs({
     name: title,
     description: getDescriptionForPermissionToken(entityName, tokenType),
-    image: ipfsVideo,
     animation_url: ipfsVideo,
     attributes: [
       {

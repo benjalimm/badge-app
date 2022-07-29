@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Entity {
+  name                   String
+  entityAddress          String          @unique
+  permissionTokenAddress String          @unique
+  badgeTokenAddress      String          @unique
+  permissionTokens       PermissionToken @relation(fields: [permissionTokenAddress], references: [permissionTokenAddress])
+}
+
+enum PermissionTokenType {
+  ADMIN
+  SUPER_USER
+  GENESIS
+}
+
+model PermissionToken {
+  permissionTokenAddress String              @unique
+  userAddress            String              @unique
+  tokenType              PermissionTokenType
+
+  Entity Entity?
+}
