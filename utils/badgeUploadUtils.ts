@@ -1,7 +1,7 @@
 import { BadgeData } from "../schemas/BadgeData"
 import { uploadERC721ToIpfs } from "./ipfsHelper"
 
-export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp: number): Promise<string> {
+export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, imageUrl: string, xp: number): Promise<string> {
   const title = appendTitleLevelAddition(badgeData.title, badgeData.level)
 
   // 2. Upload ERC721 metadata to IPFS
@@ -9,7 +9,7 @@ export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, xp
   const url = await uploadERC721ToIpfs({
     name: title,
     description: appendBadgeExplanationToDescription(badgeData.content),
-    image: videoUrl,
+    image: imageUrl,
     animation_url: videoUrl,
     attributes: [
       {

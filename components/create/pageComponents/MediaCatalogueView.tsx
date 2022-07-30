@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import style from './MediaCatalogue.module.css';
-import { BadgeMedia } from '../../../schemas/BadgeMedia';
+import { NFTMedia } from '../../../schemas/BadgeMedia';
 import cx from 'classnames'
 import { BarLoader, ClipLoader } from 'react-spinners';
 import useOutsideAlerter from '../../../utils/hooks/useOutsideAlerter';
@@ -14,7 +14,7 @@ export default function MediaCatalogueView({
 }: {
   onCancel: () => void, 
   onBadgeMediaSelect: (index: number) => void,
-  badgeMediaList: BadgeMedia[],
+  badgeMediaList: NFTMedia[],
   indexOfCurrentlySelectedMedia: number,
 }) {
 
@@ -93,7 +93,7 @@ export default function MediaCatalogueView({
   </div>
 }
 
-function MediaTile({ media, index, selected, onSelect }: { media: BadgeMedia, selected: boolean, index: number, onSelect: (index: number) => void }) {
+function MediaTile({ media, index, selected, onSelect }: { media: NFTMedia, selected: boolean, index: number, onSelect: (index: number) => void }) {
   const maskClasses = !selected ? style.mediaTileVideoMask : cx(style.mediaTileVideoMask, style.isSelected);
 
   function onClick() {

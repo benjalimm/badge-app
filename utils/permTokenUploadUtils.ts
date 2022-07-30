@@ -1,14 +1,16 @@
+import { NFTMedia } from "../schemas/BadgeMedia"
+import { permissionTokenMediaList } from "./badgeMediaList"
 import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 type TokenType = "Genesis" | "Super user" | "Admin"
 export async function uploadPermTokenIPFS(entityName: string, tokenType: TokenType): Promise<string> {
-  const ipfsVideo = getVideo(tokenType)
+  const media = getPermissionTokenMedia(tokenType)
   const title = `${tokenType} token - ${entityName}`
   const url = await uploadERC721ToIpfs({
     name: title,
     description: getDescriptionForPermissionToken(entityName, tokenType),
-    image: ipfsVideo,
-    animation_url: ipfsVideo,
+    image: media.storageGif,
+    animation_url: media.storageUrl,
     attributes: [
       {
         trait_type: "Permission token type",
@@ -32,17 +34,21 @@ function appendBadgeExplanationToDescription(description: string): string {
   return description + " \n" + divider + " " + badgeExplanation + " " + divider
 }
 
-function getVideo(tokenType: TokenType): string {
-
+function getPermissionTokenMedia(tokenType: TokenType): NFTMedia {
+  let index: number;
   switch (tokenType) {
     case "Genesis": 
-      return "ipfs://QmSnELPoE6a6dcH5oXwfy1uoAwuussce3dKNuoMdHeJRda"
+      index = 0;
+      break
     case "Super user":
-      return "ipfs://QmWF3yw9bpkpv596WCcBBq84B5PgQeTuhmA6Qp4mbAKSCh"
+      index = 1;
+      break
     case "Admin":
-      return "ipfs://QmQ5V9tiWSaKKyt19roK48is2ouUJiL3b1S9vFQqUNacGP"
+      index = 2;
+      break
     
   }
-
+  
+  return permissionTokenMediaList[index]
 }
 

@@ -258,9 +258,10 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
       // 1. Get video url
       const videoUrl = badgeMediaList[indexOfBadgeMedia].storageUrl
+      const gifUrl = badgeMediaList[indexOfBadgeMedia].storageGif
 
       // 2. Upload ERC721 metadata to IPFS
-      const url = await uploadBadgeIPFS(badgeData, videoUrl, calculateBXP(badgeData?.level ?? 0));
+      const url = await uploadBadgeIPFS(badgeData, videoUrl, gifUrl, calculateBXP(badgeData?.level ?? 0));
       console.log(`Badge IPFS URL: ${url}`)
       
       // 3. Instantiate Entity contract
