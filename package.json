@@ -10,6 +10,7 @@
     "@ensdomains/ens-contracts": "^0.0.8",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
+    "@prisma/client": "^4.1.1",
     "@sendgrid/mail": "^7.7.0",
     "@walletconnect/web3-provider": "^1.7.0",
     "airtable": "^0.11.4",

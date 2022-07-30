@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Field from '../../GenericComponents/Field';
 import style from './MintBadgeReceiptView.module.css';
 import { BasicButton } from '../../GenericComponents/Buttons';
-import { Chain } from '../../../schemas/ChainTypes';
+import { BadgeChain } from '../../../schemas/ChainTypes';
 import { getScanUrl  } from '../../../utils/chainUtils';
 
 export default function MintBadgeReceiptView({
@@ -23,7 +23,7 @@ export default function MintBadgeReceiptView({
   email?: string,
   level: number,
   xp: number
-  chain: Chain,
+  chain: BadgeChain,
   transactionHash: string,
   onContinue: () => void
 }) {

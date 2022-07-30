@@ -1,4 +1,4 @@
-import { Chain } from './ChainTypes';
+import { BadgeChain } from './ChainTypes';
 
 export interface EntityInfo {
   address: string;
@@ -8,7 +8,7 @@ export interface EntityInfo {
   permissionToken: string;
   permissionTokenType: "GENESIS" | "SUPER_USER" | "ADMIN";
   timestampOfLastVerified: number;
-  chain: Chain;
+  chain: BadgeChain;
 }
 
 export interface ListOfEntityInfo {

@@ -1,4 +1,4 @@
-import { Chain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../schemas/ChainTypes";
+import { BadgeChain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../schemas/ChainTypes";
 
 const listOfChainInfo: ChainInfo[] = [
   {
@@ -46,12 +46,12 @@ const listOfChainInfo: ChainInfo[] = [
 
 ]
 
-export function getChainInfo(chain: Chain): ChainInfo {
+export function getChainInfo(chain: BadgeChain): ChainInfo {
   return listOfChainInfo.find(x => x.chain === chain)
 }
 
 export function getScanUrl(
-  chain: Chain, 
+  chain: BadgeChain, 
   value: string, 
   valueType: ChainValueType
 ): string {

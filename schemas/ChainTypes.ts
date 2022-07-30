@@ -1,7 +1,7 @@
 
-export type Chain = "Ethereum Mainnet"|"Polygon POS" | "Polygon Mumbai" | "Optimistic Kovan" | "Optimism Mainnet" | "Ethereum Rinkeby";
+export type BadgeChain = "Ethereum Mainnet"|"Polygon POS" | "Polygon Mumbai" | "Optimistic Kovan" | "Optimism Mainnet" | "Ethereum Rinkeby";
 export interface ChainInfo {
-  chain: Chain;
+  chain: BadgeChain;
   baseUrl: string;
   transactionPath: string;
   tokenPath: string;

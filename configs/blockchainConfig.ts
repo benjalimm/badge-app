@@ -1,11 +1,11 @@
 import config from './blockchain.config';
-import { Chain } from '../schemas/ChainTypes'; 
+import { BadgeChain } from '../schemas/ChainTypes'; 
 export const isLocal = config.isLocal;
 export const isProd: boolean = process.env.IS_PROD == 'true'
 
 // SET CURRENT CHAIN HERE
-export const currentChain: Chain = "Optimism Mainnet";
-export const getCurrentConfig = (chain: Chain) => {
+export const currentChain: BadgeChain = "Optimism Mainnet";
+export const getCurrentConfig = (chain: BadgeChain) => {
   switch (chain) {
     case "Optimistic Kovan":
       return config.optimisticKovan;

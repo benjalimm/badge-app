@@ -10,12 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Chain {
+  OPTIMISM
+  ETHEREUM
+  RINKEBY
+}
+
+// ** ON-CHAIN ORGANIZATION SNAPSHOT ** \\
 model Entity {
+  id                     String            @id @default(cuid())
   name                   String
-  entityAddress          String          @unique
-  permissionTokenAddress String          @unique
-  badgeTokenAddress      String          @unique
-  permissionTokens       PermissionToken @relation(fields: [permissionTokenAddress], references: [permissionTokenAddress])
+  entityAddress          String
+  permissionTokenAddress String
+  badgeTokenAddress      String
+  permissionTokens       PermissionToken[]
+  badges                 Badge[]
+  chain                  Chain
 }
 
 enum PermissionTokenType {
@@ -24,10 +34,63 @@ enum PermissionTokenType {
   GENESIS
 }
 
+// ** PERMISSION TOKEN SNAPSHOT ** \\
 model PermissionToken {
-  permissionTokenAddress String              @unique
-  userAddress            String              @unique
-  tokenType              PermissionTokenType
+  // Snapshot id
+  id String @id @default(cuid())
 
-  Entity Entity?
+  // 
+  entityId     String
+  collectionId Int
+  adminAddress String
+  user         User?               @relation(fields: [adminAddress], references: [address])
+  tokenType    PermissionTokenType
+  entity       Entity              @relation(fields: [entityId], references: [id])
+}
+
+// ** BADGE SNAPSHOT ** \\
+model Badge {
+  // UUID in Badge snapshot db
+  id String @id @default(cuid())
+
+  // UUID of parent entity 
+  entityId String
+
+  // Unique short hash (used for path e.g. badge.xyz/k47D) -> Self generated
+  hash String @unique
+
+  // IPFS url
+  jsonUrl String
+
+  // Id in ERC721 Collection
+  collectionId Int
+
+  // Recipient info
+  recipientAddress String
+  recipient        User?  @relation(fields: [recipientAddress], references: [address])
+
+  // ENS if sender listed recipient as ens
+  recipientEns String?
+
+  // ERC721 Metadata
+  title        String
+  description  String
+  animationUrl String
+  imageUrl     String
+
+  // Level + BXP
+  level Int
+  bxp   Float
+
+  // Entity
+  entity Entity @relation(fields: [entityId], references: [id])
+}
+
+model User {
+  address         String            @unique
+  name            String?
+  email           String?
+  emails          String[]
+  Badge           Badge[]
+  PermissionToken PermissionToken[]
 }

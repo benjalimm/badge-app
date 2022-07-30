@@ -22,6 +22,7 @@ export interface ERC721MetadataProperty {
 export interface NFTMetadata {
   name: string;
   animation_url: string;
+  image: string;
   description: string;
   attributes: Trait[];
 }
