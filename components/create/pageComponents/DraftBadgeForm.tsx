@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import style from './DraftBadge.module.scss'
 import FormTextBoxContainer from './FormTextBoxContainer';
-import { BadgeMedia } from '../../../schemas/BadgeMedia';
+import { NFTMedia } from '../../../schemas/BadgeMedia';
 import { Listbox } from '@headlessui/react'
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid'
 import { getEthUSDPrice } from "../../../utils/getEthPrice";
@@ -22,7 +22,7 @@ export default function DraftBadgeForm({
   baseBadgePriceInEth,
   displayWarning
 }: 
-{ currentlySelectedMedia: BadgeMedia,
+{ currentlySelectedMedia: NFTMedia,
   onTitleChange: (event: React.FormEvent<HTMLInputElement>) => void,
   onDescriptionTextChange: (event: React.FormEvent<HTMLTextAreaElement>) => void,
   onPresentMediaCatalogue: () => void,
