@@ -45,6 +45,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   // ** PERTINENT BADGE DATA ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
+  const [badgeTokenAddress, setBadgeTokenAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
@@ -268,6 +269,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       console.log(currentEntityInfo.address);
       const entity = Entity__factory.connect(currentEntityInfo.address, signer);
       const badgeTokenAddress = await entity.badgeToken()
+      setBadgeTokenAddress(badgeTokenAddress)
       console.log(`badgeTokenAddress: ${badgeTokenAddress}`);
       const badgeToken = BadgeToken__factory.connect(badgeTokenAddress, signer);
     
@@ -281,10 +283,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
         const updatedBadgeData = { ...badgeData, id: parseInt(id) }
         setBadgeData(updatedBadgeData) 
-        console.log(parseInt(id))
-        
-        // Send email
-        
       })
       
       // 5. Mint Badge + set page state to loading
