@@ -1,4 +1,4 @@
-import {  BadgeChain } from "../schemas/ChainTypes";
+import { BadgeChain } from "../schemas/ChainTypes";
 import { Chain, Entity } from "@prisma/client";
 import { EntityInfo } from "../schemas/EntityInfo";
 import prismaClient from "./Prisma";
@@ -17,7 +17,7 @@ class EntityController {
       
     }
   }
-  async createEntity(entityInfo: EntityInfo): Promise<Entity> {
+  async createEntity(entityInfo: EntityInfo, txHash: string): Promise<Entity> {
     const { 
       address, 
       name,
@@ -32,6 +32,7 @@ class EntityController {
       badgeTokenAddress: badgeToken,
       permissionTokenAddress: permissionToken,
       chain: this.getChain(chain),
+      txHash
     }})
     return entity
   }

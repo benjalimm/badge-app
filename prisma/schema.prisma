@@ -26,6 +26,7 @@ model Entity {
   permissionTokens       PermissionToken[]
   badges                 Badge[]
   chain                  Chain
+  txHash                 String
 }
 
 enum PermissionTokenType {
@@ -46,6 +47,7 @@ model PermissionToken {
   user         User?               @relation(fields: [adminAddress], references: [address])
   tokenType    PermissionTokenType
   entity       Entity              @relation(fields: [entityId], references: [id])
+  txHash       String
 }
 
 // ** BADGE SNAPSHOT ** \\
@@ -84,6 +86,7 @@ model Badge {
 
   // Entity
   entity Entity @relation(fields: [entityId], references: [id])
+  txHash String
 }
 
 model User {
