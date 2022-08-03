@@ -27,6 +27,7 @@ model Entity {
   badges                 Badge[]
   chain                  Chain
   txHash                 String
+  dateOfLastVerified     DateTime          @default(now())
 }
 
 enum PermissionTokenType {
@@ -41,13 +42,15 @@ model PermissionToken {
   id String @id @default(cuid())
 
   // 
-  entityId     String
-  collectionId Int
-  adminAddress String
-  user         User?               @relation(fields: [adminAddress], references: [address])
-  tokenType    PermissionTokenType
-  entity       Entity              @relation(fields: [entityId], references: [id])
-  txHash       String
+  entityId           String
+  collectionId       Int
+  adminAddress       String
+  user               User?               @relation(fields: [adminAddress], references: [address])
+  tokenType          PermissionTokenType
+  entity             Entity              @relation(fields: [entityId], references: [id])
+  txHash             String
+  jsonUrl            String
+  dateOfLastVerified DateTime            @default(now())
 }
 
 // ** BADGE SNAPSHOT ** \\
@@ -87,6 +90,8 @@ model Badge {
   // Entity
   entity Entity @relation(fields: [entityId], references: [id])
   txHash String
+
+  dateOfLastVerified DateTime @default(now())
 }
 
 model User {

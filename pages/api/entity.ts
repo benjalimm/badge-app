@@ -12,6 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break
     default:
       res.status(400).json({ error: "Method not allowed" });
+    
   }
 }
 
@@ -29,10 +30,12 @@ async function createEntityRoute(req: NextApiRequest, res: NextApiResponse) {
       address: permissionTokenAddress,
       collectionId: 1,
       tokenType: "GENESIS",
-      adminAddress: data.entityInfo.genesisTokenHolder
+      adminAddress: data.entityInfo.genesisTokenHolder,
+      ipfsUrl: data.ipfsUrl
     }, data.txHash, id)
     res.status(200).json({ entity, permissionToken });
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: error.message });
   }
   

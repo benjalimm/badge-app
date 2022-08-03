@@ -4,7 +4,7 @@ export const isLocal = config.isLocal;
 export const isProd: boolean = process.env.IS_PROD == 'true'
 
 // SET CURRENT CHAIN HERE
-export const currentChain: BadgeChain = "Optimism Mainnet";
+export const currentChain: BadgeChain = "Ethereum Rinkeby";
 export const getCurrentConfig = (chain: BadgeChain) => {
   switch (chain) {
     case "Optimistic Kovan":

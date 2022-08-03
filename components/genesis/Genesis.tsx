@@ -20,6 +20,7 @@ import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
 import { uploadPermTokenIPFS } from '../../utils/permTokenUploadUtils';
+import { RegisterEntityRequestData } from '../../schemas/api/EntityModels';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -188,29 +189,37 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
 
       // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken: string) => {
-        console.log("Entity registered ", entityAddress, entityName);
-        setDeployState("ENTITY_REGISTERED")
 
-        // 6.1. Set entity info for view
-        const info: EntityInfo  = {
-          address: entityAddress,
-          name: entityName,
-          badgeToken,
-          permissionToken,
-          permissionTokenType: "GENESIS",
-          timestampOfLastVerified: Date.now(),
-          chain: currentChain,
-          genesisTokenHolder: genesisTokenHolder
+        if (genesisTokenHolder === address) {
+          console.log("Entity registered ", entityAddress, entityName);
+          setDeployState("ENTITY_REGISTERED")
+
+          // 6.1. Set entity info for view
+          const info: EntityInfo  = {
+            address: entityAddress,
+            name: entityName,
+            badgeToken,
+            permissionToken,
+            permissionTokenType: "GENESIS",
+            timestampOfLastVerified: Date.now(),
+            chain: currentChain,
+            genesisTokenHolder: genesisTokenHolder
+          }
+          setEntityInfo(info);
+
+          // 6.2. Set entity info for local storage -> IMPORTANT
+          EntityLocalStorageManager.setLatestCurrentEntity(info);
+
+          // 6.3. Set page state to success, this will change the state to the receipt view
+          if (pageState !== "Success") {
+            setPageState("Success");
+          }
+
+          // 6.4 Send api call to record a database snapshot of entity and permission token
+          updateEntityAndPermissionTokenSnapshot({ entityInfo: info, txHash, ipfsUrl })
+          
         }
-        setEntityInfo(info);
-
-        // 6.2. Set entity info for local storage -> IMPORTANT
-        EntityLocalStorageManager.setLatestCurrentEntity(info);
-
-        // 6.3. Set page state to success, this will change the state to the receipt view
-        if (pageState !== "Success") {
-          setPageState("Success");
-        }
+        
       })
       
       // 7. Execute registration
@@ -226,6 +235,18 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
       console.error(error)
     }     
   } 
+
+  function updateEntityAndPermissionTokenSnapshot(data: RegisterEntityRequestData) {
+    console.log("Sending badge email")
+    return fetch('/api/entity', { 
+      method: "POST" , 
+      body : JSON.stringify({ data })
+    }).then((res) => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err);
+    })
+  }
 
   function onNext(entityName: string) {
     setEntityName(entityName)

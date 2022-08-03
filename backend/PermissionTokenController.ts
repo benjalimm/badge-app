@@ -7,7 +7,8 @@ class PermissionTokenController {
   async createPermissionToken({ 
     collectionId, 
     adminAddress, 
-    tokenType  
+    tokenType  ,
+    ipfsUrl
   }: PermissionTokenInfo, 
   txHash: string, 
   entityId: string): Promise<PermissionToken> {
@@ -16,7 +17,8 @@ class PermissionTokenController {
       collectionId,
       adminAddress,
       tokenType,
-      txHash
+      txHash,
+      jsonUrl: ipfsUrl
     }})
     return permissionTokenEntity
   }
