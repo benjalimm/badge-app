@@ -28,7 +28,7 @@ const SignUpToBetaContainer = () => {
     />
     <div className={style.signUpToBetaTextContainer}>
       <h1 className={style.signUpToBetaHeader}>Mint your Genesis token</h1>
-      <p className={style.signUpToBetaSubtitleText}>Run an organization? <br/>Join the waiting list to register your entity on .</p>
+      <p className={style.signUpToBetaSubtitleText}>Run an organization? <br/>Join the waiting list to register your entity on Badge.</p>
     </div>
 
     <button className={style.signUpToBetaButton} onClick={(e) => {
