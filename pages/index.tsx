@@ -8,12 +8,10 @@ const IndexPage = (domainTypeProps: DomainTypeProps) => {
   const { domainType } = domainTypeProps;
 
   switch (domainType) {
-    case "main":
-      return <LandingPage {...domainTypeProps} />
     case "app-subdomain":
       return <AlphaBadgePage {...domainTypeProps}/>
     default:
-      return null;
+      return <LandingPage {...domainTypeProps} />
   }
 }
 
