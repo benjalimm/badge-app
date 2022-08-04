@@ -2,6 +2,7 @@ import React, { useRef } from 'react'
 import style from './BottomPageSection.module.css';
 import cx from 'classnames';
 import { useInView } from 'react-intersection-observer';
+import AutoPlayVideoView from '../../GenericComponents/AutoPlayVideoView';
 
 export default function BottomPageSection() {
   const { ref, inView } = useInView({
@@ -21,9 +22,13 @@ export default function BottomPageSection() {
 
 const SignUpToBetaContainer = () => {
   return <div className={style.signUpToBetaContainer}>
+    <AutoPlayVideoView  
+      className={style.video}
+      source={"/videos/permissionTokens/genesisToken.mp4"}
+    />
     <div className={style.signUpToBetaTextContainer}>
-      <h1 className={style.signUpToBetaHeader}>Live soon on Optimism.</h1>
-      <p className={style.signUpToBetaSubtitleText}>Run a company, DAO or any sort of organization? <br/>Join the waiting list to be one of the first users.</p>
+      <h1 className={style.signUpToBetaHeader}>Mint your Genesis token</h1>
+      <p className={style.signUpToBetaSubtitleText}>Run an organization? <br/>Join the waiting list to register your entity on .</p>
     </div>
 
     <button className={style.signUpToBetaButton} onClick={(e) => {

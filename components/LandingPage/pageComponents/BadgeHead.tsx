@@ -1,9 +1,9 @@
 import React, { useEffect, useContext } from 'react'
 import Head from 'next/head';
 
-const title = "Badge."
-const description = "Attract & reward talent with on-chain merit."
-const largePreviewImage = "https://www.dropbox.com/s/1e7ns2g6qn4gkw2/walletEqualsResume.jpg?raw=1"
+const title = "Badge - A professional network that lives on-chain.";
+const description = "The protocol to attract, incentivize and discover talent."
+const largePreviewImage = "https://www.dropbox.com/s/6k3bqn2pk03g9it/BadgeHeader.png?raw=1"
 
 export default function BadgeHead() {
   return <Head>
