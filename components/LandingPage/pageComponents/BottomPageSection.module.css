@@ -18,9 +18,9 @@
 
 .signUpToBetaContainer {
   background-color: black;
-  width: 92%;
+  width: 70%;
   max-width: 1100px;
-  height: 300px;
+  height: auto;
   border-radius: 15px;
   margin-top: 20px;
   display: flex;
@@ -41,8 +41,7 @@
   font-family: 'AsgardFitMedium';
   font-weight: bold;
   font-size: 50px;
-  margin-top: 20px;
-  background: linear-gradient(110.78deg, rgb(118, 230, 80) -1.13%, rgb(249, 214, 73) 15.22%, rgb(240, 142, 53) 32.09%, rgb(236, 81, 87) 48.96%, rgb(255, 24, 189) 67.94%, rgb(26, 75, 255) 85.34%, rgb(98, 216, 249) 99.57%);
+  background: white;
   background-size: 300% 300%;
   animation: animatingGradient 9s 1s ease-in-out infinite;
   -webkit-background-clip: text;
@@ -78,8 +77,20 @@
   transition-duration: 0.2s;
 }
 
+.video {
+  width: 400px;
+  height: 400px;
+}
+
 
 @media only screen and (max-width: 1000px) {
+
+  .video {
+    width: 90%;
+    height: 90%;
+    max-height: 400px;
+    max-width: 400px;
+  }
 
   .secondPageSectionContainer {
     margin-top: 0px;
@@ -89,7 +100,7 @@
     min-width: 310px;
     height: auto;
     margin-top: 120px;
-    width: 70%;
+    width: 80%;
   }
 
   .signUpToBetaTextContainer {
@@ -98,7 +109,6 @@
 
   .signUpToBetaHeader {
     font-size: 30px;
-    margin-top: 20px;
     text-align: center;
     width: 80%;
   }
