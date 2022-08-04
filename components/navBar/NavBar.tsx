@@ -63,6 +63,21 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
       <div className={styles.badgeLogo}>
         BADGE.
       </div>    
+      { active ? 
+        <AccountInfo 
+          account={session.user?.name} 
+          host={host} 
+          domainType={domainType}/> 
+        : 
+        <SignInButton 
+          isLoading={connectButtonAction === "REDIRECT_TO_ALPHA" ? redirecting : loading}
+          title= {connectButtonAction === "REDIRECT_TO_ALPHA" ? "Launch Alpha" : "Sign in with Ethereum"}
+
+          connect={
+            connectButtonAction == "CONNECT_WALLET" ?  
+              signInWithEthereum : 
+              redirectToAlphaPage
+          }/> }
     </div>
   )
 }
