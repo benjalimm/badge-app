@@ -62,7 +62,7 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
     <div className={navBarStyles}>
       <div className={styles.badgeLogo}>
         BADGE.
-      </div>
+      </div>    
       { active ? 
         <AccountInfo 
           account={session.user?.name} 
@@ -72,13 +72,12 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
         <SignInButton 
           isLoading={connectButtonAction === "REDIRECT_TO_ALPHA" ? redirecting : loading}
           title= {connectButtonAction === "REDIRECT_TO_ALPHA" ? "Launch Alpha" : "Sign in with Ethereum"}
-          
+
           connect={
             connectButtonAction == "CONNECT_WALLET" ?  
               signInWithEthereum : 
               redirectToAlphaPage
           }/> }
-      
     </div>
   )
 }
