@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import userController from '../../backend/controllers/UserController';
+import userController from '../../backend/controllers/userController/UserController';
 import { castUserInfo } from '../../schemas/UserInfo';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {

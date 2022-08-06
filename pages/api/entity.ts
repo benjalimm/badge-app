@@ -32,7 +32,7 @@ async function createEntityRoute(req: NextApiRequest, res: NextApiResponse) {
       adminAddress: data.entityInfo.genesisTokenHolder,
       ipfsUrl: data.ipfsUrl
     }, data.txHash, id)
-    res.status(200).json({ entity, permissionToken });
+    res.status(200).json({ data: { entity, permissionToken }});
   } catch (error) {
     console.error(error);
     res.status(400).json({ error: error.message });

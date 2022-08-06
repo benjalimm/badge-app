@@ -32,8 +32,9 @@ class EntityController {
     return entity
   }
 
-  async getEntity(query: EntityQuery): Promise<Entity | null> {
-    return prismaClient.entity.findFirst({ where: { ...query }})
+  async getEntity(entityQuery: EntityQuery): Promise<Entity | null> {
+    const { query, chain } = entityQuery;
+    return prismaClient.entity.findFirst({ where: { ...query, chain }})
   }
 }
 

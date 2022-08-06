@@ -28,9 +28,7 @@ function getEtherscanAddress(): string {
   }
 }
 
-export const etherscanAddress =  process.env.IS_PROD ? 
-  'optimistic.etherscan.io' : 
-  'api-kovan-optimistic.etherscan.io'
+export const etherscanAddress =  getEtherscanAddress();
 
 export async function getUsersListOfTransactions(
   userId: string

@@ -27,13 +27,13 @@ class BadgeController {
 
     const entity = await entityController.getEntity({ 
       queryType: "BADGE_TOKEN_ADDRESS",
-      badgeTokenAddress: collectionAddress,
+      query: { badgeTokenAddress: collectionAddress },
       chain: castBadgeChainAsPrismaChain(chain)
     });
 
     return prismaClient.badge.create({ 
-      data: 
-      { ...badgeInfo, 
+      data: { 
+        ...badgeInfo, 
         shortHash, 
         entityId: entity.id 
       } 

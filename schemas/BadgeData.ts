@@ -1,3 +1,4 @@
+import { Chain } from "@prisma/client";
 import { BadgeChain } from "./ChainTypes";
 import { ensureAllPropertiesAreDefined } from "./genericObjectParser";
 
@@ -13,11 +14,11 @@ export interface BadgeData {
 }
 
 // Used to pass info between frontend and backend
-export interface BadgeInfo {
+export type BadgeInfo = {
   jsonUrl: string;
   collectionAddress: string;
   collectionId: number;
-  chain: BadgeChain;
+  chain: Chain;
   recipientAddress: string;
   recipientEns?: string;
   title: string;

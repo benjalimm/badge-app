@@ -7,12 +7,12 @@ export interface RegisterEntityRequestData {
   txHash: string;
 }
 
-export const EXAMPLE_REGISTER_ENTITY_REQUEST_BODY: RegisterEntityRequestData = {
+const EXAMPLE_REGISTER_ENTITY_REQUEST_BODY: RegisterEntityRequestData = {
   entityInfo: EXAMPLE_ENTITY_INFO,
-  ipfsUrl: "ipfs://...",
-  txHash: "0x0000000000000000000000000000000000000000"
+  ipfsUrl: "",
+  txHash: ""
 }
-
+ 
 export function castRegisterEntityRequestData(data: any): RegisterEntityRequestData {
   if (ensureAllPropertiesAreDefined(data, EXAMPLE_REGISTER_ENTITY_REQUEST_BODY) && parseEntityInfo(data.entityInfo)) {
     return data

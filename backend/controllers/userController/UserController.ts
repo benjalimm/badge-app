@@ -1,6 +1,6 @@
-import prismaClient from "../Prisma";
+import prismaClient from "../../Prisma";
 import { User } from "@prisma/client";
-import { UserInfo } from "../../schemas/UserInfo";
+import { UserInfo } from "../../../schemas/UserInfo";
 
 class UserController {
   async createUserIfNotExists({ address, name, email }: UserInfo): Promise<User> {

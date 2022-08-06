@@ -4,7 +4,7 @@ import NavBar from '../navBar/NavBar';
 import style from './Create.module.scss'
 import DraftAndMintBadgeView from './pageComponents/DraftAndMintBadgeView';
 import MultiStepView from '../GenericComponents/MultiStepView';
-import { BadgeData } from '../../schemas/BadgeData';
+import { BadgeData, BadgeInfo } from '../../schemas/BadgeData';
 import { PageState } from '../../schemas/create';
 import useCurrentEntity from '../../utils/hooks/useCurrentEntity';
 import MintBadgeLoadingView from './pageComponents/MintBadgeLoadingView';
@@ -26,6 +26,7 @@ import { BadgeEmailData } from '../../schemas/BadgeEmailData';
 import { isReallyEmpty } from '../../utils/stringUtils';
 import { getScanUrl } from '../../utils/chainUtils';
 import { shortenAddress } from '../../utils/addressUtils';
+import { Chain } from '@prisma/client';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
@@ -44,6 +45,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   // ** PERTINENT BADGE DATA ** \\
   const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
+  const [ipfsUrl, setIpfsUrl] = useState<string | null>(null);
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [badgeTokenAddress, setBadgeTokenAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
@@ -60,7 +62,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const { data: signer, status: signerStatus, isLoading, isSuccess: isSignerSuccess } = useSigner()
   const { data: session, status: sessionStatus } = useSession()
   const provider = useProvider();
-  // const { data: accountData, isSuccess:isAccountSuccess } = useAccount()
   const { address } = useAccount()
 
   // ** SHOULD MANUALLY POLL STATE  ** \\
@@ -210,6 +211,22 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         console.error(err);
       })
 
+      sendBadgeInfo({ 
+        jsonUrl: ipfsUrl,
+        collectionId: badgeData.id,
+        collectionAddress: badgeTokenAddress,
+        recipientAddress: recipientAddress,
+        title: badgeData.title,
+        description: badgeData.content,
+        level: badgeData.level,
+        bxp: calculateBXP(badgeData.level),
+        chain: currentChain as Chain,
+        txHash: transactionHash,
+        imageUrl: badgeMediaList[indexOfBadgeMedia].storageGif,
+        animationUrl: badgeMediaList[indexOfBadgeMedia].storageUrl,
+        recipientEns: badgeData.recipientEns,
+      }, email)
+
     }
 
   }, [transactionHash, sentEmail, pageState])
@@ -263,6 +280,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
       // 2. Upload ERC721 metadata to IPFS
       const url = await uploadBadgeIPFS(badgeData, videoUrl, gifUrl, calculateBXP(badgeData?.level ?? 0));
+      setIpfsUrl(url);
       console.log(`Badge IPFS URL: ${url}`)
       
       // 3. Instantiate Entity contract
@@ -276,14 +294,19 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       console.log(`Badge level: ${badgeData.level}`);
       
       // 4. Start listeneing for transfer
-      badgeToken.once("Transfer", (from: string, to: string, id: string) => {
-        console.log("Transfer event triggered", from, to);
-        console.log("Successfully minted Badge")
-        setPageState("BadgeSuccessfullyMinted")
+      const onTransferSuccess = (from: string, to: string, id: string) => {
+        if(to === recipientAddress) {
+          console.log("Transfer event triggered", from, to);
+          console.log("Successfully minted Badge")
+          setPageState("BadgeSuccessfullyMinted")
 
-        const updatedBadgeData = { ...badgeData, id: parseInt(id) }
-        setBadgeData(updatedBadgeData) 
-      })
+          const updatedBadgeData = { ...badgeData, id: parseInt(id) }
+          setBadgeData(updatedBadgeData) 
+          badgeToken.off("Transfer", onTransferSuccess)
+        }
+      }
+
+      badgeToken.on("Transfer", onTransferSuccess)
       
       // 5. Mint Badge + set page state to loading
       const badgePriceInEth = getFinalBadgePrice()
@@ -313,8 +336,13 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     console.log("Sending badge email")
     return fetch('/api/badgeEmail', { 
       method: "POST" , 
-      body : JSON.stringify({ data, email  })}).then(res => {
-      console.log(`Successfully sent email ${res}`)
+      body : JSON.stringify({ data, email  })})
+  }
+
+  async function sendBadgeInfo(badgeInfo: BadgeInfo, email?: string) {
+    return fetch('/api/badge', {
+      method: "POST",
+      body: JSON.stringify({ data: { badgeInfo, email }})
     })
   }
 
