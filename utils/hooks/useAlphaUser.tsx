@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAccount } from 'wagmi';
-import { AlphaUser } from '../../backend/AirtableController';
+import { AlphaUser } from '../../backend/controllers/AirtableController';
 import AlphaUserManager from '../AlphaUserManager';
 
 export default function useAlphaUser(): AlphaUser | null {

@@ -16,19 +16,19 @@ interface TransactionResponse {
 
 function getEtherscanAddress(): string {
   switch (currentChain) {
-    case "Optimistic Kovan":
+    case "OPTIMISTIC_KOVAN":
       return 'api-kovan-optimistic.etherscan.io'
-    case "Optimism Mainnet":
+    case "OPTIMISM":
       return 'optimistic.etherscan.io'
-    case "Ethereum Rinkeby":
+    case "RINKEBY":
       return "rinkeby.etherscan.io"
+    default:
+      return "etherscan.io"
 
   }
 }
 
-export const etherscanAddress =  process.env.IS_PROD ? 
-  'optimistic.etherscan.io' : 
-  'api-kovan-optimistic.etherscan.io'
+export const etherscanAddress =  getEtherscanAddress();
 
 export async function getUsersListOfTransactions(
   userId: string

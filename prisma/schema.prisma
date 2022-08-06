@@ -1,0 +1,108 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Chain {
+  OPTIMISM
+  ETHEREUM
+  RINKEBY
+}
+
+// ** ON-CHAIN ORGANIZATION SNAPSHOT ** \\
+model Entity {
+  id                     String            @id @default(cuid())
+  name                   String
+  entityAddress          String
+  permissionTokenAddress String
+  badgeTokenAddress      String
+  permissionTokens       PermissionToken[]
+  badges                 Badge[]
+  chain                  Chain
+  txHash                 String
+  dateOfLastVerified     DateTime          @default(now())
+}
+
+enum PermissionTokenType {
+  ADMIN
+  SUPER_USER
+  GENESIS
+}
+
+// ** PERMISSION TOKEN SNAPSHOT ** \\
+model PermissionToken {
+  // Snapshot id
+  id String @id @default(cuid())
+
+  // 
+  entityId           String
+  collectionId       Int
+  adminAddress       String
+  user               User                @relation(fields: [adminAddress], references: [address])
+  tokenType          PermissionTokenType
+  entity             Entity?             @relation(fields: [entityId], references: [id])
+  txHash             String
+  jsonUrl            String
+  dateOfLastVerified DateTime            @default(now())
+}
+
+// ** BADGE SNAPSHOT ** \\
+model Badge {
+  // UUID in Badge snapshot db
+  id String @id @default(cuid())
+
+  // UUID of parent entity 
+  entityId String
+
+  // Unique short hash (used for path e.g. badge.xyz/k47D) -> Self generated
+  shortHash String @unique
+
+  // IPFS url
+  jsonUrl String
+
+  // Collection info
+  collectionAddress String
+  collectionId      Int
+  chain             Chain
+
+  // Recipient info
+  recipientAddress String
+  recipient        User?  @relation(fields: [recipientAddress], references: [address])
+
+  // ENS if sender listed recipient as ens
+  recipientEns String?
+
+  // ERC721 Metadata
+  title        String
+  description  String
+  animationUrl String
+  imageUrl     String
+
+  // Level + BXP
+  level Int
+  bxp   Float
+
+  // Entity
+  entity Entity? @relation(fields: [entityId], references: [id])
+  txHash String
+
+  dateOfLastVerified DateTime @default(now())
+}
+
+model User {
+  id                    String            @id @default(cuid())
+  address               String            @unique
+  handle                String?           @unique
+  name                  String?
+  emails                String[]
+  indexOfPreferredEmail Int               @default(-1)
+  badges                Badge[]
+  permissionTokens      PermissionToken[]
+}

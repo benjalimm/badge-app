@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
-import { AlphaUser } from '../../backend/AirtableController';
+import { AlphaUser } from '../../backend/controllers/AirtableController';
 import { DomainType } from '../serverSidePropsUtil';
 import useAlphaUser from './useAlphaUser';
 

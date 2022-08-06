@@ -1,23 +1,23 @@
 import config from './blockchain.config';
-import { Chain } from '../schemas/ChainTypes'; 
+import { BadgeChain } from '../schemas/ChainTypes'; 
 export const isLocal = config.isLocal;
 export const isProd: boolean = process.env.IS_PROD == 'true'
 
 // SET CURRENT CHAIN HERE
-export const currentChain: Chain = "Optimism Mainnet";
-export const getCurrentConfig = (chain: Chain) => {
+export const currentChain: BadgeChain = "RINKEBY";
+export const getCurrentConfig = (chain: BadgeChain) => {
   switch (chain) {
-    case "Optimistic Kovan":
+    case "OPTIMISTIC_KOVAN":
       return config.optimisticKovan;
-    case "Polygon Mumbai":
+    case "MUMBAI":
       return config.mumbai;
-    case "Optimism Mainnet":
+    case "OPTIMISM":
       return config.optimismMainnet;
-    case "Polygon POS":
+    case "POLYGON":
       return config.polygonMainnet;
-    case "Ethereum Rinkeby":
+    case "RINKEBY":
       return config.ethereumRinkeby
-    case "Ethereum Mainnet":
+    case "ETHEREUM":
       return config.mainnet;
   }
 }

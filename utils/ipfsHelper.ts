@@ -14,6 +14,6 @@ export async function uploadERC721ToIpfs(metadata: NFTMetadata): Promise<string>
     }
   )
 
-  return `https://ipfs.infura.io/ipfs/${added.path}`   
+  return `ipfs://${added.path}`   
 }
 
