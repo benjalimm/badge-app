@@ -16,12 +16,14 @@ interface TransactionResponse {
 
 function getEtherscanAddress(): string {
   switch (currentChain) {
-    case "Optimistic Kovan":
+    case "OPTIMISTIC_KOVAN":
       return 'api-kovan-optimistic.etherscan.io'
-    case "Optimism Mainnet":
+    case "OPTIMISM":
       return 'optimistic.etherscan.io'
-    case "Ethereum Rinkeby":
+    case "RINKEBY":
       return "rinkeby.etherscan.io"
+    default:
+      return "etherscan.io"
 
   }
 }

@@ -1,5 +1,7 @@
+import { Chain } from "@prisma/client";
 
-export type BadgeChain = "Ethereum Mainnet"|"Polygon POS" | "Polygon Mumbai" | "Optimistic Kovan" | "Optimism Mainnet" | "Ethereum Rinkeby";
+export type BadgeChain = "ETHEREUM"|"POLYGON" | "MUMBAI" | "OPTIMISTIC_KOVAN" | "OPTIMISM" | "RINKEBY";
+
 export interface ChainInfo {
   chain: BadgeChain;
   baseUrl: string;
@@ -14,4 +16,11 @@ export const chainValueTypeToInfoProperty: {[key: string]: string } = {
   "Transaction": "transactionPath",
   "Token": "tokenPath",
   "Address": "addressPath"
+}
+
+export function castBadgeChainAsPrismaChain(badgeChain: BadgeChain): Chain {
+  if (badgeChain === "ETHEREUM" || badgeChain === "OPTIMISM" || badgeChain === "RINKEBY") {
+    return badgeChain
+  }
+  throw new Error(`Invalid chain: ${badgeChain}`)
 }

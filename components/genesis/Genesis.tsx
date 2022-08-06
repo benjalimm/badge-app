@@ -47,7 +47,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
     permissionToken: "",
     permissionTokenType: "GENESIS",
     timestampOfLastVerified: 0,
-    chain: "Ethereum Rinkeby",
+    chain: "RINKEBY",
     genesisTokenHolder:""
   }); // After registstration 
   const [minStake, setMinStake] = useState<BigNumber | null>(BigNumber.from(`${0.015 * ethToWeiMultiplier}`));
@@ -188,6 +188,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
       console.log(`Min stake amount: ${minStakeAmount}`)
 
       // 6. Before registering, listen for entity registeration event, set data of entity once event is emitted
+      let transactionHash: string;
       badgeRegistry.once("EntityRegistered", (entityAddress: string, entityName: string, genesisTokenHolder: string, permissionToken: string, badgeToken: string) => {
 
         if (genesisTokenHolder === address) {
@@ -216,7 +217,11 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
           }
 
           // 6.4 Send api call to record a database snapshot of entity and permission token
-          updateEntityAndPermissionTokenSnapshot({ entityInfo: info, txHash, ipfsUrl })
+          updateEntityAndPermissionTokenSnapshot({ 
+            entityInfo: info, 
+            txHash: transactionHash, 
+            ipfsUrl 
+          })
           
         }
         
@@ -224,7 +229,8 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
       
       // 7. Execute registration
       const transaction = await badgeRegistry.registerEntity(entityName, ipfsUrl, true, { value: minStakeAmount });
-      setTxHash(transaction.hash)
+      transactionHash = transaction.hash;
+      setTxHash(transactionHash);
       setIsButtonLoading(false);
 
       // 8. Start entity deployment + start loading progress bar

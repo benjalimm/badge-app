@@ -26,7 +26,7 @@ export const EXAMPLE_ENTITY_INFO: EntityInfo = {
   permissionToken: "0x0000000000000000000000000000000000000000",
   permissionTokenType: "GENESIS",
   timestampOfLastVerified: 0,
-  chain: "Optimism Mainnet"
+  chain: "OPTIMISM"
 }
 
 export const EXAMPLE_LIST_OF_ENTITY_INFO: ListOfEntityInfo = {

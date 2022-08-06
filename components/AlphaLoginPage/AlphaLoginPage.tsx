@@ -1,7 +1,7 @@
 import { signIn, useSession } from 'next-auth/react';
 import React, { useEffect, useState} from 'react';
 import { useAccount, UserRejectedRequestError, useSigner } from 'wagmi';
-import { AlphaUser } from '../../backend/AirtableController';
+import { AlphaUser } from '../../backend/controllers/AirtableController';
 import auth from '../../pages/api/auth/[...nextauth]';
 import useSiwe from '../../utils/hooks/useSiwe';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';

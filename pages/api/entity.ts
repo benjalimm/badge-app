@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import entityController from '../../backend/EntityController';
+import entityController from '../../backend/controllers/entityController/EntityController';
 import { RegisterEntityRequestData } from '../../schemas/api/EntityModels';
 import { EntityInfo } from '../../schemas/EntityInfo';
 import { castRegisterEntityRequestData } from '../../schemas/api/EntityModels';
-import permissionTokenController from '../../backend/PermissionTokenController';
+import permissionTokenController from '../../backend/controllers/permissionTokenController/PermissionTokenController';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -12,7 +12,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       break
     default:
       res.status(400).json({ error: "Method not allowed" });
-    
   }
 }
 

@@ -45,9 +45,9 @@ model PermissionToken {
   entityId           String
   collectionId       Int
   adminAddress       String
-  user               User?               @relation(fields: [adminAddress], references: [address])
+  user               User                @relation(fields: [adminAddress], references: [address])
   tokenType          PermissionTokenType
-  entity             Entity              @relation(fields: [entityId], references: [id])
+  entity             Entity?             @relation(fields: [entityId], references: [id])
   txHash             String
   jsonUrl            String
   dateOfLastVerified DateTime            @default(now())
@@ -62,13 +62,15 @@ model Badge {
   entityId String
 
   // Unique short hash (used for path e.g. badge.xyz/k47D) -> Self generated
-  hash String @unique
+  shortHash String @unique
 
   // IPFS url
   jsonUrl String
 
-  // Id in ERC721 Collection
-  collectionId Int
+  // Collection info
+  collectionAddress String
+  collectionId      Int
+  chain             Chain
 
   // Recipient info
   recipientAddress String
@@ -88,17 +90,19 @@ model Badge {
   bxp   Float
 
   // Entity
-  entity Entity @relation(fields: [entityId], references: [id])
+  entity Entity? @relation(fields: [entityId], references: [id])
   txHash String
 
   dateOfLastVerified DateTime @default(now())
 }
 
 model User {
-  address         String            @unique
-  name            String?
-  email           String?
-  emails          String[]
-  Badge           Badge[]
-  PermissionToken PermissionToken[]
+  id                    String            @id @default(cuid())
+  address               String            @unique
+  handle                String?           @unique
+  name                  String?
+  emails                String[]
+  indexOfPreferredEmail Int               @default(-1)
+  badges                Badge[]
+  permissionTokens      PermissionToken[]
 }

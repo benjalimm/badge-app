@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import airtableController, { AlphaUser } from '../../backend/AirtableController';
+import airtableController, { AlphaUser } from '../../backend/controllers/AirtableController';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const walletAddress = req.query.walletAddress as string;

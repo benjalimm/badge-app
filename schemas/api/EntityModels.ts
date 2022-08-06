@@ -14,7 +14,7 @@ export const EXAMPLE_REGISTER_ENTITY_REQUEST_BODY: RegisterEntityRequestData = {
 }
 
 export function castRegisterEntityRequestData(data: any): RegisterEntityRequestData {
-  if (ensureAllPropertiesAreDefined<RegisterEntityRequestData>(data, EXAMPLE_REGISTER_ENTITY_REQUEST_BODY) && parseEntityInfo(data.entityInfo)) {
+  if (ensureAllPropertiesAreDefined(data, EXAMPLE_REGISTER_ENTITY_REQUEST_BODY) && parseEntityInfo(data.entityInfo)) {
     return data
   }
   throw new Error(`JSON could not be parsed as RegisterEntityRequestBody. JSON: ${JSON.stringify(data)}`);

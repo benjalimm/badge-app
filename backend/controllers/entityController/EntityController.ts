@@ -1,21 +1,16 @@
-import { BadgeChain } from "../schemas/ChainTypes";
+import { BadgeChain } from "../../../schemas/ChainTypes";
 import { Chain, Entity } from "@prisma/client";
-import { EntityInfo } from "../schemas/EntityInfo";
-import prismaClient from "./Prisma";
+import { EntityInfo } from "../../../schemas/EntityInfo";
+import prismaClient from "../../Prisma";
+import { EntityQuery } from "./QueryTypes";
 
 class EntityController {
   private getChain(chain: BadgeChain): Chain {
-    switch (chain) {
-      case "Ethereum Mainnet":
-        return "ETHEREUM"
-      case "Optimism Mainnet":
-        return "OPTIMISM"
-      case "Ethereum Rinkeby":
-        return "RINKEBY"
-      default: 
-        throw new Error(`Chain ${chain} is not supported - Can't persist in database`)
-      
+
+    if (chain === "ETHEREUM" || chain === "OPTIMISM" || chain === "RINKEBY") {
+      return chain
     }
+    throw new Error(`Invalid chain: ${chain}`)
   }
   async createEntity(entityInfo: EntityInfo, txHash: string): Promise<Entity> {
     const { 
@@ -35,6 +30,10 @@ class EntityController {
       txHash
     }})
     return entity
+  }
+
+  async getEntity(query: EntityQuery): Promise<Entity | null> {
+    return prismaClient.entity.findFirst({ where: { ...query }})
   }
 }
 

@@ -12,6 +12,8 @@ CREATE TABLE "Entity" (
     "permissionTokenAddress" TEXT NOT NULL,
     "badgeTokenAddress" TEXT NOT NULL,
     "chain" "Chain" NOT NULL,
+    "txHash" TEXT NOT NULL,
+    "dateOfLastVerified" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Entity_pkey" PRIMARY KEY ("id")
 );
@@ -23,6 +25,9 @@ CREATE TABLE "PermissionToken" (
     "collectionId" INTEGER NOT NULL,
     "adminAddress" TEXT NOT NULL,
     "tokenType" "PermissionTokenType" NOT NULL,
+    "txHash" TEXT NOT NULL,
+    "jsonUrl" TEXT NOT NULL,
+    "dateOfLastVerified" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "PermissionToken_pkey" PRIMARY KEY ("id")
 );
@@ -31,7 +36,7 @@ CREATE TABLE "PermissionToken" (
 CREATE TABLE "Badge" (
     "id" TEXT NOT NULL,
     "entityId" TEXT NOT NULL,
-    "hash" TEXT NOT NULL,
+    "shortHash" TEXT NOT NULL,
     "jsonUrl" TEXT NOT NULL,
     "collectionId" INTEGER NOT NULL,
     "recipientAddress" TEXT NOT NULL,
@@ -42,23 +47,32 @@ CREATE TABLE "Badge" (
     "imageUrl" TEXT NOT NULL,
     "level" INTEGER NOT NULL,
     "bxp" DOUBLE PRECISION NOT NULL,
+    "txHash" TEXT NOT NULL,
+    "dateOfLastVerified" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Badge_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
     "address" TEXT NOT NULL,
+    "handle" TEXT,
     "name" TEXT,
-    "email" TEXT,
-    "emails" TEXT[]
+    "emails" TEXT[],
+    "indexOfPreferredEmail" INTEGER NOT NULL DEFAULT -1,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Badge_hash_key" ON "Badge"("hash");
+CREATE UNIQUE INDEX "Badge_shortHash_key" ON "Badge"("shortHash");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_address_key" ON "User"("address");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_handle_key" ON "User"("handle");
 
 -- AddForeignKey
 ALTER TABLE "PermissionToken" ADD CONSTRAINT "PermissionToken_adminAddress_fkey" FOREIGN KEY ("adminAddress") REFERENCES "User"("address") ON DELETE RESTRICT ON UPDATE CASCADE;

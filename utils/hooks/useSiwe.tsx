@@ -4,6 +4,7 @@ import { getCsrfToken, signIn, signOut } from 'next-auth/react'
 import { SiweMessage } from 'siwe'
 import { useAccount, useConnect, useNetwork, UserRejectedRequestError, useSigner, useSignMessage } from 'wagmi'
 import { v4 as uuidv4 } from 'uuid';
+import { UserInfo } from '../../schemas/UserInfo';
 
 export default function useSiwe(): { 
   login: () => Promise<void>,
@@ -18,13 +19,28 @@ export default function useSiwe(): {
   const [listenerId, setListenerId] = useState("");
   const [cancelledLastLogin, setCancelled] = useState(false);
 
+  function createUserInBackend(user: UserInfo) {
+    return fetch(`/api/user`, {
+      method: "POST",
+      body: JSON.stringify({
+        data: { user }
+      }),
+    })
+  }
+
   // ** SIGN IN WITH ETHEREUM ** \\
   const login = async () => {
     try {
+
+      // Reset cancelled and loading state
       SiweManager.setCancelledState(false);
       SiweManager.setLoadingState(true);
+
+      // Attempt to connect
       await connect({ connector: connectors[0]});
       const callbackUrl = `` // Redirect set to false -> Ignore callback Url
+
+      // Sign message
       const message = new SiweMessage({
         domain: window.location.host,
         address: address,
@@ -36,7 +52,13 @@ export default function useSiwe(): {
       });
       const signature = await signMessageAsync({ message: message.prepareMessage() });
       await signIn('credentials', { message: JSON.stringify(message), redirect: false, signature, callbackUrl });
+
+      // Stop loading state
       SiweManager.setLoadingState(false);
+
+      // Create user account in backend
+      const response = await createUserInBackend({ address });
+      console.log(response);
 
     } catch (error) {
       console.error(error)

@@ -1,6 +1,6 @@
 import { PermissionToken } from "@prisma/client";
-import { PermissionTokenInfo } from "../schemas/PermissionTokenInfo";
-import prismaClient from "./Prisma";
+import { PermissionTokenInfo } from "../../../schemas/PermissionTokenInfo";
+import prismaClient from "../../Prisma";
 
 class PermissionTokenController {
 
@@ -18,7 +18,7 @@ class PermissionTokenController {
       adminAddress,
       tokenType,
       txHash,
-      jsonUrl: ipfsUrl
+      jsonUrl: ipfsUrl      
     }})
     return permissionTokenEntity
   }
