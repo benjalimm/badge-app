@@ -1,43 +1,43 @@
-import { Chain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../schemas/ChainTypes";
+import { BadgeChain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../schemas/ChainTypes";
 
 const listOfChainInfo: ChainInfo[] = [
   {
-    chain: "Polygon Mumbai",
+    chain: "MUMBAI",
     baseUrl: "https://mumbai.polygonscan.com",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
   },
   {
-    chain: "Polygon POS",
+    chain: "POLYGON",
     baseUrl: "https://polygonscan.com",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
   },
   {
-    chain: "Optimistic Kovan",
+    chain: "OPTIMISTIC_KOVAN",
     baseUrl: "https://kovan-optimistic.etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
   },
   {
-    chain: "Optimism Mainnet",
+    chain: "OPTIMISM",
     baseUrl: "https://optimistic.etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
   },
   {
-    chain: "Ethereum Rinkeby",
+    chain: "RINKEBY",
     baseUrl: "https://rinkeby.etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
     addressPath: "address"
   },
   {
-    chain: "Ethereum Mainnet",
+    chain: "ETHEREUM",
     baseUrl: "https://etherscan.io",
     transactionPath: "tx",
     tokenPath: "token",
@@ -46,12 +46,12 @@ const listOfChainInfo: ChainInfo[] = [
 
 ]
 
-export function getChainInfo(chain: Chain): ChainInfo {
+export function getChainInfo(chain: BadgeChain): ChainInfo {
   return listOfChainInfo.find(x => x.chain === chain)
 }
 
 export function getScanUrl(
-  chain: Chain, 
+  chain: BadgeChain, 
   value: string, 
   valueType: ChainValueType
 ): string {

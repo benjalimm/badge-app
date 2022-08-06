@@ -1,5 +1,5 @@
 import Airtable from "airtable";
-import airtableController, { AlphaUser } from "../backend/AirtableController";
+import airtableController, { AlphaUser } from "../backend/controllers/AirtableController";
 
 export default class AlphaUserManager {
 

@@ -10,6 +10,7 @@
     "@ensdomains/ens-contracts": "^0.0.8",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
+    "@prisma/client": "^4.1.1",
     "@sendgrid/mail": "^7.7.0",
     "@walletconnect/web3-provider": "^1.7.0",
     "airtable": "^0.11.4",
@@ -28,6 +29,7 @@
     "react-window": "^1.8.6",
     "sass": "^1.53.0",
     "siwe": "^1.1.6",
+    "ts-transformer-keys": "^0.4.3",
     "uuid": "^8.3.2",
     "wagmi": "^0.5.10",
     "walletlink": "^2.4.0",
@@ -43,6 +45,7 @@
     "eslint": "^8.5.0",
     "eslint-plugin-react": "^7.27.1",
     "postcss-preset-env": "^7.0.1",
+    "prisma": "^4.1.0",
     "tailwindcss": "^2.2.19",
     "typescript": "^4.5.5"
   }
