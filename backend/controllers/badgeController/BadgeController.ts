@@ -12,7 +12,7 @@ class BadgeController {
     const shortHash = generateRandomHash(4);
 
     // 2. Check if hash doesn't already exist in database
-    const badge = await prismaClient.badge.findFirst({ where: { shortHash }});
+    const badge = await prismaClient.badge.findFirst({ where: { shortHash: shortHash }});
 
     if (!badge) {
       // 3. If not, return hash
