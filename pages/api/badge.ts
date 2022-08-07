@@ -61,7 +61,7 @@ async function convertBadgeInfoToBadgeEmailData(info:BadgeInfo): Promise<BadgeEm
     entityName: entity.name,
     entityContractAddress: info.collectionAddress,
     recipientAddress: info.recipientAddress,
-    gifUrl: await getVideoUrlFromIpfsLink(info.imageUrl),
+    gifUrl: getVideoUrlFromIpfsLink(info.imageUrl),
   }
 
   return badgeEmailData;

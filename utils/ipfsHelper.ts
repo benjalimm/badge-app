@@ -17,7 +17,7 @@ export async function uploadERC721ToIpfs(metadata: NFTMetadata): Promise<string>
   return `ipfs://${added.path}`   
 }
 
-export async function getVideoUrlFromIpfsLink(ipfsLink: string): Promise<string> {
+export function getVideoUrlFromIpfsLink(ipfsLink: string): string {
   if (ipfsLink.toLowerCase().startsWith('ipfs://')) {
     const hash = ipfsLink.replace('ipfs://', '')
     return `https://ipfs.io/ipfs/${hash}`
