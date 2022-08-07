@@ -23,14 +23,21 @@ class BadgeController {
   }
   async createBadge(badgeInfo: BadgeInfo): Promise<Badge> {
     const shortHash = await this.generateUniqueShortHash();
-    const { chain, collectionAddress } = badgeInfo;
+    const { chain, collectionAddress, collectionId } = badgeInfo;
 
+    // 1. Ensure Badge doesn't already exists
+    const badge = await prismaClient.badge.findFirst({ where: { collectionAddress, chain, collectionId }});
+
+    if (badge) throw new Error(`Badge already exists: Collection: ${collectionAddress} // TokenId: ${collectionId} // Chain: ${chain} `);
+    
+    // 2. Get entity information
     const entity = await entityController.getEntity({ 
       queryType: "BADGE_TOKEN_ADDRESS",
       query: { badgeTokenAddress: collectionAddress },
       chain: castBadgeChainAsPrismaChain(chain)
     });
 
+    // 3. Log badge to database
     return prismaClient.badge.create({ 
       data: { 
         ...badgeInfo, 
