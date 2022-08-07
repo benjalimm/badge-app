@@ -15,17 +15,13 @@ import { checkIfTransactionisSuccessful } from '../../utils/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../../typechain';
 import { calculateBadgePrice, getBaseBadgePrice } from '../../utils/priceOracleUtils';
-import { convertWeiBigNumberToEth, ethToWeiMultiplier, weiToEthMultiplier } from '../../utils/ethConversionUtils';
+import { convertWeiBigNumberToEth } from '../../utils/ethConversionUtils';
 import { ethers } from 'ethers';
 import { calculateBXP } from '../../utils/badgeXPUtils';
 import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
 import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
-import { BadgeEmailData } from '../../schemas/BadgeEmailData';
-import { isReallyEmpty } from '../../utils/stringUtils';
-import { getScanUrl } from '../../utils/chainUtils';
-import { shortenAddress } from '../../utils/addressUtils';
 import { Chain } from '@prisma/client';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
@@ -49,7 +45,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [badgeTokenAddress, setBadgeTokenAddress] = useState<string | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
-  const [transactionHash, setTransactionHash] = useState<string>("");
+  const [txHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
   useState<number | null>(null)
   const currentEntityInfo = useCurrentEntity();
@@ -117,7 +113,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
     if (shouldPoll) {
       console.log("Polling for transaction")
-      checkIfTransactionisSuccessful(transactionHash, session.user!.name!).then(successful => {
+      checkIfTransactionisSuccessful(txHash, session.user!.name!).then(successful => {
         if (successful) {
           setPageState("BadgeSuccessfullyMinted")
         }
@@ -187,50 +183,6 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   },[])
 
-  // ** SEND EMAIL ** \\
-  useEffect(() => { 
-    if (
-      !isReallyEmpty(email) && 
-      !isReallyEmpty(transactionHash) && 
-      pageState === "BadgeSuccessfullyMinted" && 
-      sentEmail === false
-    ) {
-      sendEmail(email,{
-        title: badgeData.title,
-        content: badgeData.content,
-        badgeLevel: badgeData.level,
-        badgeXP: calculateBXP(badgeData.level),
-        entityName: badgeData.entityName,
-        entityContractAddress: shortenAddress(currentEntityInfo.address),
-        recipientAddress: badgeData.recipientEns ?? shortenAddress(recipientAddress),
-        scanLink: getScanUrl(currentChain, transactionHash, "Transaction"),
-        gifUrl: badgeMediaList[indexOfBadgeMedia].gifUrl
-      }).then(() => {
-        setSentEmail(true)
-      }).catch(err => {
-        console.error(err);
-      })
-
-      sendBadgeInfo({ 
-        jsonUrl: ipfsUrl,
-        collectionId: badgeData.id,
-        collectionAddress: badgeTokenAddress,
-        recipientAddress: recipientAddress,
-        title: badgeData.title,
-        description: badgeData.content,
-        level: badgeData.level,
-        bxp: calculateBXP(badgeData.level),
-        chain: currentChain as Chain,
-        txHash: transactionHash,
-        imageUrl: badgeMediaList[indexOfBadgeMedia].storageGif,
-        animationUrl: badgeMediaList[indexOfBadgeMedia].storageUrl,
-        recipientEns: badgeData.recipientEns,
-      }, email)
-
-    }
-
-  }, [transactionHash, sentEmail, pageState])
-
   function getIndexOfCurrentStep(): number {
     return pageState === "DraftBadge" ? 0 : 1;
   }
@@ -294,6 +246,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
       console.log(`Badge level: ${badgeData.level}`);
       
       // 4. Start listeneing for transfer
+      let transactionHash: string;
       const onTransferSuccess = (from: string, to: string, id: string) => {
         if(to === recipientAddress) {
           console.log("Transfer event triggered", from, to);
@@ -303,6 +256,22 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
           const updatedBadgeData = { ...badgeData, id: parseInt(id) }
           setBadgeData(updatedBadgeData) 
           badgeToken.off("Transfer", onTransferSuccess)
+
+          logBadgeInfoSnapshot({ 
+            jsonUrl: url,
+            collectionId: updatedBadgeData.id,
+            collectionAddress: badgeTokenAddress,
+            recipientAddress: recipientAddress,
+            title: updatedBadgeData.title,
+            description: updatedBadgeData.content,
+            level: updatedBadgeData.level,
+            bxp: calculateBXP(updatedBadgeData.level),
+            chain: currentChain as Chain,
+            txHash: transactionHash,
+            imageUrl: badgeMediaList[indexOfBadgeMedia].storageGif,
+            animationUrl: badgeMediaList[indexOfBadgeMedia].storageUrl,
+            recipientEns: updatedBadgeData.recipientEns,
+          }, email)
         }
       }
 
@@ -316,9 +285,10 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
         url,
         { value: ethers.utils.parseEther(`${badgePriceInEth}`) }
       );
+      transactionHash = transaction.hash
       setIsButtonLoading(false)
       setPageState("LoadingMintBadge")
-      setTransactionHash(transaction.hash)
+      setTransactionHash(transactionHash)
 
     } catch (error) {
       // Cancel loading if there is an error
@@ -332,14 +302,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
     setSentEmail(false)
   }
 
-  async function sendEmail(email: string, data: BadgeEmailData) {
-    console.log("Sending badge email")
-    return fetch('/api/badgeEmail', { 
-      method: "POST" , 
-      body : JSON.stringify({ data, email  })})
-  }
-
-  async function sendBadgeInfo(badgeInfo: BadgeInfo, email?: string) {
+  async function logBadgeInfoSnapshot(badgeInfo: BadgeInfo, email?: string) {
     return fetch('/api/badge', {
       method: "POST",
       body: JSON.stringify({ data: { badgeInfo, email }})
@@ -353,12 +316,12 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
       case "BadgeSuccessfullyMinted":
         return <MintBadgeReceiptView
-          badgeId={badgeData?.id ?? 0}
+          badgeId={badgeData?.id}
           recipient={recipientAddress}
           email={email}
           level={badgeData?.level ?? 0}
           chain={currentChain}
-          transactionHash={transactionHash}
+          transactionHash={txHash}
           xp={calculateBXP(badgeData?.level ?? 0)}
           onContinue={resetToDraftBadge}
           ens={badgeData.recipientEns}
