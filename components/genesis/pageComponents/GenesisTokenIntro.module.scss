@@ -1,0 +1,74 @@
+@import "../../../styles/CommonAnimations.module.scss";
+
+.container {
+  width: 400px;
+  height: auto;
+  background-color: black;
+  margin-top: 30px;
+  border-radius: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-bottom: 30px;
+  box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.5);
+  transition-duration: 0.2s;
+}
+
+.video {
+  width: 70%;
+  border-radius: 35px;
+}
+
+.title {
+  font-family: 'Asgard';
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+}
+
+.body {
+  font-family: 'Inter';
+  font-weight: lighter;
+  font-size: 13px;
+  color: white;
+  text-align: center;
+  margin-top: 5px;
+  padding: 0 30px;
+}
+
+.button {
+  width: 50%;
+  height: 50px;
+  border-radius: 35px;
+  border: none;
+  background-color: #FFF;
+  color: #000;
+  font-family: 'Asgard';
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 20px;
+  transition-duration: 0.2s;
+}
+
+.button:hover {
+  width: 55%;
+  transition-duration: 0.2s;
+}
+
+.button:active {
+  @extend .buttonPress;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 300px;
+    border-radius: px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+}
