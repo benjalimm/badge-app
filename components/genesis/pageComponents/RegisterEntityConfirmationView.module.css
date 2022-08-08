@@ -1,16 +1,16 @@
 .container {
   height: auto;
   padding-bottom: 20px;
-  width: 420px;
+  width: 400px;
   background-color: white;
-  border-radius: 14px;
+  border-radius: 20px;
   margin-top: 30px;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
   animation: fadeInFromLeft 0.25s ease-in-out forwards;
-  transition-duration: 0.25s;
+  transition-duration: 0.2s;
 }
 
 .entityNameHeader {
@@ -45,11 +45,17 @@
 
 .transactionContainer {
   margin-top: 25px;
-  width: 360px;
+  width: 90%;
 }
 
 .backButton {
   margin-top: 10px;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 300px;
+  }
 }
 
 @keyframes fadeInFromLeft {

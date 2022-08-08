@@ -21,6 +21,7 @@ import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
 import { uploadPermTokenIPFS } from '../../utils/permTokenUploadUtils';
 import { RegisterEntityRequestData } from '../../schemas/api/EntityModels';
+import GenesisTokenIntro from './pageComponents/GenesisTokenIntro';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -35,25 +36,16 @@ type DeployState =
 "ENTITY_REGISTERED";
 
 export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
-  const router = useRouter();
-  const { allowed, loading } = useGateKeep(domainTypeProps.domainType);
+  const { allowed } = useGateKeep(domainTypeProps.domainType);
 
   // ** ENTITY INFO ** \\
-  const [entityName, setEntityName] = useState<string>(""); // Before registration
-  const [entityInfo, setEntityInfo] = useState<EntityInfo>({ 
-    address: "",
-    name: "",
-    badgeToken: "",
-    permissionToken: "",
-    permissionTokenType: "GENESIS",
-    timestampOfLastVerified: 0,
-    chain: "RINKEBY",
-    genesisTokenHolder:""
-  }); // After registstration 
+  const [entityName, setEntityName] = useState<string>(""); 
+  const [entityInfo, setEntityInfo] = useState<EntityInfo | null>(null); 
   const [minStake, setMinStake] = useState<BigNumber | null>(BigNumber.from(`${0.015 * ethToWeiMultiplier}`));
   const [estimatedGasFees, setEstimatedGasFees] = useState<BigNumber | null>(BigNumber.from(`${0.013 * ethToWeiMultiplier}`));
 
   // ** PAGE STATE INFO ** \\
+  const [isIntro, setIsIntro] = useState(true);
   const [pageState, setPageState] = useState<PageState>("AddEntityInfo");
   const [loadingPercentage, setLoadingPercentage] 
   = useState<number>(5) 
@@ -147,15 +139,15 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
     
   } , [active])
 
-  // TODO: FIX THIS
-  // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
-  useEffect(() => {
-    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
-    setTimeout(() => {
-      setRefresh(Math.random())
-    }, 1000)
+  // // TODO: FIX THIS
+  // // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
+  // useEffect(() => {
+  //   /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
+  //   setTimeout(() => {
+  //     setRefresh(Math.random())
+  //   }, 1000)
 
-  },[])
+  // },[])
 
   /***********/
 
@@ -299,6 +291,11 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
     return  pageState === "AddEntityInfo" ? 0 : 1
   }
 
+  function RegistrationFlow()  {
+    return 
+    
+  }
+
   /***********/
 
   if (!allowed) return null;
@@ -310,16 +307,23 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
         connectButtonAction="CONNECT_WALLET" 
         {...domainTypeProps}
       />
-      <PageTitleView title={"Register an entity on-chain"}/>
+      <PageTitleView title={"Register an entity on-chain"}/> 
       
-      <div className={styles.pageContainer}>
-        <MultiStepView
-          steps={["Add entity info", "Register entity"]}
-          indexOfCurrentStep={getIndexOfCurrentStep()}
-          style={{ marginTop: '30px' }}
-        />
-        { renderViewBasedOnPageState() }
+      <div className={styles.pageContainer}>{
+        isIntro ? <GenesisTokenIntro onContinue={ () => setIsIntro(false)}/> : 
+          <React.Fragment>
+            <MultiStepView
+              steps={["Add entity info", "Register entity"]}
+              indexOfCurrentStep={getIndexOfCurrentStep()}  
+              style={{ marginTop: '30px' }}
+            />
+            { renderViewBasedOnPageState() }
+
+          </React.Fragment>
+  
+      }    
       </div>
+      
     </div>
   )
 }

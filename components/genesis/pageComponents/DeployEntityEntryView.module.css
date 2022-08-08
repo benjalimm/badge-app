@@ -1,8 +1,8 @@
 .container {
   height: auto;
-  width: 420px;
+  width: 400px;
   background-color: white;
-  border-radius: 14px;
+  border-radius: 20px;
   margin-top: 30px;
   padding-bottom: 20px;
   display: flex;
@@ -10,6 +10,7 @@
   justify-content: flex-start;
   flex-direction: column;
   animation: fadeInFromBottom 0.25s ease-in-out forwards;
+  transition-duration: 0.2s;
 }
 
 .content {
@@ -80,6 +81,12 @@
 .nextButton:hover {
   width: 175px;
   transition-duration: 0.2s;
+}
+
+@media only screen and (max-width: 850px) {
+  .container {
+    width: 300px;
+  }
 }
 
 @keyframes fadeInFromBottom {

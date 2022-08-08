@@ -1,14 +1,15 @@
 .container {
   height: 200px;
-  width: 420px;
+  width: 400px;
   background-color: white;
-  border-radius: 14px;
+  border-radius: 20px;
   margin-top: 30px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  animation: contract 0.25s ease-in-out;
+  animation: contract 0.2s ease-in-out;
+  transition-duration: 0.2s;
 }
 
 .progressBarFiller {
@@ -32,7 +33,7 @@
 @media only screen and (max-width: 850px) {
   .container {
     height: 200px;
-    width: 336px;
+    width: 300px;
     background-color: white;
     border-radius: 14px;
     margin-top: 50px;

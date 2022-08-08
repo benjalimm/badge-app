@@ -4,7 +4,7 @@ import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
 import TransactionContainer from '../../GenericComponents/TransactionContainer';
 import { BasicButton } from '../../GenericComponents/Buttons';
 import { convertAndFormatWeiToUSD, formatWeiToEthString, weiToEthMultiplier } from '../../../utils/ethConversionUtils';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import USDConverter from '../../../utils/USDConverter';
 
 export function RegisterEntityConfirmationView(
