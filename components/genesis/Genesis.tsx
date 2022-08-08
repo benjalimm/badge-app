@@ -2,7 +2,6 @@ import Navbar from '../navBar/NavBar'
 import React, { useEffect, useState, ReactElement } from 'react'
 import styles from './Genesis.module.scss'
 import PageTitleView from '../GenericComponents/PageTitleView'
-import { useRouter } from 'next/router';
 import DeployEntityEntryView from './pageComponents/DeployEntityEntryView';
 import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
 import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
@@ -11,7 +10,7 @@ import { badgeContractAddress, currentChain } from '../../configs/blockchainConf
 import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
-import { BadgeRegistry__factory, BadgeToken__factory, IBadgeTokenFactory } from "../../typechain";
+import { BadgeRegistry__factory } from "../../typechain";
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
@@ -140,14 +139,14 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
   } , [active])
 
   // // TODO: FIX THIS
-  // // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
-  // useEffect(() => {
-  //   /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
-  //   setTimeout(() => {
-  //     setRefresh(Math.random())
-  //   }, 1000)
+  // ** TRIGGER REFRESH AFTER 1 SECOND ** \\
+  useEffect(() => {
+    /// NOTE:  Why do we do this? Because the signer is weird -> When attempting to get the base badge price or eth gas price, the signer doesn't work when it's first accessed even if the status says its successful. In order to fix this, we wait one second to trigger a refresh. When it's called a second time, it works.
+    setTimeout(() => {
+      setRefresh(Math.random())
+    }, 1000)
 
-  // },[])
+  },[])
 
   /***********/
 
