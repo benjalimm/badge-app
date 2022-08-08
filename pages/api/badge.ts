@@ -6,6 +6,7 @@ import entityController from '../../backend/controllers/entityController/EntityC
 import userController from '../../backend/controllers/userController/UserController';
 import { BadgeInfo, castBadgeInfo } from '../../schemas/BadgeData';
 import { BadgeEmailData } from '../../schemas/BadgeEmailData';
+import { shortenAddress } from '../../utils/addressUtils';
 import { getScanUrl } from '../../utils/chainUtils';
 import { getVideoUrlFromIpfsLink } from '../../utils/ipfsHelper';
 
@@ -52,6 +53,7 @@ async function convertBadgeInfoToBadgeEmailData(info:BadgeInfo): Promise<BadgeEm
     query: { badgeTokenAddress: info.collectionAddress }, 
     chain: info.chain
   });
+  const recipientAddress = info.recipientEns ?? shortenAddress(info.recipientAddress);
   const badgeEmailData: BadgeEmailData = {
     title: info.title,
     content: info.description,
@@ -59,8 +61,8 @@ async function convertBadgeInfoToBadgeEmailData(info:BadgeInfo): Promise<BadgeEm
     badgeLevel: info.level,
     badgeXP: info.bxp,
     entityName: entity.name,
-    entityContractAddress: info.collectionAddress,
-    recipientAddress: info.recipientAddress,
+    entityContractAddress: shortenAddress(info.collectionAddress),
+    recipientAddress: recipientAddress,
     gifUrl: getVideoUrlFromIpfsLink(info.imageUrl),
   }
 
