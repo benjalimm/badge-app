@@ -8,8 +8,8 @@
   align-items: center;
   justify-content: flex-start;
   flex-direction: column;
-  padding-bottom: 30px;
-  animation: expand 0.3s ease-in-out;
+  padding-bottom: 25px;
+  animation: expand 0.2s ease-in-out;
 }
 
 .contentContainer {
@@ -17,7 +17,7 @@
   margin-top: 25px;
   margin-bottom: 0px;
   padding-bottom: 0px;
-  animation: fadeIn 1.2s ease-in-out;
+  /* animation: fadeIn 1.2s ease-in-out; */
 }
 
 .successImage {
@@ -53,8 +53,20 @@
   margin-top: 15px;
 }
 
-.button {
+.viewAssetButton {
   margin-top: 30px;
+}
+
+.continueButton {
+  margin-top: 10px;
+  font-family: 'Inter';
+  font-size: 15px;
+  transition-duration: 0.1s;
+  color: black
+}
+
+.continueButton:hover {
+  font-weight: bold;
 }
 
 @keyframes expand {

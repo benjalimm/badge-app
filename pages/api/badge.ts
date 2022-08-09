@@ -9,6 +9,7 @@ import { BadgeEmailData } from '../../schemas/BadgeEmailData';
 import { shortenAddress } from '../../utils/addressUtils';
 import { getScanUrl } from '../../utils/chainUtils';
 import { getVideoUrlFromIpfsLink } from '../../utils/ipfsHelper';
+import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) { 
   switch (req.method) {
@@ -58,6 +59,7 @@ async function convertBadgeInfoToBadgeEmailData(info:BadgeInfo): Promise<BadgeEm
     title: info.title,
     content: info.description,
     scanLink: getScanUrl(info.chain, info.txHash, "Transaction"),
+    marketPlaceLink: getMarketPlaceAssetLink(info.chain, info.collectionAddress, info.collectionId),
     badgeLevel: info.level,
     badgeXP: info.bxp,
     entityName: entity.name,

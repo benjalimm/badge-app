@@ -14,6 +14,7 @@ interface Props {
   transactionLink: string;
   badgeTokenLink: string;
   permissionTokenLink: string;
+  marketPlaceLink: string;
 }
 export default function  DeployEntitySuccessView 
 ({ 
@@ -23,9 +24,14 @@ export default function  DeployEntitySuccessView
   genesisHolderEnsName, 
   transactionLink,
   permissionTokenLink,
-  badgeTokenLink
+  badgeTokenLink,
+  marketPlaceLink
 }: Props)  {
   const router = useRouter();
+
+  function openMarketPlaceLink() {
+    window.open(marketPlaceLink, '_blank', 'noopener,noreferrer');
+  }
 
   function proceed() {
     router.push('/create')
@@ -61,9 +67,12 @@ export default function  DeployEntitySuccessView
 
     </div>
     <BasicButton 
-      className={style.proceedButton} 
-      onClick={proceed} 
-      text={"Proceed"}
+      className={style.viewTokenButton} 
+      onClick={openMarketPlaceLink} 
+      text={"View token"}
     />
+    <button className={style.continueButton} onClick={proceed}>
+        Continue
+    </button>
   </div>
 }
