@@ -70,8 +70,18 @@
   margin-top: 2px;
 }
 
-.proceedButton {
-  margin-top: 20px;
+.viewTokenButton {
+  margin-top: 30px;
+}
+
+.continueButton {
+  margin-top: 12px;
+  font-size: 15px;
+  transition-duration: 0.1s;
+}
+
+.continueButton:hover {
+  font-weight: bold;
 }
 
 @keyframes expand {

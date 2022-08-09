@@ -21,6 +21,7 @@ import useGateKeep from '../../utils/hooks/useGateKeep';
 import { uploadPermTokenIPFS } from '../../utils/permTokenUploadUtils';
 import { RegisterEntityRequestData } from '../../schemas/api/EntityModels';
 import GenesisTokenIntro from './pageComponents/GenesisTokenIntro';
+import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
 
 type PageState = 
 "AddEntityInfo" | 
@@ -279,6 +280,7 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
           transactionLink={getScanUrl(currentChain, txHash, 'Transaction')}
           permissionTokenLink={getScanUrl(currentChain, entityInfo.permissionToken, 'Token')}
           badgeTokenLink={getScanUrl(currentChain, entityInfo.badgeToken, 'Token')}
+          marketPlaceLink={getMarketPlaceAssetLink(currentChain, entityInfo.badgeToken, 1)}
 
         />
       default:
@@ -288,11 +290,6 @@ export default function RegisterEntityPage(domainTypeProps : DomainTypeProps) {
 
   function getIndexOfCurrentStep(): number {
     return  pageState === "AddEntityInfo" ? 0 : 1
-  }
-
-  function RegistrationFlow()  {
-    return 
-    
   }
 
   /***********/
