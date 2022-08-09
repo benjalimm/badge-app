@@ -27,6 +27,7 @@ model Entity {
   badges                 Badge[]
   chain                  Chain
   txHash                 String
+  dateRegistered         DateTime          @default(now())
   dateOfLastVerified     DateTime          @default(now())
 }
 
@@ -50,6 +51,7 @@ model PermissionToken {
   entity             Entity?             @relation(fields: [entityId], references: [id])
   txHash             String
   jsonUrl            String
+  dateMinted         DateTime            @default(now())
   dateOfLastVerified DateTime            @default(now())
 }
 
@@ -93,6 +95,7 @@ model Badge {
   entity Entity? @relation(fields: [entityId], references: [id])
   txHash String
 
+  dateMinted         DateTime @default(now())
   dateOfLastVerified DateTime @default(now())
 }
 
