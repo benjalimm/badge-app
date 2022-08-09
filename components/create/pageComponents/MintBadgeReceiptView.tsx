@@ -4,6 +4,7 @@ import style from './MintBadgeReceiptView.module.css';
 import { BasicButton } from '../../GenericComponents/Buttons';
 import { BadgeChain } from '../../../schemas/ChainTypes';
 import { getScanUrl  } from '../../../utils/chainUtils';
+import { getMarketPlaceAssetLink } from '../../../utils/marketplaceLinksUtils';
 
 export default function MintBadgeReceiptView({
   badgeId,
@@ -14,6 +15,7 @@ export default function MintBadgeReceiptView({
   level, 
   chain, 
   transactionHash, 
+  marketPlaceLink,
   onContinue
 }:
 {
@@ -25,6 +27,7 @@ export default function MintBadgeReceiptView({
   xp: number
   chain: BadgeChain,
   transactionHash: string,
+  marketPlaceLink: string,
   onContinue: () => void
 }) {
 
@@ -33,6 +36,10 @@ export default function MintBadgeReceiptView({
       return recipient + `\n(${ens})` 
     }
     return recipient
+  }
+
+  function openMarketPlaceLink() {
+    window.open(marketPlaceLink, '_blank', 'noopener,noreferrer');
   }
 
   return <div className={style.container}>
@@ -70,11 +77,15 @@ export default function MintBadgeReceiptView({
           />
         </div>
       </div>
+      
       <BasicButton 
-        className={style.button}
-        text="Continue"
-        onClick={onContinue}
+        className={style.viewAssetButton}
+        text="View Badge"
+        onClick={openMarketPlaceLink}
       />
+      <button className={style.continueButton} onClick={onContinue}>
+        Continue
+      </button>
 
     </div>
     

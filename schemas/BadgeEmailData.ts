@@ -4,6 +4,7 @@ export type BadgeEmailData = {
   title: string;
   content: string;
   scanLink: string;
+  marketPlaceLink: string;
   badgeLevel: number;
   badgeXP: number;
   entityName: string;
@@ -16,6 +17,7 @@ const EXAMPLE_BADGE_EMAIL_DATA: BadgeEmailData = {
   title: "",
   content: "",
   scanLink: "",
+  marketPlaceLink: "",
   badgeLevel: 0,
   badgeXP: 0,
   entityName: "",

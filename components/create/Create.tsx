@@ -23,6 +23,7 @@ import { badgeMediaList } from '../../utils/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
 import { Chain } from '@prisma/client';
+import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
@@ -40,10 +41,11 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
   const [sentEmail, setSentEmail] = useState<boolean>(false)
 
   // ** PERTINENT BADGE DATA ** \\
-  const [badgeData, setBadgeData] = useState<BadgeData | null>(null)
+  const [badgeInputData, setBadgeInputData] = useState<BadgeData | null>(null)
   const [ipfsUrl, setIpfsUrl] = useState<string | null>(null);
   const [recipientAddress, setRecipientAddress] = useState<string | null>(null);
   const [badgeTokenAddress, setBadgeTokenAddress] = useState<string | null>(null);
+  const [tokenId, setTokenId] = useState<number | null>(null);
   const [email, setEmailAddress] = useState<string | null>(null);
   const [txHash, setTransactionHash] = useState<string>("");
   const [estimatedGasFeesInEth, setEstimatedGasFeesInEth] = 
@@ -65,7 +67,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   function getFinalBadgePrice(): number {
     console.log("Get final badge price")
-    return calculateBadgePrice(baseBadgePriceInEth, badgeData?.level || 0)
+    return calculateBadgePrice(baseBadgePriceInEth, badgeInputData?.level || 0)
   }
 
   // ** LOADING INDICATOR LOGIC ** \\
@@ -189,7 +191,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
   function onSubmitDraftBadgeData(badgeData: BadgeData) {
     console.log(badgeData);
-    setBadgeData(badgeData);
+    setBadgeInputData(badgeData);
     setPageState("MintBadge");
   }
 
@@ -252,25 +254,25 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
           console.log("Transfer event triggered", from, to);
           console.log("Successfully minted Badge")
           setPageState("BadgeSuccessfullyMinted")
-
-          const updatedBadgeData = { ...badgeData, id: parseInt(id) }
-          setBadgeData(updatedBadgeData) 
+          
+          const tokenIdAsNumber = parseInt(id)
+          setTokenId(tokenIdAsNumber)
           badgeToken.off("Transfer", onTransferSuccess)
 
           logBadgeInfoSnapshot({ 
             jsonUrl: url,
-            collectionId: updatedBadgeData.id,
+            collectionId: tokenIdAsNumber,
             collectionAddress: badgeTokenAddress,
             recipientAddress: recipientAddress,
-            title: updatedBadgeData.title,
-            description: updatedBadgeData.content,
-            level: updatedBadgeData.level,
-            bxp: calculateBXP(updatedBadgeData.level),
+            title: badgeInputData.title,
+            description: badgeInputData.content,
+            level: badgeInputData.level,
+            bxp: calculateBXP(badgeInputData.level),
             chain: currentChain as Chain,
             txHash: transactionHash,
             imageUrl: badgeMediaList[indexOfBadgeMedia].storageGif,
             animationUrl: badgeMediaList[indexOfBadgeMedia].storageUrl,
-            recipientEns: updatedBadgeData.recipientEns,
+            recipientEns: badgeInputData.recipientEns,
           }, email)
         }
       }
@@ -316,15 +318,16 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 
       case "BadgeSuccessfullyMinted":
         return <MintBadgeReceiptView
-          badgeId={badgeData?.id}
+          badgeId={tokenId}
           recipient={recipientAddress}
           email={email}
-          level={badgeData?.level ?? 0}
+          level={badgeInputData?.level ?? 0}
           chain={currentChain}
           transactionHash={txHash}
-          xp={calculateBXP(badgeData?.level ?? 0)}
+          xp={calculateBXP(badgeInputData?.level ?? 0)}
           onContinue={resetToDraftBadge}
-          ens={badgeData.recipientEns}
+          ens={badgeInputData.recipientEns}
+          marketPlaceLink={getMarketPlaceAssetLink(currentChain, badgeTokenAddress, tokenId)}
 
         />
       default:
