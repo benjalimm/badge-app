@@ -1,0 +1,102 @@
+.section {
+  margin-top: 50px;
+}
+
+.explanation {
+  display: flex;
+  align-items: center;
+  height: 500px;
+  padding-top: 30px;
+}
+
+.explanationInverted {
+  flex-direction: row-reverse;
+}
+
+.explanationImage {
+  width:424.8px;
+  height: 306.4px;
+  background-color: lightgray;
+  border-color: black;
+  border-width: 5px;
+}
+
+.explanationTextContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  width: 600px;
+  padding-left: 80px;
+  padding-right:0px;
+}
+
+.explanationTextContainerInverted {
+  padding-left: 0px;
+  padding-right: 80px;
+}
+
+.explanationTitle {
+  font-size: 45px;
+  font-weight: bold;
+  line-height: normal;
+}
+
+.explanationContent{
+  font-size: 20px;
+  line-height: normal;
+  margin-top: 15px;
+}
+
+.tabHeader {
+  border-width: 3px;
+  font-size: 17px;
+  padding: 2px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+
+@media only screen and (max-width: 1000px) {
+
+  .explanation {
+    display: flex;
+    flex-direction: column;
+    height: 600px;
+  }
+
+  .explanationInverted {
+    flex-direction: column;
+  }
+
+  .explanationImage {
+    margin-top: 50px;
+    width: 340px;
+    height: 245px; 
+  }
+
+  .explanationTitle {
+    font-size: 32px;
+    text-align: center;
+ } 
+
+  .explanationContent {
+    font-size: 18px;
+    line-height: normal;
+    text-align: center;
+  }
+
+  .explanationTextContainer {
+    width: 350px;
+    padding: 0;
+    align-items: center;
+    margin-top: 50px;
+  }
+
+  .explanationTextContainerInverted {
+    padding: 0;
+  }
+
+
+}
