@@ -259,20 +259,21 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
           setTokenId(tokenIdAsNumber)
           badgeToken.off("Transfer", onTransferSuccess)
 
+          // 4.1 Log database snapshot in DB
           logBadgeInfoSnapshot({ 
             jsonUrl: url,
             collectionId: tokenIdAsNumber,
             collectionAddress: badgeTokenAddress,
             recipientAddress: recipientAddress,
-            title: badgeInputData.title,
-            description: badgeInputData.content,
-            level: badgeInputData.level,
-            bxp: calculateBXP(badgeInputData.level),
+            title: badgeData.title,
+            description: badgeData.content,
+            level: badgeData.level,
+            bxp: calculateBXP(badgeData.level),
             chain: currentChain as Chain,
             txHash: transactionHash,
             imageUrl: badgeMediaList[indexOfBadgeMedia].storageGif,
             animationUrl: badgeMediaList[indexOfBadgeMedia].storageUrl,
-            recipientEns: badgeInputData.recipientEns,
+            recipientEns: badgeData.recipientEns,
           }, email)
         }
       }
@@ -342,7 +343,7 @@ export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
           userBalanceInEth={userEthBalance}
           isButtonLoading={isButtonLoading}
           indexOfBadgeMedia={indexOfBadgeMedia}
-          setIndexOfBadgeMedia={setIndexOfBadgeMedia}
+          setIndexOfBadgeMedia={setIndexOfBadgeMedia} 
         />
 
     }

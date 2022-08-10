@@ -5,7 +5,7 @@ import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
 import USDConverter from '../../../utils/USDConverter';
 import TransactionContainer from '../../GenericComponents/TransactionContainer';
 import { convertAndFormatEthToUSD, formatEthString } from '../../../utils/ethConversionUtils';
-import { AddressHighlightType } from './DraftAndMintBadgeView';
+import { AddressInputHighlightType } from './DraftAndMintBadgeView';
 
 export function MintBadgeInputsAndDetails({ 
   walletIdentifier,
@@ -25,7 +25,7 @@ export function MintBadgeInputsAndDetails({
   gasFeesInEth: number,
   badgePriceInEth: number,
   userBalanceInEth: number,
-  walletAddressHighlightType?: AddressHighlightType
+  walletAddressHighlightType?: AddressInputHighlightType
   ensWalletAddress?: string,
 }) {
 

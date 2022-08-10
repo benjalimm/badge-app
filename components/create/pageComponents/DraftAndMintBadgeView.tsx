@@ -13,9 +13,8 @@ import cx from 'classnames';
 import { isReallyEmpty } from '../../../utils/stringUtils';
 import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/addressUtils';
 import { useProvider } from 'wagmi';
-import { mainnet } from '../../../configs/blockchain.config';
 
-export type AddressHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
+export type AddressInputHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";
 
 export default function DraftAndMintBadgeView({ 
   onSubmitDraftBadgeData, 
@@ -46,7 +45,6 @@ export default function DraftAndMintBadgeView({
 }) {
 
   // ** WAGMI HOOKS ** \\
-  const provider = useProvider();
   const ensProvider = useProvider({ chainId: 1});
 
   // ** DRAFT BADGE INFORMATION ** \\
@@ -58,35 +56,48 @@ export default function DraftAndMintBadgeView({
   const [displayTitleWarning, setDisplayTitleWarning] = useState(false);
 
   // ** MINT BADGE INFORMATION ** \\
-  const [walletIdentifierType, setWalletIdentifierType] = useState<WalletIdentifierType>("NONE");
-  const [walletIdentifier, setWalletIdentifier] = useState<string | null>(null) // -> ENS address or wallet addresss
-  const [walletAddress, setWalletAddress] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | undefined>(undefined);
+  const [walletIdentifierInput, setWalletIdentifierInput] = useState<string | null>(null) // Could be ENS address or wallet addresss
+  const [walletIdentifierInputType, setWalletIdentifierInputType] = useState<WalletIdentifierType>("NONE"); // Distingiush between ENS and wallet address
+  const [walletAddress, setWalletAddress] = useState<string | null>(null); // Source of truth for wallet address
+
+  const [emailInput, setEmailInput] = useState<string | undefined>(undefined);
+  const [addressInputHighlightType, setAddressInputHighlightType] = useState<AddressInputHighlightType | null>(null); // Highlight success or failure for address input
+
   const currentEntity = useCurrentEntity()
-  const [addressHighlightType, setAddressHighlightType] = useState<AddressHighlightType | null>(null);
   const entityName = currentEntity?.name ?? ""
 
   // ** USE EFFECTS ** \\
 
   useEffect(() => {
+    // In this block, we observe the walletIdentifier input and determine if it is a valid ENS address or a valid wallet address. If ENS, we check if the ens is valid and display the corresponding success or error message.
+
     // Reset wallet address + identifier type
     setWalletAddress(null)
-    setWalletIdentifierType("NONE")
+    setWalletIdentifierInputType("NONE")
     
-    // See if identifier is either a wallet address or ENS
-    if (isValidEthAddress(walletIdentifier)) {
-      setWalletAddress(walletIdentifier);
-      setWalletIdentifierType("ADDRESS")
-    } else if (isEns(walletIdentifier)) {
-      getAddressForEns(walletIdentifier, ensProvider).then(address => {
+    if (isValidEthAddress(walletIdentifierInput)) {
+      // 1. See if identifier is either a wallet address
+      setWalletAddress(walletIdentifierInput);
+      setWalletIdentifierInputType("ADDRESS")
+    } else if (isEns(walletIdentifierInput)) {
+      // 2. See if identifier is an ENS address
+
+      // 2.1. If so, get the wallet address for the ENS address
+      getAddressForEns(walletIdentifierInput, ensProvider).then(address => {
         console.log(address)
         
         if (address) {
+          // 3. If it returns an address, we set the wallet addres
           setWalletAddress(address);
-          setAddressHighlightType("ENS_ADDRESS_FOUND")
-          setWalletIdentifierType("ENS")
+
+          // 4. Highlight to the user that we've found the ENS address
+          setAddressInputHighlightType("ENS_ADDRESS_FOUND")
+
+          // 5. Distinguish the identifier input type as ENS
+          setWalletIdentifierInputType("ENS")
         } else {
-          setAddressHighlightType("INVALID_ENS")
+          // 6. If it returns null, we highlight the input as an invalid ENS
+          setAddressInputHighlightType("INVALID_ENS")
         }
         
       }).catch(err => {
@@ -94,7 +105,7 @@ export default function DraftAndMintBadgeView({
       })
     }
 
-  }, [walletIdentifier])
+  }, [walletIdentifierInput])
 
   useEffect(() => {
 
@@ -106,10 +117,10 @@ export default function DraftAndMintBadgeView({
 
   useEffect(() => {
     // If there is a wallet address warning, remove if user starts typing
-    if (!isReallyEmpty(walletIdentifier) && addressHighlightType) {
-      setAddressHighlightType(null);
+    if (!isReallyEmpty(walletIdentifierInput) && addressInputHighlightType) {
+      setAddressInputHighlightType(null);
     }
-  }, [walletIdentifier])
+  }, [walletIdentifierInput])
 
   useEffect(() => {
     function keyDownHandler(event: KeyboardEvent) {
@@ -137,7 +148,7 @@ export default function DraftAndMintBadgeView({
     return () => {
       document.removeEventListener('keydown', keyDownHandler, true);
     }
-  }, [badgeTitle, badgeDescription, badgeLevel, currentlySelectedMedia, walletIdentifier, walletAddress, email])
+  }, [badgeTitle, badgeDescription, badgeLevel, currentlySelectedMedia, walletIdentifierInput, walletAddress, emailInput])
 
   // ** DRAFT BADGE METHODS ** \\
   function onTitleChange(event: React.FormEvent<HTMLInputElement>) {
@@ -162,11 +173,11 @@ export default function DraftAndMintBadgeView({
 
   //** MINT BADGE METHODS **\\
   function onWalletIdentifierChange(event: React.FormEvent<HTMLInputElement>) {
-    setWalletIdentifier(event.currentTarget.value);
+    setWalletIdentifierInput(event.currentTarget.value);
   }
 
   function onEmailChange(event: React.FormEvent<HTMLInputElement>) {
-    setEmail(event.currentTarget.value);
+    setEmailInput(event.currentTarget.value);
   }
 
   //** PLACEHOLDERS **\\
@@ -206,17 +217,17 @@ export default function DraftAndMintBadgeView({
 
   function mintBadge() {
     // If badge title is empty, we display a warning
-    if (isReallyEmpty(walletIdentifier)) {
-      setAddressHighlightType("MISSING_ADDRESS")
+    if (isReallyEmpty(walletIdentifierInput)) {
+      setAddressInputHighlightType("MISSING_ADDRESS")
       return
-    } else if (!isValidEthAddress(walletIdentifier) && !isEns(walletIdentifier)) {
+    } else if (!isValidEthAddress(walletIdentifierInput) && !isEns(walletIdentifierInput)) {
       // If not empty, check if identifier is invalid
-      setAddressHighlightType("INVALID_ADDRESS")
+      setAddressInputHighlightType("INVALID_ADDRESS")
       return
     }
 
     const ens: string | undefined 
-    = walletIdentifierType == "ENS" ? walletIdentifier : undefined
+    = walletIdentifierInputType == "ENS" ? walletIdentifierInput : undefined
 
     onMintAndSendBadge({ 
       title: badgeTitle, 
@@ -225,7 +236,7 @@ export default function DraftAndMintBadgeView({
       level: badgeLevel,
       entityName: entityName,
       recipientEns: ens
-    }, walletAddress, email)
+    }, walletAddress, emailInput)
   }
 
   return <div className={style.container}>
@@ -237,8 +248,8 @@ export default function DraftAndMintBadgeView({
           videoSource={currentlySelectedMedia.quickAccessPath}
           level={badgeLevel}
           entityName={entityName}
-          walletIdentifier={walletIdentifier}
-          identifierType={walletIdentifierType}
+          walletIdentifier={walletIdentifierInput}
+          identifierType={walletIdentifierInputType}
         />
         <button 
           className={cx(style.backButton, 
@@ -254,14 +265,14 @@ export default function DraftAndMintBadgeView({
         { 
           pageState === "MintBadge" ? 
             <MintBadgeInputsAndDetails 
-              walletIdentifier={walletIdentifier}
-              email={email}  
+              walletIdentifier={walletIdentifierInput}
+              email={emailInput}  
               onWalletIdentifierChange={onWalletIdentifierChange}
               onEmailChange={onEmailChange}
               badgePriceInEth={finalBadgePriceInEth}
               gasFeesInEth={gasFeesInEth}
               userBalanceInEth={userBalanceInEth}
-              walletAddressHighlightType={addressHighlightType}
+              walletAddressHighlightType={addressInputHighlightType}
               ensWalletAddress={walletAddress}
             /> :
             ((!isMediaCatalogueVisible) ? 
