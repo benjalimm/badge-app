@@ -44,7 +44,7 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
       } else {
         const sanitizedHost = host.replaceAll("www.", "");
         console.log(`${CURRENT_SUBDOMAIN}.${sanitizedHost}`)
-        window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
+        window.location.assign(`http://${CURRENT_SUBDOMAIN}.${sanitizedHost}`)
       }
     }, 1000)  
   }
