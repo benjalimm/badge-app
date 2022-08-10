@@ -10,8 +10,8 @@ export const CURRENT_SUBDOMAIN = "alpha";
 
 function sanitizeHost(host: string): string {
 
-  // Only sanitize if its a server if not it'll break
-  if (typeof window === 'undefined') {
+  // Only sanitize if its a client if not it'll break
+  if (typeof window !== 'undefined') {
     return host.toLowerCase().replaceAll("www." ,"")
   }
   return host
