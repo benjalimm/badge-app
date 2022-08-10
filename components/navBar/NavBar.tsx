@@ -42,7 +42,8 @@ export default function NavBar({ sticky, host, domainType, connectButtonAction }
       // We're already in the desired subdomain -> Push to main page
         router.push('/')
       } else {
-        console.log(`${CURRENT_SUBDOMAIN}.${host}`)
+        const sanitizedHost = host.replaceAll("www.", "");
+        console.log(`${CURRENT_SUBDOMAIN}.${sanitizedHost}`)
         window.location.assign(`http://${CURRENT_SUBDOMAIN}.${host}`)
       }
     }, 1000)  
