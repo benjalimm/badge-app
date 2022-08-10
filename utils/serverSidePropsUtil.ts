@@ -43,10 +43,15 @@ function parseWildCardWithHost(host: string): DomainType {
 
 const getServerSidePropsWildCardFunction: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
-  const sanitizedHost = sanitizeHost(host);
-  const wildcard = parseWildCardWithHost(sanitizedHost)
-  console.log(`Wildcard: ${wildcard}`)
-  const props: DomainTypeProps = { domainType: wildcard, host }
-  return { props };
+
+  if (host) {
+    const sanitizedHost = sanitizeHost(host);
+    const wildcard = parseWildCardWithHost(sanitizedHost)
+    console.log(`Wildcard: ${wildcard}`)
+    const props: DomainTypeProps = { domainType: wildcard, host }
+    return { props };
+  }
+  return { props: { domainType: "unrecognized", host: "" } };
+  
 }
 export default getServerSidePropsWildCardFunction;
