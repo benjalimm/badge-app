@@ -9,7 +9,12 @@ export interface DomainTypeProps {
 export const CURRENT_SUBDOMAIN = "alpha";
 
 function sanitizeHost(host: string): string {
-  return host.toLowerCase().replaceAll("www." ,"")
+
+  // Only sanitize if its a server if not it'll break
+  if (typeof window === 'undefined') {
+    return host.toLowerCase().replaceAll("www." ,"")
+  }
+  return host
 }
 
 function parseWildCardWithHost(host: string): DomainType {
@@ -44,14 +49,11 @@ function parseWildCardWithHost(host: string): DomainType {
 const getServerSidePropsWildCardFunction: GetServerSideProps = async (context) => {
   const host = context.req.headers.host
 
-  if (host) {
-    const sanitizedHost = sanitizeHost(host);
-    const wildcard = parseWildCardWithHost(sanitizedHost)
-    console.log(`Wildcard: ${wildcard}`)
-    const props: DomainTypeProps = { domainType: wildcard, host }
-    return { props };
-  }
-  return { props: { domainType: "unrecognized", host: "" } };
+  const sanitizedHost = sanitizeHost(host);
+  const wildcard = parseWildCardWithHost(sanitizedHost)
+  console.log(`Wildcard: ${wildcard}`)
+  const props: DomainTypeProps = { domainType: wildcard, host }
+  return { props };
   
 }
 export default getServerSidePropsWildCardFunction;
