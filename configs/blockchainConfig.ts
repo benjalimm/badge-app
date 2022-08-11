@@ -5,7 +5,7 @@ export const isProd: boolean = process.env.IS_PROD == 'true'
 
 // SET CURRENT CHAIN HERE
 console.log(process.env.CURRENT_CHAIN)
-export const currentChain: BadgeChain = "OPTIMISM";
+export const currentChain: BadgeChain = "RINKEBY";
 console.log(`Current chain: ${currentChain}`);
 export const getCurrentConfig = (chain: BadgeChain) => {
   switch (chain) {
