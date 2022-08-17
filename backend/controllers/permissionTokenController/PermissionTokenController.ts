@@ -1,4 +1,4 @@
-import { PermissionToken } from "@prisma/client";
+import { PermissionToken, prisma } from "@prisma/client";
 import { PermissionTokenInfo } from "../../../schemas/PermissionTokenInfo";
 import prismaClient from "../../Prisma";
 
@@ -21,6 +21,11 @@ class PermissionTokenController {
       jsonUrl: ipfsUrl      
     }})
     return permissionTokenEntity
+  }
+
+  async getPermissionTokens(adminAddress: string): Promise<PermissionToken[]> {
+    const tokens = await prismaClient.permissionToken.findMany({ where: { adminAddress }})
+    return tokens;
   }
   
 }
