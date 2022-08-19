@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import style from './BadgeCard.module.css';
 import cx from 'classnames';
 import AutoPlayVideoView from '../GenericComponents/AutoPlayVideoView';
-import { shortenAddress } from '../../utils/addressUtils';
+import { shortenAddress } from '../../utils/generic/addressUtils';
 export type WalletIdentifierType = "ENS" | "ADDRESS" | "NONE";
 export default function BadgeCard(
   {  

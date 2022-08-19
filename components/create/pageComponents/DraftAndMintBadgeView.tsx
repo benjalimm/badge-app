@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from './DraftBadge.module.scss'
 import BadgeCard, { WalletIdentifierType } from '../../badgeCard/BadgeCard';
-import { badgeMediaList } from '../../../utils/badgeMediaList';
+import { badgeMediaList } from '../../../utils/metadata/badgeMediaList';
 import { BasicButton } from '../../GenericComponents/Buttons';
 import MediaCatalogueView from './MediaCatalogueView';
 import { BadgeData } from '../../../schemas/BadgeData';
@@ -10,8 +10,8 @@ import { PageState } from '../../../schemas/create';
 import DraftBadgeForm from './DraftBadgeForm';
 import useCurrentEntity from '../../../utils/hooks/useCurrentEntity';
 import cx from 'classnames';
-import { isReallyEmpty } from '../../../utils/stringUtils';
-import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/addressUtils';
+import { isReallyEmpty } from '../../../utils/generic/stringUtils';
+import { getAddressForEns, isEns, isValidEthAddress } from '../../../utils/generic/addressUtils';
 import { useProvider } from 'wagmi';
 
 export type AddressInputHighlightType = "MISSING_ADDRESS" | "INVALID_ADDRESS" | "INVALID_ENS" | "ENS_ADDRESS_FOUND";

@@ -1,5 +1,4 @@
 import { Provider } from "@wagmi/core";
-import { ethers } from "ethers";
 
 export function shortenAddress(address: string): string {
   return address.substring(0, 4) + ".." + address.substring(address.length - 3, address.length);

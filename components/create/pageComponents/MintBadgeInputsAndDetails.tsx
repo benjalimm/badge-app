@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import style from './MintBadge.module.css'
 import FormTextBoxContainer, { HighlightType } from './FormTextBoxContainer';
 import EstimatedTransaction from '../../GenericComponents/EstimatedTransaction';
-import USDConverter from '../../../utils/USDConverter';
+import USDConverter from '../../../utils/services/USDConverter';
 import TransactionContainer from '../../GenericComponents/TransactionContainer';
-import { convertAndFormatEthToUSD, formatEthString } from '../../../utils/ethConversionUtils';
+import { convertAndFormatEthToUSD, formatEthString } from '../../../utils/generic/ethConversionUtils';
 import { AddressInputHighlightType } from './DraftAndMintBadgeView';
 
 export function MintBadgeInputsAndDetails({ 

@@ -1,6 +1,6 @@
 import { Provider } from "@wagmi/core";
 import { ethers } from "ethers";
-import { getAddressForEns, getEnsForAddress, isEns } from "./addressUtils";
+import { getAddressForEns, getEnsForAddress, isEns } from "../generic/addressUtils";
 
 //** The ENSCacheManager keeps track of the ENS names that have been queried in a single session. This is to prevent multiple queries of a wallet address *//
 export default class ENSCacheManager {

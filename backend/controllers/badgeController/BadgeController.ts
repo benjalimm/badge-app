@@ -1,6 +1,6 @@
 import prismaClient from "../../Prisma";
 import { Badge } from "@prisma/client";
-import { generateRandomHash } from "../../../utils/randomHashGenerator";
+import { generateRandomHash } from "../../../utils/contracts/randomHashGenerator";
 import { BadgeInfo } from "../../../schemas/BadgeData";
 import entityController from "../entityController/EntityController";
 import { castBadgeChainAsPrismaChain } from "../../../schemas/ChainTypes";

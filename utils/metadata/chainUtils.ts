@@ -1,4 +1,4 @@
-import { BadgeChain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../schemas/ChainTypes";
+import { BadgeChain, ChainInfo, ChainValueType, chainValueTypeToInfoProperty } from "../../schemas/ChainTypes";
 
 const listOfChainInfo: ChainInfo[] = [
   {

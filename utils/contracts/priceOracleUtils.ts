@@ -1,6 +1,6 @@
 import {  BigNumber, Signer } from "ethers";
-import { BadgeRegistry__factory, BadgePriceOracle__factory } from "../typechain";
-import { badgeContractAddress } from "../configs/blockchainConfig";
+import { BadgeRegistry__factory, BadgePriceOracle__factory } from "../../typechain";
+import { badgeContractAddress } from "../../configs/blockchainConfig";
 import { ethers } from 'ethers';
 
 export async function getBaseBadgePrice(signer: Signer): Promise<BigNumber> {

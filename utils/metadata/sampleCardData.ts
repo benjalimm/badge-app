@@ -1,4 +1,4 @@
-import { BadgeData } from "../schemas/BadgeData";
+import { BadgeData } from "../../schemas/BadgeData";
 
 const data: BadgeData[] = [
   {

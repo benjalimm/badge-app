@@ -1,5 +1,5 @@
-import { NFTMedia } from "../schemas/BadgeMedia"
-import { permissionTokenMediaList } from "./badgeMediaList"
+import { NFTMedia } from "../../schemas/BadgeMedia"
+import { permissionTokenMediaList } from "../metadata/badgeMediaList"
 import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 type TokenType = "Genesis" | "Super user" | "Admin"

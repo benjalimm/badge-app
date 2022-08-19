@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import React, { useState, useEffect } from 'react';
 import { useProvider } from 'wagmi';
-import ENSCacheManager from '../ENSCacheManager';
+import ENSCacheManager from '../services/ENSCacheManager';
 
 export default function useAccountEns(address: string): string | null {
   const [accountEns, setAccountEns] = useState<string | null>(null);

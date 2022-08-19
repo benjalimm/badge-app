@@ -1,4 +1,4 @@
-import { BadgeData } from "../schemas/BadgeData"
+import { BadgeData } from "../../schemas/BadgeData"
 import { uploadERC721ToIpfs } from "./ipfsHelper"
 
 export async function uploadBadgeIPFS(badgeData: BadgeData, videoUrl: string, imageUrl: string, xp: number): Promise<string> {

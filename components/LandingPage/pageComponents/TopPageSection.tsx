@@ -4,7 +4,7 @@ import SampleBadgeCard from './SampleBadgeCard';
 import cx from 'classnames';
 import { useEffect, useState } from 'react';
 import { BottomTabs } from './BottomTabs';
-import cardData from '../../../utils/sampleCardData';
+import cardData from '../../../utils/metadata/sampleCardData';
 
 export default function TopPageSection() {
   const [indexOfCurrentCard, setIndexOfCurrentCard] = useState<number>(0);

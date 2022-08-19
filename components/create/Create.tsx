@@ -11,19 +11,19 @@ import MintBadgeLoadingView from './pageComponents/MintBadgeLoadingView';
 import MintBadgeReceiptView from './pageComponents/MintBadgeReceiptView';
 import { currentChain } from '../../configs/blockchainConfig';
 import { useSigner, useAccount, useProvider } from 'wagmi';
-import { checkIfTransactionisSuccessful } from '../../utils/etherscan';
+import { checkIfTransactionisSuccessful } from '../../utils/metadata/etherscan';
 import { useSession } from 'next-auth/react';
 import { Entity__factory, BadgeToken__factory } from '../../typechain';
-import { calculateBadgePrice, getBaseBadgePrice } from '../../utils/priceOracleUtils';
-import { convertWeiBigNumberToEth } from '../../utils/ethConversionUtils';
+import { calculateBadgePrice, getBaseBadgePrice } from '../../utils/contracts/priceOracleUtils';
+import { convertWeiBigNumberToEth } from '../../utils/generic/ethConversionUtils';
 import { ethers } from 'ethers';
-import { calculateBXP } from '../../utils/badgeXPUtils';
-import { uploadBadgeIPFS } from '../../utils/badgeUploadUtils';
-import { badgeMediaList } from '../../utils/badgeMediaList';
+import { calculateBXP } from '../../utils/generic/badgeXPUtils';
+import { uploadBadgeIPFS } from '../../utils/ipfs/badgeUploadUtils';
+import { badgeMediaList } from '../../utils/metadata/badgeMediaList';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
 import { Chain } from '@prisma/client';
-import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
+import { getMarketPlaceAssetLink } from '../../utils/metadata/marketplaceLinksUtils';
 
 export default function CreateBadgeView(domainTypeProps: DomainTypeProps) {
 

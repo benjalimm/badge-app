@@ -1,4 +1,4 @@
-import { NFTMedia } from "../schemas/BadgeMedia";
+import { NFTMedia } from "../../schemas/BadgeMedia";
 
 export const badgeMediaList: NFTMedia[] = [
   {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './DeployEntityEntryView.module.css';
-import { isReallyEmpty } from '../../../utils/stringUtils';
+import { isReallyEmpty } from '../../../utils/generic/stringUtils';
 import { BasicButton } from '../../GenericComponents/Buttons';
 import TextBox from '../../GenericComponents/TextBox';
 

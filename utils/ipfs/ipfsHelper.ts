@@ -1,5 +1,5 @@
 import { create as ipfsHttpClient } from 'ipfs-http-client'
-import { ERC721Metadata, NFTMetadata } from '../schemas/ERC721Metadata'
+import { ERC721Metadata, NFTMetadata } from '../../schemas/ERC721Metadata'
 
 const projectId = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_ID
 const projectSecret = process.env.NEXT_PUBLIC_INFURA_IPFS_PROJECT_SECRET

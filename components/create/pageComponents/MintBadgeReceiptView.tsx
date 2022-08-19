@@ -3,8 +3,8 @@ import Field from '../../GenericComponents/Field';
 import style from './MintBadgeReceiptView.module.css';
 import { BasicButton } from '../../GenericComponents/Buttons';
 import { BadgeChain } from '../../../schemas/ChainTypes';
-import { getScanUrl  } from '../../../utils/chainUtils';
-import { getMarketPlaceAssetLink } from '../../../utils/marketplaceLinksUtils';
+import { getScanUrl  } from '../../../utils/metadata/chainUtils';
+import { getMarketPlaceAssetLink } from '../../../utils/metadata/marketplaceLinksUtils';
 
 export default function MintBadgeReceiptView({
   badgeId,

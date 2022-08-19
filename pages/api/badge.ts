@@ -6,10 +6,10 @@ import entityController from '../../backend/controllers/entityController/EntityC
 import userController from '../../backend/controllers/userController/UserController';
 import { BadgeInfo, castBadgeInfo } from '../../schemas/BadgeData';
 import { BadgeEmailData } from '../../schemas/BadgeEmailData';
-import { shortenAddress } from '../../utils/addressUtils';
-import { getScanUrl } from '../../utils/chainUtils';
-import { getVideoUrlFromIpfsLink } from '../../utils/ipfsHelper';
-import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
+import { shortenAddress } from '../../utils/generic/addressUtils';
+import { getScanUrl } from '../../utils/metadata/chainUtils';
+import { getVideoUrlFromIpfsLink } from '../../utils/ipfs/ipfsHelper';
+import { getMarketPlaceAssetLink } from '../../utils/metadata/marketplaceLinksUtils';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) { 
   switch (req.method) {

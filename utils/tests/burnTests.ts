@@ -1,8 +1,8 @@
 import { Provider } from "@wagmi/core";
 import { Signer } from "ethers";
-import { Entity, Entity__factory, BadgeToken, BadgeToken__factory } from "../typechain";
+import { Entity, Entity__factory, BadgeToken, BadgeToken__factory } from "../../typechain";
 import { ethers } from "ethers";
-import { getCurrentEntityFromLocalStorage } from "./EntityLocalStorageManager";
+import { getCurrentEntityFromLocalStorage } from "../services/EntityLocalStorageManager";
 
 const entityAddress: string = "0x0De9389e76AF895f3549800a858BB34791786Ca5"
 const user2Address: string = "0x95dE2aF29E3cc1B776C70ECe4c6392022B1180dC"

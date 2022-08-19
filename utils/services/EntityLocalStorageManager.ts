@@ -1,5 +1,5 @@
-import { EntityInfo } from "../schemas/EntityInfo";
-import { setValue, getValue } from "./storage";
+import { EntityInfo } from "../../schemas/EntityInfo";
+import { setValue, getValue } from "../generic/storage";
 import { v4 as uuidv4 } from 'uuid';
 
 export function setCurrentEntityInLocalStorage(entity: EntityInfo) {
@@ -33,6 +33,10 @@ export default class EntityLocalStorageManager {
     const id = uuidv4()
     this.updates.push({update, id });
     return id;
+  }
+
+  static async getPermissionTokens(userAddress: string) {
+    const result = await fetch(`/api/permission/${userAddress}`)
   }
 
   static stopListening(id: string) {

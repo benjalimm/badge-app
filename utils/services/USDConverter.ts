@@ -1,4 +1,4 @@
-import { getEthUSDPrice } from "./getEthPrice";
+import { getEthUSDPrice } from "../generic/getEthPrice";
 import { v4 as uuidv4 } from 'uuid';
 
 type Subscription = (ethToUSDMultiplier: number) => void;

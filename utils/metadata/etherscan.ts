@@ -1,4 +1,4 @@
-import { currentChain } from "../configs/blockchainConfig";
+import { currentChain } from "../../configs/blockchainConfig";
 
 interface TransactionDetails {
   hash: string;

@@ -7,21 +7,21 @@ import DeployEntitySuccessView from './pageComponents/DeployEntitySuccessView';
 import DeployEntityLoadingView from './pageComponents/DeployEntityLoadingView';
 import { EntityInfo } from '../../schemas/EntityInfo';
 import { badgeContractAddress, currentChain } from '../../configs/blockchainConfig';
-import EntityLocalStorageManager from '../../utils/EntityLocalStorageManager';
+import EntityLocalStorageManager from '../../utils/services/EntityLocalStorageManager';
 import { useSession } from 'next-auth/react';
 import { useSigner, useProvider, useAccount } from 'wagmi';
 import { BadgeRegistry__factory } from "../../typechain";
 import MultiStepView from '../GenericComponents/MultiStepView';
 import { RegisterEntityConfirmationView } from './pageComponents/RegisterEntityConfirmationView';
 import { BigNumber } from 'ethers';
-import { getScanUrl } from '../../utils/chainUtils';
-import { ethToWeiMultiplier } from '../../utils/ethConversionUtils';
+import { getScanUrl } from '../../utils/metadata/chainUtils';
+import { ethToWeiMultiplier } from '../../utils/generic/ethConversionUtils';
 import { DomainTypeProps } from '../../utils/serverSidePropsUtil';
 import useGateKeep from '../../utils/hooks/useGateKeep';
-import { uploadPermTokenIPFS } from '../../utils/permTokenUploadUtils';
+import { uploadPermTokenIPFS } from '../../utils/ipfs/permTokenUploadUtils';
 import { RegisterEntityRequestData } from '../../schemas/api/EntityModels';
 import GenesisTokenIntro from './pageComponents/GenesisTokenIntro';
-import { getMarketPlaceAssetLink } from '../../utils/marketplaceLinksUtils';
+import { getMarketPlaceAssetLink } from '../../utils/metadata/marketplaceLinksUtils';
 
 type PageState = 
 "AddEntityInfo" | 

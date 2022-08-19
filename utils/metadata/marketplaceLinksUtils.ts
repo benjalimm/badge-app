@@ -1,4 +1,4 @@
-import { BadgeChain } from "../schemas/ChainTypes"
+import { BadgeChain } from "../../schemas/ChainTypes"
 
 type MarketPlaceLinkInfo = {
   chain: BadgeChain;

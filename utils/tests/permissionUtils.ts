@@ -1,7 +1,7 @@
 import { Signer } from "ethers";
-import { Entity, Entity__factory } from "../typechain";
-import { getCurrentEntityFromLocalStorage } from "./EntityLocalStorageManager";
-import { uploadPermTokenIPFS } from "./permTokenUploadUtils";
+import { Entity, Entity__factory } from "../../typechain";
+import { getCurrentEntityFromLocalStorage } from "../services/EntityLocalStorageManager";
+import { uploadPermTokenIPFS } from "../ipfs/permTokenUploadUtils";
 
 // const entityAddress: string = "0x3f488862578CaE52E6BA4f71cb7d34956FdAA783"
 const user2Address: string = "0x845B62836650b762996FDf596AabFd19AfFAE02D"

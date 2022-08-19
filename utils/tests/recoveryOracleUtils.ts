@@ -1,8 +1,8 @@
 import { BigNumberish, Signer } from "ethers";
-import { BadgeRegistry__factory, BadgeRecoveryOracle__factory, BadgeToken__factory, Entity__factory, BadgeXP__factory } from "../typechain";
+import { BadgeRegistry__factory, BadgeRecoveryOracle__factory, BadgeToken__factory, Entity__factory, BadgeXP__factory } from "../../typechain";
 import { ethers } from "ethers";
 import { BaseProvider } from "@ethersproject/providers";
-import { getCurrentEntityFromLocalStorage } from "./EntityLocalStorageManager";
+import { getCurrentEntityFromLocalStorage } from "../services/EntityLocalStorageManager";
 
 export async function setRecoveryAddress(recoveryAddress: string, signer: Signer) {
   const badgeRecoveryOracle = await BadgeRecoveryOracle__factory.connect("0x9F6Ffba499448509DFF9F232638BE2fc505aDe72", signer);

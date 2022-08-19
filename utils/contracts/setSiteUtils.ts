@@ -1,5 +1,5 @@
 import { Signer } from "ethers";
-import { BadgeToken__factory, Entity__factory } from "../typechain";
+import { BadgeToken__factory, Entity__factory } from "../../typechain";
 
 export async function setSiteForEntity(
   entityAddress: string, 
