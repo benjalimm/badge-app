@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import permissionTokenController from '../../backend/controllers/permissionTokenController/PermissionTokenController';
-import userController from '../../backend/controllers/userController/UserController';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   switch (req.method) {
@@ -16,10 +15,10 @@ async function getPermissionTokensRoute(req: NextApiRequest, res: NextApiRespons
   try {
     const body = JSON.parse(req.body);  
     
-    const { adminAddress } = body.data;
+    const { adminAddress } = req.query;
 
     // 1. Get permission tokens
-    const tokens = await permissionTokenController.getPermissionTokens(adminAddress);
+    const tokens = await permissionTokenController.getPermissionTokens(adminAddress as string);
 
     res.status(200).json({ data: { permissionTokens: tokens }});
   } catch (error) {

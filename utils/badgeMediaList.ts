@@ -16,7 +16,7 @@ export const badgeMediaList: NFTMedia[] = [
     storageUrl: "ipfs://QmY8PxkbYw4iGWJLMpfPwWjZTm8uHjn1XeLxPSDbnVDjBM",
     quickAccessPath: "videos/sampleNFTVideos/badgeTrophy_1.mp4",
     gifUrl: "https://www.dropbox.com/s/lh7kd6dlyey4lu1/awardGif.gif?raw=1",
-    storageGif: "ipfs://QmY8PxkbYw4iGWJLMpfPwWjZTm8uHjn1XeLxPSDbnVDjBM",
+    storageGif: "ipfs://QmQU4EQGoGXG1vwDzozGZss2QCSFzkiPejDWW7QktaSzcr",
     mediaType: "Video"
   },
   {
